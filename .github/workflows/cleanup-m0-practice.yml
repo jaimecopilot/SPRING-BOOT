@@ -1,0 +1,37 @@
+name: Limpiar duplicado M0
+
+on:
+  push:
+    branches: [m0-draft]
+    paths:
+      - '.github/workflows/cleanup-m0-practice.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: m0-draft
+      - name: Eliminar bloque duplicado exacto
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('M0/PRACTICA.md')
+          s=p.read_text(encoding='utf-8')
+          needle='''La versión final de este paso es:\n\n```java\npackage es.mecd.demo.miproyecto.controller;\n\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\npublic class SaludoController {\n\n    @GetMapping("/hola")\n    public String saludar() {\n        return construirMensaje("Ministerio de Educación");\n    }\n\n    @GetMapping("/adios")\n    public String despedir() {\n        return "Adiós, Ministerio de Educación";\n    }\n\n    private String construirMensaje(String destinatario) {\n        return "Hola, " + destinatario;\n    }\n}\n```\n\n'''
+          if s.count(needle) != 1:
+              raise SystemExit(f'Se esperaba exactamente 1 bloque duplicado y hay {s.count(needle)}')
+          p.write_text(s.replace(needle,'',1),encoding='utf-8')
+          PY
+      - name: Commit de limpieza y retirada del workflow temporal
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/cleanup-m0-practice.yml
+          git add M0/PRACTICA.md
+          git commit -m 'docs(m0): elimina duplicación residual del controlador'
+          git push
