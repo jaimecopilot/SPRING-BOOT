@@ -1,0 +1,580 @@
+
+
+# Práctica 1.2 - Observar HTTP con navegador, DevTools y curl
+
+## Objetivo
+
+En esta práctica no construiremos todavía una API nueva. Utilizaremos el proyecto que ya funciona para observar **peticiones y respuestas HTTP reales** y aprender a distinguir conexión, ruta, método, cabeceras, cuerpo y código de estado.
+
+Al finalizar volveremos a dejar `M1/proyecto` exactamente como estaba al empezar. El único código que añadiremos será un endpoint `/eco` temporal para provocar de forma reproducible un `400 Bad Request` con JSON mal formado.
+
+> En Windows PowerShell utiliza `curl.exe` si `curl` está asociado a otro comando o alias. Los ejemplos se escriben con `curl` porque funcionan directamente en Linux/macOS y en instalaciones modernas de Windows con el ejecutable disponible.
+
+---
+
+## Paso 1 - Arrancar la aplicación y formular hipótesis
+
+### Qué hacemos
+
+Desde `M1/proyecto`, arranca la aplicación:
+
+Linux/macOS:
+
+```bash
+./mvnw spring-boot:run
+```
+
+Windows:
+
+```cmd
+mvnw.cmd spring-boot:run
+```
+
+Comprueba primero el baseline:
+
+```bash
+curl -i http://localhost:8080/hola
+```
+
+Debe responder `200` y mostrar:
+
+```text
+Hola, Ministerio de Educación
+```
+
+Antes de ejecutar los siguientes pasos, escribe tus predicciones para estas dos preguntas:
+
+1. ¿Qué estado esperas al pedir `GET /hola`?
+2. ¿Qué estado esperas al pedir `GET /no-existe`?
+
+### Por qué empezamos así
+
+Observar es más útil cuando antes hemos formulado una hipótesis. Si simplemente ejecutamos comandos y copiamos resultados, aprendemos menos que si anticipamos qué debería ocurrir y contrastamos la predicción.
+
+### Pregunta
+
+¿Qué diferencia hay entre que la aplicación no esté arrancada y que la ruta solicitada no exista?
+
+### Respuesta razonada
+
+Si la aplicación no está escuchando en el destino, el cliente puede obtener un error de conexión y no llega a existir una respuesta HTTP. Si la aplicación está viva pero no tiene un handler para la ruta, el servidor sí recibe la petición y puede responder con un estado HTTP como `404 Not Found`.
+
+---
+
+## Paso 2 - Probar GET con el navegador
+
+Abre:
+
+```text
+http://localhost:8080/hola
+```
+
+Debes ver el saludo heredado de M0.
+
+### Reconstruye lo que ha ocurrido
+
+Sin entrar todavía en detalles de bajo nivel innecesarios, el recorrido es:
+
+1. el navegador interpreta la URL;
+2. resuelve `localhost` hacia la propia máquina;
+3. abre una conexión al puerto 8080;
+4. envía una petición HTTP `GET /hola`;
+5. Tomcat embebido recibe la petición;
+6. Spring MVC encuentra el mapping compatible;
+7. se ejecuta `SaludoController.saludar()`;
+8. el valor devuelto se convierte en el cuerpo de la respuesta;
+9. el servidor envía la respuesta;
+10. el navegador la presenta.
+
+No fijes como requisito que `localhost` deba resolverse siempre exactamente a `127.0.0.1`: según el sistema también puede intervenir IPv6 (`::1`).
+
+### Pregunta
+
+¿El navegador “llama” directamente al método `saludar()`?
+
+### Respuesta razonada
+
+No. El navegador sólo conoce HTTP: método, host, puerto y ruta. Es la infraestructura del servidor la que transforma esa petición en la invocación de un handler Java. Esta separación permite que el cliente ignore por completo cómo está organizado internamente el back-end.
+
+---
+
+## Paso 3 - Probar una ruta que no existe
+
+Visita en el navegador:
+
+```text
+http://localhost:8080/no-existe
+```
+
+La interfaz exacta del error puede variar según la versión y la configuración. No bases el aprendizaje en que aparezca necesariamente una página concreta o un JSON con campos fijos.
+
+Lo estable que debes comprobar es el **estado 404**.
+
+Si el navegador no lo muestra claramente, lo confirmaremos en el siguiente paso con `curl` y después en DevTools.
+
+### Qué significa
+
+El servidor está vivo y ha recibido una petición, pero no existe ningún mapping que atienda `GET /no-existe`.
+
+### Pregunta
+
+¿Un 404 demuestra que Spring Boot no está arrancado?
+
+### Respuesta razonada
+
+No; de hecho demuestra lo contrario: alguien ha recibido la petición y ha producido una respuesta HTTP 404. Cuando no hay servidor accesible, normalmente obtenemos un error de conexión, no un código HTTP generado por la aplicación.
+
+---
+
+## Paso 4 - Probar GET con curl y ver las cabeceras
+
+Ejecuta primero:
+
+```bash
+curl http://localhost:8080/hola
+```
+
+Verás sólo el cuerpo.
+
+Ahora añade `-i`:
+
+```bash
+curl -i http://localhost:8080/hola
+```
+
+Una respuesta real tendrá una estructura semejante a:
+
+```text
+HTTP/1.1 200
+Content-Type: text/plain;charset=UTF-8
+Content-Length: ...
+Date: ...
+
+Hola, Ministerio de Educación
+```
+
+No memorices `Content-Length` ni `Date`: pueden cambiar. Comprueba estas propiedades estables:
+
+- el estado es `200`;
+- el cuerpo contiene el saludo esperado;
+- el servidor identifica el cuerpo como texto mediante `Content-Type`.
+
+### Pregunta
+
+¿Qué añade `curl -i` respecto de `curl` sin opciones?
+
+### Respuesta razonada
+
+Hace visibles las cabeceras de la respuesta además del cuerpo. Esto permite comprobar el código de estado y metadatos como `Content-Type`, que el navegador normalmente no presenta en la página renderizada.
+
+---
+
+## Paso 5 - Probar una ruta inexistente con curl
+
+Ejecuta:
+
+```bash
+curl -i http://localhost:8080/no-existe
+```
+
+Busca la primera línea de la respuesta. Debe indicar `404`.
+
+Dependiendo de la versión/configuración, Spring Boot puede devolver un cuerpo de error con distinta forma o incluso diferente nivel de detalle. No fijamos como contrato didáctico un JSON exacto porque ese detalle no es necesario para aprender la semántica HTTP y puede evolucionar.
+
+Para obtener sólo el código de estado de forma reproducible:
+
+Linux/macOS:
+
+```bash
+curl --silent --output /dev/null --write-out "%{http_code}\n" http://localhost:8080/no-existe
+```
+
+En PowerShell puedes usar:
+
+```powershell
+curl.exe --silent --output NUL --write-out "%{http_code}`n" http://localhost:8080/no-existe
+```
+
+### Pregunta
+
+¿Por qué el código 404 es una evidencia más estable que copiar literalmente el cuerpo de error de una versión concreta?
+
+### Respuesta razonada
+
+Porque `404 Not Found` forma parte del contrato estándar HTTP que queremos observar. El formato detallado del error lo decide la aplicación/framework y puede cambiar entre versiones o por configuración sin que cambie el hecho semántico de que el recurso no existe.
+
+---
+
+## Paso 6 - Probar un método HTTP no soportado
+
+Envía ahora un método distinto contra una ruta existente:
+
+```bash
+curl -i -X POST http://localhost:8080/hola
+```
+
+Esperamos `405 Method Not Allowed`.
+
+Compara:
+
+```text
+GET  /no-existe -> 404
+POST /hola      -> 405
+```
+
+En el primer caso no existe un handler para la ruta solicitada. En el segundo sí existe `/hola`, pero nuestro controlador sólo declara:
+
+```java
+@GetMapping("/hola")
+```
+
+### Pregunta
+
+¿Por qué Spring no trata `POST /hola` como si fuera simplemente `GET /hola`?
+
+### Respuesta razonada
+
+Porque el método HTTP forma parte del contrato del endpoint. GET y POST expresan intenciones distintas y Spring MVC selecciona handlers usando, entre otros criterios, la ruta y el método. Ignorar esa diferencia haría imposible diseñar operaciones predecibles.
+
+---
+
+## Paso 7 - Ver las cabeceras que envía el cliente con curl
+
+Ejecuta:
+
+```bash
+curl -v http://localhost:8080/hola
+```
+
+`curl` escribe información de diagnóstico adicional. Verás líneas conceptualmente equivalentes a:
+
+```text
+> GET /hola HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/...
+> Accept: */*
+>
+< HTTP/1.1 200
+< Content-Type: text/plain;charset=UTF-8
+< ...
+
+Hola, Ministerio de Educación
+```
+
+Las líneas prefijadas con `>` representan datos que envía el cliente y las que empiezan con `<` representan datos recibidos.
+
+Observa particularmente:
+
+- método y ruta;
+- `Host`;
+- `User-Agent`;
+- `Accept`;
+- estado de la respuesta;
+- `Content-Type`.
+
+### Pregunta
+
+¿`User-Agent` decide qué método Java ejecuta Spring MVC en nuestro ejemplo?
+
+### Respuesta razonada
+
+No. Puede ser una cabecera útil para identificar al cliente, pero nuestro mapping de `/hola` se selecciona esencialmente por la combinación de ruta y método HTTP declarada. No hemos configurado una condición de mapping basada en `User-Agent`.
+
+---
+
+## Paso 8 - Observar la misma petición con DevTools
+
+Abre el navegador, pulsa `F12` y entra en **Network** (Red).
+
+Recarga:
+
+```text
+http://localhost:8080/hola
+```
+
+Selecciona la petición correspondiente. Los nombres exactos de las pestañas pueden variar entre Chrome, Edge, Firefox y versiones, pero debes poder localizar:
+
+- URL;
+- método `GET`;
+- estado `200`;
+- cabeceras de petición;
+- cabeceras de respuesta;
+- cuerpo/Response;
+- tiempos o Timing.
+
+Repite con:
+
+```text
+http://localhost:8080/no-existe
+```
+
+Y compara el estado.
+
+### Cuatro entornos
+
+Este paso ocurre en el navegador y es independiente de que hayas arrancado el servidor desde IntelliJ IDEA, Eclipse, VS Code o consola. Lo importante es distinguir **la herramienta que ejecuta el servidor** de **la herramienta que actúa como cliente/observador**.
+
+### Pregunta
+
+¿DevTools y `curl -v` están observando protocolos diferentes?
+
+### Respuesta razonada
+
+No. Ambos permiten observar la comunicación HTTP. La diferencia es la interfaz y el tipo de cliente: DevTools inspecciona lo que realiza el navegador, mientras que `curl` permite construir peticiones explícitas y reproducibles desde terminal.
+
+---
+
+## Paso 9 - Razonar sobre lo observado
+
+Sin modificar código, completa esta tabla con evidencias de tus propias pruebas:
+
+| Caso | Método | Ruta | Estado esperado | Qué demuestra |
+|---|---|---|---:|---|
+| saludo | GET | `/hola` | 200 | ruta y método válidos |
+| inexistente | GET | `/no-existe` | 404 | no existe handler/recurso solicitado |
+| método incorrecto | POST | `/hola` | 405 | ruta conocida pero método no permitido |
+
+Ahora responde:
+
+1. ¿Qué cambia entre 404 y 405?
+2. ¿Qué información aporta `Content-Type`?
+3. ¿Qué diferencia hay entre cuerpo y cabeceras?
+4. ¿Qué herramienta te permite repetir exactamente una petición desde terminal?
+
+### Respuesta razonada
+
+1. En 404 no se encuentra el recurso/handler solicitado; en 405 la ruta se reconoce en un contexto donde ese método no está permitido.
+2. `Content-Type` describe el tipo de representación del cuerpo.
+3. El cuerpo transporta los datos principales de la representación; las cabeceras transportan metadatos de la comunicación.
+4. `curl` permite expresar la petición mediante un comando reproducible.
+
+---
+
+## Paso 10 - Diagnosticar errores comunes de comunicación HTTP
+
+Utiliza esta tabla como mapa de capas, no como una colección para memorizar:
+
+| Síntoma | Capa/causa probable | Comprobación inicial |
+|---|---|---|
+| `Connection refused` / no conecta | no hay proceso escuchando o puerto incorrecto | logs, proceso y puerto |
+| `404 Not Found` | ruta/recurso no encontrado | URL y mappings |
+| `405 Method Not Allowed` | método incompatible con la ruta | GET/POST/etc. declarado |
+| `400 Bad Request` | petición/cuerpo no interpretable | sintaxis y logs de conversión |
+| `415 Unsupported Media Type` | tipo de contenido no soportado/ausente para esa operación | `Content-Type` |
+| `500 Internal Server Error` | fallo inesperado en procesamiento servidor | primer error relevante de logs |
+| `curl: command not found` | herramienta no disponible | instalar/usar `curl.exe`, navegador u otro cliente |
+| respuesta distinta de la guía | versión/configuración produce detalles distintos | comprobar primero estado y contrato estable |
+
+### Regla de diagnóstico
+
+No cambies código Java si el cliente ni siquiera puede establecer conexión. No busques un error de JSON si estás obteniendo 404 en otra ruta. Empieza por la capa más baja que pueda explicar el síntoma.
+
+### Pregunta
+
+Si `curl` devuelve `Connection refused`, ¿tiene sentido buscar un `@GetMapping` incorrecto como primera hipótesis?
+
+### Respuesta razonada
+
+No. Un mapping incorrecto sólo importa después de que la petición haya llegado al servidor. `Connection refused` indica normalmente que el problema ocurre antes: proceso, dirección o puerto.
+
+---
+
+## Paso 11 - Resumir lo observado con pruebas reproducibles
+
+Ejecuta este pequeño conjunto final:
+
+```bash
+curl -i http://localhost:8080/hola
+curl -i http://localhost:8080/no-existe
+curl -i -X POST http://localhost:8080/hola
+curl -v http://localhost:8080/hola
+```
+
+Debes ser capaz de explicar, sin mirar la teoría:
+
+- por qué el primero es 200;
+- por qué el segundo es 404;
+- por qué el tercero es 405;
+- dónde ves cabeceras enviadas y recibidas en el cuarto;
+- por qué `Content-Type` forma parte de la respuesta;
+- por qué todos estos resultados proceden del mismo servidor y, sin embargo, representan situaciones diferentes.
+
+### Pregunta
+
+¿Cuál de estas pruebas modifica de forma permanente el proyecto?
+
+### Respuesta razonada
+
+Ninguna. Todas son observaciones externas del servidor existente. En el paso 12 sí añadiremos temporalmente un endpoint para crear una petición que requiera interpretar JSON, y lo eliminaremos al terminar.
+
+---
+
+## Paso 12 - Reto resuelto: provocar un 400 Bad Request y restaurar el proyecto
+
+### Objetivo
+
+Queremos provocar un `400 Bad Request` debido a **JSON mal formado**, no fabricar un 400 manualmente. Para ello la petición debe llegar a un endpoint cuyo cuerpo tenga que ser deserializado por Jackson.
+
+### 12.1 Baseline
+
+Antes de tocar código:
+
+```bash
+./mvnw test
+```
+
+Debe terminar correctamente.
+
+Comprueba también:
+
+```bash
+curl -i http://localhost:8080/hola
+```
+
+### 12.2 Añadir temporalmente `/eco`
+
+Detén la aplicación.
+
+En `SaludoController.java`, añade temporalmente:
+
+```java
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
+```
+
+Y dentro de la clase:
+
+```java
+@PostMapping("/eco")
+public Map<String, Object> eco(@RequestBody Map<String, Object> mensaje) {
+    return mensaje;
+}
+```
+
+¿Por qué utilizamos `Map<String, Object>` y no simplemente `String`? Porque necesitamos obligar a Jackson a **interpretar** el cuerpo como JSON estructurado. Si recibiéramos un `String` crudo, un texto con sintaxis JSON inválida podría llegar al método sin que Jackson tuviera que parsearlo como objeto.
+
+### 12.3 Probar JSON mal formado
+
+Arranca la aplicación y ejecuta:
+
+```bash
+curl -i -X POST http://localhost:8080/eco \
+  -H "Content-Type: application/json" \
+  -d '{"mensaje":"hola",}'
+```
+
+La coma final hace que el JSON sea inválido.
+
+Debes comprobar **dos evidencias**:
+
+1. el estado HTTP es `400`;
+2. los logs muestran un error de lectura/conversión JSON coherente con la petición mal formada.
+
+No fijamos como contrato el cuerpo de error completo ni un mensaje textual exacto: esos detalles pueden variar por versión/configuración.
+
+### 12.4 Probar JSON válido
+
+Ejecuta:
+
+```bash
+curl -i -X POST http://localhost:8080/eco \
+  -H "Content-Type: application/json" \
+  -d '{"mensaje":"hola"}'
+```
+
+Ahora esperamos `200` y un cuerpo JSON equivalente a:
+
+```json
+{"mensaje":"hola"}
+```
+
+Has cambiado una sola variable: la sintaxis del cuerpo.
+
+### 12.5 Diferenciar 400 de 415
+
+Como observación adicional, prueba sin declarar el tipo correcto:
+
+```bash
+curl -i -X POST http://localhost:8080/eco \
+  -H "Content-Type: text/plain" \
+  -d '{"mensaje":"hola"}'
+```
+
+La respuesta puede ser `415 Unsupported Media Type` porque el endpoint espera una representación que Spring pueda convertir a `Map` desde el tipo recibido. Esta prueba refuerza que **formato inválido** y **tipo de medio no soportado** son problemas distintos.
+
+### 12.6 Restauración obligatoria
+
+Detén la aplicación y elimina de `SaludoController.java`:
+
+- los imports `PostMapping`, `RequestBody` y `Map` añadidos para el reto;
+- el método `eco()`;
+- el mapping `/eco`.
+
+El archivo debe volver exactamente al estado heredado.
+
+Ejecuta:
+
+```bash
+./mvnw test
+```
+
+Arranca normalmente y verifica:
+
+```bash
+curl -i http://localhost:8080/hola
+curl -i http://localhost:8080/adios
+curl -i -X POST http://localhost:8080/eco
+```
+
+Resultados finales:
+
+- `/hola` -> `200`;
+- `/adios` -> `200`;
+- `/eco` ya no forma parte de la aplicación; una petición POST a esa ruta no debe comportarse como el endpoint temporal.
+
+### Pregunta
+
+¿Por qué este reto usa un endpoint temporal si 1.2 pretende principalmente observar HTTP?
+
+### Respuesta razonada
+
+Porque algunos estados HTTP sólo pueden comprenderse bien si provocamos una condición concreta. El endpoint temporal crea una superficie mínima para observar cómo un cuerpo JSON inválido produce un error de petición. Después se elimina para no adelantar permanentemente el contenido de JSON/Jackson que se estudiará formalmente en 1.3.
+
+---
+
+## Resultado esperado global de la práctica 1.2
+
+Al terminar debes poder demostrar que:
+
+- distingues cliente y servidor aunque estén en `localhost`;
+- entiendes el ciclo petición-respuesta;
+- puedes identificar método, ruta, cabeceras, estado y cuerpo;
+- `GET /hola` devuelve `200`;
+- `GET /no-existe` devuelve `404`;
+- `POST /hola` devuelve `405`;
+- sabes observar la conversación mediante `curl -i`, `curl -v` y DevTools;
+- puedes diferenciar error de conexión de un estado HTTP;
+- has provocado de forma controlada un `400` con JSON inválido;
+- has comprobado que un JSON válido funciona en el mismo endpoint temporal;
+- has eliminado `/eco` y sus imports;
+- `./mvnw test` vuelve a estar verde;
+- el snapshot final sigue sin cambios funcionales permanentes respecto del inicio de 1.2.
+
+## Checklist de cierre
+
+- [ ] ¿La app responde en 8080?
+- [ ] ¿He comprobado 200, 404 y 405 con peticiones distintas?
+- [ ] ¿He observado cabeceras de petición y respuesta?
+- [ ] ¿He usado DevTools Network?
+- [ ] ¿Sé diferenciar cabeceras y cuerpo?
+- [ ] ¿Sé diferenciar 404 y 405?
+- [ ] ¿He provocado 400 mediante JSON realmente mal formado?
+- [ ] ¿He comprobado el caso JSON válido?
+- [ ] ¿He eliminado `/eco` y los imports temporales?
+- [ ] ¿Los tests heredados vuelven a pasar?
+
+---
+
+> En la práctica 1.3 dejaremos de usar JSON sólo como herramienta de diagnóstico y lo convertiremos en parte permanente del contrato de nuestra aplicación mediante DTOs y Jackson.
