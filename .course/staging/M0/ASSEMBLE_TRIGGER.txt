@@ -1,0 +1,1 @@
+Trigger de ensamblado M0. El contenido didáctico está en los fragmentos Markdown; este fichero no se publica en la guía.
