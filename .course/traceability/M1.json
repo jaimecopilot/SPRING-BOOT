@@ -1,0 +1,47 @@
+{
+  "schema_version": 3,
+  "module": "M1",
+  "status": "IN_PROGRESS",
+  "policy": {
+    "step_level_traceability_required": true,
+    "student_surface_clean": true,
+    "temporary_transitions_must_close": true,
+    "source_floor_not_ceiling": true
+  },
+  "theory_concepts": [
+    {"id":"M1-T-11-ROLE","anchor":"## Bloque 1 - Qué es Spring Boot y por qué existe"},
+    {"id":"M1-T-11-FRAMEWORK-VS-BOOT","anchor":"## Bloque 2 - Spring Framework y Spring Boot"},
+    {"id":"M1-T-11-AUTOCONFIG","anchor":"## Bloque 3 - Auto-configuración"},
+    {"id":"M1-T-11-STARTERS","anchor":"## Bloque 4 - Starters y gestión coherente de dependencias"},
+    {"id":"M1-T-11-EMBEDDED","anchor":"## Bloque 5 - Servidor embebido y aplicaciones modernas"}
+  ],
+  "environment_workflows": [
+    {"id":"M1-W-CONSOLE","anchor":"Desde la carpeta `M1/proyecto`, en Linux/macOS"},
+    {"id":"M1-W-INTELLIJ","anchor":"### Desde IntelliJ IDEA"},
+    {"id":"M1-W-ECLIPSE","anchor":"### Desde Eclipse"},
+    {"id":"M1-W-VSCODE","anchor":"### Desde VS Code"}
+  ],
+  "artifacts": [
+    {"path":"M1/TEORIA.md","classification":"GUIDE","origin":"M1-THEORY","evolution":[],"symbols":[],"used_by":["student theory"],"missing_effect":"Se pierde la explicación conceptual del módulo."},
+    {"path":"M1/PRACTICA.md","classification":"GUIDE","origin":"M1-PRACTICE","evolution":[],"symbols":[],"used_by":["student practical guide","traceability validator"],"missing_effect":"Se pierde el recorrido reproducible del módulo."},
+    {"path":"M1/README.md","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["student navigation"],"missing_effect":"Se pierde la navegación del módulo, sin alterar runtime."},
+    {"path":"M1/proyecto/pom.xml","classification":"INHERITED","origin":"M0-P-02-S05","evolution":["M0-P-02-S12"],"symbols":["spring-boot-starter-parent","spring-boot-starter-web","spring-boot-devtools","spring-boot-starter-test","spring-boot-maven-plugin","java.version"],"used_by":["Maven","IDE importers","M1 practice"],"missing_effect":"El proyecto deja de resolver dependencias, compilar y empaquetarse."},
+    {"path":"M1/proyecto/mvnw","classification":"INHERITED","origin":"M0-P-02-S05","evolution":[],"symbols":["Maven Wrapper"],"used_by":["Linux/macOS shell","CI"],"missing_effect":"Se pierde ejecución Maven reproducible Unix."},
+    {"path":"M1/proyecto/mvnw.cmd","classification":"INHERITED","origin":"M0-P-02-S05","evolution":[],"symbols":["Maven Wrapper Windows"],"used_by":["Windows shell"],"missing_effect":"Se pierde ejecución Maven reproducible Windows."},
+    {"path":"M1/proyecto/.mvn/wrapper/maven-wrapper.properties","classification":"INHERITED","origin":"M0-P-02-S05","evolution":[],"symbols":["apache-maven-3.9.16-bin.zip"],"used_by":["mvnw","mvnw.cmd"],"missing_effect":"El Wrapper deja de fijar Maven 3.9.16."},
+    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java","classification":"INHERITED","origin":"M0-P-02-S05","evolution":[],"symbols":["MiProyectoApplication","@SpringBootApplication","main","SpringApplication.run"],"temporary_symbols":["JacksonAutoConfiguration.class"],"used_by":["Spring Boot startup","M1 practice"],"missing_effect":"La aplicación pierde su punto de entrada."},
+    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","classification":"INHERITED","origin":"M0-P-03-S07","evolution":["M0-P-04-S12"],"symbols":["SaludoController","@RestController","@GetMapping(\"/hola\")","@GetMapping(\"/adios\")","saludar","despedir","construirMensaje"],"temporary_symbols":["@GetMapping(\"/info-json\")","infoJson","LinkedHashMap","Map"],"used_by":["HTTP runtime","M1 practice","inherited tests"],"missing_effect":"Desaparecen los endpoints de baseline usados para observar Spring Boot y HTTP."},
+    {"path":"M1/proyecto/src/main/resources/application.properties","classification":"INHERITED","origin":"M0-P-02-S05","evolution":["M0-P-03-S05","M0-P-04-S02"],"symbols":["spring.application.name=mi-proyecto"],"temporary_symbols":["server.port=9090"],"used_by":["Spring Boot configuration","M1 port experiment"],"missing_effect":"Se pierde la configuración base y el experimento de externalización."},
+    {"path":"M1/proyecto/src/test/java/es/mecd/demo/miproyecto/controller/SaludoControllerTest.java","classification":"INHERITED","origin":"M0-P-04-S07","evolution":[],"symbols":["SaludoControllerTest","saludarDebeDevolverElMensajeEsperado","despedirDebeDevolverElMensajeEsperado"],"used_by":["Maven test","baseline regression"],"missing_effect":"Se pierde una regresión automática del comportamiento heredado."},
+    {"path":"M1/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTests.java","classification":"INHERITED","origin":"Initializr","evolution":[],"symbols":["MiProyectoApplicationTests","contextLoads"],"used_by":["Maven test","context smoke test"],"missing_effect":"Se pierde el smoke test del contexto."},
+    {"path":"M1/proyecto/.gitignore","classification":"INHERITED","origin":null,"evolution":[],"symbols":[],"used_by":["repository hygiene"],"missing_effect":"Podrían versionarse artefactos generados."},
+    {"path":".course/source-audit/M1.md","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["editorial audit","maintainers"],"missing_effect":"Se pierde la matriz maestra que fija alcance y decisiones editoriales."},
+    {"path":".course/traceability/M1.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["traceability tooling"],"missing_effect":"Se pierde el inventario inverso del módulo."},
+    {"path":".course/traceability/M1/1.1.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["step audit"],"missing_effect":"Se pierde el contrato individual de los diez pasos de 1.1."}
+  ],
+  "step_manifests": [
+    ".course/traceability/M1/1.1.json"
+  ],
+  "expected_total_steps_when_complete": 58,
+  "current_traced_steps": 10
+}
