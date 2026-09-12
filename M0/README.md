@@ -10,4 +10,8 @@ Material ejecutable:
 - [`ejemplos/HolaMinisterio.java`](ejemplos/HolaMinisterio.java): programa Java previo a Spring Boot.
 - [`proyecto/`](proyecto/): proyecto Spring Boot final del módulo, con Maven Wrapper, tests y endpoints `/hola` y `/adios`.
 
+Auditoría técnica:
+
+- [`TRAZABILIDAD.md`](TRAZABILIDAD.md): trazabilidad humana completa teoría → paso → acción → artefacto/símbolo → comando → observable → verificación, más la vista inversa proyecto → guía.
+
 La práctica incluye recorridos específicos para consola, IntelliJ IDEA, Eclipse y VS Code.
