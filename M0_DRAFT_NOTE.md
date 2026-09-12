@@ -1,1 +1,0 @@
-M0 se desarrollará y validará en una rama de trabajo antes de considerarse cerrado editorialmente.

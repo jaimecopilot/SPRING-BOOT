@@ -2,18 +2,23 @@ name: Validar M0
 
 on:
   push:
-    branches: [main, m0-trazabilidad-fuerte]
+    branches: [main]
     paths:
       - 'M0/**'
       - '.course/traceability/**'
       - '.course/source-audit/**'
+      - '.course/internal/**'
       - '.github/workflows/validar-m0.yml'
   pull_request:
     paths:
       - 'M0/**'
       - '.course/traceability/**'
       - '.course/source-audit/**'
+      - '.course/internal/**'
       - '.github/workflows/validar-m0.yml'
+
+permissions:
+  contents: read
 
 jobs:
   validar-m0:
@@ -55,6 +60,19 @@ jobs:
           ./mvnw -version
           ./mvnw -version | grep -q 'Apache Maven 3.9.16'
 
+      - name: Validar comandos Maven de inspección enseñados
+        working-directory: M0/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./mvnw -B dependency:tree > /tmp/dependency-tree.txt
+          grep -q 'spring-boot-starter-web' /tmp/dependency-tree.txt
+          ./mvnw -B help:effective-pom -Doutput=target/effective-pom.xml
+          test -s target/effective-pom.xml
+          grep -q 'spring-boot-starter-web' target/effective-pom.xml
+          ./mvnw -B spring-boot:help -Ddetail=true -Dgoal=run > /tmp/spring-boot-run-help.txt
+          grep -q 'spring-boot:run' /tmp/spring-boot-run-help.txt
+
       - name: Ejecutar tests con Maven Wrapper
         working-directory: M0/proyecto
         run: ./mvnw -B test
@@ -68,9 +86,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          PID=''
+          PID2=''
+          cleanup() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+            if [[ -n "$PID2" ]]; then kill "$PID2" 2>/dev/null || true; wait "$PID2" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
           java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m0.log 2>&1 &
           PID=$!
-          trap 'kill "$PID" 2>/dev/null || true' EXIT
           for i in {1..45}; do
             if curl --fail --silent http://localhost:8080/hola > /tmp/hola.txt; then
               break
@@ -79,4 +104,20 @@ jobs:
           done
           test "$(cat /tmp/hola.txt)" = "Hola, Ministerio de Educación"
           test "$(curl --fail --silent http://localhost:8080/adios)" = "Adiós, Ministerio de Educación"
+          test "$(curl --silent --output /tmp/no-existe.txt --write-out '%{http_code}' http://localhost:8080/no-existe)" = "404"
           grep -q 'Started MiProyectoApplication' /tmp/m0.log
+
+          kill "$PID" 2>/dev/null || true
+          wait "$PID" 2>/dev/null || true
+          PID=''
+
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar --server.port=8081 > /tmp/m0-8081.log 2>&1 &
+          PID2=$!
+          for i in {1..45}; do
+            if curl --fail --silent http://localhost:8081/hola > /tmp/hola-8081.txt; then
+              break
+            fi
+            sleep 1
+          done
+          test "$(cat /tmp/hola-8081.txt)" = "Hola, Ministerio de Educación"
+          grep -q 'Started MiProyectoApplication' /tmp/m0-8081.log
