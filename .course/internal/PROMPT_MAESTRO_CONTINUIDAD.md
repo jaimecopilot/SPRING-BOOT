@@ -127,6 +127,8 @@ Los pasos temporales deben cerrar explícitamente su transición mediante `RESTO
 
 En M1–M7, los artefactos heredados deben resolver recursivamente su origen en módulos anteriores. Un snapshot nuevo no puede perder silenciosamente comportamiento o tests aprobados del módulo anterior.
 
+Cuando un símbolo introducido en un paso permanente sea legítimamente sustituido por una evolución posterior del mismo artefacto, la trazabilidad debe conservar el estado histórico sin exigir falsamente que ese literal sobreviva en el snapshot final. La evolución posterior debe quedar identificada explícitamente.
+
 ## 10. Informe humano
 
 Debe existir un informe humano interno por módulo, por ejemplo:
@@ -156,7 +158,7 @@ El CI debe fallar, entre otros casos, si:
 - una referencia teórica no existe;
 - un artefacto funcional queda sin clasificar;
 - un artefacto permanente usado por un paso falta del inventario inverso;
-- un símbolo permanente declarado para creación/modificación/restauración no existe en el snapshot final;
+- un símbolo permanente declarado como vigente en el snapshot final no existe;
 - un origen `GUIDE` no corresponde a una acción `CREATE`;
 - una evolución declarada no corresponde a `MODIFY/RESTORE`;
 - un `INHERITED` no resuelve su origen histórico;
@@ -192,36 +194,47 @@ La auditoría posterior a su trazabilidad corrigió orígenes/evoluciones semán
 
 ## 14. Estado durable de M1
 
-M1 está autorizado y en desarrollo en la rama `m1-edicion-fuerte`.
+M1 contiene los cinco puntos 1.1–1.5 completos y **58 pasos trazados (10 + 12 + 12 + 12 + 12)**.
 
-Antes de redactar teoría/práctica se creó:
+Su estado candidato de cierre incluye:
 
-`.course/source-audit/M1.md`
+- `M1/TEORIA.md` y `M1/PRACTICA.md` completos;
+- snapshot ejecutable `M1/proyecto/` heredado de M0 y evolucionado únicamente con los cinco ficheros funcionales nuevos de M1;
+- JSON/Jackson con `ExpedienteDTO`, `SolicitanteDTO` y `ExpedienteController`;
+- REST/CRUD en memoria con `AlumnoDTO` y `AlumnoController`;
+- GET colección/individual, POST persistente, PUT, PATCH, DELETE, filtro y ordenación;
+- 25 conceptos teóricos;
+- 58 contratos de paso;
+- `.course/traceability/TRAZABILIDAD_M1.md`;
+- gate genérico, gate semántico y CI acumulativo;
+- restauración de los experimentos temporales de 1.1 y 1.2.
 
-Ese documento fija la matriz maestra de M1:
+La transición 1.4→1.5 debe conservar el estado pedagógico intermedio sin confundirlo con el snapshot final: `List.of`, POST no persistente y la firma inicial de filtro pertenecen a la historia de 1.4; 1.5 los evoluciona explícitamente.
 
-- cinco puntos 1.1–1.5;
-- 58 pasos (10 + 12 + 12 + 12 + 12);
-- catálogo teórico inicial;
-- herencia exacta desde el snapshot M0;
-- acciones previstas paso a paso;
-- estados temporales y restauraciones;
-- contradicciones/correcciones detectadas en la fuente;
-- snapshot final esperado;
-- gate funcional mínimo.
-
-El flujo de producción de M1 debe seguir `1.1 → 1.2 → 1.3 → 1.4 → 1.5`, sincronizando teoría, práctica, código y contrato por bloque, sin rediseñar desde cero la infraestructura ya validada en M0.
-
-Los puntos observacionales 1.1 y 1.2 se diseñan de modo que sus experimentos de puerto, Jackson y `/eco` sean temporales y se restauren: no deben alterar silenciosamente el snapshot final antes de que 1.3 introduzca JSON/DTOs de forma permanente.
+El último estado real de M1, sus checks y su integración deben verificarse siempre en GitHub; no inferir que está publicado sólo porque este documento describa el candidato.
 
 ## 15. Regla de avance
 
-M1 puede continuar porque M0 está aprobado.
+El usuario autorizó explícitamente el **2026-09-13** cerrar M1, integrarlo en `main` cuando sus gates finales y la regresión M0 estén verdes, y pasar después a M2.
 
-**No comenzar M2 hasta que el usuario apruebe explícitamente M1** como continuación válida del patrón.
+M2 **no debe nacer de `m1-edicion-fuerte` ni de un SHA provisional**. Debe partir del `main` post-merge de M1 una vez comprobado que los workflows publicados han terminado correctamente.
+
+A partir de M2 se repite el mismo patrón: auditoría de fuente, teoría, práctica, proyecto acumulativo, trazabilidad, CI, aprobación/integración y regresión de módulos anteriores.
 
 ## 16. Honestidad operativa
 
 No declarar cerrado, validado, publicado o trazable sin comprobarlo realmente. Si un gate falla, explicar qué falló y corregir la causa; no debilitar el criterio para obtener un verde artificial.
 
 El SHA exacto de `main`, la rama de trabajo, PR y último resultado de CI deben consultarse en GitHub en cada nueva conversación; no fijarlos aquí para evitar que el contrato quede obsoleto.
+
+## 17. Auditoría editorial global pendiente
+
+Además de la trazabilidad técnica módulo a módulo, queda fijada una auditoría final de fidelidad pedagógica en:
+
+`.course/internal/EDITORIAL_FIDELITY_BACKLOG.md`
+
+Se ejecutará homogéneamente cuando M0–M7 estén redactados. Debe inventariar explicaciones, ejemplos de código, tablas, comparaciones, comandos, preguntas/respuestas, errores, retos y resultados esperados del PDF fuente y asignar a cada unidad uno de estos destinos: `CONSERVADO`, `REESCRITO-EQUIVALENTE`, `AMPLIADO` o `RETIRADO-JUSTIFICADO`.
+
+Páginas, palabras y caracteres son sólo señales cuantitativas: no prueban por sí solas fidelidad editorial.
+
+M0 y M1 deberán pasar también por esta revisión final aunque ya hayan sido aprobados técnicamente. Los hallazgos conocidos de M1 (por ejemplo XML clásico de Spring MVC, comparación JSON/XML y ejemplos completos de paginación/herramientas HTTP) están registrados en el backlog para que no se pierdan.
