@@ -1,0 +1,121 @@
+name: Validar M1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'M1/**'
+      - '.course/traceability/M1*'
+      - '.course/traceability/validate_module.py'
+      - '.course/traceability/validate_m1.py'
+      - '.course/source-audit/M1.md'
+      - '.course/internal/**'
+      - '.github/workflows/validar-m1.yml'
+  pull_request:
+    paths:
+      - 'M1/**'
+      - '.course/traceability/M1*'
+      - '.course/traceability/validate_module.py'
+      - '.course/traceability/validate_m1.py'
+      - '.course/source-audit/M1.md'
+      - '.course/internal/**'
+      - '.github/workflows/validar-m1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validar-m1:
+    runs-on: ubuntu-latest
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Validar invariantes reutilizables del módulo
+        run: python .course/traceability/validate_module.py M1 .
+
+      - name: Validar contrato semántico del checkpoint M1.1
+        run: python .course/traceability/validate_m1.py .
+
+      - name: Verificar Maven Wrapper heredado
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x mvnw
+          ./mvnw -version
+          ./mvnw -version | grep -q 'Apache Maven 3.9.16'
+
+      - name: Verificar starters y dependencias transitivas enseñadas
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./mvnw -B dependency:tree > /tmp/m1-dependency-tree.txt
+          grep -q 'spring-boot-starter-web' /tmp/m1-dependency-tree.txt
+          grep -q 'spring-webmvc' /tmp/m1-dependency-tree.txt
+          grep -q 'tomcat-embed-core' /tmp/m1-dependency-tree.txt
+          grep -q 'jackson' /tmp/m1-dependency-tree.txt
+
+      - name: Ejecutar regresión heredada con Maven Wrapper
+        working-directory: M1/proyecto
+        run: ./mvnw -B test
+
+      - name: Empaquetar JAR ejecutable
+        working-directory: M1/proyecto
+        run: ./mvnw -B -DskipTests package
+
+      - name: Probar runtime, informe de condiciones y restauración final
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          PID=''
+          PID2=''
+          cleanup() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+            if [[ -n "$PID2" ]]; then kill "$PID2" 2>/dev/null || true; wait "$PID2" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar --debug > /tmp/m1-debug.log 2>&1 &
+          PID=$!
+          for i in {1..45}; do
+            if curl --fail --silent http://localhost:8080/hola > /tmp/m1-hola.txt; then
+              break
+            fi
+            sleep 1
+          done
+          test "$(cat /tmp/m1-hola.txt)" = "Hola, Ministerio de Educación"
+          test "$(curl --fail --silent http://localhost:8080/adios)" = "Adiós, Ministerio de Educación"
+          test "$(curl --silent --output /tmp/m1-info-json.txt --write-out '%{http_code}' http://localhost:8080/info-json)" = "404"
+          test "$(curl --silent --output /tmp/m1-no-existe.txt --write-out '%{http_code}' http://localhost:8080/no-existe)" = "404"
+          grep -q 'CONDITIONS EVALUATION REPORT' /tmp/m1-debug.log
+          grep -q 'Positive matches:' /tmp/m1-debug.log
+          grep -q 'Negative matches:' /tmp/m1-debug.log
+          grep -q 'DispatcherServletAutoConfiguration' /tmp/m1-debug.log
+          grep -q 'Started MiProyectoApplication' /tmp/m1-debug.log
+
+          kill "$PID" 2>/dev/null || true
+          wait "$PID" 2>/dev/null || true
+          PID=''
+
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar --server.port=9090 > /tmp/m1-9090.log 2>&1 &
+          PID2=$!
+          for i in {1..45}; do
+            if curl --fail --silent http://localhost:9090/hola > /tmp/m1-hola-9090.txt; then
+              break
+            fi
+            sleep 1
+          done
+          test "$(cat /tmp/m1-hola-9090.txt)" = "Hola, Ministerio de Educación"
+          grep -q 'Started MiProyectoApplication' /tmp/m1-9090.log
