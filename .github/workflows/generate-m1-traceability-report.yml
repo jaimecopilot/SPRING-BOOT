@@ -1,0 +1,56 @@
+name: Generar trazabilidad humana M1
+
+on:
+  push:
+    branches: [m1-edicion-fuerte]
+    paths:
+      - '.github/workflows/generate-m1-traceability-report.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: m1-edicion-fuerte
+          fetch-depth: 0
+
+      - name: Clasificar soporte, generar informe y retirar generador temporal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path('.course/traceability/M1.json')
+          m=json.loads(p.read_text(encoding='utf-8'))
+          support=[
+            {
+              'path':'.course/traceability/generate_module_traceability.py',
+              'classification':'SUPPORT','origin':None,'evolution':[],'symbols':[],
+              'used_by':['M1 human traceability','future M2-M7 traceability'],
+              'missing_effect':'Se pierde la proyección humana reproducible del contrato máquina-legible.'
+            },
+            {
+              'path':'.course/traceability/TRAZABILIDAD_M1.md',
+              'classification':'SUPPORT','origin':None,'evolution':[],'symbols':[],
+              'used_by':['human audit','maintainers'],
+              'missing_effect':'Se pierde la vista humana de auditoría, aunque el JSON canónico seguiría existiendo.'
+            }
+          ]
+          paths={a['path'] for a in m['artifacts']}
+          for a in support:
+              if a['path'] not in paths:
+                  m['artifacts'].append(a)
+          p.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+          python .course/traceability/generate_module_traceability.py M1
+          rm -f .github/workflows/generate-m1-traceability-report.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'trace(m1): genera informe humano final 58 de 58'
+          git push origin HEAD:m1-edicion-fuerte
