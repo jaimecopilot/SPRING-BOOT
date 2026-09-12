@@ -22,22 +22,23 @@ manifest = json.loads((root / ".course/traceability/M1.json").read_text(encoding
 theory = (root / "M1/TEORIA.md").read_text(encoding="utf-8")
 practice = (root / "M1/PRACTICA.md").read_text(encoding="utf-8")
 
-# Checkpoint acumulativo 1.1 + 1.2. Al avanzar se amplía, nunca se rebajan
-# comprobaciones de puntos ya cerrados.
+# Checkpoint acumulativo 1.1 + 1.2 + 1.3. Al avanzar se amplía, nunca se
+# rebajan comprobaciones de puntos ya cerrados.
 if manifest.get("status") != "IN_PROGRESS":
     bad("M1 must remain IN_PROGRESS until all 58 steps are complete")
 if manifest.get("expected_total_steps_when_complete") != 58:
     bad("M1 expected final total must remain 58")
-if manifest.get("current_traced_steps") != 22:
-    bad("M1.2 checkpoint must expose exactly 22 traced steps")
+if manifest.get("current_traced_steps") != 34:
+    bad("M1.3 checkpoint must expose exactly 34 traced steps")
 expected_manifests = [
     ".course/traceability/M1/1.1.json",
     ".course/traceability/M1/1.2.json",
+    ".course/traceability/M1/1.3.json",
 ]
 if manifest.get("step_manifests") != expected_manifests:
-    bad(f"M1.2 checkpoint manifests must be {expected_manifests}")
-if len(manifest.get("theory_concepts", [])) != 10:
-    bad("M1.2 checkpoint must expose exactly 10 theory concepts")
+    bad(f"M1.3 checkpoint manifests must be {expected_manifests}")
+if len(manifest.get("theory_concepts", [])) != 15:
+    bad("M1.3 checkpoint must expose exactly 15 theory concepts")
 
 expected_11 = [
     "## Paso 1 - Abrir el proyecto y arrancarlo",
@@ -65,17 +66,31 @@ expected_12 = [
     "## Paso 11 - Resumir lo observado con pruebas reproducibles",
     "## Paso 12 - Reto resuelto: provocar un 400 Bad Request y restaurar el proyecto",
 ]
+expected_13 = [
+    "## Paso 1 - Crear el paquete dto",
+    "## Paso 2 - Crear la clase ExpedienteDTO",
+    "## Paso 3 - Crear un controlador para probar la serialización",
+    "## Paso 4 - Arrancar y probar la serialización por defecto",
+    "## Paso 5 - Renombrar el campo con @JsonProperty",
+    "## Paso 6 - Formatear la fecha con @JsonFormat",
+    "## Paso 7 - Omitir campos nulos con @JsonInclude",
+    "## Paso 8 - Excluir un campo con @JsonIgnore",
+    "## Paso 9 - Probar la deserialización con POST",
+    "## Paso 10 - Probar la deserialización con campos desconocidos",
+    "## Paso 11 - Errores comunes del ejercicio",
+    "## Paso 12 - Reto resuelto: DTO con DTO anidado",
+]
 blocks = re.findall(r"(?ms)^# Práctica (1\.\d+) - .*?(?=^# Práctica |\Z)", practice)
-if blocks != ["1.1", "1.2"]:
-    bad(f"published practical blocks must be exactly 1.1 and 1.2; got {blocks}")
+if blocks != ["1.1", "1.2", "1.3"]:
+    bad(f"published practical blocks must be exactly 1.1, 1.2 and 1.3; got {blocks}")
 all_headings = re.findall(r"^## Paso \d+ - .+$", practice, re.M)
-if all_headings != expected_11 + expected_12:
-    bad(f"M1.2 practical headings changed or out of order: {all_headings}")
-if "# Práctica 1.3" in practice or "# Punto 1.3" in theory:
-    bad("M1.3 content must not enter before its traceability checkpoint exists")
+if all_headings != expected_11 + expected_12 + expected_13:
+    bad(f"M1.3 practical headings changed or out of order: {all_headings}")
+if "# Práctica 1.4" in practice or "# Punto 1.4" in theory:
+    bad("M1.4 content must not enter before its traceability checkpoint exists")
 
-# 1.1 y 1.2 son deliberadamente observacionales. Tras cerrar todos los
-# experimentos temporales el snapshot ejecutable debe seguir idéntico a M0.
+# Tras 1.3 todo lo heredado de M0 debe seguir byte a byte idéntico. Las únicas
+# piezas funcionales nuevas admitidas en el snapshot son las tres enseñadas.
 def files_under(base):
     return {
         p.relative_to(base).as_posix(): p
@@ -84,15 +99,24 @@ def files_under(base):
 
 m0 = root / "M0/proyecto"
 m1 = root / "M1/proyecto"
+expected_new = {
+    "src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java",
+    "src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java",
+    "src/main/java/es/mecd/demo/miproyecto/dto/SolicitanteDTO.java",
+}
 if not m0.exists() or not m1.exists():
     bad("M0/M1 project snapshot missing")
 else:
     f0, f1 = files_under(m0), files_under(m1)
-    if set(f0) != set(f1):
-        bad(f"M1.2 final snapshot file set differs from M0: missing={sorted(set(f0)-set(f1))}, extra={sorted(set(f1)-set(f0))}")
+    missing = set(f0) - set(f1)
+    extra = set(f1) - set(f0)
+    if missing:
+        bad(f"M1.3 lost inherited M0 files: {sorted(missing)}")
+    if extra != expected_new:
+        bad(f"M1.3 new file set must be exactly {sorted(expected_new)}; got {sorted(extra)}")
     for rel in sorted(set(f0) & set(f1)):
         if not filecmp.cmp(f0[rel], f1[rel], shallow=False):
-            bad(f"M1.2 final snapshot must still equal approved M0: content differs at {rel}")
+            bad(f"inherited M0 artifact changed unexpectedly in M1.3: {rel}")
 
 contracts = {
     "M1/proyecto/pom.xml": [
@@ -107,6 +131,21 @@ contracts = {
         "@RestController", "@GetMapping(\"/hola\")", "@GetMapping(\"/adios\")",
         "construirMensaje(\"Ministerio de Educación\")"
     ],
+    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java": [
+        "@JsonInclude(JsonInclude.Include.NON_NULL)", "@JsonProperty(\"id\")",
+        "@JsonFormat(pattern = \"yyyy-MM-dd\")", "@JsonIgnore",
+        "private String numeroSeguridadSocial", "private SolicitanteDTO solicitante",
+        "public ExpedienteDTO()", "getSolicitante", "setSolicitante"
+    ],
+    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/SolicitanteDTO.java": [
+        "public class SolicitanteDTO", "@JsonProperty(\"dni\")",
+        "private String documentoIdentidad", "public SolicitanteDTO()"
+    ],
+    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java": [
+        "@RequestMapping(\"/api/v1/expedientes\")", "@GetMapping(\"/ejemplo\")",
+        "@PostMapping(\"/eco\")", "@RequestBody ExpedienteDTO dto",
+        "setNumeroSeguridadSocial", "setSolicitante(new SolicitanteDTO"
+    ],
     "M1/proyecto/src/test/java/es/mecd/demo/miproyecto/controller/SaludoControllerTest.java": [
         "saludarDebeDevolverElMensajeEsperado", "despedirDebeDevolverElMensajeEsperado"
     ],
@@ -115,7 +154,7 @@ contracts = {
 for rel, tokens in contracts.items():
     p = root / rel
     if not p.exists():
-        bad(f"missing M1.2 contract file: {rel}")
+        bad(f"missing M1.3 contract file: {rel}")
         continue
     txt = p.read_text(encoding="utf-8")
     for token in tokens:
@@ -137,53 +176,48 @@ for rel, tokens in temporary_forbidden.items():
         if token in txt:
             bad(f"temporary M1.1/M1.2 residue leaked into final snapshot: {rel} -> {token}")
 
-# Contratos didácticos de 1.1 que siguen siendo obligatorios.
+# Contratos didácticos acumulativos que no pueden desaparecer de las guías.
 for token in [
     "--debug", "CONDITIONS EVALUATION REPORT", "Positive matches", "Negative matches", "Exclusions",
-    "./mvnw dependency:tree", "java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar",
-    "server.port=9090", "curl -i http://localhost:9090/hola",
-    "JacksonAutoConfiguration.class", "@GetMapping(\"/info-json\")", "./mvnw test",
+    "./mvnw dependency:tree", "server.port=9090", "JacksonAutoConfiguration.class",
+    "curl -i http://localhost:8080/no-existe", "curl -i -X POST http://localhost:8080/hola",
+    "curl -v http://localhost:8080/hola", "400 Bad Request", "415 Unsupported Media Type",
+    "@PostMapping(\"/eco\")", "Map<String, Object>",
+    "src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java",
+    "@JsonProperty(\"id\")", "@JsonFormat(pattern = \"yyyy-MM-dd\")",
+    "@JsonInclude(JsonInclude.Include.NON_NULL)", "@JsonIgnore",
+    "POST http://localhost:8080/api/v1/expedientes/eco",
+    "campoInexistente", "SolicitanteDTO", "./mvnw -DskipTests package",
     "IntelliJ IDEA", "Eclipse", "VS Code"
 ]:
     if token not in practice:
-        bad(f"M1.1 practical guide lost high-value token: {token}")
-
-# Contratos didácticos de 1.2.
-for token in [
-    "curl -i http://localhost:8080/no-existe",
-    "curl -i -X POST http://localhost:8080/hola",
-    "curl -v http://localhost:8080/hola",
-    "F12", "Network", "404", "405 Method Not Allowed",
-    "Connection refused", "400 Bad Request", "415 Unsupported Media Type",
-    "@PostMapping(\"/eco\")", "@RequestBody", "Map<String, Object>",
-    "Content-Type: application/json", "Content-Type: text/plain",
-    "{\"mensaje\":\"hola\",}", "{\"mensaje\":\"hola\"}"
-]:
-    if token not in practice:
-        bad(f"M1.2 practical guide missing high-value token: {token}")
+        bad(f"M1 practical guide lost high-value token: {token}")
 
 for token in [
-    "Spring Framework", "Spring Boot", "Auto-configuración", "Positive matches", "Negative matches",
-    "spring-boot-starter-web", "dependencias transitivas", "servidor embebido",
+    "Spring Framework", "Spring Boot", "Auto-configuración", "servidor embebido",
     "Cliente y servidor", "petición-respuesta", "Front-end y back-end",
-    "405 Method Not Allowed", "415 Unsupported Media Type", "curl -v", "DevTools"
+    "405 Method Not Allowed", "415 Unsupported Media Type", "curl -v", "DevTools",
+    "Qué es JSON", "Sintaxis de JSON", "Convenciones de JSON en APIs REST",
+    "Serialización", "Deserialización", "@JsonProperty", "@JsonFormat", "@JsonInclude", "@JsonIgnore",
+    "FAIL_ON_UNKNOWN_PROPERTIES"
 ]:
     if token.lower() not in theory.lower():
-        bad(f"M1.1/M1.2 theory missing high-value concept token: {token}")
+        bad(f"M1 theory missing high-value concept token: {token}")
 
-# La matriz editorial previa debe seguir fijando escala, decisiones y temporales.
+# La matriz editorial previa debe seguir fijando escala y decisiones de los tres bloques.
 audit = (root / ".course/source-audit/M1.md").read_text(encoding="utf-8")
 for token in [
-    "**58**", "M1-P-11-S10", "M1-P-12-S12", "M1-T-11-AUTOCONFIG",
-    "M1-T-12-CLIENT-SERVER", "server.port=9090", "excluyendo Jackson", "POST /eco"
+    "**58**", "M1-P-11-S10", "M1-P-12-S12", "M1-P-13-S12",
+    "M1-T-11-AUTOCONFIG", "M1-T-12-CLIENT-SERVER", "M1-T-13-JACKSON",
+    "server.port=9090", "excluyendo Jackson", "ExpedienteDTO", "SolicitanteDTO"
 ]:
     if token not in audit:
         bad(f"M1 source audit lost required contract token: {token}")
 
 if fail:
-    print("M1 CHECKPOINT 1.2: FAIL")
+    print("M1 CHECKPOINT 1.3: FAIL")
     for x in fail:
         print(" -", x)
     raise SystemExit(1)
 
-print("M1 CHECKPOINT 1.2: PASS | 10 theory concepts | 22/58 steps | snapshot=M0 restored")
+print("M1 CHECKPOINT 1.3: PASS | 15 theory concepts | 34/58 steps | 3 permanent functional files added")
