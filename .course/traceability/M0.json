@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "module": "M0",
+  "policy": {
+    "student_guides_hide_internal_traceability": true,
+    "all_functional_artifacts_require_pedagogical_origin": true,
+    "support_must_not_add_public_behavior": true,
+    "llm_authors_content_scripts_only_validate": true
+  },
+  "theory_concepts": [
+    {"id":"M0-T-01-JDK-JRE-JVM","anchor":"JVM, JRE y JDK"},
+    {"id":"M0-T-01-BYTECODE","anchor":"Qué es realmente el bytecode"},
+    {"id":"M0-T-01-CLASSPATH","anchor":"Classpath: dónde busca Java las clases"},
+    {"id":"M0-T-01-MAVEN","anchor":"Maven: construcción y dependencias"},
+    {"id":"M0-T-01-WRAPPER","anchor":"Maven Wrapper"},
+    {"id":"M0-T-01-IDE","anchor":"IntelliJ IDEA, Eclipse y VS Code"},
+    {"id":"M0-T-01-JAVA_HOME_PATH","anchor":"Variables de entorno"},
+    {"id":"M0-T-01-DIAGNOSTICO","anchor":"Las tres verificaciones esenciales"},
+    {"id":"M0-T-02-INITIALIZR","anchor":"Qué es Spring Initializr"},
+    {"id":"M0-T-02-METADATA","anchor":"El formulario de Initializr"},
+    {"id":"M0-T-02-POM","anchor":"El `pom.xml`"},
+    {"id":"M0-T-02-STARTER","anchor":"Qué es un starter"},
+    {"id":"M0-T-02-PRIMER_ARRANQUE","anchor":"Primera ejecución"},
+    {"id":"M0-T-02-IMPORT_MAVEN","anchor":"Qué significa realmente importar un proyecto Maven"},
+    {"id":"M0-T-03-ESTRUCTURA","anchor":"Vista general"},
+    {"id":"M0-T-03-MAIN","anchor":"clase principal"},
+    {"id":"M0-T-03-CONFIG","anchor":"application.properties"},
+    {"id":"M0-T-03-SCAN","anchor":"Escaneo de componentes"},
+    {"id":"M0-T-03-CONTROLLER","anchor":"controlador REST"},
+    {"id":"M0-T-03-HTTP","anchor":"petición HTTP"},
+    {"id":"M0-T-04-CICLO","anchor":"ciclo de trabajo"},
+    {"id":"M0-T-04-LOGS","anchor":"logs"},
+    {"id":"M0-T-04-DEBUG","anchor":"depur"},
+    {"id":"M0-T-04-TEST","anchor":"test"},
+    {"id":"M0-T-04-CURL","anchor":"curl"},
+    {"id":"M0-T-04-ENTORNOS","anchor":"cuatro interfaces"}
+  ],
+  "practice_contracts": {
+    "0.1": {"expected_steps": 12,"theory_refs": ["M0-T-01-JDK-JRE-JVM","M0-T-01-BYTECODE","M0-T-01-CLASSPATH","M0-T-01-MAVEN","M0-T-01-WRAPPER","M0-T-01-IDE","M0-T-01-JAVA_HOME_PATH","M0-T-01-DIAGNOSTICO"]},
+    "0.2": {"expected_steps": 12,"theory_refs": ["M0-T-02-INITIALIZR","M0-T-02-METADATA","M0-T-02-POM","M0-T-02-STARTER","M0-T-01-WRAPPER","M0-T-02-PRIMER_ARRANQUE","M0-T-02-IMPORT_MAVEN"]},
+    "0.3": {"expected_steps": 12,"theory_refs": ["M0-T-03-ESTRUCTURA","M0-T-03-MAIN","M0-T-03-CONFIG","M0-T-03-SCAN","M0-T-03-CONTROLLER","M0-T-03-HTTP"]},
+    "0.4": {"expected_steps": 12,"theory_refs": ["M0-T-04-CICLO","M0-T-04-LOGS","M0-T-04-DEBUG","M0-T-04-TEST","M0-T-04-CURL","M0-T-04-ENTORNOS"]}
+  },
+  "final_steps": ["A","B","C"],
+  "environment_workflows": [
+    {"id":"M0-W-CONSOLE","anchor":"### Recorrido A - Ciclo diario exclusivamente desde consola"},
+    {"id":"M0-W-INTELLIJ","anchor":"### Recorrido B - Ciclo diario completo en IntelliJ IDEA"},
+    {"id":"M0-W-ECLIPSE","anchor":"### Recorrido C - Ciclo diario completo en Eclipse"},
+    {"id":"M0-W-VSCODE","anchor":"### Recorrido D - Ciclo diario completo en VS Code"}
+  ],
+  "artifacts": [
+    {"path":"M0/TEORIA.md","classification":"GUIDE","origin":"M0-THEORY","verification":["theory anchors"]},
+    {"path":"M0/PRACTICA.md","classification":"GUIDE","origin":"M0-PRACTICE","verification":["51 practical steps"]},
+    {"path":"M0/ejemplos/HolaMinisterio.java","classification":"GUIDE","origin":"M0-P-01-S06","evolution":["M0-P-01-S12"],"verification":["javac --release 17","java without args","java with Ana"]},
+    {"path":"M0/proyecto/pom.xml","classification":"GUIDE","origin":"M0-P-02-S05","evolution":["M0-P-02-S12"],"verification":["./mvnw test","./mvnw package"]},
+    {"path":"M0/proyecto/mvnw","classification":"GUIDE","origin":"M0-P-02-S05","verification":["./mvnw -version"]},
+    {"path":"M0/proyecto/mvnw.cmd","classification":"GUIDE","origin":"M0-P-02-S05","verification":["Windows wrapper documented"]},
+    {"path":"M0/proyecto/.mvn/wrapper/maven-wrapper.properties","classification":"GUIDE","origin":"M0-P-02-S05","verification":["Maven 3.9.16 distribution"]},
+    {"path":"M0/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java","classification":"GUIDE","origin":"M0-P-02-S05","evolution":["M0-P-03-S04"],"verification":["contextLoads","real application startup"]},
+    {"path":"M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","classification":"GUIDE","origin":"M0-P-03-S07","evolution":["M0-P-03-S12","M0-P-04-S12"],"verification":["SaludoControllerTest","HTTP /hola","HTTP /adios"]},
+    {"path":"M0/proyecto/src/main/resources/application.properties","classification":"GUIDE","origin":"M0-P-02-S05","evolution":["M0-P-03-S05","temporary M0-P-04-S02 diagnostics"],"verification":["startup log"]},
+    {"path":"M0/proyecto/src/test/java/es/mecd/demo/miproyecto/controller/SaludoControllerTest.java","classification":"GUIDE","origin":"M0-P-04-S07","verification":["./mvnw -Dtest=SaludoControllerTest test"]},
+    {"path":"M0/proyecto/.gitignore","classification":"SUPPORT","reason":"Repository hygiene; no runtime behavior"},
+    {"path":"M0/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTests.java","classification":"SUPPORT","reason":"Generated smoke test used to verify Spring context startup"},
+    {"path":"M0/README.md","classification":"SUPPORT","reason":"Student navigation; no runtime behavior"},
+    {"path":".github/workflows/validar-m0.yml","classification":"SUPPORT","reason":"CI repeats commands taught in the practical guide"},
+    {"path":".course/traceability/M0.json","classification":"SUPPORT","reason":"Machine-readable internal traceability contract"},
+    {"path":".course/traceability/validate_m0.py","classification":"SUPPORT","reason":"Mechanical guide/code/traceability validation"},
+    {"path":".course/traceability/TRAZABILIDAD_M0.md","classification":"SUPPORT","reason":"Human-readable internal traceability report"},
+    {"path":".course/traceability/README.md","classification":"SUPPORT","reason":"Internal traceability documentation"},
+    {"path":".course/source-audit/M0.md","classification":"SUPPORT","reason":"Internal source-to-edition fidelity audit"}
+  ]
+}
