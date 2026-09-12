@@ -29,6 +29,8 @@ jobs:
       JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
 
       - name: Configurar Java 17
         uses: actions/setup-java@v5
@@ -37,7 +39,7 @@ jobs:
           java-version: '17'
 
       - name: Regenerar vista humana en rama de auditoría
-        if: github.event_name == 'push' && github.ref == 'refs/heads/m0-auditoria-limpieza'
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/m0-auditoria-limpieza') || (github.event_name == 'pull_request' && github.head_ref == 'm0-auditoria-limpieza')
         shell: bash
         run: |
           set -euo pipefail
@@ -47,7 +49,7 @@ jobs:
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add .course/traceability/TRAZABILIDAD_M0.md
             git commit -m 'trace(m0): regenera informe humano tras auditoría'
-            git push
+            git push origin HEAD:m0-auditoria-limpieza
           fi
 
       - name: Comprobar vista humana de trazabilidad
