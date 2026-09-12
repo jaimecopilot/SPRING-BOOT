@@ -1,0 +1,1 @@
+La parte práctica convertirá este modelo en acciones verificables: comprobar el entorno, compilar Java sin Spring, generar un proyecto, leer el POM, crear endpoints, ejecutar tests, empaquetar, arrancar el JAR, depurar y utilizar `curl`.
