@@ -1,0 +1,202 @@
+{
+  "schema_version": 3,
+  "module": "M1",
+  "practice": "1.3",
+  "steps": [
+    {
+      "id": "M1-P-13-S01",
+      "practice": "1.3",
+      "number": 1,
+      "heading": "## Paso 1 - Crear el paquete dto",
+      "summary": "Crear el paquete permanente para DTOs y separar representación de entrada HTTP.",
+      "theory_refs": ["M1-T-13-JSON", "M1-T-13-JACKSON"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto","action":"CREATE","state":"PERMANENT","symbols":["es.mecd.demo.miproyecto.dto"]}
+      ],
+      "commands": ["mkdir -p src/main/java/es/mecd/demo/miproyecto/dto", "New-Item -ItemType Directory -Force src/main/java/es/mecd/demo/miproyecto/dto"],
+      "observables": ["El paquete dto existe bajo el paquete raíz."],
+      "verification": ["El árbol final contiene ExpedienteDTO.java y SolicitanteDTO.java dentro de dto."]
+    },
+    {
+      "id": "M1-P-13-S02",
+      "practice": "1.3",
+      "number": 2,
+      "heading": "## Paso 2 - Crear la clase ExpedienteDTO",
+      "summary": "Crear el DTO base con tipos Java variados, constructor vacío, constructor de trabajo y accesores.",
+      "theory_refs": ["M1-T-13-JSON", "M1-T-13-JACKSON"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"CREATE","state":"PERMANENT","symbols":["public class ExpedienteDTO", "private String identificador", "private LocalDate fechaSolicitud", "private List<String> documentos", "public ExpedienteDTO()", "getIdentificador", "setIdentificador"]}
+      ],
+      "commands": ["./mvnw test"],
+      "observables": ["El DTO compila antes de exponerlo por HTTP."],
+      "verification": ["Maven test compila la clase con Java 17 y conserva verdes los tests heredados."]
+    },
+    {
+      "id": "M1-P-13-S03",
+      "practice": "1.3",
+      "number": 3,
+      "heading": "## Paso 3 - Crear un controlador para probar la serialización",
+      "summary": "Crear un controlador REST que devuelve un ExpedienteDTO y permite observar la serialización automática.",
+      "theory_refs": ["M1-T-13-JACKSON"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","action":"CREATE","state":"PERMANENT","symbols":["public class ExpedienteController", "@RequestMapping(\"/api/v1/expedientes\")", "@GetMapping(\"/ejemplo\")", "public ExpedienteDTO ejemplo()"]}
+      ],
+      "commands": ["./mvnw spring-boot:run"],
+      "observables": ["La aplicación arranca con el nuevo controlador registrado."],
+      "verification": ["El contexto carga y el endpoint GET /api/v1/expedientes/ejemplo queda mapeado."]
+    },
+    {
+      "id": "M1-P-13-S04",
+      "practice": "1.3",
+      "number": 4,
+      "heading": "## Paso 4 - Arrancar y probar la serialización por defecto",
+      "summary": "Observar el JSON producido por defecto y distinguir tipos JSON de una simple cadena Java.",
+      "theory_refs": ["M1-T-13-JSON", "M1-T-13-SYNTAX", "M1-T-13-JACKSON"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/ejemplo\")"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"VERIFY","state":"PERMANENT","symbols":["private Boolean activo", "private Double importe", "private List<String> documentos"]}
+      ],
+      "commands": ["curl -i http://localhost:8080/api/v1/expedientes/ejemplo"],
+      "observables": ["HTTP 200, Content-Type application/json, fecha ISO, booleano JSON, número y array de documentos."],
+      "verification": ["CI llama al endpoint real y analiza el JSON devuelto."]
+    },
+    {
+      "id": "M1-P-13-S05",
+      "practice": "1.3",
+      "number": 5,
+      "heading": "## Paso 5 - Renombrar el campo con @JsonProperty",
+      "summary": "Exponer identificador como id sin cambiar el nombre interno Java.",
+      "theory_refs": ["M1-T-13-CONVENTIONS", "M1-T-13-ANNOTATIONS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"MODIFY","state":"PERMANENT","symbols":["@JsonProperty(\"id\")", "private String identificador"]}
+      ],
+      "commands": ["curl http://localhost:8080/api/v1/expedientes/ejemplo"],
+      "observables": ["La propiedad externa se llama id y no aparece una segunda propiedad identificador."],
+      "verification": ["CI comprueba id en el JSON y ausencia de identificador."]
+    },
+    {
+      "id": "M1-P-13-S06",
+      "practice": "1.3",
+      "number": 6,
+      "heading": "## Paso 6 - Formatear la fecha con @JsonFormat",
+      "summary": "Hacer explícito el formato contractual yyyy-MM-dd para LocalDate.",
+      "theory_refs": ["M1-T-13-CONVENTIONS", "M1-T-13-ANNOTATIONS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"MODIFY","state":"PERMANENT","symbols":["@JsonFormat(pattern = \"yyyy-MM-dd\")", "private LocalDate fechaSolicitud"]}
+      ],
+      "commands": ["curl http://localhost:8080/api/v1/expedientes/ejemplo"],
+      "observables": ["fechaSolicitud se representa como 2025-01-15."],
+      "verification": ["CI comprueba fecha ISO y que una fecha incompatible en POST /eco produce 400."]
+    },
+    {
+      "id": "M1-P-13-S07",
+      "practice": "1.3",
+      "number": 7,
+      "heading": "## Paso 7 - Omitir campos nulos con @JsonInclude",
+      "summary": "Omitir propiedades nulas del contrato JSON sin eliminar el campo Java.",
+      "theory_refs": ["M1-T-13-CONVENTIONS", "M1-T-13-ANNOTATIONS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"MODIFY","state":"PERMANENT","symbols":["@JsonInclude(JsonInclude.Include.NON_NULL)", "private String observaciones"]}
+      ],
+      "commands": ["curl http://localhost:8080/api/v1/expedientes/ejemplo"],
+      "observables": ["observaciones no aparece cuando su valor es null."],
+      "verification": ["CI analiza el JSON y exige ausencia de observaciones en /ejemplo."]
+    },
+    {
+      "id": "M1-P-13-S08",
+      "practice": "1.3",
+      "number": 8,
+      "heading": "## Paso 8 - Excluir un campo con @JsonIgnore",
+      "summary": "Excluir un dato del contrato JSON incluso cuando tiene un valor no nulo.",
+      "theory_refs": ["M1-T-13-ANNOTATIONS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"MODIFY","state":"PERMANENT","symbols":["@JsonIgnore", "private String numeroSeguridadSocial", "setNumeroSeguridadSocial"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","action":"MODIFY","state":"PERMANENT","symbols":["setNumeroSeguridadSocial"]}
+      ],
+      "commands": ["curl http://localhost:8080/api/v1/expedientes/ejemplo"],
+      "observables": ["numeroSeguridadSocial no aparece aunque el ejemplo le asigna un valor de demostración."],
+      "verification": ["CI exige ausencia de numeroSeguridadSocial en la respuesta real."]
+    },
+    {
+      "id": "M1-P-13-S09",
+      "practice": "1.3",
+      "number": 9,
+      "heading": "## Paso 9 - Probar la deserialización con POST",
+      "summary": "Añadir POST /eco para recorrer JSON a Java y Java a JSON con ExpedienteDTO.",
+      "theory_refs": ["M1-T-13-JSON", "M1-T-13-JACKSON", "M1-T-13-ANNOTATIONS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","action":"MODIFY","state":"PERMANENT","symbols":["@PostMapping(\"/eco\")", "@RequestBody ExpedienteDTO dto", "public ExpedienteDTO eco"]}
+      ],
+      "commands": ["curl -i -X POST http://localhost:8080/api/v1/expedientes/eco -H \"Content-Type: application/json\"", "curl -i -X POST http://localhost:8080/api/v1/expedientes/eco -H \"Content-Type: application/json\" -d '{\"id\":\"1\",\"fechaSolicitud\":\"20/01/2025\"}'"],
+      "observables": ["JSON válido produce 200 y round-trip; fecha incompatible produce 400 antes de ejecutar correctamente el método."],
+      "verification": ["CI prueba POST real válido e inválido."]
+    },
+    {
+      "id": "M1-P-13-S10",
+      "practice": "1.3",
+      "number": 10,
+      "heading": "## Paso 10 - Probar la deserialización con campos desconocidos",
+      "summary": "Comprobar la tolerancia actual a propiedades desconocidas y el efecto de @JsonIgnore en entrada.",
+      "theory_refs": ["M1-T-13-CONVENTIONS", "M1-T-13-JACKSON", "M1-T-13-ANNOTATIONS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","action":"VERIFY","state":"PERMANENT","symbols":["@PostMapping(\"/eco\")"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"VERIFY","state":"PERMANENT","symbols":["@JsonIgnore", "@JsonProperty(\"id\")"]}
+      ],
+      "commands": ["POST /api/v1/expedientes/eco con campoInexistente", "POST /api/v1/expedientes/eco con numeroSeguridadSocial"],
+      "observables": ["campoInexistente se tolera en la configuración actual y no reaparece; numeroSeguridadSocial se ignora."],
+      "verification": ["CI prueba ambos payloads sobre HTTP real."]
+    },
+    {
+      "id": "M1-P-13-S11",
+      "practice": "1.3",
+      "number": 11,
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "summary": "Diagnosticar por estado HTTP y por capa antes de modificar código.",
+      "theory_refs": ["M1-T-13-SYNTAX", "M1-T-13-JACKSON", "M1-T-13-ANNOTATIONS"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": ["revisar estado HTTP, primer error útil de log, nombre JSON, tipo y formato"],
+      "observables": ["404, 405, 400 y 415 se asocian a capas de fallo distintas."],
+      "verification": ["La guía mantiene una tabla de síntomas, causas probables y comprobaciones reproducibles."]
+    },
+    {
+      "id": "M1-P-13-S12",
+      "practice": "1.3",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: DTO con DTO anidado",
+      "summary": "Crear SolicitanteDTO, anidarlo en ExpedienteDTO y demostrar serialización/deserialización anidada.",
+      "theory_refs": ["M1-T-13-CONVENTIONS", "M1-T-13-JACKSON", "M1-T-13-ANNOTATIONS"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/SolicitanteDTO.java","action":"CREATE","state":"PERMANENT","symbols":["public class SolicitanteDTO", "@JsonProperty(\"dni\")", "private String documentoIdentidad", "public SolicitanteDTO()"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","action":"MODIFY","state":"PERMANENT","symbols":["private SolicitanteDTO solicitante", "getSolicitante", "setSolicitante"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","action":"MODIFY","state":"PERMANENT","symbols":["import es.mecd.demo.miproyecto.dto.SolicitanteDTO", "setSolicitante(new SolicitanteDTO"]}
+      ],
+      "commands": ["curl http://localhost:8080/api/v1/expedientes/ejemplo", "curl -i -X POST http://localhost:8080/api/v1/expedientes/eco -H \"Content-Type: application/json\"", "./mvnw test", "./mvnw -DskipTests package"],
+      "observables": ["solicitante aparece como objeto JSON anidado con dni; el round-trip anidado funciona; /hola y /adios siguen intactos."],
+      "verification": ["CI compila, prueba, empaqueta y valida serialización/deserialización anidada mediante HTTP real."]
+    }
+  ]
+}
