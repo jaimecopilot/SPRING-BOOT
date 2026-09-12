@@ -2,7 +2,7 @@ name: Validar M0
 
 on:
   push:
-    branches: [main, m0-trazabilidad-fuerte, m0-auditoria-limpieza]
+    branches: [main]
     paths:
       - 'M0/**'
       - '.course/traceability/**'
@@ -18,7 +18,7 @@ on:
       - '.github/workflows/validar-m0.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validar-m0:
@@ -29,28 +29,12 @@ jobs:
       JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
     steps:
       - uses: actions/checkout@v5
-        with:
-          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
 
       - name: Configurar Java 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
-
-      - name: Regenerar vista humana en rama de auditoría
-        if: (github.event_name == 'push' && github.ref == 'refs/heads/m0-auditoria-limpieza') || (github.event_name == 'pull_request' && github.head_ref == 'm0-auditoria-limpieza')
-        shell: bash
-        run: |
-          set -euo pipefail
-          python .course/traceability/generate_human_traceability.py
-          if ! git diff --quiet -- .course/traceability/TRAZABILIDAD_M0.md; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add .course/traceability/TRAZABILIDAD_M0.md
-            git commit -m 'trace(m0): regenera informe humano tras auditoría'
-            git push origin HEAD:m0-auditoria-limpieza
-          fi
 
       - name: Comprobar vista humana de trazabilidad
         run: python .course/traceability/generate_human_traceability.py --check
