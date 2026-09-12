@@ -2,7 +2,7 @@ name: Validar M0
 
 on:
   push:
-    branches: [m0-draft]
+    branches: [main, m0-trazabilidad-fuerte]
     paths:
       - 'M0/**'
       - '.course/traceability/**'
@@ -31,7 +31,10 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Validar trazabilidad teoría-práctica-código
+      - name: Comprobar vista humana de trazabilidad
+        run: python .course/traceability/generate_human_traceability.py --check
+
+      - name: Validar trazabilidad fuerte teoría-paso-código
         run: python .course/traceability/validate_m0.py .
 
       - name: Verificar ejemplo Java previo a Spring
