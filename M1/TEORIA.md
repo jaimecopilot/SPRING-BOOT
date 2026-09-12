@@ -464,3 +464,435 @@ En M0 observamos partes de esta cadena. En 1.1 el objetivo es **explicarla y dem
 ---
 
 > El siguiente punto estudiará la arquitectura cliente-servidor y HTTP. Antes de diseñar APIs necesitamos comprender qué viaja entre cliente y servidor, cómo se representa una petición y por qué 200, 404 o 405 describen situaciones diferentes.
+
+
+---
+
+# Punto 1.2 - Arquitectura cliente-servidor y HTTP
+
+## Objetivos de aprendizaje
+
+Al finalizar este punto serás capaz de:
+
+1. Explicar con precisión qué papel desempeñan cliente y servidor en una comunicación de red.
+2. Describir el ciclo petición-respuesta desde que el usuario introduce una URL hasta que recibe una representación.
+3. Diferenciar front-end y back-end sin confundir esa separación con una tecnología concreta.
+4. Identificar los componentes esenciales de una petición HTTP: método, destino, cabeceras y, cuando existe, cuerpo.
+5. Identificar los componentes esenciales de una respuesta HTTP: estado, cabeceras y cuerpo.
+6. Distinguir los métodos HTTP principales por su intención semántica y no sólo por su nombre.
+7. Interpretar los códigos de estado más habituales como parte del contrato entre cliente y servidor.
+8. Utilizar navegador, DevTools y `curl` para observar tráfico real en lugar de razonar únicamente desde el código Java.
+9. Diferenciar errores de conexión, rutas inexistentes, métodos no permitidos, contenido no interpretable y fallos internos.
+10. Relacionar HTTP con el proyecto Spring Boot que ya tienes funcionando.
+
+## Bloque 1 - Cliente y servidor
+
+### 1.1 Dos papeles, no necesariamente dos tipos de máquina
+
+En una arquitectura cliente-servidor, **cliente** y **servidor** describen roles dentro de una interacción.
+
+El cliente inicia una petición. El servidor permanece preparado para recibir peticiones, procesarlas y producir respuestas.
+
+En nuestro ejercicio:
+
+```text
+curl o navegador  -> cliente
+mi-proyecto       -> servidor HTTP
+```
+
+Pero los roles no están ligados para siempre a un programa. Una aplicación Spring Boot puede actuar como servidor frente a un navegador y, unos milisegundos después, actuar como cliente de otro servicio remoto.
+
+Esto evita una simplificación frecuente: “el cliente es el ordenador del usuario y el servidor es una máquina grande en un centro de datos”. En la práctica, ambos roles pueden ejecutarse incluso en la misma máquina, como ocurre cuando accedemos a `localhost:8080` durante el curso.
+
+### 1.2 `localhost`, dirección y puerto
+
+Cuando utilizamos:
+
+```text
+http://localhost:8080/hola
+```
+
+estamos proporcionando varias piezas de información:
+
+- `http`: protocolo/esquema que indica cómo queremos comunicarnos;
+- `localhost`: nombre que identifica la propia máquina;
+- `8080`: puerto TCP en el que espera el servidor;
+- `/hola`: ruta del recurso o endpoint que queremos invocar.
+
+En condiciones habituales `localhost` se resuelve hacia una dirección de loopback como `127.0.0.1` para IPv4 o `::1` para IPv6. Conviene no memorizar que **siempre** será exactamente `127.0.0.1`: el detalle puede variar según sistema y resolución local. Lo importante es que el tráfico vuelve a la propia máquina.
+
+El puerto permite que distintos servicios compartan una misma dirección IP. Un proceso puede escuchar en 8080 y otro en 9090 sin que sean el mismo servidor lógico.
+
+### 1.3 Una URL no identifica un método Java
+
+El cliente conoce una URL y un método HTTP. No sabe que en el servidor existe una clase `SaludoController` ni un método `saludar()`.
+
+Esa traducción pertenece al back-end:
+
+```text
+GET /hola
+    -> infraestructura HTTP
+    -> Spring MVC
+    -> mapping compatible
+    -> método Java
+```
+
+Esta separación es fundamental. Permite modificar internamente clases y métodos sin obligar a un cliente a conocer la implementación, siempre que el contrato HTTP externo se conserve.
+
+### Pregunta
+
+Si navegador y servidor se ejecutan en el mismo PC, ¿sigue existiendo una arquitectura cliente-servidor?
+
+### Respuesta razonada
+
+Sí. La arquitectura describe responsabilidades y el flujo de comunicación, no la distancia física. El navegador sigue iniciando una petición y la aplicación Spring Boot sigue escuchando, procesando y respondiendo. `localhost` simplemente hace que ambos procesos estén en la misma máquina.
+
+## Bloque 2 - El ciclo petición-respuesta
+
+### 2.1 HTTP organiza una conversación
+
+HTTP sigue un modelo petición-respuesta. Simplificando:
+
+```text
+CLIENTE                         SERVIDOR
+   |                               |
+   | -------- petición ----------> |
+   |                               | procesa
+   | <-------- respuesta --------- |
+   |                               |
+```
+
+El servidor no “manda una página porque sí” al navegador en este modelo básico. Responde a una petición concreta.
+
+### 2.2 Qué contiene una petición
+
+Una petición HTTP tiene una línea inicial, cabeceras y, dependiendo del método y del caso de uso, un cuerpo.
+
+Ejemplo conceptual:
+
+```http
+GET /hola HTTP/1.1
+Host: localhost:8080
+Accept: */*
+User-Agent: curl/8.x
+```
+
+Para un POST con datos podemos encontrar además:
+
+```http
+POST /recurso HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: ...
+
+{"campo":"valor"}
+```
+
+Las partes cumplen funciones distintas:
+
+- **método**: expresa la intención de la operación;
+- **target/ruta**: identifica dónde se aplica;
+- **versión HTTP**: indica el protocolo utilizado en la conversación;
+- **cabeceras**: aportan metadatos;
+- **cuerpo**: transporta una representación cuando es necesario.
+
+### 2.3 Qué contiene una respuesta
+
+Ejemplo simplificado:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: text/plain;charset=UTF-8
+Content-Length: ...
+
+Hola, Ministerio de Educación
+```
+
+De nuevo distinguimos:
+
+- **código de estado**: resultado general de la operación;
+- **cabeceras**: metadatos de la respuesta;
+- **cuerpo**: representación devuelta al cliente cuando existe.
+
+El código y el cuerpo no son intercambiables. Un texto que diga “todo correcto” dentro de una respuesta `500` sigue siendo, para HTTP, un error de servidor. Del mismo modo, devolver `200` con un texto “no encontrado” es un contrato pobre si la situación debería expresarse como `404`.
+
+### 2.4 Del socket al controlador
+
+Para nuestro `GET /hola`, el recorrido observable puede simplificarse así:
+
+1. el cliente resuelve el destino;
+2. abre una conexión hacia el puerto 8080;
+3. envía una petición HTTP;
+4. Tomcat embebido recibe bytes de red y los interpreta según el protocolo;
+5. la infraestructura servlet/Spring MVC procesa la petición;
+6. el `DispatcherServlet` coordina la búsqueda de un handler;
+7. el mapping encuentra `GET /hola`;
+8. se ejecuta `SaludoController.saludar()`;
+9. Spring construye la respuesta;
+10. Tomcat la envía al cliente.
+
+En este punto no necesitamos estudiar todos los componentes internos de Spring MVC. Sí necesitamos entender dónde termina HTTP y dónde empieza nuestro código.
+
+### Pregunta
+
+¿Por qué una petición y una respuesta tienen cabeceras además del cuerpo?
+
+### Respuesta razonada
+
+Porque el cuerpo transporta principalmente la representación o datos, mientras que las cabeceras describen cómo interpretar o gestionar la comunicación: tipo de contenido, longitud, capacidades aceptadas, autenticación, caché y muchos otros metadatos. Separar datos de metadatos evita mezclar contrato de transporte con contenido de negocio.
+
+## Bloque 3 - Front-end y back-end
+
+### 3.1 Responsabilidades diferentes
+
+**Front-end** es la parte orientada a la interacción con el usuario o consumidor visual de una aplicación: interfaz, navegación, formularios, representación de datos y lógica de presentación.
+
+**Back-end** es la parte que recibe peticiones, aplica reglas, coordina servicios y datos y produce respuestas consumibles por clientes.
+
+En una aplicación web moderna típica:
+
+```text
+front-end
+   |
+   | HTTP/JSON
+   v
+back-end Spring Boot
+   |
+   v
+servicios / datos / otros sistemas
+```
+
+La separación no obliga a utilizar JavaScript en el front ni Java en el back. Es una separación de responsabilidades y contratos.
+
+### 3.2 Por qué separar
+
+Separar front y back puede aportar:
+
+- evolución independiente de la interfaz y la lógica del servidor;
+- reutilización del mismo back-end por web, móvil u otros sistemas;
+- contratos HTTP más claros;
+- especialización de responsabilidades;
+- posibilidad de desplegar o escalar componentes de forma diferente cuando sea necesario.
+
+También añade costes: coordinación de contratos, errores de red, CORS en ciertos escenarios, versionado, observabilidad distribuida y más puntos donde algo puede fallar. No debemos presentar la separación como gratuita.
+
+### 3.3 API como frontera
+
+Una API HTTP define una frontera. El cliente debería depender de aspectos como:
+
+- URL;
+- método;
+- cabeceras relevantes;
+- forma del cuerpo;
+- códigos de estado.
+
+No debería depender de nombres privados de clases, campos que no forman parte del contrato o detalles internos de persistencia.
+
+Más adelante formalizaremos esa frontera como API REST. En 1.2 nos basta comprender la conversación HTTP sobre la que REST se apoya.
+
+### Pregunta
+
+¿Separar front-end y back-end significa que deben estar siempre en repositorios o servidores distintos?
+
+### Respuesta razonada
+
+No. Pueden estar separados conceptualmente y compartir repositorio o despliegue en ciertos proyectos. La separación importante aquí es de responsabilidades y del contrato de comunicación. Las decisiones de repositorio, red y despliegue son adicionales.
+
+## Bloque 4 - Métodos HTTP y códigos de estado
+
+### 4.1 El método forma parte del endpoint
+
+Una ruta por sí sola no describe toda la operación. Para Spring MVC no es equivalente:
+
+```text
+GET  /hola
+POST /hola
+```
+
+Nuestro controlador declara `@GetMapping("/hola")`. Por eso `GET /hola` puede resolverse, mientras que un `POST /hola` no encuentra un handler que acepte esa combinación y produce normalmente `405 Method Not Allowed`.
+
+Este detalle prepara una idea central de REST: el método comunica intención.
+
+### 4.2 Métodos principales
+
+**GET** solicita una representación. En condiciones normales se utiliza para consultar y no debería diseñarse para provocar cambios de negocio por el mero hecho de leer.
+
+**POST** envía una representación para que el servidor la procese; frecuentemente se usa para crear recursos, aunque HTTP no lo limita exclusivamente a creación.
+
+**PUT** suele expresar reemplazo completo del estado de un recurso identificado. Más adelante estudiaremos su relación con idempotencia.
+
+**PATCH** expresa una modificación parcial.
+
+**DELETE** solicita eliminar un recurso o dejarlo no disponible según el contrato de la API.
+
+En este punto sólo tenemos implementado GET. Los demás métodos se estudian para poder interpretar respuestas y diseñar después el CRUD.
+
+### 4.3 Familias de códigos de estado
+
+Los códigos HTTP se agrupan por familias:
+
+- `1xx`: información/progreso del protocolo;
+- `2xx`: la petición se procesó satisfactoriamente según su semántica;
+- `3xx`: redirección o necesidad de otra localización/acción;
+- `4xx`: la petición no puede atenderse por una condición atribuible al lado cliente o al recurso solicitado;
+- `5xx`: el servidor no pudo completar una petición que, desde la perspectiva del protocolo, llegó a él.
+
+No debemos reducir `4xx` a “el usuario se equivocó” ni `5xx` a “Java lanzó una excepción”. Son categorías de respuesta HTTP.
+
+### 4.4 Códigos que usaremos pronto
+
+**200 OK.** Operación procesada correctamente con una respuesta normal.
+
+**201 Created.** Se ha creado un recurso. Lo utilizaremos con POST cuando construyamos la API de alumnos.
+
+**204 No Content.** La operación se completó y no hay cuerpo que devolver; es común en ciertos DELETE o actualizaciones.
+
+**400 Bad Request.** El servidor no puede procesar la petición por su forma o contenido sintáctico/semántico básico. En la práctica provocaremos uno con JSON mal formado.
+
+**404 Not Found.** No existe un recurso/ruta que pueda atender esa petición en el contexto dado.
+
+**405 Method Not Allowed.** La ruta corresponde a una operación conocida, pero el método HTTP enviado no está permitido para ella.
+
+**415 Unsupported Media Type.** El servidor no admite el tipo de representación indicado para la operación.
+
+**500 Internal Server Error.** El servidor encontró un fallo inesperado al procesar la petición.
+
+### 4.5 404 no es 405
+
+Esta distinción será uno de los experimentos del punto:
+
+```text
+GET  /no-existe -> 404
+POST /hola      -> 405
+```
+
+En el primer caso no hay mapping para ese destino. En el segundo conocemos `/hola`, pero no con POST.
+
+El cliente puede reaccionar de forma diferente porque las causas contractuales son distintas.
+
+### Pregunta
+
+¿Por qué no devolver siempre `200` y explicar cualquier problema en el cuerpo?
+
+### Respuesta razonada
+
+Porque destruiríamos una parte esencial del protocolo. Navegadores, clientes HTTP, proxies, herramientas de monitorización y nuestro propio código pueden tomar decisiones a partir del estado sin interpretar primero un cuerpo específico. Los códigos de estado proporcionan un vocabulario común y predecible.
+
+## Bloque 5 - Herramientas para observar HTTP
+
+### 5.1 El navegador: útil, pero interpreta por ti
+
+El navegador es excelente para realizar una petición GET de forma inmediata. Sin embargo, además de enviar HTTP, interpreta respuestas, renderiza contenido, sigue ciertas redirecciones y puede ocultar detalles detrás de una interfaz visual.
+
+Por eso no debemos utilizar únicamente “lo que veo en la página” como evidencia de una API.
+
+### 5.2 DevTools: el navegador se vuelve observable
+
+La pestaña **Network** de las herramientas de desarrollador permite inspeccionar:
+
+- URL y método;
+- estado;
+- cabeceras de petición;
+- cabeceras de respuesta;
+- cuerpo/response;
+- tiempos de distintas fases.
+
+Esto conecta la experiencia visual con la conversación HTTP real.
+
+### 5.3 `curl`: cliente mínimo y reproducible
+
+`curl` es muy útil para aprendizaje y diagnóstico porque permite describir una petición en un comando reproducible.
+
+Sólo cuerpo:
+
+```bash
+curl http://localhost:8080/hola
+```
+
+Cabeceras de respuesta más cuerpo:
+
+```bash
+curl -i http://localhost:8080/hola
+```
+
+Conversación detallada:
+
+```bash
+curl -v http://localhost:8080/hola
+```
+
+Método explícito:
+
+```bash
+curl -i -X POST http://localhost:8080/hola
+```
+
+Cabecera y cuerpo:
+
+```bash
+curl -i -X POST http://localhost:8080/eco \
+  -H "Content-Type: application/json" \
+  -d '{"mensaje":"hola"}'
+```
+
+### 5.4 La salida exacta puede cambiar sin cambiar el concepto
+
+Fechas, `Content-Length`, versión concreta de `curl`, ciertas cabeceras y el formato del cuerpo de error pueden variar según versión y configuración.
+
+Por eso una guía técnica robusta separa:
+
+**Contrato estable que queremos verificar**
+
+```text
+estado 404
+Content-Type coherente cuando exista cuerpo
+ausencia de handler para la ruta
+```
+
+De una captura ilustrativa cuya literalidad puede cambiar:
+
+```text
+Date: ...
+Content-Length: ...
+JSON exacto de error ...
+```
+
+La práctica te pedirá observar la respuesta real de tu versión antes de sacar conclusiones.
+
+### 5.5 Diagnóstico por capas
+
+Ante un fallo HTTP conviene preguntar en este orden:
+
+1. **¿Hay proceso escuchando?** Si no, veremos errores de conexión antes de cualquier código HTTP.
+2. **¿Llegamos al puerto correcto?** Un puerto equivocado puede llevar a otro proceso o a ningún proceso.
+3. **¿Existe la ruta?** Si no, esperamos 404.
+4. **¿El método es compatible?** Si no, esperamos 405.
+5. **¿El tipo de contenido y el cuerpo son procesables?** Aquí aparecen 400/415 y errores de conversión.
+6. **¿Falló el servidor mientras ejecutaba la operación?** Aquí puede aparecer un 5xx y debemos leer logs.
+
+Esta secuencia evita interpretar `Connection refused` como si fuera “un 404 de Spring”. Si no hay conexión, HTTP ni siquiera llegó a empezar.
+
+### Pregunta
+
+¿Qué aporta `curl -v` que no aporta simplemente abrir `/hola` en el navegador?
+
+### Respuesta razonada
+
+Hace visible la conversación: conexión, línea de petición, cabeceras enviadas, estado y cabeceras recibidas. El navegador también usa HTTP, pero su interfaz normal oculta muchos detalles. DevTools y `curl -v` convierten esos detalles en evidencia observable.
+
+## Resumen del Punto 1.2
+
+- Cliente y servidor son roles dentro de una comunicación, no tipos fijos de máquina.
+- `localhost:8080` combina destino local y puerto; `/hola` identifica la ruta solicitada.
+- HTTP organiza una conversación de petición y respuesta.
+- Método, ruta, cabeceras y cuerpo describen la petición; estado, cabeceras y cuerpo describen la respuesta.
+- Front-end y back-end separan responsabilidades y se coordinan mediante un contrato.
+- El método HTTP forma parte de la operación: `GET /hola` y `POST /hola` no son equivalentes.
+- Los códigos de estado comunican resultado de forma estándar; 404 y 405 describen problemas distintos.
+- Navegador, DevTools y `curl` ofrecen perspectivas complementarias.
+- Una salida concreta puede cambiar entre versiones; el contrato que verificamos debe distinguirse de detalles ilustrativos inestables.
+- El diagnóstico debe comenzar en la capa más baja que todavía podría explicar el síntoma: conexión, puerto, ruta, método, representación y finalmente lógica del servidor.
+
+---
+
+> En el punto 1.3 utilizaremos esta base HTTP para estudiar el formato que dominará los cuerpos de nuestras APIs: JSON, y el papel de Jackson al convertir entre representaciones JSON y objetos Java.
