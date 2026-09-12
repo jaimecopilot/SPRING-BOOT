@@ -612,6 +612,30 @@
         "step audit"
       ],
       "missing_effect": "Se pierde el contrato individual de los doce pasos de 1.5."
+    },
+    {
+      "path": ".course/traceability/generate_module_traceability.py",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M1 human traceability",
+        "future M2-M7 traceability"
+      ],
+      "missing_effect": "Se pierde la proyección humana reproducible del contrato máquina-legible."
+    },
+    {
+      "path": ".course/traceability/TRAZABILIDAD_M1.md",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "human audit",
+        "maintainers"
+      ],
+      "missing_effect": "Se pierde la vista humana de auditoría, aunque el JSON canónico seguiría existiendo."
     }
   ],
   "step_manifests": [
