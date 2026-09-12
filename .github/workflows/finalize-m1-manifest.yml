@@ -1,0 +1,97 @@
+name: Finalizar manifest M1
+
+on:
+  push:
+    branches: [m1-edicion-fuerte]
+    paths:
+      - '.github/workflows/finalize-m1-manifest.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: m1-edicion-fuerte
+          fetch-depth: 0
+
+      - name: Migrar M1.json a 58/58 y retirar migrador
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          path=Path('.course/traceability/M1.json')
+          m=json.loads(path.read_text(encoding='utf-8'))
+
+          additions=[
+            {"id":"M1-T-15-CRUD","anchor":"## Bloque 1 - El ciclo CRUD"},
+            {"id":"M1-T-15-PUT","anchor":"## Bloque 2 - PUT en detalle"},
+            {"id":"M1-T-15-PATCH-DELETE","anchor":"## Bloque 3 - PATCH y DELETE en detalle"},
+            {"id":"M1-T-15-STATUS","anchor":"## Bloque 4 - Códigos de estado en el CRUD"},
+            {"id":"M1-T-15-CONSOLIDATION","anchor":"## Bloque 5 - Consolidación del Módulo 1"},
+          ]
+          existing={x['id'] for x in m['theory_concepts']}
+          m['theory_concepts'].extend(x for x in additions if x['id'] not in existing)
+
+          controller='M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java'
+          for a in m['artifacts']:
+              if a['path']==controller:
+                  a['evolution']=[
+                    'M1-P-14-S07','M1-P-14-S08','M1-P-14-S12',
+                    'M1-P-15-S02','M1-P-15-S03','M1-P-15-S04',
+                    'M1-P-15-S05','M1-P-15-S06','M1-P-15-S12'
+                  ]
+                  a['symbols']=[
+                    'public class AlumnoController',
+                    '@RequestMapping("/api/v1/alumnos")',
+                    'private final List<AlumnoDTO> alumnos = new ArrayList<>(List.of(',
+                    '@RequestParam(required = false) String curso',
+                    '@RequestParam(required = false) String sort',
+                    'alumnos.add(dto)',
+                    '@GetMapping("/{id}")',
+                    '@PutMapping("/{id}")',
+                    '@PatchMapping("/{id}")',
+                    '@DeleteMapping("/{id}")',
+                    'ResponseEntity.noContent().build()'
+                  ]
+                  a['missing_effect']='Desaparece el CRUD en memoria que cierra M1 y sirve como baseline funcional de M2.'
+                  break
+          else:
+              raise SystemExit('AlumnoController absent from inventory')
+
+          support_path='.course/traceability/M1/1.5.json'
+          if not any(a['path']==support_path for a in m['artifacts']):
+              m['artifacts'].append({
+                'path':support_path,
+                'classification':'SUPPORT',
+                'origin':None,
+                'evolution':[],
+                'symbols':[],
+                'used_by':['step audit'],
+                'missing_effect':'Se pierde el contrato individual de los doce pasos de 1.5.'
+              })
+
+          manifest_path='.course/traceability/M1/1.5.json'
+          if manifest_path not in m['step_manifests']:
+              m['step_manifests'].append(manifest_path)
+
+          m['status']='COMPLETE'
+          m['current_traced_steps']=58
+          m['expected_total_steps_when_complete']=58
+
+          assert len(m['theory_concepts'])==25, len(m['theory_concepts'])
+          assert len(m['step_manifests'])==5, m['step_manifests']
+          path.write_text(json.dumps(m, ensure_ascii=False, indent=2)+"\n", encoding='utf-8')
+          PY
+          rm -f .github/workflows/finalize-m1-manifest.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'trace(m1): completa manifest 58 de 58'
+          git push origin HEAD:m1-edicion-fuerte
