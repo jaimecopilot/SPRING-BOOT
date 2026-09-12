@@ -1,0 +1,208 @@
+{
+  "schema_version": 3,
+  "module": "M1",
+  "practice": "1.4",
+  "steps": [
+    {
+      "id": "M1-P-14-S01",
+      "practice": "1.4",
+      "number": 1,
+      "heading": "## Paso 1 - Identificar los recursos y sus operaciones",
+      "summary": "Diseñar colección, recurso individual, subrecurso y métodos antes de escribir código.",
+      "theory_refs": ["M1-T-14-REST", "M1-T-14-URLS", "M1-T-14-METHODS-STATUS"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": ["diseñar GET/POST/PUT/DELETE sobre /api/v1/alumnos antes de implementar"],
+      "observables": ["La guía distingue contrato diseñado de operaciones implementadas en 1.4."],
+      "verification": ["Al cerrar 1.4 sólo están implementados GET colección, GET individual, POST y filtro; 1.5 evoluciona después el mismo controlador con persistencia en memoria y PUT/PATCH/DELETE."]
+    },
+    {
+      "id": "M1-P-14-S02",
+      "practice": "1.4",
+      "number": 2,
+      "heading": "## Paso 2 - Crear el DTO AlumnoDTO",
+      "summary": "Crear el DTO del recurso Alumno reutilizando las convenciones Jackson aprendidas en 1.3.",
+      "theory_refs": ["M1-T-14-REST", "M1-T-14-DOC-EVOLUTION"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/AlumnoDTO.java","action":"CREATE","state":"PERMANENT","symbols":["public class AlumnoDTO", "@JsonInclude(JsonInclude.Include.NON_NULL)", "@JsonProperty(\"id\")", "@JsonFormat(pattern = \"yyyy-MM-dd\")", "private String curso", "private List<String> documentos", "public AlumnoDTO()"]}
+      ],
+      "commands": ["./mvnw test"],
+      "observables": ["AlumnoDTO compila y conserva las convenciones JSON de otros recursos."],
+      "verification": ["CI comprueba clase, anotaciones, accesores y compilación Java 17."]
+    },
+    {
+      "id": "M1-P-14-S03",
+      "practice": "1.4",
+      "number": 3,
+      "heading": "## Paso 3 - Crear AlumnoController con GET colección y POST básico",
+      "summary": "Crear el controlador versionado con colección inicial inmutable, GET colección y POST eco básico.",
+      "theory_refs": ["M1-T-14-REST", "M1-T-14-URLS", "M1-T-14-METHODS-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action":"CREATE",
+          "state":"PERMANENT",
+          "symbols":["public class AlumnoController", "@RequestMapping(\"/api/v1/alumnos\")", "@GetMapping", "@PostMapping"],
+          "historical_symbols":["private final List<AlumnoDTO> alumnos = List.of"],
+          "evolved_by":["M1-P-15-S02"]
+        }
+      ],
+      "commands": ["./mvnw spring-boot:run"],
+      "observables": ["El recurso /api/v1/alumnos queda registrado; en el estado de 1.4 la colección es inmutable y todavía no existen las mutaciones de 1.5."],
+      "verification": ["El símbolo histórico List.of queda documentado como estado de 1.4; el snapshot final lo sustituye legítimamente M1-P-15-S02 por ArrayList sin perder el origen del controlador."]
+    },
+    {
+      "id": "M1-P-14-S04",
+      "practice": "1.4",
+      "number": 4,
+      "heading": "## Paso 4 - Arrancar y probar el GET de colección",
+      "summary": "Validar GET colección como 200 application/json y comprobar el contrato del DTO.",
+      "theory_refs": ["M1-T-14-REST", "M1-T-14-METHODS-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["public List<AlumnoDTO> listar"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/AlumnoDTO.java","action":"VERIFY","state":"PERMANENT","symbols":["@JsonProperty(\"id\")", "@JsonFormat(pattern = \"yyyy-MM-dd\")"]}
+      ],
+      "commands": ["curl -i http://localhost:8080/api/v1/alumnos"],
+      "observables": ["200, application/json y array con los dos alumnos iniciales; documentos nulo queda omitido."],
+      "verification": ["CI final conserva el GET de colección y comprueba su estructura sobre el runtime M1.5."]
+    },
+    {
+      "id": "M1-P-14-S05",
+      "practice": "1.4",
+      "number": 5,
+      "heading": "## Paso 5 - Probar el POST de creación y observar el 200 inicial",
+      "summary": "Observar el comportamiento por defecto de un POST que devuelve directamente el DTO y demostrar que todavía no persiste.",
+      "theory_refs": ["M1-T-14-METHODS-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"USE","state":"PERMANENT","symbols":["@PostMapping"]}
+      ],
+      "commands": ["POST /api/v1/alumnos con Content-Type application/json", "GET /api/v1/alumnos después del POST"],
+      "observables": ["En el estado pedagógico previo a S07 el POST devuelve 200; la colección no cambia."],
+      "verification": ["La no persistencia se conserva como evidencia histórica del paso 1.4.5; el snapshot final cambia deliberadamente en M1-P-15-S03, donde POST pasa a persistir en memoria."]
+    },
+    {
+      "id": "M1-P-14-S06",
+      "practice": "1.4",
+      "number": 6,
+      "heading": "## Paso 6 - Analizar por qué 200 no describe una creación",
+      "summary": "Distinguir éxito genérico 200 de creación explícita 201 antes de cambiar código.",
+      "theory_refs": ["M1-T-14-METHODS-STATUS", "M1-T-14-DOC-EVOLUTION"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": ["comparar semántica de 200 OK y 201 Created"],
+      "observables": ["La guía separa status HTTP de persistencia del recurso."],
+      "verification": ["El paso siguiente corrige el status a 201; la persistencia se introduce más tarde en 1.5."]
+    },
+    {
+      "id": "M1-P-14-S07",
+      "practice": "1.4",
+      "number": 7,
+      "heading": "## Paso 7 - Corregir el POST para devolver 201 Created",
+      "summary": "Modificar POST para controlar explícitamente el status de creación mediante ResponseEntity.",
+      "theory_refs": ["M1-T-14-METHODS-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["import org.springframework.http.HttpStatus", "import org.springframework.http.ResponseEntity", "public ResponseEntity<AlumnoDTO> crear", "ResponseEntity.status(HttpStatus.CREATED).body(dto)"]}
+      ],
+      "commands": ["curl -i -X POST http://localhost:8080/api/v1/alumnos -H Content-Type:application/json"],
+      "observables": ["POST válido devuelve 201 Created y el DTO; en el checkpoint 1.4 la colección todavía no se modifica."],
+      "verification": ["El snapshot final conserva 201 Created; M1-P-15-S03 añade persistencia sin deshacer este contrato HTTP."]
+    },
+    {
+      "id": "M1-P-14-S08",
+      "practice": "1.4",
+      "number": 8,
+      "heading": "## Paso 8 - Añadir el endpoint GET individual",
+      "summary": "Añadir /{id}, capturar el path variable y representar 200/404 con ResponseEntity.",
+      "theory_refs": ["M1-T-14-URLS", "M1-T-14-METHODS-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["@GetMapping(\"/{id}\")", "@PathVariable String id", "Optional<AlumnoDTO> encontrado", "ResponseEntity.notFound().build()"]}
+      ],
+      "commands": ["curl -i http://localhost:8080/api/v1/alumnos/1", "curl -i http://localhost:8080/api/v1/alumnos/999"],
+      "observables": ["ID existente devuelve 200 con JSON; ID inexistente devuelve 404."],
+      "verification": ["CI final prueba ambos casos sobre el JAR real y vuelve a comprobarlos dentro del ciclo CRUD."]
+    },
+    {
+      "id": "M1-P-14-S09",
+      "practice": "1.4",
+      "number": 9,
+      "heading": "## Paso 9 - Probar un ID inexistente",
+      "summary": "Consolidar 404 como contrato estable del recurso individual inexistente sin acoplarse al cuerpo de error por defecto.",
+      "theory_refs": ["M1-T-14-METHODS-STATUS", "M1-T-14-DOC-EVOLUTION"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["ResponseEntity.notFound().build()"]}
+      ],
+      "commands": ["curl -i http://localhost:8080/api/v1/alumnos/999"],
+      "observables": ["La respuesta tiene status 404; el curso no fija campos inestables del cuerpo de error de Spring Boot."],
+      "verification": ["CI exige 404, no una representación interna concreta del error."]
+    },
+    {
+      "id": "M1-P-14-S10",
+      "practice": "1.4",
+      "number": 10,
+      "heading": "## Paso 10 - Auditar el diseño actual de la API",
+      "summary": "Revisar plural, minúsculas, versión, métodos, path ID, status y límites deliberados del punto.",
+      "theory_refs": ["M1-T-14-REST", "M1-T-14-URLS", "M1-T-14-METHODS-STATUS", "M1-T-14-DOC-EVOLUTION"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@RequestMapping(\"/api/v1/alumnos\")", "@PostMapping", "@GetMapping(\"/{id}\")"]}
+      ],
+      "commands": ["auditar contrato implementado frente a la tabla de diseño del paso 1"],
+      "observables": ["En 1.4 la guía marca persistencia, PUT, PATCH y DELETE como pendientes; 1.5 los introduce explícitamente, no como funciones ocultas."],
+      "verification": ["La trazabilidad acumulativa conserva el límite histórico de 1.4 y el gate final exige que las operaciones añadidas en 1.5 estén presentes y probadas."]
+    },
+    {
+      "id": "M1-P-14-S11",
+      "practice": "1.4",
+      "number": 11,
+      "heading": "## Paso 11 - Reconocer errores comunes de diseño",
+      "summary": "Diagnosticar anti-patrones de URL, versionado y status aunque el servidor pudiera responder técnicamente.",
+      "theory_refs": ["M1-T-14-URLS", "M1-T-14-METHODS-STATUS", "M1-T-14-DOC-EVOLUTION"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": ["comparar /api/getAlumnos con GET /api/v1/alumnos", "comparar ?id=1 con /alumnos/1"],
+      "observables": ["La guía distingue funcionamiento técnico de diseño coherente."],
+      "verification": ["Las rutas y status problemáticos aparecen con su alternativa correcta y síntomas HTTP relacionados."]
+    },
+    {
+      "id": "M1-P-14-S12",
+      "practice": "1.4",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: filtrar por curso con query parameter",
+      "summary": "Añadir filtro opcional curso a la colección mediante RequestParam sin crear una ruta artificial.",
+      "theory_refs": ["M1-T-14-URLS", "M1-T-14-COLLECTIONS-QUERY"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action":"MODIFY",
+          "state":"PERMANENT",
+          "symbols":["import org.springframework.web.bind.annotation.RequestParam", "@RequestParam(required = false) String curso", "a.getCurso().equalsIgnoreCase(curso)", ".toList()"],
+          "historical_symbols":["public List<AlumnoDTO> listar(@RequestParam(required = false) String curso)", "curso == null || curso.isBlank()"],
+          "evolved_by":["M1-P-15-S12"]
+        }
+      ],
+      "commands": ["curl http://localhost:8080/api/v1/alumnos", "curl -G http://localhost:8080/api/v1/alumnos --data-urlencode curso=5º Primaria", "curl -G http://localhost:8080/api/v1/alumnos --data-urlencode curso=3º Primaria", "./mvnw test", "./mvnw -DskipTests package"],
+      "observables": ["Sin filtro devuelve dos alumnos; 5º Primaria devuelve sólo Ana; curso inexistente devuelve [] con 200."],
+      "verification": ["El filtro por curso permanece en el snapshot final; M1-P-15-S12 evoluciona la firma para añadir sort opcional sin eliminar este comportamiento."]
+    }
+  ]
+}

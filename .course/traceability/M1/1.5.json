@@ -1,0 +1,197 @@
+{
+  "schema_version": 3,
+  "module": "M1",
+  "practice": "1.5",
+  "steps": [
+    {
+      "id": "M1-P-15-S01",
+      "practice": "1.5",
+      "number": 1,
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "summary": "Verificar el punto de partida de 1.4 antes de convertir el POST eco en creación persistente en memoria.",
+      "theory_refs": ["M1-T-15-CRUD"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@RequestMapping(\"/api/v1/alumnos\")", "@GetMapping", "@PostMapping", "@GetMapping(\"/{id}\")"]}
+      ],
+      "commands": ["GET /api/v1/alumnos", "GET /api/v1/alumnos/1", "POST /api/v1/alumnos", "GET /api/v1/alumnos después del POST"],
+      "observables": ["El baseline de 1.4 responde GET/POST, pero el POST todavía no altera la colección en ese estado pedagógico."],
+      "verification": ["La práctica demuestra la limitación antes de introducir mutabilidad; el snapshot final conserva los endpoints y añade persistencia en pasos posteriores."]
+    },
+    {
+      "id": "M1-P-15-S02",
+      "practice": "1.5",
+      "number": 2,
+      "heading": "## Paso 2 - Convertir la lista en mutable",
+      "summary": "Sustituir la lista inmutable de 1.4 por una ArrayList que permita crear y borrar recursos.",
+      "theory_refs": ["M1-T-15-CRUD", "M1-T-15-CONSOLIDATION"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["import java.util.ArrayList", "private final List<AlumnoDTO> alumnos = new ArrayList<>(List.of("]}
+      ],
+      "commands": ["./mvnw test"],
+      "observables": ["La colección conserva los dos alumnos iniciales y pasa a admitir cambios estructurales."],
+      "verification": ["CI compila el controlador y el gate exige ArrayList en lugar de List.of directo."]
+    },
+    {
+      "id": "M1-P-15-S03",
+      "practice": "1.5",
+      "number": 3,
+      "heading": "## Paso 3 - Modificar el POST para que guarde el alumno",
+      "summary": "Asignar un ID pedagógico en el servidor, añadir el DTO a la colección y conservar 201 Created.",
+      "theory_refs": ["M1-T-15-CRUD", "M1-T-15-STATUS", "M1-T-15-CONSOLIDATION"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["int siguienteId = alumnos.stream()", ".mapToInt(Integer::parseInt)", ".max()", "dto.setIdentificador(String.valueOf(siguienteId))", "alumnos.add(dto)", "ResponseEntity.status(HttpStatus.CREATED).body(dto)"]}
+      ],
+      "commands": ["POST /api/v1/alumnos", "GET /api/v1/alumnos/3", "GET /api/v1/alumnos"],
+      "observables": ["El primer alumno creado obtiene id 3, devuelve 201 y puede recuperarse mientras el proceso sigue vivo."],
+      "verification": ["CI crea sin ID, exige id=3 y demuestra que GET /3 y la colección contienen el nuevo recurso."]
+    },
+    {
+      "id": "M1-P-15-S04",
+      "practice": "1.5",
+      "number": 4,
+      "heading": "## Paso 4 - Añadir el endpoint PUT",
+      "summary": "Implementar reemplazo completo de un recurso existente usando el ID de la URL como identidad autoritativa.",
+      "theory_refs": ["M1-T-15-PUT", "M1-T-15-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["import org.springframework.web.bind.annotation.PutMapping", "@PutMapping(\"/{id}\")", "public ResponseEntity<AlumnoDTO> actualizar", "dto.setIdentificador(id)", "alumnos.set(i, dto)"]}
+      ],
+      "commands": ["PUT /api/v1/alumnos/1 con representación completa", "PUT /api/v1/alumnos/999"],
+      "observables": ["PUT existente devuelve 200 y conserva el ID del path; PUT inexistente devuelve 404."],
+      "verification": ["CI prueba ambos casos y repite un PUT para verificar que no crea duplicados."]
+    },
+    {
+      "id": "M1-P-15-S05",
+      "practice": "1.5",
+      "number": 5,
+      "heading": "## Paso 5 - Añadir el endpoint PATCH",
+      "summary": "Implementar actualización parcial con un Map pedagógico limitado a campos concretos.",
+      "theory_refs": ["M1-T-15-PATCH-DELETE", "M1-T-15-STATUS", "M1-T-15-CONSOLIDATION"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["import org.springframework.web.bind.annotation.PatchMapping", "import java.util.Map", "@PatchMapping(\"/{id}\")", "@RequestBody Map<String, Object> cambios", "cambios.containsKey(\"nombre\")", "cambios.containsKey(\"apellidos\")", "cambios.containsKey(\"dni\")", "cambios.containsKey(\"curso\")"]}
+      ],
+      "commands": ["PATCH /api/v1/alumnos/1 con curso", "PATCH /api/v1/alumnos/1 con nombre", "PATCH /api/v1/alumnos/999"],
+      "observables": ["PATCH cambia sólo las claves presentes; los demás campos se conservan; ID inexistente devuelve 404."],
+      "verification": ["CI compara antes/después para demostrar actualización parcial y prueba 404."]
+    },
+    {
+      "id": "M1-P-15-S06",
+      "practice": "1.5",
+      "number": 6,
+      "heading": "## Paso 6 - Añadir el endpoint DELETE",
+      "summary": "Eliminar un recurso por ID con removeIf y expresar 204/404 de forma coherente.",
+      "theory_refs": ["M1-T-15-PATCH-DELETE", "M1-T-15-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["import org.springframework.web.bind.annotation.DeleteMapping", "@DeleteMapping(\"/{id}\")", "public ResponseEntity<Void> eliminar", "alumnos.removeIf", "ResponseEntity.noContent().build()"]}
+      ],
+      "commands": ["DELETE /api/v1/alumnos/2", "repetir DELETE /api/v1/alumnos/2"],
+      "observables": ["Primera eliminación devuelve 204; segunda devuelve 404; el estado final sigue siendo ausencia."],
+      "verification": ["CI prueba ambos status y GET posterior inexistente."]
+    },
+    {
+      "id": "M1-P-15-S07",
+      "practice": "1.5",
+      "number": 7,
+      "heading": "## Paso 7 - Probar el CRUD completo con curl",
+      "summary": "Recorrer de forma reproducible listar, consultar, crear, consultar, PUT, PATCH, DELETE y 404 final.",
+      "theory_refs": ["M1-T-15-CRUD", "M1-T-15-PUT", "M1-T-15-PATCH-DELETE", "M1-T-15-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping", "@PostMapping", "@PutMapping(\"/{id}\")", "@PatchMapping(\"/{id}\")", "@DeleteMapping(\"/{id}\")"]}
+      ],
+      "commands": ["GET colección", "GET /1", "POST -> id 3", "GET /3", "PUT /3", "PATCH /3", "DELETE /3", "GET /3"],
+      "observables": ["Secuencia completa produce 200/201/200/200/200/204/404 según operación y estado."],
+      "verification": ["CI ejecuta el ciclo completo sobre una instancia recién arrancada y valida cuerpo/estado después de cada mutación."]
+    },
+    {
+      "id": "M1-P-15-S08",
+      "practice": "1.5",
+      "number": 8,
+      "heading": "## Paso 8 - Observar los códigos de estado",
+      "summary": "Consolidar la matriz 200/201/204/400/404/405/415 como parte del contrato CRUD.",
+      "theory_refs": ["M1-T-15-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["HttpStatus.CREATED", "ResponseEntity.ok", "ResponseEntity.notFound().build()", "ResponseEntity.noContent().build()"]}
+      ],
+      "commands": ["comparar status de GET/POST/PUT/PATCH/DELETE y errores HTTP"],
+      "observables": ["Resultados equivalentes usan códigos coherentes en todos los casos enseñados."],
+      "verification": ["Assertions HTTP del workflow cubren los status documentados."]
+    },
+    {
+      "id": "M1-P-15-S09",
+      "practice": "1.5",
+      "number": 9,
+      "heading": "## Paso 9 - Probar un error de formato",
+      "summary": "Demostrar que JSON mal formado o fecha incompatible produce 400 antes de disponer de un DTO válido.",
+      "theory_refs": ["M1-T-15-STATUS", "M1-T-13-SYNTAX", "M1-T-13-JACKSON"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@RequestBody AlumnoDTO dto"]}
+      ],
+      "commands": ["POST JSON con coma final", "POST con fechaNacimiento 15/07/2010"],
+      "observables": ["Spring MVC/Jackson devuelve 400 sin acoplar la guía al cuerpo interno del error."],
+      "verification": ["CI exige status 400 en ambos casos."]
+    },
+    {
+      "id": "M1-P-15-S10",
+      "practice": "1.5",
+      "number": 10,
+      "heading": "## Paso 10 - Probar un método no soportado",
+      "summary": "Distinguir 405 por método no permitido de 404 por recurso individual inexistente.",
+      "theory_refs": ["M1-T-15-STATUS", "M1-T-12-METHODS-STATUS"],
+      "environment_refs": ["M1-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/{id}\")", "@PutMapping(\"/{id}\")", "@PatchMapping(\"/{id}\")", "@DeleteMapping(\"/{id}\")"]}
+      ],
+      "commands": ["POST /api/v1/alumnos/1", "GET /api/v1/alumnos/999"],
+      "observables": ["POST sobre la URL individual devuelve 405; GET de ID inexistente devuelve 404."],
+      "verification": ["CI comprueba ambos status en el mismo runtime."]
+    },
+    {
+      "id": "M1-P-15-S11",
+      "practice": "1.5",
+      "number": 11,
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "summary": "Diagnosticar mutabilidad, persistencia, IDs, métodos, media type, JSON, PATCH y DELETE sin introducir nuevas capas.",
+      "theory_refs": ["M1-T-15-CONSOLIDATION", "M1-T-15-STATUS"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": ["revisar tabla síntoma-causa-comprobación antes de modificar código"],
+      "observables": ["La guía explica UnsupportedOperationException, POST sin guardado, colisiones de ID, 400, 404, 405, 415 y limitaciones de PATCH."],
+      "verification": ["Los errores de protocolo de alto valor se prueban en CI y las limitaciones arquitectónicas quedan declaradas."]
+    },
+    {
+      "id": "M1-P-15-S12",
+      "practice": "1.5",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: filtrar por curso y ordenar",
+      "summary": "Combinar filtro por curso con ordenación realmente opcional por nombre o apellidos sin alterar el orden si sort no se envía.",
+      "theory_refs": ["M1-T-15-CONSOLIDATION", "M1-T-14-COLLECTIONS-QUERY"],
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["@RequestParam(required = false) String sort", "var stream = alumnos.stream()", "\"nombre\".equalsIgnoreCase(sort)", "getNombre().compareToIgnoreCase", "\"apellidos\".equalsIgnoreCase(sort)", "getApellidos().compareToIgnoreCase", "return stream.toList()"]}
+      ],
+      "commands": ["GET sin parámetros", "GET ?curso=5º Primaria", "GET ?sort=nombre", "GET ?sort=apellidos", "GET ?curso=5º Primaria&sort=nombre", "./mvnw test", "./mvnw -DskipTests package"],
+      "observables": ["Sin sort conserva el orden actual; sort=nombre y sort=apellidos ordenan; filtro y ordenación se combinan; filtro vacío devuelve []."],
+      "verification": ["CI inserta datos con orden distinguible y comprueba orden original, ambos sorts y combinación filtro+sort."]
+    }
+  ]
+}

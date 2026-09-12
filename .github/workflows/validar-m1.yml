@@ -1,0 +1,422 @@
+name: Validar M1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'M1/**'
+      - '.course/traceability/M1*'
+      - '.course/traceability/TRAZABILIDAD_M1.md'
+      - '.course/traceability/generate_module_traceability.py'
+      - '.course/traceability/validate_module.py'
+      - '.course/traceability/validate_m1.py'
+      - '.course/source-audit/M1.md'
+      - '.course/internal/**'
+      - '.github/workflows/validar-m1.yml'
+  pull_request:
+    paths:
+      - 'M1/**'
+      - '.course/traceability/M1*'
+      - '.course/traceability/TRAZABILIDAD_M1.md'
+      - '.course/traceability/generate_module_traceability.py'
+      - '.course/traceability/validate_module.py'
+      - '.course/traceability/validate_m1.py'
+      - '.course/source-audit/M1.md'
+      - '.course/internal/**'
+      - '.github/workflows/validar-m1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validar-m1:
+    runs-on: ubuntu-latest
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Validar invariantes reutilizables del módulo
+        run: python .course/traceability/validate_module.py M1 .
+
+      - name: Verificar sincronía del informe humano
+        run: python .course/traceability/generate_module_traceability.py M1 --check
+
+      - name: Validar contrato semántico final M1
+        run: python .course/traceability/validate_m1.py .
+
+      - name: Verificar Maven Wrapper heredado
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x mvnw
+          ./mvnw -version
+          ./mvnw -version | grep -q 'Apache Maven 3.9.16'
+
+      - name: Verificar starters y dependencias transitivas enseñadas
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./mvnw -B dependency:tree > /tmp/m1-dependency-tree.txt
+          grep -q 'spring-boot-starter-web' /tmp/m1-dependency-tree.txt
+          grep -q 'spring-webmvc' /tmp/m1-dependency-tree.txt
+          grep -q 'tomcat-embed-core' /tmp/m1-dependency-tree.txt
+          grep -q 'jackson' /tmp/m1-dependency-tree.txt
+
+      - name: Ejecutar tests acumulativos con Maven Wrapper
+        working-directory: M1/proyecto
+        run: ./mvnw -B test
+
+      - name: Empaquetar JAR ejecutable
+        working-directory: M1/proyecto
+        run: ./mvnw -B -DskipTests package
+
+      - name: Probar baseline, auto-configuración, HTTP y puerto externo
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          PID=''
+          cleanup() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar --debug > /tmp/m1-debug.log 2>&1 &
+          PID=$!
+          for i in {1..45}; do
+            if curl --fail --silent http://localhost:8080/hola > /tmp/m1-hola.txt; then break; fi
+            sleep 1
+          done
+          test "$(cat /tmp/m1-hola.txt)" = "Hola, Ministerio de Educación"
+          test "$(curl --fail --silent http://localhost:8080/adios)" = "Adiós, Ministerio de Educación"
+          test "$(curl --silent --output /tmp/m1-info-json.txt --write-out '%{http_code}' http://localhost:8080/info-json)" = "404"
+          test "$(curl --silent --output /tmp/m1-no-existe.txt --write-out '%{http_code}' http://localhost:8080/no-existe)" = "404"
+          test "$(curl --silent --output /tmp/m1-post-hola.txt --write-out '%{http_code}' -X POST http://localhost:8080/hola)" = "405"
+          grep -q 'CONDITIONS EVALUATION REPORT' /tmp/m1-debug.log
+          grep -q 'Positive matches:' /tmp/m1-debug.log
+          grep -q 'Negative matches:' /tmp/m1-debug.log
+          grep -q 'DispatcherServletAutoConfiguration' /tmp/m1-debug.log
+          grep -q 'Started MiProyectoApplication' /tmp/m1-debug.log
+
+          kill "$PID" 2>/dev/null || true
+          wait "$PID" 2>/dev/null || true
+          PID=''
+
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar --server.port=9090 > /tmp/m1-9090.log 2>&1 &
+          PID=$!
+          for i in {1..45}; do
+            if curl --fail --silent http://localhost:9090/hola > /tmp/m1-hola-9090.txt; then break; fi
+            sleep 1
+          done
+          test "$(cat /tmp/m1-hola-9090.txt)" = "Hola, Ministerio de Educación"
+          grep -q 'Started MiProyectoApplication' /tmp/m1-9090.log
+
+      - name: Validar probe temporal 400, 200 y 415 de 1.2 y restaurarlo
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          CONTROLLER='src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java'
+          cp "$CONTROLLER" /tmp/SaludoController.baseline.java
+          PID=''
+          restore() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+            cp /tmp/SaludoController.baseline.java "$CONTROLLER"
+          }
+          trap restore EXIT
+
+          cat > "$CONTROLLER" <<'JAVA'
+          package es.mecd.demo.miproyecto.controller;
+
+          import org.springframework.web.bind.annotation.GetMapping;
+          import org.springframework.web.bind.annotation.PostMapping;
+          import org.springframework.web.bind.annotation.RequestBody;
+          import org.springframework.web.bind.annotation.RestController;
+          import java.util.Map;
+
+          @RestController
+          public class SaludoController {
+              @GetMapping("/hola")
+              public String saludar() {
+                  return construirMensaje("Ministerio de Educación");
+              }
+
+              @GetMapping("/adios")
+              public String despedir() {
+                  return "Adiós, Ministerio de Educación";
+              }
+
+              @PostMapping("/eco")
+              public Map<String, Object> eco(@RequestBody Map<String, Object> mensaje) {
+                  return mensaje;
+              }
+
+              private String construirMensaje(String destinatario) {
+                  return "Hola, " + destinatario;
+              }
+          }
+          JAVA
+
+          ./mvnw -B -DskipTests package
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m1-eco.log 2>&1 &
+          PID=$!
+          CODE=''
+          for i in {1..45}; do
+            CODE="$(curl --silent --output /tmp/m1-eco-ready.txt --write-out '%{http_code}' \
+              -X POST http://localhost:8080/eco \
+              -H 'Content-Type: application/json' \
+              -d '{"mensaje":"hola"}' || true)"
+            if [[ "$CODE" == "200" ]]; then break; fi
+            sleep 1
+          done
+          test "$CODE" = "200"
+          grep -q '"mensaje":"hola"' /tmp/m1-eco-ready.txt
+          test "$(curl --silent --output /tmp/m1-eco-bad.txt --write-out '%{http_code}' \
+            -X POST http://localhost:8080/eco \
+            -H 'Content-Type: application/json' \
+            -d '{"mensaje":"hola",}')" = "400"
+          test "$(curl --silent --output /tmp/m1-eco-unsupported.txt --write-out '%{http_code}' \
+            -X POST http://localhost:8080/eco \
+            -H 'Content-Type: text/plain' \
+            -d '{"mensaje":"hola"}')" = "415"
+
+          kill "$PID" 2>/dev/null || true
+          wait "$PID" 2>/dev/null || true
+          PID=''
+          cp /tmp/SaludoController.baseline.java "$CONTROLLER"
+          git diff --exit-code -- "$CONTROLLER"
+          trap - EXIT
+
+      - name: Validar contrato JSON permanente de 1.3
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          PID=''
+          cleanup() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
+          ./mvnw -B -DskipTests package
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m1-json.log 2>&1 &
+          PID=$!
+          CODE=''
+          for i in {1..45}; do
+            CODE="$(curl --silent --output /tmp/m1-expediente.json --write-out '%{http_code}' \
+              http://localhost:8080/api/v1/expedientes/ejemplo || true)"
+            if [[ "$CODE" == "200" ]]; then break; fi
+            sleep 1
+          done
+          test "$CODE" = "200"
+          curl --fail --silent --show-error -D /tmp/m1-expediente.headers \
+            -o /tmp/m1-expediente.json http://localhost:8080/api/v1/expedientes/ejemplo
+          grep -qi '^Content-Type: application/json' /tmp/m1-expediente.headers
+
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-expediente.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['id']=='12345', data
+          assert 'identificador' not in data, data
+          assert data['fechaSolicitud']=='2025-01-15', data
+          assert data['importe']==1500.0, data
+          assert data['activo'] is True, data
+          assert data['documentos']==['DNI.pdf','Notas.pdf'], data
+          assert 'observaciones' not in data, data
+          assert 'numeroSeguridadSocial' not in data, data
+          assert data['solicitante']=={'nombre':'Ana','apellidos':'García López','dni':'12345678A'}, data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-roundtrip.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/expedientes/eco \
+            -H 'Content-Type: application/json' \
+            -d '{"id":"77","titular":"Lucía Pérez","fechaSolicitud":"2025-01-20","solicitante":{"nombre":"Lucía","apellidos":"Pérez Ruiz","dni":"22222222D"}}')" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-roundtrip.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['id']=='77', data
+          assert data['fechaSolicitud']=='2025-01-20', data
+          assert data['solicitante']['dni']=='22222222D', data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-bad-date.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/expedientes/eco \
+            -H 'Content-Type: application/json' \
+            -d '{"id":"1","fechaSolicitud":"20/01/2025"}')" = "400"
+          test "$(curl --silent --output /tmp/m1-unknown.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/expedientes/eco \
+            -H 'Content-Type: application/json' \
+            -d '{"id":"99999","titular":"María López","campoInexistente":"valor"}')" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-unknown.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['id']=='99999', data
+          assert 'campoInexistente' not in data, data
+          PY
+          test "$(curl --silent --output /tmp/m1-ignored.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/expedientes/eco \
+            -H 'Content-Type: application/json' \
+            -d '{"id":"1","numeroSeguridadSocial":"DEMO-NO-REAL"}')" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-ignored.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert 'numeroSeguridadSocial' not in data, data
+          PY
+
+      - name: Validar contrato CRUD final de 1.4 y 1.5
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          PID=''
+          cleanup() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
+          ./mvnw -B -DskipTests package
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m1-crud.log 2>&1 &
+          PID=$!
+          CODE=''
+          for i in {1..45}; do
+            CODE="$(curl --silent --output /tmp/m1-alumnos-inicial.json --write-out '%{http_code}' \
+              http://localhost:8080/api/v1/alumnos || true)"
+            if [[ "$CODE" == "200" ]]; then break; fi
+            sleep 1
+          done
+          test "$CODE" = "200"
+
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-alumnos-inicial.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert len(data)==2, data
+          assert [x['nombre'] for x in data]==['Ana','Luis'], data
+          assert [x['id'] for x in data]==['1','2'], data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-get1.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/1)" = "200"
+          test "$(curl --silent --output /tmp/m1-get999.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/999)" = "404"
+
+          test "$(curl --silent --output /tmp/m1-post3.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos \
+            -H 'Content-Type: application/json' \
+            -d '{"nombre":"Carlos","apellidos":"Zeta","dni":"DNI-DEMO-03","fechaNacimiento":"2011-01-02","curso":"5º Primaria"}')" = "201"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-post3.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['id']=='3', data
+          assert data['nombre']=='Carlos', data
+          PY
+          test "$(curl --silent --output /tmp/m1-get3.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/3)" = "200"
+
+          PUT_BODY='{"id":"999","nombre":"Aaron","apellidos":"Abarca","dni":"DNI-DEMO-03","fechaNacimiento":"2011-01-02","curso":"5º Primaria"}'
+          test "$(curl --silent --output /tmp/m1-put3.json --write-out '%{http_code}' \
+            -X PUT http://localhost:8080/api/v1/alumnos/3 \
+            -H 'Content-Type: application/json' -d "$PUT_BODY")" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-put3.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['id']=='3', data
+          assert data['nombre']=='Aaron', data
+          assert data['apellidos']=='Abarca', data
+          PY
+          test "$(curl --silent --output /tmp/m1-put3-repeat.json --write-out '%{http_code}' \
+            -X PUT http://localhost:8080/api/v1/alumnos/3 \
+            -H 'Content-Type: application/json' -d "$PUT_BODY")" = "200"
+          test "$(curl --silent --output /tmp/m1-put999.json --write-out '%{http_code}' \
+            -X PUT http://localhost:8080/api/v1/alumnos/999 \
+            -H 'Content-Type: application/json' -d "$PUT_BODY")" = "404"
+
+          curl --fail --silent http://localhost:8080/api/v1/alumnos > /tmp/m1-after-put.json
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-after-put.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert len(data)==3, data
+          assert sum(1 for x in data if x['id']=='3')==1, data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-patch3.json --write-out '%{http_code}' \
+            -X PATCH http://localhost:8080/api/v1/alumnos/3 \
+            -H 'Content-Type: application/json' \
+            -d '{"dni":"DNI-PATCHED"}')" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-patch3.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['id']=='3', data
+          assert data['nombre']=='Aaron', data
+          assert data['apellidos']=='Abarca', data
+          assert data['curso']=='5º Primaria', data
+          assert data['dni']=='DNI-PATCHED', data
+          PY
+          test "$(curl --silent --output /tmp/m1-patch999.json --write-out '%{http_code}' \
+            -X PATCH http://localhost:8080/api/v1/alumnos/999 \
+            -H 'Content-Type: application/json' -d '{"nombre":"Nadie"}')" = "404"
+
+          test "$(curl --silent --output /tmp/m1-malformed.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos \
+            -H 'Content-Type: application/json' -d '{"nombre":"Roto",}')" = "400"
+          test "$(curl --silent --output /tmp/m1-bad-alumno-date.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos \
+            -H 'Content-Type: application/json' -d '{"nombre":"Fecha","fechaNacimiento":"15/07/2010"}')" = "400"
+          test "$(curl --silent --output /tmp/m1-post-individual.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos/1 \
+            -H 'Content-Type: application/json' -d '{"nombre":"X"}')" = "405"
+          test "$(curl --silent --output /tmp/m1-text-plain.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos \
+            -H 'Content-Type: text/plain' -d 'hola')" = "415"
+
+          curl --fail --silent http://localhost:8080/api/v1/alumnos > /tmp/m1-nosort.json
+          curl --fail --silent -G http://localhost:8080/api/v1/alumnos --data-urlencode 'sort=nombre' > /tmp/m1-sort-nombre.json
+          curl --fail --silent -G http://localhost:8080/api/v1/alumnos --data-urlencode 'sort=apellidos' > /tmp/m1-sort-apellidos.json
+          curl --fail --silent -G http://localhost:8080/api/v1/alumnos --data-urlencode 'curso=5º Primaria' > /tmp/m1-filter.json
+          curl --fail --silent -G http://localhost:8080/api/v1/alumnos --data-urlencode 'curso=5º Primaria' --data-urlencode 'sort=nombre' > /tmp/m1-filter-sort.json
+          python - <<'PY'
+          import json
+          def names(path):
+              with open(path, encoding='utf-8') as f:
+                  return [x['nombre'] for x in json.load(f)]
+          assert names('/tmp/m1-nosort.json') == ['Ana','Luis','Aaron']
+          assert names('/tmp/m1-sort-nombre.json') == ['Aaron','Ana','Luis']
+          assert names('/tmp/m1-sort-apellidos.json') == ['Aaron','Ana','Luis']
+          assert names('/tmp/m1-filter.json') == ['Ana','Aaron']
+          assert names('/tmp/m1-filter-sort.json') == ['Aaron','Ana']
+          PY
+
+          test "$(curl --silent --output /tmp/m1-delete3.json --write-out '%{http_code}' -X DELETE http://localhost:8080/api/v1/alumnos/3)" = "204"
+          test "$(curl --silent --output /tmp/m1-delete3-again.json --write-out '%{http_code}' -X DELETE http://localhost:8080/api/v1/alumnos/3)" = "404"
+          test "$(curl --silent --output /tmp/m1-get3-final.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/3)" = "404"
+
+          curl --fail --silent http://localhost:8080/api/v1/alumnos > /tmp/m1-final-list.json
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-final-list.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert len(data)==2, data
+          assert [x['id'] for x in data]==['1','2'], data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-exp-reg.json --write-out '%{http_code}' http://localhost:8080/api/v1/expedientes/ejemplo)" = "200"
+          test "$(curl --silent --output /tmp/m1-hola-reg.txt --write-out '%{http_code}' http://localhost:8080/hola)" = "200"
+          test "$(cat /tmp/m1-hola-reg.txt)" = "Hola, Ministerio de Educación"
+          test "$(curl --silent --output /tmp/m1-adios-reg.txt --write-out '%{http_code}' http://localhost:8080/adios)" = "200"
+          test "$(cat /tmp/m1-adios-reg.txt)" = "Adiós, Ministerio de Educación"
