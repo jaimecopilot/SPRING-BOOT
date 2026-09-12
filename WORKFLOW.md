@@ -1,0 +1,1 @@
+Las guías se redactan mediante autoría del modelo. La automatización se limita a validación técnica y editorial.
