@@ -30,17 +30,17 @@ cat \
 THEORY_SHA=$(sha256sum M0/TEORIA.md | awk '{print $1}')
 PRACTICE_SHA=$(sha256sum M0/PRACTICA.md | awk '{print $1}')
 
-EXPECTED_THEORY='c86511007e6ec9c7c20b149607089e2dae15f38a0f73cc48ec2bf7a0fd535b26'
-EXPECTED_PRACTICE='3395162019faaf960a0da29509c55a6c3720826c9306a5b40650603373a58074'
+EXPECTED_THEORY='bcb8eed02eb65cf4637c1a3333b1c8e96153e9a11e8c0c97d20a93f40f4bcfcd'
+EXPECTED_PRACTICE='ff59d72216890ea44481e06840d384efafb288fa2b4d0f1ee184c8a7d8aa14ec'
 
 if [[ "$THEORY_SHA" != "$EXPECTED_THEORY" ]]; then
-  echo "ERROR: TEORIA.md no coincide con el original LLM validado" >&2
+  echo "ERROR: TEORIA.md no coincide con los bloques LLM validados" >&2
   echo "esperado=$EXPECTED_THEORY actual=$THEORY_SHA" >&2
   exit 1
 fi
 
 if [[ "$PRACTICE_SHA" != "$EXPECTED_PRACTICE" ]]; then
-  echo "ERROR: PRACTICA.md no coincide con el original LLM validado" >&2
+  echo "ERROR: PRACTICA.md no coincide con los bloques LLM validados" >&2
   echo "esperado=$EXPECTED_PRACTICE actual=$PRACTICE_SHA" >&2
   exit 1
 fi
