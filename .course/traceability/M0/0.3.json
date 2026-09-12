@@ -57,6 +57,18 @@
           "path": "M0/proyecto/mvnw",
           "action": "USE",
           "state": "PERMANENT"
+        },
+        {
+          "path": "M0/proyecto/target",
+          "action": "CREATE",
+          "state": "TEMPORARY",
+          "symbols": ["target/"]
+        },
+        {
+          "path": "M0/proyecto/target",
+          "action": "DELETE",
+          "state": "TEMPORARY",
+          "symbols": ["target/"]
         }
       ],
       "commands": [
@@ -67,7 +79,7 @@
         "`target/` aparece con package y desaparece con clean; `src/` permanece."
       ],
       "verification": [
-        "CI ejecuta package; `target/` no está versionado."
+        "`package` crea `target/`, `clean` lo elimina y `target/` no queda versionado."
       ],
       "state": "TEMPORARY"
     },
@@ -199,13 +211,13 @@
       ],
       "artifacts": [
         {
-          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller",
           "action": "CREATE",
           "state": "PERMANENT",
           "symbols": [
-            "package es.mecd.demo.miproyecto.controller"
+            "es.mecd.demo.miproyecto.controller"
           ],
-          "note": "El archivo completo se materializa en el paso 7; este paso introduce el package/ruta."
+          "note": "Este paso crea el package/ruta. El fichero SaludoController.java nace en el paso 7."
         }
       ],
       "commands": [],
@@ -213,7 +225,7 @@
         "Existe la ruta lógica `...miproyecto.controller` bajo `src/main/java`."
       ],
       "verification": [
-        "Ruta y package de `SaludoController.java` coinciden."
+        "El directorio `controller` existe y el fichero creado en el paso 7 declara el package correspondiente."
       ],
       "state": "PERMANENT"
     },
