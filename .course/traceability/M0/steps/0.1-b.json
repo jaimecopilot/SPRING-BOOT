@@ -1,0 +1,20 @@
+[
+  {
+    "id":"M0-P-01-S07","practice":"0.1","step":7,"guide_heading":"Paso 7 - Compilar el programa","teaches":"Transformar el fuente Java en bytecode y reconocer una compilación silenciosa correcta.","theory_refs":["M0-T-01-BYTECODE","M0-T-01-CLASSPATH","M0-T-01-DIAGNOSTICO"],"artifacts":[{"path":"M0/ejemplos/HolaMinisterio.java","action":"USE","symbols":["HolaMinisterio","main(String[] args)"],"state":"permanent"}],"commands":["javac src/HolaMinisterio.java"],"observables":["Aparece src/HolaMinisterio.class sin que javac tenga que imprimir un mensaje de éxito."],"verification":["CI ejecuta javac --release 17 M0/ejemplos/HolaMinisterio.java."],"status":"PERMANENT"
+  },
+  {
+    "id":"M0-P-01-S08","practice":"0.1","step":8,"guide_heading":"Paso 8 - Ejecutar el programa","teaches":"Ejecutar bytecode con una JVM y comprender el papel del classpath.","theory_refs":["M0-T-01-JDK-JRE-JVM","M0-T-01-CLASSPATH"],"artifacts":[{"path":"M0/ejemplos/HolaMinisterio.java","action":"USE","symbols":["HolaMinisterio","main(String[] args)"],"state":"permanent"}],"commands":["java -cp src HolaMinisterio"],"observables":["Salida: Hola, Ministerio de Educación."],"verification":["CI compara exactamente la salida de java -cp M0/ejemplos HolaMinisterio."],"status":"PERMANENT"
+  },
+  {
+    "id":"M0-P-01-S09","practice":"0.1","step":9,"guide_heading":"Paso 9 - Confirmar nuevamente Maven","teaches":"Releer mvn -version después de comprender Java y separar problemas de Maven global.","theory_refs":["M0-T-01-MAVEN","M0-T-01-JAVA_HOME_PATH","M0-T-01-DIAGNOSTICO"],"artifacts":[],"commands":["mvn -version"],"observables":["Se interpretan versión Maven, Java usada por Maven y Java home."],"verification":["Comprobación manual del entorno; la reproducibilidad real se valida con Maven Wrapper."],"status":"OBSERVATION","environments":["M0-W-CONSOLE"]
+  },
+  {
+    "id":"M0-P-01-S10","practice":"0.1","step":10,"guide_heading":"Paso 10 - Configurar el IDE","teaches":"Configurar JDK 17 y comprobar que IntelliJ, Eclipse y VS Code interpretan el mismo Java/proyecto.","theory_refs":["M0-T-01-IDE","M0-T-01-JDK-JRE-JVM","M0-T-04-ENTORNOS","M0-T-01-DIAGNOSTICO"],"artifacts":[{"path":"M0/ejemplos/HolaMinisterio.java","action":"USE","symbols":["HolaMinisterio","main(String[] args)"],"state":"permanent"}],"commands":["IDE: ejecutar HolaMinisterio con JDK 17","Terminal del IDE: java -version"],"observables":["El programa produce el mismo resultado desde el IDE que desde la terminal.","El IDE declara JDK 17 para el proyecto/ejecución."],"verification":["Recorridos documentados para IntelliJ, Eclipse y VS Code; contraste con ejecución de consola."],"status":"OBSERVATION","environments":["M0-W-INTELLIJ","M0-W-ECLIPSE","M0-W-VSCODE"]
+  },
+  {
+    "id":"M0-P-01-S11","practice":"0.1","step":11,"guide_heading":"Paso 11 - Tabla de diagnóstico del entorno","teaches":"Diagnosticar PATH, JDK, Maven y sincronización del IDE sin cambiar varias variables a la vez.","theory_refs":["M0-T-01-DIAGNOSTICO","M0-T-01-JAVA_HOME_PATH","M0-T-01-IDE","M0-T-01-MAVEN"],"artifacts":[],"commands":["java -version","javac -version","mvn -version"],"observables":["Cada síntoma queda asociado a una causa probable y a una comprobación concreta."],"verification":["Tabla de diagnóstico de la guía + gates posteriores de Java/Wrapper."],"status":"OBSERVATION"
+  },
+  {
+    "id":"M0-P-01-S12","practice":"0.1","step":12,"guide_heading":"Paso 12 - Reto resuelto: argumento de línea de comandos","teaches":"Evolucionar el programa para procesar args de forma segura.","theory_refs":["M0-T-01-JDK-JRE-JVM","M0-T-01-BYTECODE","M0-T-01-CLASSPATH"],"artifacts":[{"path":"M0/ejemplos/HolaMinisterio.java","action":"MODIFY","symbols":["main(String[] args)","args.length","args[0]"],"state":"permanent"}],"commands":["javac src/HolaMinisterio.java","java -cp src HolaMinisterio Ana","java -cp src HolaMinisterio"],"observables":["Con Ana: Hola, Ana, bienvenido al Ministerio de Educación.","Sin argumentos: Hola, Ministerio de Educación."],"verification":["CI ejecuta ambas variantes y compara exactamente sus salidas."],"status":"PERMANENT"
+  }
+]
