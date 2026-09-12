@@ -170,6 +170,8 @@ El CI debe fallar, entre otros casos, si:
 
 El workflow publicado debe operar normalmente con `contents: read`. No usar un CI que se autocorrija para convertir un estado roto en verde.
 
+Desde M1 existe además `.course/traceability/validate_module.py` como capa reutilizable de invariantes estructurales. Los módulos nuevos deben reutilizarla y añadir sólo un gate semántico específico para sus contratos y observables propios, evitando copiar y divergir validadores completos por módulo.
+
 ## 12. Baseline técnico
 
 Mientras no exista una razón técnica fuerte explicada al usuario:
@@ -209,6 +211,8 @@ Ese documento fija la matriz maestra de M1:
 - gate funcional mínimo.
 
 El flujo de producción de M1 debe seguir `1.1 → 1.2 → 1.3 → 1.4 → 1.5`, sincronizando teoría, práctica, código y contrato por bloque, sin rediseñar desde cero la infraestructura ya validada en M0.
+
+Los puntos observacionales 1.1 y 1.2 se diseñan de modo que sus experimentos de puerto, Jackson y `/eco` sean temporales y se restauren: no deben alterar silenciosamente el snapshot final antes de que 1.3 introduzca JSON/DTOs de forma permanente.
 
 ## 15. Regla de avance
 
