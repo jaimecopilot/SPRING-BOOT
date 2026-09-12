@@ -2,18 +2,23 @@ name: Validar M0
 
 on:
   push:
-    branches: [m0-draft]
+    branches: [main, m0-traceability-strong]
     paths:
       - 'M0/**'
       - '.course/traceability/**'
       - '.course/source-audit/**'
+      - '.course/continuity/**'
       - '.github/workflows/validar-m0.yml'
   pull_request:
     paths:
       - 'M0/**'
       - '.course/traceability/**'
       - '.course/source-audit/**'
+      - '.course/continuity/**'
       - '.github/workflows/validar-m0.yml'
+
+permissions:
+  contents: write
 
 jobs:
   validar-m0:
@@ -31,7 +36,26 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Validar trazabilidad teoría-práctica-código
+      - name: Renderizar trazabilidad humana desde el contrato v3
+        run: python .course/traceability/generate_human_traceability.py .
+
+      - name: Guardar trazabilidad humana generada en el branch de trabajo
+        if: github.event_name == 'push' && github.ref_name == 'm0-traceability-strong'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .course/traceability/TRAZABILIDAD_M0.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs(trace): regenera trazabilidad humana M0 v3'
+            git push
+          fi
+
+      - name: Comprobar que la vista humana está sincronizada
+        run: git diff --exit-code -- .course/traceability/TRAZABILIDAD_M0.md
+
+      - name: Validar trazabilidad fuerte teoría-paso-código-evidencia
         run: python .course/traceability/validate_m0.py .
 
       - name: Verificar ejemplo Java previo a Spring
