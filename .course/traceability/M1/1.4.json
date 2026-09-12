@@ -15,7 +15,7 @@
       "artifacts": [],
       "commands": ["diseñar GET/POST/PUT/DELETE sobre /api/v1/alumnos antes de implementar"],
       "observables": ["La guía distingue contrato diseñado de operaciones implementadas en 1.4."],
-      "verification": ["El resultado final implementa sólo GET colección, GET individual, POST y filtro; no adelanta PUT/PATCH/DELETE."]
+      "verification": ["Al cerrar 1.4 sólo están implementados GET colección, GET individual, POST y filtro; 1.5 evoluciona después el mismo controlador con persistencia en memoria y PUT/PATCH/DELETE."]
     },
     {
       "id": "M1-P-14-S02",
@@ -43,11 +43,18 @@
       "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
       "state": "PERMANENT",
       "artifacts": [
-        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"CREATE","state":"PERMANENT","symbols":["public class AlumnoController", "@RequestMapping(\"/api/v1/alumnos\")", "private final List<AlumnoDTO> alumnos = List.of", "@GetMapping", "@PostMapping"]}
+        {
+          "path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action":"CREATE",
+          "state":"PERMANENT",
+          "symbols":["public class AlumnoController", "@RequestMapping(\"/api/v1/alumnos\")", "@GetMapping", "@PostMapping"],
+          "historical_symbols":["private final List<AlumnoDTO> alumnos = List.of"],
+          "evolved_by":["M1-P-15-S02"]
+        }
       ],
       "commands": ["./mvnw spring-boot:run"],
-      "observables": ["El recurso /api/v1/alumnos queda registrado sin añadir persistencia ni operaciones de 1.5."],
-      "verification": ["El snapshot final conserva List.of y no contiene alumnos.add, @PutMapping, @PatchMapping ni @DeleteMapping."]
+      "observables": ["El recurso /api/v1/alumnos queda registrado; en el estado de 1.4 la colección es inmutable y todavía no existen las mutaciones de 1.5."],
+      "verification": ["El símbolo histórico List.of queda documentado como estado de 1.4; el snapshot final lo sustituye legítimamente M1-P-15-S02 por ArrayList sin perder el origen del controlador."]
     },
     {
       "id": "M1-P-14-S04",
@@ -64,7 +71,7 @@
       ],
       "commands": ["curl -i http://localhost:8080/api/v1/alumnos"],
       "observables": ["200, application/json y array con los dos alumnos iniciales; documentos nulo queda omitido."],
-      "verification": ["CI analiza status, Content-Type y estructura JSON de la colección."]
+      "verification": ["CI final conserva el GET de colección y comprueba su estructura sobre el runtime M1.5."]
     },
     {
       "id": "M1-P-14-S05",
@@ -80,7 +87,7 @@
       ],
       "commands": ["POST /api/v1/alumnos con Content-Type application/json", "GET /api/v1/alumnos después del POST"],
       "observables": ["En el estado pedagógico previo a S07 el POST devuelve 200; la colección no cambia."],
-      "verification": ["El snapshot final continúa sin alumnos.add y el gate verifica que POST no persiste incluso después de corregirse a 201."]
+      "verification": ["La no persistencia se conserva como evidencia histórica del paso 1.4.5; el snapshot final cambia deliberadamente en M1-P-15-S03, donde POST pasa a persistir en memoria."]
     },
     {
       "id": "M1-P-14-S06",
@@ -94,7 +101,7 @@
       "artifacts": [],
       "commands": ["comparar semántica de 200 OK y 201 Created"],
       "observables": ["La guía separa status HTTP de persistencia del recurso."],
-      "verification": ["El paso siguiente modifica únicamente el contrato de respuesta; la persistencia sigue pendiente para 1.5."]
+      "verification": ["El paso siguiente corrige el status a 201; la persistencia se introduce más tarde en 1.5."]
     },
     {
       "id": "M1-P-14-S07",
@@ -109,8 +116,8 @@
         {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["import org.springframework.http.HttpStatus", "import org.springframework.http.ResponseEntity", "public ResponseEntity<AlumnoDTO> crear", "ResponseEntity.status(HttpStatus.CREATED).body(dto)"]}
       ],
       "commands": ["curl -i -X POST http://localhost:8080/api/v1/alumnos -H Content-Type:application/json"],
-      "observables": ["POST válido devuelve 201 Created y el DTO; la colección sigue sin modificarse."],
-      "verification": ["CI exige status 201, round-trip del cuerpo y lista con dos elementos después del POST."]
+      "observables": ["POST válido devuelve 201 Created y el DTO; en el checkpoint 1.4 la colección todavía no se modifica."],
+      "verification": ["El snapshot final conserva 201 Created; M1-P-15-S03 añade persistencia sin deshacer este contrato HTTP."]
     },
     {
       "id": "M1-P-14-S08",
@@ -126,7 +133,7 @@
       ],
       "commands": ["curl -i http://localhost:8080/api/v1/alumnos/1", "curl -i http://localhost:8080/api/v1/alumnos/999"],
       "observables": ["ID existente devuelve 200 con JSON; ID inexistente devuelve 404."],
-      "verification": ["CI prueba ambos casos sobre el JAR real."]
+      "verification": ["CI final prueba ambos casos sobre el JAR real y vuelve a comprobarlos dentro del ciclo CRUD."]
     },
     {
       "id": "M1-P-14-S09",
@@ -157,8 +164,8 @@
         {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@RequestMapping(\"/api/v1/alumnos\")", "@PostMapping", "@GetMapping(\"/{id}\")"]}
       ],
       "commands": ["auditar contrato implementado frente a la tabla de diseño del paso 1"],
-      "observables": ["La guía marca persistencia, PUT, PATCH y DELETE como pendientes, no como funciones ocultas."],
-      "verification": ["Gate prohíbe @PutMapping, @PatchMapping, @DeleteMapping y alumnos.add en el snapshot de 1.4."]
+      "observables": ["En 1.4 la guía marca persistencia, PUT, PATCH y DELETE como pendientes; 1.5 los introduce explícitamente, no como funciones ocultas."],
+      "verification": ["La trazabilidad acumulativa conserva el límite histórico de 1.4 y el gate final exige que las operaciones añadidas en 1.5 estén presentes y probadas."]
     },
     {
       "id": "M1-P-14-S11",
@@ -184,11 +191,18 @@
       "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"],
       "state": "PERMANENT",
       "artifacts": [
-        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["import org.springframework.web.bind.annotation.RequestParam", "public List<AlumnoDTO> listar(@RequestParam(required = false) String curso)", "curso == null || curso.isBlank()", "a.getCurso().equalsIgnoreCase(curso)", ".toList()"]}
+        {
+          "path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action":"MODIFY",
+          "state":"PERMANENT",
+          "symbols":["import org.springframework.web.bind.annotation.RequestParam", "@RequestParam(required = false) String curso", "a.getCurso().equalsIgnoreCase(curso)", ".toList()"],
+          "historical_symbols":["public List<AlumnoDTO> listar(@RequestParam(required = false) String curso)", "curso == null || curso.isBlank()"],
+          "evolved_by":["M1-P-15-S12"]
+        }
       ],
       "commands": ["curl http://localhost:8080/api/v1/alumnos", "curl -G http://localhost:8080/api/v1/alumnos --data-urlencode curso=5º Primaria", "curl -G http://localhost:8080/api/v1/alumnos --data-urlencode curso=3º Primaria", "./mvnw test", "./mvnw -DskipTests package"],
       "observables": ["Sin filtro devuelve dos alumnos; 5º Primaria devuelve sólo Ana; curso inexistente devuelve [] con 200."],
-      "verification": ["CI prueba los tres casos mediante HTTP real y confirma regresión de endpoints de 1.3 y M0."]
+      "verification": ["El filtro por curso permanece en el snapshot final; M1-P-15-S12 evoluciona la firma para añadir sort opcional sin eliminar este comportamiento."]
     }
   ]
 }
