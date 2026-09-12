@@ -1,0 +1,167 @@
+{
+  "module": "M1",
+  "practice": "1.1",
+  "steps": [
+    {
+      "id": "M1-P-11-S01",
+      "practice": "1.1",
+      "number": 1,
+      "heading": "## Paso 1 - Abrir el proyecto y arrancarlo",
+      "summary": "Verificar el baseline heredado de M0 antes de cualquier experimento.",
+      "theory_refs": ["M1-T-11-ROLE", "M1-T-11-EMBEDDED"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java","action":"USE","state":"PERMANENT","symbols":["MiProyectoApplication","main"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")","@GetMapping(\"/adios\")"]}
+      ],
+      "commands": ["./mvnw spring-boot:run", "mvnw.cmd spring-boot:run", "curl -i http://localhost:8080/hola", "curl -i http://localhost:8080/adios"],
+      "observables": ["La aplicación arranca en 8080 y los dos endpoints heredados responden 200."],
+      "verification": ["Baseline verde antes de introducir cualquier cambio temporal."],
+      "state": "PERMANENT",
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"]
+    },
+    {
+      "id": "M1-P-11-S02",
+      "practice": "1.1",
+      "number": 2,
+      "heading": "## Paso 2 - Ver el informe de auto-configuración",
+      "summary": "Arrancar con --debug y localizar el Conditions Evaluation Report.",
+      "theory_refs": ["M1-T-11-AUTOCONFIG"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java","action":"USE","state":"PERMANENT","symbols":["@SpringBootApplication"]}
+      ],
+      "commands": ["./mvnw spring-boot:run -Dspring-boot.run.arguments=--debug", "mvnw.cmd spring-boot:run -Dspring-boot.run.arguments=--debug", "IDE: program argument --debug"],
+      "observables": ["Aparece CONDITIONS EVALUATION REPORT con Positive matches, Negative matches y Exclusions."],
+      "verification": ["La guía contiene recorridos equivalentes para consola, IntelliJ, Eclipse y VS Code."],
+      "state": "PERMANENT",
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"]
+    },
+    {
+      "id": "M1-P-11-S03",
+      "practice": "1.1",
+      "number": 3,
+      "heading": "## Paso 3 - Leer el informe con calma",
+      "summary": "Relacionar condiciones positivas y negativas con la infraestructura web real.",
+      "theory_refs": ["M1-T-11-AUTOCONFIG"],
+      "artifacts": [
+        {"path":"M1/proyecto/pom.xml","action":"USE","state":"PERMANENT","symbols":["spring-boot-starter-web"]}
+      ],
+      "commands": ["buscar DispatcherServletAutoConfiguration, ServletWebServerFactoryAutoConfiguration y Tomcat en el informe"],
+      "observables": ["Se localizan matches web/Tomcat y al menos un negative match de una tecnología no usada."],
+      "verification": ["La práctica exige registrar condición observada y significado, no copiar una salida prefabricada."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-11-S04",
+      "practice": "1.1",
+      "number": 4,
+      "heading": "## Paso 4 - Demostrar que Tomcat está embebido",
+      "summary": "Demostrar el servidor embebido mediante dependencias y ejecución del JAR, no sólo por ausencia de instalación externa.",
+      "theory_refs": ["M1-T-11-EMBEDDED", "M1-T-11-STARTERS"],
+      "artifacts": [
+        {"path":"M1/proyecto/pom.xml","action":"VERIFY","state":"PERMANENT","symbols":["spring-boot-starter-web","spring-boot-maven-plugin"]},
+        {"path":"M1/proyecto/mvnw","action":"USE","state":"PERMANENT"}
+      ],
+      "commands": ["which tomcat", "Get-Command tomcat -ErrorAction SilentlyContinue", "./mvnw dependency:tree", "./mvnw clean package", "java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar", "curl -i http://localhost:8080/hola"],
+      "observables": ["Tomcat aparece en el árbol de dependencias y el JAR atiende HTTP sin desplegarse en un Tomcat externo."],
+      "verification": ["La ausencia de un comando tomcat externo se trata sólo como evidencia auxiliar."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-11-S05",
+      "practice": "1.1",
+      "number": 5,
+      "heading": "## Paso 5 - Cambiar una configuración por defecto y restaurarla",
+      "summary": "Cambiar temporalmente el puerto a 9090 y restaurar 8080 al cerrar el experimento.",
+      "theory_refs": ["M1-T-11-AUTOCONFIG", "M1-T-11-EMBEDDED"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/resources/application.properties","action":"MODIFY","state":"TEMPORARY","symbols":["server.port=9090"]},
+        {"path":"M1/proyecto/src/main/resources/application.properties","action":"RESTORE","state":"PERMANENT","symbols":["spring.application.name=mi-proyecto"]}
+      ],
+      "commands": ["curl -i http://localhost:9090/hola", "curl -i http://localhost:8080/hola"],
+      "observables": ["Durante el experimento la aplicación responde en 9090; tras restaurar vuelve a 8080."],
+      "verification": ["El snapshot final no contiene server.port=9090."],
+      "state": "TEMPORARY"
+    },
+    {
+      "id": "M1-P-11-S06",
+      "practice": "1.1",
+      "number": 6,
+      "heading": "## Paso 6 - Observar los starters y las dependencias transitivas",
+      "summary": "Relacionar las dependencias directas del POM con MVC, Jackson, Tomcat y herramientas de test transitivas.",
+      "theory_refs": ["M1-T-11-STARTERS"],
+      "artifacts": [
+        {"path":"M1/proyecto/pom.xml","action":"VERIFY","state":"PERMANENT","symbols":["spring-boot-starter-web","spring-boot-starter-test","spring-boot-devtools"]}
+      ],
+      "commands": ["./mvnw dependency:tree", "mvnw.cmd dependency:tree"],
+      "observables": ["El árbol resuelto contiene Spring Web/MVC, Jackson, Tomcat y dependencias de test aunque no todas sean directas."],
+      "verification": ["La práctica distingue dependencia directa de transitiva y usa Maven como evidencia común entre IDE."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-11-S07",
+      "practice": "1.1",
+      "number": 7,
+      "heading": "## Paso 7 - Probar `/hola` y reconstruir toda la cadena",
+      "summary": "Reconstruir cliente -> Tomcat -> Spring MVC -> controlador -> respuesta con el endpoint heredado.",
+      "theory_refs": ["M1-T-11-ROLE", "M1-T-11-AUTOCONFIG", "M1-T-11-EMBEDDED"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@RestController","@GetMapping(\"/hola\")","saludar"]}
+      ],
+      "commands": ["curl -i http://localhost:8080/hola"],
+      "observables": ["GET /hola devuelve 200 y el cuerpo heredado; la guía identifica cada etapa del recorrido."],
+      "verification": ["El texto explica que /hola no constituye por sí solo una prueba suficiente de serialización JSON con Jackson."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-11-S08",
+      "practice": "1.1",
+      "number": 8,
+      "heading": "## Paso 8 - Explicar el papel de Spring Boot usando evidencias del proyecto",
+      "summary": "Sintetizar auto-configuración, starters, servidor embebido y configuración flexible a partir de evidencias ya obtenidas.",
+      "theory_refs": ["M1-T-11-ROLE", "M1-T-11-FRAMEWORK-VS-BOOT", "M1-T-11-AUTOCONFIG", "M1-T-11-STARTERS", "M1-T-11-EMBEDDED"],
+      "artifacts": [
+        {"path":"M1/proyecto/pom.xml","action":"USE","state":"PERMANENT","symbols":["spring-boot-starter-web"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT","symbols":["SaludoController"]}
+      ],
+      "commands": ["completar mapa evidencia -> mecanismo"],
+      "observables": ["El alumno puede explicar el proyecto sin recurrir a la idea de magia."],
+      "verification": ["La síntesis se apoya en informe de condiciones, dependency:tree, propiedad de puerto y HTTP real."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-11-S09",
+      "practice": "1.1",
+      "number": 9,
+      "heading": "## Paso 9 - Diagnosticar errores frecuentes sin cambiar varias cosas a la vez",
+      "summary": "Diagnosticar por capas conservando evidencia y modificando una sola variable cada vez.",
+      "theory_refs": ["M1-T-11-AUTOCONFIG", "M1-T-11-STARTERS", "M1-T-11-EMBEDDED"],
+      "artifacts": [
+        {"path":"M1/proyecto/pom.xml","action":"USE","state":"PERMANENT"},
+        {"path":"M1/proyecto/src/main/resources/application.properties","action":"USE","state":"PERMANENT"},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT"}
+      ],
+      "commands": ["reproducir el comando mínimo correspondiente a la capa del fallo"],
+      "observables": ["Cada síntoma se asocia primero con Maven, arranque, configuración, MVC o HTTP antes de cambiar nada."],
+      "verification": ["Tabla de síntomas e itinerario de diagnóstico presentes en la práctica."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-11-S10",
+      "practice": "1.1",
+      "number": 10,
+      "heading": "## Paso 10 - Reto resuelto: excluir temporalmente Jackson y demostrar el efecto",
+      "summary": "Crear un probe JSON temporal, excluir JacksonAutoConfiguration, observar la degradación y restaurar íntegramente el baseline.",
+      "theory_refs": ["M1-T-11-AUTOCONFIG", "M1-T-11-STARTERS"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"MODIFY","state":"TEMPORARY","symbols":["@GetMapping(\"/info-json\")","infoJson","LinkedHashMap","Map"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java","action":"MODIFY","state":"TEMPORARY","symbols":["JacksonAutoConfiguration.class"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java","action":"RESTORE","state":"PERMANENT","symbols":["@SpringBootApplication"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"RESTORE","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")","@GetMapping(\"/adios\")","construirMensaje"]}
+      ],
+      "commands": ["./mvnw test", "curl -i http://localhost:8080/info-json", "./mvnw spring-boot:run -Dspring-boot.run.arguments=--debug", "curl -i http://localhost:8080/hola", "curl -i http://localhost:8080/adios"],
+      "observables": ["Antes de excluir Jackson el probe devuelve JSON; la exclusión aparece en el informe y altera ese camino; tras restaurar /hola y /adios vuelven a 200 y /info-json queda 404."],
+      "verification": ["Snapshot final no contiene JacksonAutoConfiguration.class, /info-json, Map ni LinkedHashMap y los tests heredados siguen verdes."],
+      "state": "TEMPORARY"
+    }
+  ]
+}
