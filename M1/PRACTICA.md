@@ -1418,3 +1418,923 @@ Al terminar debes poder demostrar que:
 ---
 
 > En la práctica 1.3 dejaremos de usar JSON sólo como herramienta de diagnóstico y lo convertiremos en parte permanente del contrato de nuestra aplicación mediante DTOs y Jackson.
+
+
+# Práctica 1.3 - Jackson y DTOs
+
+## Objetivo
+
+Hasta ahora JSON apareció como representación observada desde fuera. En esta práctica pasará a formar parte **permanente** del proyecto: crearemos un DTO, un controlador que lo devuelve y recibe, y personalizaremos progresivamente su contrato JSON.
+
+Al contrario que 1.1 y 1.2, el estado final de `M1/proyecto` **sí evolucionará**. Al terminar existirán permanentemente:
+
+```text
+src/main/java/es/mecd/demo/miproyecto/
+|-- controller/
+|   |-- SaludoController.java
+|   `-- ExpedienteController.java
+`-- dto/
+    |-- ExpedienteDTO.java
+    `-- SolicitanteDTO.java
+```
+
+No añadiremos todavía persistencia, servicios ni validación Bean Validation. El objetivo es aislar la representación y la conversión JSON.
+
+---
+
+## Paso 1 - Crear el paquete dto
+
+### Qué hacemos
+
+Bajo el paquete raíz:
+
+```text
+es.mecd.demo.miproyecto
+```
+
+crea:
+
+```text
+es.mecd.demo.miproyecto.dto
+```
+
+Ruta física:
+
+```text
+src/main/java/es/mecd/demo/miproyecto/dto/
+```
+
+### Consola
+
+Linux/macOS:
+
+```bash
+mkdir -p src/main/java/es/mecd/demo/miproyecto/dto
+```
+
+PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force src/main/java/es/mecd/demo/miproyecto/dto
+```
+
+### IntelliJ IDEA
+
+Clic derecho sobre `es.mecd.demo.miproyecto` → **New > Package** → `dto`.
+
+### Eclipse
+
+Clic derecho sobre `es.mecd.demo.miproyecto` → **New > Package** → completa el nombre con `.dto`.
+
+### VS Code
+
+Crea la carpeta `dto` bajo el paquete raíz y asegúrate de que el archivo Java que añadiremos tenga:
+
+```java
+package es.mecd.demo.miproyecto.dto;
+```
+
+### Por qué un paquete específico
+
+El DTO representa datos que cruzan el contrato de la API. Separarlo del controlador evita mezclar estructura de representación con lógica de entrada HTTP.
+
+### Pregunta
+
+¿Por qué no colocamos `ExpedienteDTO` dentro del paquete `controller` si el controlador será quien lo devuelva?
+
+### Respuesta razonada
+
+Porque el DTO no es un controlador ni debería depender de cómo llega la petición. Es una representación de datos reutilizable por controladores y, más adelante, servicios. Separar paquetes hace visible esa responsabilidad.
+
+---
+
+## Paso 2 - Crear la clase ExpedienteDTO
+
+Crea:
+
+```text
+src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java
+```
+
+En este primer estado **todavía no añadimos anotaciones de Jackson**:
+
+```java
+package es.mecd.demo.miproyecto.dto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class ExpedienteDTO {
+
+    private String identificador;
+    private String titular;
+    private String dni;
+    private String estado;
+    private String tipo;
+    private LocalDate fechaSolicitud;
+    private Double importe;
+    private Boolean activo;
+    private List<String> documentos;
+    private String observaciones;
+
+    public ExpedienteDTO() {
+    }
+
+    public ExpedienteDTO(
+            String identificador,
+            String titular,
+            String dni,
+            String estado,
+            String tipo,
+            LocalDate fechaSolicitud,
+            Double importe,
+            Boolean activo,
+            List<String> documentos) {
+        this.identificador = identificador;
+        this.titular = titular;
+        this.dni = dni;
+        this.estado = estado;
+        this.tipo = tipo;
+        this.fechaSolicitud = fechaSolicitud;
+        this.importe = importe;
+        this.activo = activo;
+        this.documentos = documentos;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
+
+    public String getTitular() {
+        return titular;
+    }
+
+    public void setTitular(String titular) {
+        this.titular = titular;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public LocalDate getFechaSolicitud() {
+        return fechaSolicitud;
+    }
+
+    public void setFechaSolicitud(LocalDate fechaSolicitud) {
+        this.fechaSolicitud = fechaSolicitud;
+    }
+
+    public Double getImporte() {
+        return importe;
+    }
+
+    public void setImporte(Double importe) {
+        this.importe = importe;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    public List<String> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(List<String> documentos) {
+        this.documentos = documentos;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+}
+```
+
+Ejecuta:
+
+```bash
+./mvnw test
+```
+
+La clase debe compilar antes de utilizarla en HTTP.
+
+### Qué debes observar
+
+Tenemos varios tipos Java para provocar conversiones diferentes:
+
+- `String`;
+- `LocalDate`;
+- `Double`;
+- `Boolean`;
+- `List<String>`;
+- un campo `observaciones` que dejaremos nulo inicialmente.
+
+El constructor sin argumentos y los accesores mantienen un DTO JavaBean sencillo y fácil de deserializar.
+
+### Pregunta
+
+¿Por qué incluimos constructor sin argumentos si ya tenemos otro constructor cómodo con datos?
+
+### Respuesta razonada
+
+Porque queremos una clase que Jackson pueda instanciar y rellenar de forma convencional al deserializar. Jackson admite otras estrategias, pero el patrón JavaBean deja visible el proceso y es suficiente para este punto.
+
+---
+
+## Paso 3 - Crear un controlador para probar la serialización
+
+Crea:
+
+```text
+src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java
+```
+
+Contenido inicial:
+
+```java
+package es.mecd.demo.miproyecto.controller;
+
+import es.mecd.demo.miproyecto.dto.ExpedienteDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/expedientes")
+public class ExpedienteController {
+
+    @GetMapping("/ejemplo")
+    public ExpedienteDTO ejemplo() {
+        return new ExpedienteDTO(
+                "12345",
+                "Ana García López",
+                "12345678A",
+                "EN_TRAMITE",
+                "BECA",
+                LocalDate.of(2025, 1, 15),
+                1500.00,
+                true,
+                List.of("DNI.pdf", "Notas.pdf"));
+    }
+}
+```
+
+Arranca y comprueba que el contexto sigue cargando:
+
+```bash
+./mvnw spring-boot:run
+```
+
+### Antes de llamar al endpoint
+
+Predice:
+
+- nombre de la propiedad del identificador;
+- formato de la fecha;
+- representación del booleano;
+- representación de la lista;
+- qué ocurrirá con `observaciones`.
+
+### Pregunta
+
+¿Dónde aparece en este controlador una llamada explícita a `ObjectMapper`?
+
+### Respuesta razonada
+
+En ningún sitio. `@RestController` hace que Spring MVC trate el valor devuelto como cuerpo de respuesta y seleccione un conversor. Con JSON disponible, la integración con Jackson serializa el DTO sin que el controlador invoque manualmente al `ObjectMapper`.
+
+---
+
+## Paso 4 - Arrancar y probar la serialización por defecto
+
+Ejecuta:
+
+```bash
+curl -i http://localhost:8080/api/v1/expedientes/ejemplo
+```
+
+Con nuestra baseline Spring Boot 3.5.16 debes observar un `200` y `Content-Type: application/json`.
+
+El cuerpo será conceptualmente:
+
+```json
+{
+  "identificador": "12345",
+  "titular": "Ana García López",
+  "dni": "12345678A",
+  "estado": "EN_TRAMITE",
+  "tipo": "BECA",
+  "fechaSolicitud": "2025-01-15",
+  "importe": 1500.0,
+  "activo": true,
+  "documentos": ["DNI.pdf", "Notas.pdf"],
+  "observaciones": null
+}
+```
+
+El orden de propiedades no debe considerarse un contrato salvo que lo configuremos expresamente.
+
+### Corrección respecto de material antiguo
+
+En configuraciones antiguas o distintas puedes encontrar ejemplos donde `LocalDate` aparece como array. En **nuestro proyecto actual**, Spring Boot registra soporte Java Time y la fecha ya se representa normalmente como ISO. En el paso 6 añadiremos `@JsonFormat` para hacer explícito el contrato, no para afirmar que antes estuviera necesariamente mal.
+
+### Pregunta
+
+¿Qué parte de la salida demuestra que Jackson ha interpretado tipos y no ha llamado simplemente a `toString()` sobre todo el objeto?
+
+### Respuesta razonada
+
+El resultado es un objeto JSON estructurado: el booleano aparece como `true`, el número como número, la lista como array y cada propiedad tiene su valor. No es una cadena Java opaca con el nombre de clase y hash.
+
+---
+
+## Paso 5 - Renombrar el campo con @JsonProperty
+
+Queremos que el contrato externo exponga `id`, aunque en Java conservemos `identificador`.
+
+En `ExpedienteDTO.java`, añade:
+
+```java
+import com.fasterxml.jackson.annotation.JsonProperty;
+```
+
+Y sobre el campo:
+
+```java
+@JsonProperty("id")
+private String identificador;
+```
+
+Reinicia y prueba:
+
+```bash
+curl http://localhost:8080/api/v1/expedientes/ejemplo
+```
+
+Ahora debe aparecer:
+
+```json
+"id": "12345"
+```
+
+Y no una propiedad `identificador` separada.
+
+### Qué no ha cambiado
+
+Dentro de Java seguimos utilizando:
+
+```java
+getIdentificador()
+setIdentificador(...)
+```
+
+La anotación modifica la representación externa.
+
+### Pregunta
+
+¿Por qué puede ser útil cambiar el nombre JSON sin cambiar inmediatamente todos los nombres internos Java?
+
+### Respuesta razonada
+
+Porque contrato externo e implementación interna pueden evolucionar con ritmos distintos. `@JsonProperty` permite mantener un nombre Java descriptivo y exponer una convención de API estable. Hay que usarlo con criterio: demasiadas diferencias de nombres también dificultan el mantenimiento.
+
+---
+
+## Paso 6 - Formatear la fecha con @JsonFormat
+
+Añade:
+
+```java
+import com.fasterxml.jackson.annotation.JsonFormat;
+```
+
+Y sobre `fechaSolicitud`:
+
+```java
+@JsonFormat(pattern = "yyyy-MM-dd")
+private LocalDate fechaSolicitud;
+```
+
+Prueba:
+
+```bash
+curl http://localhost:8080/api/v1/expedientes/ejemplo
+```
+
+Debe mantenerse el contrato:
+
+```json
+"fechaSolicitud": "2025-01-15"
+```
+
+### Qué demuestra realmente este paso
+
+No estamos suponiendo que antes existiera un array. Estamos declarando localmente la representación que queremos conservar.
+
+También afectará a la deserialización del paso 9: una cadena compatible con el patrón podrá convertirse a `LocalDate`; una fecha con formato incompatible producirá un error de conversión.
+
+### Pregunta
+
+¿Por qué tiene sentido anotar el formato aunque la salida por defecto actual ya coincida?
+
+### Respuesta razonada
+
+Porque hace explícita una decisión contractual cerca del campo que la usa. El comportamiento deja de depender sólo de una configuración global implícita del `ObjectMapper`. Aun así, en APIs grandes conviene diseñar una política de fechas global y coherente, no anotar arbitrariamente cada campo con formatos distintos.
+
+---
+
+## Paso 7 - Omitir campos nulos con @JsonInclude
+
+En `ExpedienteDTO.java` añade:
+
+```java
+import com.fasterxml.jackson.annotation.JsonInclude;
+```
+
+Sobre la clase:
+
+```java
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ExpedienteDTO {
+```
+
+`observaciones` permanece `null` en `/ejemplo`. Vuelve a probar:
+
+```bash
+curl http://localhost:8080/api/v1/expedientes/ejemplo
+```
+
+Ahora `observaciones` **no debe aparecer**.
+
+Comprueba que las propiedades con valor siguen presentes.
+
+### Pregunta
+
+¿`@JsonInclude(NON_NULL)` elimina el campo de la clase Java?
+
+### Respuesta razonada
+
+No. El campo sigue existiendo y puede tener getter, setter y valor. La anotación controla si una propiedad nula se incluye en la representación JSON generada; no modifica la estructura de la clase compilada.
+
+---
+
+## Paso 8 - Excluir un campo con @JsonIgnore
+
+Añade un dato que deliberadamente no queremos exponer:
+
+```java
+import com.fasterxml.jackson.annotation.JsonIgnore;
+```
+
+En el DTO:
+
+```java
+@JsonIgnore
+private String numeroSeguridadSocial;
+```
+
+Añade también getter y setter:
+
+```java
+public String getNumeroSeguridadSocial() {
+    return numeroSeguridadSocial;
+}
+
+public void setNumeroSeguridadSocial(String numeroSeguridadSocial) {
+    this.numeroSeguridadSocial = numeroSeguridadSocial;
+}
+```
+
+Para demostrar que la ausencia se debe realmente a `@JsonIgnore` y no a `NON_NULL`, cambia `ejemplo()` para construir el DTO en una variable y asignar un valor:
+
+```java
+ExpedienteDTO dto = new ExpedienteDTO(
+        "12345",
+        "Ana García López",
+        "12345678A",
+        "EN_TRAMITE",
+        "BECA",
+        LocalDate.of(2025, 1, 15),
+        1500.00,
+        true,
+        List.of("DNI.pdf", "Notas.pdf"));
+
+dto.setNumeroSeguridadSocial("12/34567890/12");
+return dto;
+```
+
+Prueba:
+
+```bash
+curl http://localhost:8080/api/v1/expedientes/ejemplo
+```
+
+`numeroSeguridadSocial` no debe aparecer aunque su valor **no sea null**.
+
+### Pregunta
+
+¿Por qué era importante asignar un valor antes de comprobar `@JsonIgnore`?
+
+### Respuesta razonada
+
+Porque la clase ya tiene `@JsonInclude(NON_NULL)`. Si dejáramos el campo a null, desaparecería incluso sin `@JsonIgnore` y la prueba no distinguiría qué mecanismo causó la ausencia. Un buen experimento aísla la variable que quiere demostrar.
+
+---
+
+## Paso 9 - Probar la deserialización con POST
+
+Hasta ahora recorrimos Java → JSON. Añadiremos el camino JSON → Java.
+
+En `ExpedienteController.java` añade:
+
+```java
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+```
+
+Y el endpoint:
+
+```java
+@PostMapping("/eco")
+public ExpedienteDTO eco(@RequestBody ExpedienteDTO dto) {
+    return dto;
+}
+```
+
+Prueba:
+
+```bash
+curl -i -X POST http://localhost:8080/api/v1/expedientes/eco \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id":"99999",
+    "titular":"María López",
+    "dni":"11111111C",
+    "estado":"NUEVO",
+    "tipo":"BECA",
+    "fechaSolicitud":"2025-01-20",
+    "importe":1200.0,
+    "activo":true,
+    "documentos":["DNI.pdf"]
+  }'
+```
+
+Esperamos `200` y una representación equivalente a la entrada.
+
+### Sigue el recorrido
+
+1. Spring MVC lee `Content-Type: application/json`.
+2. El conversor Jackson interpreta el cuerpo.
+3. `id` se mapea a `identificador` gracias a `@JsonProperty`.
+4. `fechaSolicitud` se convierte a `LocalDate`.
+5. Jackson rellena el DTO.
+6. El método recibe el objeto Java.
+7. Al devolverlo, se serializa de nuevo.
+
+### Prueba también una fecha inválida
+
+```bash
+curl -i -X POST http://localhost:8080/api/v1/expedientes/eco \
+  -H "Content-Type: application/json" \
+  -d '{"id":"1","fechaSolicitud":"20/01/2025"}'
+```
+
+Con el patrón definido esperamos un `400` por fallo de conversión.
+
+### Pregunta
+
+¿El método `eco()` recibe el texto JSON crudo?
+
+### Respuesta razonada
+
+No. `@RequestBody ExpedienteDTO` solicita que Spring convierta el cuerpo a esa clase antes de invocar el método. Si la conversión falla, el método puede no llegar a ejecutarse.
+
+---
+
+## Paso 10 - Probar la deserialización con campos desconocidos
+
+Envía una propiedad que no existe en `ExpedienteDTO`:
+
+```bash
+curl -i -X POST http://localhost:8080/api/v1/expedientes/eco \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id":"99999",
+    "titular":"María López",
+    "campoInexistente":"valor"
+  }'
+```
+
+Con el `ObjectMapper` auto-configurado de nuestro proyecto esperamos que la petición se procese sin error y que `campoInexistente` no aparezca en la salida.
+
+### Precisión importante
+
+No memorices “Jackson siempre ignora campos desconocidos”. La configuración de Spring Boot que utilizamos los tolera de esta manera. Un `ObjectMapper` configurado con fallo ante propiedades desconocidas podría responder de forma distinta.
+
+### Prueba `@JsonIgnore` también en entrada
+
+Envía:
+
+```bash
+curl -i -X POST http://localhost:8080/api/v1/expedientes/eco \
+  -H "Content-Type: application/json" \
+  -d '{"id":"1","numeroSeguridadSocial":"dato-que-no-debe-entrar"}'
+```
+
+La propiedad ignorada no debe formar parte del DTO serializado de vuelta.
+
+### Pregunta
+
+¿Por qué tolerar campos desconocidos puede ayudar a la evolución de una API y qué riesgo tiene?
+
+### Respuesta razonada
+
+Puede permitir que clientes y servidores de versiones cercanas convivan cuando aparecen propiedades nuevas. El riesgo es ocultar errores tipográficos del cliente: `titualr` podría ignorarse silenciosamente. Por eso la política debe elegirse conscientemente y acompañarse de validación y documentación.
+
+---
+
+## Paso 11 - Errores comunes del ejercicio
+
+Utiliza esta tabla para diagnosticar por síntoma:
+
+| Síntoma | Causa probable | Comprobación |
+|---|---|---|
+| `400` con JSON mal formado | error de sintaxis | validar comillas, comas y llaves |
+| `400` con fecha | patrón incompatible | revisar `yyyy-MM-dd` y valor recibido |
+| una propiedad sale con nombre inesperado | contrato por defecto/anotación incorrecta | revisar `@JsonProperty` |
+| aparece un null que querías omitir | falta/posición de `@JsonInclude` | revisar anotación de clase/campo |
+| aparece un dato sensible | falta/uso incorrecto de `@JsonIgnore` | asignar valor y comprobar respuesta |
+| campo queda null al entrar | nombre/tipo/accesores no compatibles | revisar JSON y DTO |
+| propiedad desconocida no falla | configuración tolerante de Spring Boot | no confundir con una ley universal de Jackson |
+| `415` | tipo de medio no convertible | revisar `Content-Type` |
+| `404` | ruta incorrecta | revisar `/api/v1/expedientes/eco` |
+| `405` | método incorrecto | usar POST en `/eco` |
+
+### Estrategia
+
+1. comprueba primero estado HTTP;
+2. lee el primer error útil del log;
+3. reduce el JSON al mínimo que reproduce el problema;
+4. compara nombre JSON ↔ propiedad Java;
+5. comprueba tipo y formato;
+6. cambia una sola cosa y repite.
+
+### Pregunta
+
+¿Por qué un `400` por fecha inválida y un `404` deben investigarse en lugares diferentes?
+
+### Respuesta razonada
+
+El 404 indica que no se encontró la operación solicitada, por lo que debemos revisar ruta/mapping. El 400 de conversión significa que el endpoint sí fue localizado pero el cuerpo no pudo convertirse correctamente. Son capas distintas del recorrido HTTP.
+
+---
+
+## Paso 12 - Reto resuelto: DTO con DTO anidado
+
+Queremos agrupar datos del solicitante en un objeto propio.
+
+### 12.1 Crear SolicitanteDTO
+
+Crea:
+
+```text
+src/main/java/es/mecd/demo/miproyecto/dto/SolicitanteDTO.java
+```
+
+```java
+package es.mecd.demo.miproyecto.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class SolicitanteDTO {
+
+    private String nombre;
+    private String apellidos;
+
+    @JsonProperty("dni")
+    private String documentoIdentidad;
+
+    public SolicitanteDTO() {
+    }
+
+    public SolicitanteDTO(String nombre, String apellidos, String documentoIdentidad) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.documentoIdentidad = documentoIdentidad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getDocumentoIdentidad() {
+        return documentoIdentidad;
+    }
+
+    public void setDocumentoIdentidad(String documentoIdentidad) {
+        this.documentoIdentidad = documentoIdentidad;
+    }
+}
+```
+
+### 12.2 Añadirlo a ExpedienteDTO
+
+Añade:
+
+```java
+private SolicitanteDTO solicitante;
+```
+
+Y:
+
+```java
+public SolicitanteDTO getSolicitante() {
+    return solicitante;
+}
+
+public void setSolicitante(SolicitanteDTO solicitante) {
+    this.solicitante = solicitante;
+}
+```
+
+### 12.3 Evolucionar `/ejemplo`
+
+Importa:
+
+```java
+import es.mecd.demo.miproyecto.dto.SolicitanteDTO;
+```
+
+Y deja el método de esta forma:
+
+```java
+@GetMapping("/ejemplo")
+public ExpedienteDTO ejemplo() {
+    ExpedienteDTO dto = new ExpedienteDTO(
+            "12345",
+            "Ana García López",
+            "12345678A",
+            "EN_TRAMITE",
+            "BECA",
+            LocalDate.of(2025, 1, 15),
+            1500.00,
+            true,
+            List.of("DNI.pdf", "Notas.pdf"));
+    dto.setNumeroSeguridadSocial("12/34567890/12");
+    dto.setSolicitante(new SolicitanteDTO(
+            "Ana", "García López", "12345678A"));
+    return dto;
+}
+```
+
+### 12.4 Probar serialización anidada
+
+```bash
+curl http://localhost:8080/api/v1/expedientes/ejemplo
+```
+
+Entre otras propiedades debe aparecer:
+
+```json
+{
+  "id": "12345",
+  "titular": "Ana García López",
+  "solicitante": {
+    "nombre": "Ana",
+    "apellidos": "García López",
+    "dni": "12345678A"
+  }
+}
+```
+
+Y debe seguir **sin** aparecer `numeroSeguridadSocial`.
+
+### 12.5 Probar deserialización anidada
+
+```bash
+curl -i -X POST http://localhost:8080/api/v1/expedientes/eco \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id":"77",
+    "titular":"Lucía Pérez",
+    "solicitante":{
+      "nombre":"Lucía",
+      "apellidos":"Pérez Ruiz",
+      "dni":"22222222D"
+    }
+  }'
+```
+
+El objeto `solicitante` debe volver anidado en la respuesta.
+
+### Cierre técnico
+
+Ejecuta:
+
+```bash
+./mvnw test
+./mvnw -DskipTests package
+```
+
+Comprueba además que siguen funcionando los endpoints heredados:
+
+```bash
+curl -i http://localhost:8080/hola
+curl -i http://localhost:8080/adios
+```
+
+### Pregunta
+
+¿Qué ventaja tiene anidar `SolicitanteDTO` frente a añadir `nombreSolicitante`, `apellidosSolicitante`, `dniSolicitante` y más campos planos al expediente?
+
+### Respuesta razonada
+
+Agrupa datos que forman una unidad conceptual, reduce prefijos repetidos y permite reutilizar/evolucionar la estructura del solicitante de forma más clara. El anidamiento también hace explícita esa relación en el JSON.
+
+---
+
+## Resultado esperado global de la práctica 1.3
+
+Al finalizar deben permanecer en el snapshot:
+
+- paquete `dto`;
+- `ExpedienteDTO` con varios tipos y constructor/accesores;
+- `@JsonProperty("id")`;
+- `@JsonFormat(pattern = "yyyy-MM-dd")`;
+- `@JsonInclude(NON_NULL)`;
+- `@JsonIgnore` sobre `numeroSeguridadSocial`;
+- `SolicitanteDTO` anidado con `documentoIdentidad` expuesto como `dni`;
+- `ExpedienteController` con:
+  - `GET /api/v1/expedientes/ejemplo`;
+  - `POST /api/v1/expedientes/eco`;
+- serialización y deserialización verificadas con HTTP real;
+- campos desconocidos tolerados por la configuración actual;
+- fechas inválidas rechazadas con `400`;
+- comportamiento heredado `/hola` y `/adios` intacto;
+- tests y empaquetado verdes.
+
+## Checklist de cierre
+
+- [ ] ¿El endpoint de ejemplo devuelve `application/json`?
+- [ ] ¿El identificador externo se llama `id`?
+- [ ] ¿La fecha usa `yyyy-MM-dd`?
+- [ ] ¿Los nulos se omiten?
+- [ ] ¿El número de seguridad social no aparece aunque tenga valor?
+- [ ] ¿POST `/eco` deserializa y vuelve a serializar el DTO?
+- [ ] ¿Una fecha incompatible produce 400?
+- [ ] ¿La configuración actual tolera una propiedad desconocida?
+- [ ] ¿El solicitante aparece como objeto anidado?
+- [ ] ¿`/hola` y `/adios` siguen respondiendo?
+- [ ] ¿`./mvnw test` pasa?
+
+---
+
+> En 1.4 reutilizaremos estos conceptos para diseñar el recurso `Alumno`: URLs, métodos, estados, versionado y filtros antes de completar su CRUD.

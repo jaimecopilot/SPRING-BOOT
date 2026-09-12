@@ -896,3 +896,495 @@ Hace visible la conversación: conexión, línea de petición, cabeceras enviada
 ---
 
 > En el punto 1.3 utilizaremos esta base HTTP para estudiar el formato que dominará los cuerpos de nuestras APIs: JSON, y el papel de Jackson al convertir entre representaciones JSON y objetos Java.
+
+
+---
+
+# Punto 1.3 - JSON y Jackson
+
+## Objetivos de aprendizaje
+
+Al finalizar este punto serás capaz de:
+
+1. Explicar qué es JSON y por qué se utiliza de forma dominante en APIs HTTP.
+2. Leer y escribir objetos y arrays JSON respetando sus tipos y reglas de sintaxis.
+3. Distinguir JSON válido de texto que “se parece” a JSON pero contiene errores.
+4. Aplicar convenciones de nombres, fechas, valores nulos y estructuras anidadas en una API.
+5. Explicar la diferencia entre serialización y deserialización.
+6. Describir cómo Spring MVC utiliza Jackson a través de sus conversores HTTP.
+7. Entender qué papel tienen constructor, propiedades y accesores en la creación de DTOs deserializables.
+8. Utilizar `@JsonProperty`, `@JsonFormat`, `@JsonInclude` y `@JsonIgnore` con una intención concreta.
+9. Distinguir una decisión de contrato JSON de una decisión interna de nombres Java.
+10. Diagnosticar errores de parseo, tipos incompatibles, fechas inválidas y propiedades desconocidas.
+
+## Bloque 1 - Qué es JSON
+
+### 1.1 Un formato de intercambio de datos
+
+JSON significa **JavaScript Object Notation**. Su sintaxis nació inspirada en la notación de objetos de JavaScript, pero JSON es un formato de datos independiente del lenguaje. Java, JavaScript, Python, C#, Go y prácticamente cualquier plataforma actual pueden producirlo y consumirlo.
+
+Un ejemplo:
+
+```json
+{
+  "id": "12345",
+  "titular": "Ana García López",
+  "estado": "EN_TRAMITE",
+  "importe": 1500.0,
+  "activo": true
+}
+```
+
+No es una clase Java ni un objeto vivo en memoria. Es una **representación textual estructurada**. Cuando viaja por HTTP, el cuerpo contiene bytes que representan ese texto y la cabecera suele declarar:
+
+```http
+Content-Type: application/json
+```
+
+### 1.2 Por qué encaja bien en APIs
+
+JSON se popularizó como alternativa más ligera a formatos más verbosos para intercambio de datos y hoy es el formato predominante de muchas APIs. Sus ventajas prácticas incluyen:
+
+- sintaxis relativamente compacta;
+- lectura razonable por humanos;
+- soporte universal;
+- representación natural de objetos, colecciones y estructuras anidadas;
+- buena integración con navegadores y herramientas HTTP.
+
+Esto no significa que sea el único formato posible. HTTP puede transportar texto, HTML, imágenes, XML, binario y muchos otros tipos. Una API elige JSON porque su contrato lo establece, no porque HTTP obligue a usarlo.
+
+### 1.3 JSON frente a un objeto Java
+
+Considera esta clase conceptual:
+
+```java
+class ExpedienteDTO {
+    private String identificador;
+    private String titular;
+    private Double importe;
+}
+```
+
+Y esta representación:
+
+```json
+{
+  "id": "12345",
+  "titular": "Ana García López",
+  "importe": 1500.0
+}
+```
+
+No hay una correspondencia automática impuesta por JSON entre `identificador` e `id`. Esa correspondencia la configura la capa de serialización. En nuestro caso la estableceremos con Jackson.
+
+### 1.4 JSON no transporta comportamiento
+
+Un objeto Java puede tener métodos, invariantes y lógica. JSON sólo expresa datos. Cuando serializamos un DTO no enviamos su bytecode ni sus métodos al cliente.
+
+Esta diferencia es especialmente importante para una API: el cliente recibe un contrato de datos, no una copia ejecutable de nuestras clases internas.
+
+### Pregunta
+
+¿Por qué decimos que JSON es independiente del lenguaje si su nombre contiene “JavaScript”?
+
+### Respuesta razonada
+
+Porque el nombre describe su origen sintáctico, no una dependencia de ejecución. Un documento JSON es texto conforme a una gramática. Cualquier programa capaz de interpretar esa gramática puede leerlo o producirlo sin ejecutar JavaScript.
+
+## Bloque 2 - Sintaxis de JSON
+
+### 2.1 Objetos y pares clave-valor
+
+Un objeto JSON se delimita con llaves:
+
+```json
+{
+  "nombre": "Ana",
+  "edad": 16
+}
+```
+
+Las claves son cadenas entre comillas dobles. Cada clave se separa de su valor mediante `:` y los pares se separan mediante comas.
+
+No es JSON válido escribir:
+
+```text
+{nombre: 'Ana'}
+```
+
+porque la clave no tiene comillas dobles y la cadena utiliza comillas simples.
+
+### 2.2 Arrays
+
+Un array se delimita con corchetes:
+
+```json
+["DNI.pdf", "Notas.pdf"]
+```
+
+Puede contener objetos:
+
+```json
+[
+  {"id":"1","nombre":"Ana"},
+  {"id":"2","nombre":"Luis"}
+]
+```
+
+O combinarse dentro de un objeto:
+
+```json
+{
+  "id": "12345",
+  "documentos": ["DNI.pdf", "Notas.pdf"]
+}
+```
+
+### 2.3 Tipos de valor
+
+JSON dispone de un conjunto pequeño de tipos:
+
+- cadena;
+- número;
+- booleano `true`/`false`;
+- `null`;
+- objeto;
+- array.
+
+No existe un tipo nativo “fecha”. Por eso una fecha se representa mediante una convención, normalmente una cadena como:
+
+```json
+"2025-01-15"
+```
+
+El acuerdo sobre esa cadena forma parte del contrato de la API.
+
+### 2.4 Errores frecuentes
+
+Estos ejemplos son inválidos:
+
+**Coma final:**
+
+```json
+{"mensaje":"hola",}
+```
+
+**Comillas simples:**
+
+```text
+{'mensaje':'hola'}
+```
+
+**Clave sin comillas:**
+
+```text
+{mensaje:"hola"}
+```
+
+**Llave sin cerrar:**
+
+```text
+{"mensaje":"hola"
+```
+
+Cuando `@RequestBody` necesita convertir uno de estos cuerpos a un objeto Java, el parser no puede construir una estructura válida y Spring MVC termina normalmente respondiendo `400 Bad Request`.
+
+### 2.5 JSON no admite comentarios estándar
+
+Un documento JSON no dispone de comentarios `//` o `/* ... */` como Java. La documentación del significado de los campos debe vivir en documentación de API, esquemas, OpenAPI, ejemplos y nombres bien elegidos, no incrustada como comentarios dentro del payload.
+
+### Pregunta
+
+¿Por qué una coma final que muchos lenguajes toleran en ciertas estructuras puede romper un JSON?
+
+### Respuesta razonada
+
+Porque JSON tiene su propia gramática. No heredamos automáticamente todas las extensiones que un lenguaje de programación acepte. El parser valida la representación contra las reglas JSON, y una coma que anuncia otro elemento sin proporcionarlo deja la estructura incompleta.
+
+## Bloque 3 - Convenciones de JSON en APIs REST
+
+### 3.1 Nombres predecibles
+
+Una API debería adoptar una convención estable para nombres de propiedades. Usaremos `camelCase`:
+
+```json
+{
+  "fechaSolicitud": "2025-01-15",
+  "nombreCompleto": "Ana García López"
+}
+```
+
+Lo importante no es afirmar que sólo exista una convención válida, sino **ser coherentes**. Un cliente no debería encontrar `fechaSolicitud`, `nombre_completo` y `tipo-beca` mezclados sin motivo.
+
+### 3.2 Fechas: contrato, no tipo nativo
+
+Como JSON no tiene tipo fecha, debemos elegir representación. En el curso usaremos:
+
+```text
+yyyy-MM-dd
+```
+
+Por ejemplo:
+
+```json
+"fechaSolicitud": "2025-01-15"
+```
+
+Spring Boot configura soporte Java Time y, con nuestra baseline, `LocalDate` ya se representa normalmente como fecha ISO. Aun así, `@JsonFormat(pattern = "yyyy-MM-dd")` puede hacer explícita una decisión de contrato en el DTO.
+
+Esto corrige una simplificación frecuente de material antiguo: no debemos enseñar que nuestro `LocalDate` necesariamente aparecerá como `[2025,1,15]`. La salida real depende de la configuración del `ObjectMapper` y de los módulos instalados.
+
+### 3.3 `null`, ausencia y listas vacías no significan lo mismo
+
+Compara:
+
+```json
+{"observaciones": null}
+```
+
+con:
+
+```json
+{}
+```
+
+y con:
+
+```json
+{"documentos": []}
+```
+
+Son tres mensajes distintos:
+
+- propiedad presente sin valor;
+- propiedad ausente;
+- colección presente y vacía.
+
+`@JsonInclude(NON_NULL)` nos permitirá decidir que las propiedades nulas no aparezcan al serializar.
+
+### 3.4 DTOs anidados
+
+Las estructuras de negocio no siempre son planas. Podemos representar:
+
+```json
+{
+  "id": "12345",
+  "solicitante": {
+    "nombre": "Ana",
+    "apellidos": "García López",
+    "dni": "12345678A"
+  }
+}
+```
+
+Esto mantiene agrupados datos que conceptualmente pertenecen a una subestructura. Jackson puede serializar el DTO anidado recorriendo sus propiedades igual que hace con el objeto exterior.
+
+### 3.5 Compatibilidad y propiedades desconocidas
+
+En nuestra configuración de Spring Boot, el `ObjectMapper` auto-configurado está preparado para tolerar propiedades de entrada desconocidas en escenarios normales. Así, un cliente puede enviar:
+
+```json
+{
+  "id": "99999",
+  "titular": "María López",
+  "campoInexistente": "valor"
+}
+```
+
+sin que `campoInexistente` tenga que convertirse en un atributo del DTO.
+
+Hay que formular esto con precisión: **no es una ley universal de todo `ObjectMapper` Jackson creado en cualquier contexto**. Es comportamiento de la configuración que estamos utilizando y puede cambiar si configuramos `FAIL_ON_UNKNOWN_PROPERTIES` de otra forma.
+
+### Pregunta
+
+¿Por qué omitir una propiedad nula no es necesariamente equivalente a enviarla con valor `null`?
+
+### Respuesta razonada
+
+Porque algunos clientes distinguen “la propiedad no forma parte de esta representación” de “la propiedad está presente y su valor actual es nulo”. El contrato de la API debe decidir qué semántica quiere transmitir, especialmente en actualizaciones parciales y compatibilidad entre versiones.
+
+## Bloque 4 - Jackson
+
+### 4.1 Serialización y deserialización
+
+Jackson es la biblioteca que utilizaremos para convertir entre objetos Java y representaciones JSON.
+
+**Serialización:**
+
+```text
+objeto Java -> JSON
+```
+
+**Deserialización:**
+
+```text
+JSON -> objeto Java
+```
+
+En Spring Boot con `spring-boot-starter-web`, no necesitamos añadir manualmente la dependencia principal de Jackson para este uso básico: llega dentro del stack web y Spring Boot prepara un `ObjectMapper` y conversores apropiados.
+
+### 4.2 Cuando un controlador devuelve un DTO
+
+Si un método `@RestController` devuelve un `ExpedienteDTO`, el flujo simplificado es:
+
+1. el método devuelve el objeto Java;
+2. Spring MVC selecciona un `HttpMessageConverter` apropiado;
+3. para JSON, el conversor utiliza Jackson;
+4. Jackson inspecciona las propiedades según su configuración y anotaciones;
+5. produce JSON;
+6. Spring escribe el cuerpo y declara el tipo de contenido.
+
+No debemos imaginar que el controlador llama manualmente a `ObjectMapper.writeValueAsString(...)` en cada endpoint. La integración web automatiza ese paso.
+
+### 4.3 Cuando usamos `@RequestBody`
+
+Con:
+
+```java
+@PostMapping("/eco")
+public ExpedienteDTO eco(@RequestBody ExpedienteDTO dto) {
+    return dto;
+}
+```
+
+el recorrido inverso ocurre antes de entrar al método:
+
+1. Spring observa `Content-Type`;
+2. lee el cuerpo;
+3. selecciona el conversor;
+4. Jackson construye y rellena `ExpedienteDTO`;
+5. el método recibe un objeto Java ya deserializado.
+
+Si el JSON es inválido o un valor no puede convertirse al tipo esperado, la petición puede fallar antes de ejecutar el cuerpo del método.
+
+### 4.4 Constructor y propiedades
+
+Para un DTO mutable clásico es didácticamente útil proporcionar:
+
+- constructor sin argumentos;
+- getters;
+- setters.
+
+Jackson moderno admite estrategias adicionales —constructores anotados, records, visibilidad de campos, módulos—, pero no las necesitamos todavía. En este módulo emplearemos JavaBeans sencillos porque hacen visible el proceso de lectura y escritura.
+
+### 4.5 Jackson no valida reglas de negocio
+
+Que un JSON pueda convertirse a `ExpedienteDTO` no significa que los datos sean válidos para el negocio.
+
+Por ejemplo:
+
+```json
+{"importe": -999999}
+```
+
+puede ser sintácticamente JSON válido y convertible a `Double`, aunque una regla futura pudiera prohibir importes negativos.
+
+Separaremos progresivamente:
+
+- **parseo/conversión**: ¿puedo construir el objeto?;
+- **validación de formato**: ¿cumple restricciones declarativas?;
+- **regla de negocio**: ¿la operación tiene sentido en el dominio?
+
+La validación formal se tratará más adelante; no debemos atribuir a Jackson responsabilidades que no le corresponden.
+
+### Pregunta
+
+Si Jackson puede convertir un JSON a Java, ¿significa que los datos ya son correctos para guardarlos?
+
+### Respuesta razonada
+
+No. Sólo demuestra que la representación puede convertirse a los tipos Java esperados. Una cadena puede ser demasiado larga, un DNI puede tener formato incorrecto o un identificador puede estar duplicado. Conversión y validación son problemas diferentes.
+
+## Bloque 5 - Anotaciones de Jackson
+
+### 5.1 `@JsonProperty`
+
+Permite definir el nombre JSON de una propiedad sin renombrar necesariamente el atributo Java:
+
+```java
+@JsonProperty("id")
+private String identificador;
+```
+
+Internamente seguimos utilizando `identificador`; externamente el contrato expone `id`.
+
+Esto es útil para desacoplar parcialmente nombres internos y externos, aunque no debe convertirse en una excusa para usar nombres arbitrariamente contradictorios.
+
+### 5.2 `@JsonFormat`
+
+Podemos hacer explícito el formato de una fecha:
+
+```java
+@JsonFormat(pattern = "yyyy-MM-dd")
+private LocalDate fechaSolicitud;
+```
+
+En nuestra baseline la salida por defecto de `LocalDate` ya es normalmente ISO gracias a la configuración de Java Time. La anotación documenta y fija localmente la decisión.
+
+### 5.3 `@JsonInclude`
+
+A nivel de clase:
+
+```java
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ExpedienteDTO {
+    // ...
+}
+```
+
+hace que propiedades nulas no se incluyan al serializar ese DTO.
+
+No confundir con `@JsonIgnore`: `NON_NULL` depende del valor; una propiedad no nula sí aparecerá.
+
+### 5.4 `@JsonIgnore`
+
+Para una propiedad que no debe formar parte del contrato JSON:
+
+```java
+@JsonIgnore
+private String numeroSeguridadSocial;
+```
+
+Jackson la excluye de la representación según esa configuración. Esto puede ayudar a evitar exposición accidental, pero la seguridad de una API no debería depender únicamente de recordar una anotación: diseñar DTOs específicos de salida suele ser más seguro en sistemas reales. Esa evolución llegará en módulos posteriores.
+
+### 5.5 Las anotaciones son parte del contrato
+
+Cambiar:
+
+```java
+@JsonProperty("id")
+```
+
+por:
+
+```java
+@JsonProperty("identificador")
+```
+
+puede no romper la compilación Java y, sin embargo, romper clientes. Las anotaciones de serialización influyen en la interfaz externa y deben tratarse con la misma atención que una URL o un código HTTP.
+
+### Pregunta
+
+¿Por qué `@JsonIgnore` no debe considerarse una solución completa para todos los problemas de exposición de datos?
+
+### Respuesta razonada
+
+Porque sigue existiendo una única clase con responsabilidades internas y externas mezcladas. La anotación protege esa propiedad concreta en ese contrato Jackson, pero a medida que crece un sistema es más robusto diseñar DTOs de entrada y salida que contengan explícitamente sólo los datos permitidos. En este punto usamos `@JsonIgnore` para comprender Jackson; más adelante refinaremos el diseño.
+
+## Resumen del Punto 1.3
+
+- JSON es un formato textual estructurado e independiente del lenguaje.
+- Objetos, arrays, cadenas, números, booleanos y `null` forman su vocabulario básico.
+- La sintaxis es estricta: comillas dobles, separadores y delimitadores importan.
+- JSON no tiene un tipo fecha nativo; el formato de fecha es parte del contrato.
+- Convenciones coherentes de nombres y estructuras reducen fricción para los clientes.
+- Jackson serializa Java a JSON y deserializa JSON a Java.
+- Spring MVC integra Jackson mediante conversores; los controladores no tienen que invocar `ObjectMapper` manualmente para casos normales.
+- `@RequestBody` puede fallar antes de entrar al método si el cuerpo no puede convertirse.
+- En nuestra configuración de Spring Boot, las propiedades desconocidas se toleran por defecto; no generalizamos esa afirmación a cualquier `ObjectMapper`.
+- `@JsonProperty`, `@JsonFormat`, `@JsonInclude` y `@JsonIgnore` modifican el contrato de representación.
+- Un JSON convertible no es necesariamente un dato válido para el negocio.
+
+---
+
+> En el punto 1.4 utilizaremos estos DTOs para diseñar una API REST coherente: recursos, URLs, métodos, estados, versionado, filtrado y evolución del contrato.
