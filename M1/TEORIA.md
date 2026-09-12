@@ -1,0 +1,466 @@
+---
+title: "Módulo 1 - Teoría"
+author: "Curso Spring Boot 2026"
+lang: es-ES
+toc-title: "Índice"
+---
+
+# Módulo 1 - Introducción a Spring Boot y arquitectura back-end
+
+## Propósito del módulo
+
+En M0 construimos y verificamos el terreno: Java, Maven, Spring Initializr, la estructura del proyecto, el arranque, los logs, los tests y dos endpoints sencillos. En M1 empezamos a estudiar **por qué** esa aplicación funciona como lo hace y qué conceptos necesitamos para convertirla progresivamente en una API REST.
+
+El módulo recorrerá cinco ideas encadenadas: primero entenderemos el papel de Spring Boot; después estudiaremos la comunicación cliente-servidor y HTTP; a continuación JSON y Jackson; después las convenciones de diseño REST; y terminaremos con un primer CRUD en memoria basado en DTOs.
+
+El proyecto seguirá siendo acumulativo. Cada punto debe poder explicarse sobre el código real que el alumno tiene delante, no sobre ejemplos desconectados.
+
+> **Baseline del curso:** Java 17, Maven 3.9.x mediante Maven Wrapper 3.9.16 y Spring Boot 3.5.16.
+
+---
+
+# Punto 1.1 - Qué es Spring Boot y su papel en aplicaciones modernas
+
+## Objetivos de aprendizaje
+
+Al finalizar este punto serás capaz de:
+
+1. Explicar qué problema intenta resolver Spring Boot y qué trabajo de infraestructura reduce.
+2. Distinguir con precisión Spring Framework de Spring Boot y entender por qué no son tecnologías rivales.
+3. Explicar las tres ideas que dominan el modelo mental inicial de Spring Boot: **auto-configuración**, **starters** y **servidor embebido**.
+4. Relacionar el `pom.xml`, el classpath y la configuración con decisiones automáticas que Spring Boot toma al arrancar.
+5. Interpretar de forma básica el *Conditions Evaluation Report* y diferenciar coincidencias positivas, negativas y exclusiones.
+6. Explicar por qué una configuración automática debe poder sobrescribirse.
+7. Entender qué aporta un starter frente a declarar y coordinar manualmente un conjunto de dependencias.
+8. Explicar por qué una aplicación Spring Boot web puede distribuirse como un JAR ejecutable que contiene su servidor.
+9. Reconocer por qué este modelo encaja bien con APIs, servicios independientes y despliegues automatizados.
+10. Separar una comodidad de desarrollo de una garantía real: Spring Boot reduce configuración repetitiva, pero no elimina la necesidad de comprender lo que ocurre.
+
+## Bloque 1 - Qué es Spring Boot y por qué existe
+
+### 1.1 El problema no empieza en la lógica de negocio
+
+Imagina que debes desarrollar un sistema que reciba peticiones HTTP, aplique reglas de negocio y devuelva datos. La lógica que realmente aporta valor quizá sea pequeña al principio: consultar un expediente, calcular una condición o devolver un saludo. Sin embargo, para que esa lógica sea accesible desde otra máquina necesitas infraestructura.
+
+Como mínimo aparecen preguntas como estas:
+
+- ¿qué proceso escuchará peticiones de red?;
+- ¿qué servidor HTTP utilizaremos?;
+- ¿cómo se transformará una URL en una llamada a un método Java?;
+- ¿cómo se convertirán objetos Java en JSON?;
+- ¿cómo leeremos configuración externa?;
+- ¿cómo registraremos logs?;
+- ¿cómo se coordinarán versiones compatibles de todas las librerías?;
+- ¿cómo se empaquetará y arrancará la aplicación?;
+
+Nada de eso es todavía la regla de negocio que queríamos programar, pero todo ello es necesario para que la aplicación exista como servicio.
+
+Spring Boot nace precisamente para reducir ese coste de arranque y de configuración repetitiva. Es más exacto describirlo como una **capa opinada de arranque, integración y configuración sobre el ecosistema Spring** que como un sustituto de Spring Framework. Nos proporciona convenciones, auto-configuración, starters, herramientas de construcción y un modelo de ejecución que permiten obtener rápidamente una aplicación coherente.
+
+La palabra *opinada* es importante. Spring Boot toma decisiones razonables por defecto. Eso no significa que todas las aplicaciones deban aceptar esas decisiones para siempre. Significa que empezamos desde una configuración funcional y cambiamos sólo lo que necesitamos cambiar.
+
+### 1.2 Convención frente a configuración manual
+
+Una aplicación configurable puede diseñarse de dos maneras extremas.
+
+**Enfoque A: todo explícito desde el primer minuto.** El equipo elige cada implementación, crea cada objeto de infraestructura, declara cada dependencia y configura cada componente incluso cuando utiliza opciones estándar.
+
+**Enfoque B: convenciones sensatas con posibilidad de sustitución.** El framework observa el contexto, aplica una configuración habitual y deja puntos claros para modificarla.
+
+Spring Boot se acerca al segundo enfoque. Si encuentra una aplicación web basada en Spring MVC y las dependencias apropiadas, prepara gran parte de la infraestructura web. Si encuentra determinadas tecnologías de datos, seguridad, mensajería u observabilidad, puede activar configuraciones relacionadas. Si esas condiciones no existen, esas configuraciones no deben activarse.
+
+La consecuencia práctica es que el tiempo inicial se dedica antes a comportamiento de aplicación y menos a repetir configuración conocida.
+
+### 1.3 Lo que Spring Boot no hace por ti
+
+La comodidad de Spring Boot puede producir una mala conclusión: “si arranca, ya no necesito entender nada”. Es justo al revés. Cuanto más trabajo realiza una plataforma por convención, más importante es saber **qué decisión ha tomado y por qué** cuando algo no funciona.
+
+Spring Boot no decide por nosotros:
+
+- las reglas del negocio;
+- qué recursos debe exponer la API;
+- qué datos son válidos;
+- qué errores debe comunicar el sistema;
+- qué límites de seguridad necesita;
+- cómo modelar transacciones complejas;
+- qué arquitectura es adecuada para el problema;
+- qué observabilidad necesita producción.
+
+Tampoco convierte una mala dependencia o una mala decisión de diseño en una buena decisión. Automatiza infraestructura conocida; no sustituye el razonamiento de ingeniería.
+
+### Pregunta
+
+Si Spring Boot puede configurar muchas cosas automáticamente, ¿por qué merece la pena aprender Maven, el classpath, HTTP y los logs?
+
+### Respuesta razonada
+
+Porque la automatización se apoya precisamente en esas piezas. La auto-configuración toma decisiones a partir de las clases disponibles, las propiedades y el contexto; Maven determina buena parte del classpath; HTTP define el contrato de comunicación; y los logs muestran qué ocurrió. Sin ese modelo mental sólo podemos probar cambios al azar. Con él podemos formular hipótesis y comprobarlas.
+
+### 1.4 Las tres ideas clave para empezar
+
+Durante este punto utilizaremos tres mecanismos como mapa mental:
+
+1. **Auto-configuración.** Spring Boot evalúa el contexto y activa configuraciones cuando se cumplen determinadas condiciones.
+2. **Starters.** Dependencias de conveniencia que reúnen un conjunto coherente de tecnologías para una capacidad concreta.
+3. **Servidor embebido.** El servidor web forma parte de la aplicación ejecutable en lugar de ser necesariamente una instalación externa en la que desplegar un WAR.
+
+Estas tres ideas no resumen todo Spring Boot, pero explican gran parte de la experiencia inicial del alumno.
+
+### Pregunta
+
+¿Cuál de las tres ideas tiene más impacto en el día a día?
+
+### Respuesta razonada
+
+No existe una respuesta única. Los starters reducen decisiones y errores de dependencias; la auto-configuración elimina gran cantidad de configuración repetitiva; y el servidor embebido simplifica ejecución y despliegue. Su verdadero valor aparece al combinarlas: declaramos una capacidad de alto nivel, Spring Boot reconoce el entorno resultante y la aplicación puede arrancar como un proceso autocontenido.
+
+## Bloque 2 - Spring Framework y Spring Boot
+
+### 2.1 Spring Framework es la base
+
+Spring Framework es el conjunto de tecnologías sobre el que se apoyan muchas de las capacidades que usaremos. Entre sus áreas más conocidas se encuentran:
+
+- el contenedor de inversión de control y la inyección de dependencias;
+- Spring MVC para aplicaciones web;
+- soporte de acceso a datos y transacciones;
+- integración con sistemas externos;
+- testing del ecosistema Spring.
+
+Spring Boot **no reemplaza** esas capacidades. Las utiliza y facilita su configuración, selección y arranque.
+
+Un modo útil de recordarlo es:
+
+```text
+Spring Framework -> capacidades y modelo de programación
+Spring Boot      -> arranque, convenciones, integración y configuración opinada
+```
+
+Cuando escribimos `@RestController`, `@GetMapping` o trabajamos con el contenedor, estamos utilizando conceptos del ecosistema Spring. Cuando una aplicación obtiene automáticamente un servidor, configuración MVC coherente y un conjunto gestionado de dependencias a partir de starters y condiciones, estamos viendo el valor añadido de Spring Boot.
+
+### 2.2 Del Spring altamente configurado al arranque opinado
+
+Históricamente, desarrollar con Spring podía exigir bastante configuración explícita. La configuración XML fue durante años habitual; posteriormente la configuración Java con `@Configuration` y `@Bean` redujo parte de esa carga, pero seguía siendo necesario decidir y conectar numerosas piezas.
+
+Spring Boot cambia el punto de partida. En lugar de preguntar “¿cómo configuro desde cero todo lo necesario para una aplicación web?”, empezamos por “quiero una aplicación web” y declaramos el starter correspondiente. A partir de ahí Spring Boot intenta construir una configuración convencional y coherente.
+
+No debemos caricaturizar la historia como “Spring Framework era malo y Spring Boot lo arregló”. Spring Framework aportó el modelo de componentes, inyección, MVC y muchas otras capacidades. Spring Boot apareció para reducir el coste de montar y operar combinaciones habituales de esas capacidades.
+
+### 2.3 Separar capacidad de política de arranque
+
+Esta separación ayuda a interpretar errores.
+
+Si una anotación de Spring MVC no se comporta como esperas, quizá el problema esté en el modelo web o en el código del controlador.
+
+Si una infraestructura que esperabas no se crea, quizá el problema esté en las **condiciones de auto-configuración**, en el classpath o en una propiedad.
+
+Si una clase ni siquiera existe para el compilador, quizá el problema esté antes: Maven no ha resuelto la dependencia que la contiene.
+
+Esta jerarquía evita tratar todos los fallos como “un problema de Spring Boot”.
+
+### Pregunta
+
+¿Podemos utilizar Spring Framework sin Spring Boot?
+
+### Respuesta razonada
+
+Sí. Spring Boot no es un requisito conceptual para usar Spring Framework. Podríamos configurar manualmente una aplicación basada en Spring. Spring Boot aporta un camino mucho más cómodo y homogéneo para la mayoría de aplicaciones modernas, pero la capacidad subyacente sigue perteneciendo al ecosistema Spring.
+
+### Pregunta
+
+¿Podemos decir que Spring Boot “oculta” Spring Framework?
+
+### Respuesta razonada
+
+Sólo parcialmente y como simplificación. Boot oculta mucha configuración repetitiva, pero el modelo de programación sigue siendo visible: beans, componentes, MVC, inyección, propiedades y demás conceptos no desaparecen. A medida que avancemos en el curso iremos trabajando cada vez más directamente con ellos.
+
+## Bloque 3 - Auto-configuración
+
+### 3.1 Qué significa realmente “automática”
+
+Auto-configurar no significa adivinar. Spring Boot dispone de configuraciones preparadas que se activan o no según condiciones observables. Entre las señales que pueden intervenir están:
+
+- clases presentes o ausentes en el classpath;
+- beans ya definidos por la aplicación;
+- propiedades de configuración;
+- tipo de aplicación;
+- recursos disponibles;
+- otras configuraciones activas.
+
+La idea puede expresarse así:
+
+```text
+si se cumplen ciertas condiciones
+    -> aplica una configuración convencional
+si la aplicación ya aporta una alternativa o falta un requisito
+    -> no aplica esa configuración
+```
+
+Esto explica por qué modificar una dependencia puede alterar el comportamiento del arranque incluso sin cambiar una línea de Java: ha cambiado el conjunto de condiciones que Spring Boot observa.
+
+### 3.2 `@SpringBootApplication` y la auto-configuración
+
+En nuestro proyecto la clase principal contiene:
+
+```java
+@SpringBootApplication
+public class MiProyectoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MiProyectoApplication.class, args);
+    }
+}
+```
+
+En M0 vimos `@SpringBootApplication` como una anotación compuesta que reúne configuración, auto-configuración y escaneo de componentes. En M1 damos un paso más: su parte de auto-configuración habilita el mecanismo por el que Spring Boot evalúa configuraciones candidatas durante el arranque.
+
+No significa “configura todo”. Significa “considera el conjunto de auto-configuraciones disponibles y aplica las que correspondan”.
+
+### 3.3 Condiciones positivas y negativas
+
+Al arrancar con `--debug`, Spring Boot puede imprimir un **Conditions Evaluation Report**.
+
+Ese informe permite observar tres ideas:
+
+**Positive matches.** Configuraciones cuyas condiciones se han cumplido.
+
+**Negative matches.** Configuraciones candidatas que no se han aplicado porque alguna condición no se cumple.
+
+**Exclusions.** Configuraciones que han sido excluidas expresamente.
+
+Una coincidencia negativa no es necesariamente un error. Si nuestra aplicación no utiliza JMS, es normal que una configuración que depende de clases JMS no se active. El informe es una explicación del proceso de decisión, no una lista de fallos.
+
+### 3.4 Ejemplo conceptual: aplicación web
+
+Nuestro `pom.xml` declara `spring-boot-starter-web`. Ese starter hace que aparezcan en el classpath piezas relacionadas con Spring Web y Tomcat. Durante el arranque, las condiciones relevantes detectan esas clases y el contexto de aplicación, y Spring Boot puede preparar la infraestructura MVC y el servidor web.
+
+Observa la cadena causal:
+
+```text
+pom.xml
+  -> Maven resuelve starter y transitivas
+  -> cambia el classpath
+  -> las condiciones ven determinadas clases
+  -> se activan auto-configuraciones
+  -> aparecen beans e infraestructura
+  -> la aplicación atiende HTTP
+```
+
+Esta cadena conecta algo que en un IDE parece simplemente “añadir una dependencia” con una consecuencia real en runtime.
+
+### 3.5 Back-off: la configuración automática debe ceder
+
+Una característica esencial de una auto-configuración útil es que no debe convertirse en una cárcel. Cuando la aplicación define explícitamente una pieza que sustituye al valor por defecto, muchas auto-configuraciones están diseñadas para **retroceder** (*back off*) y respetar la decisión del usuario.
+
+También podemos sobrescribir numerosas propiedades. Por ejemplo, el servidor escucha en 8080 por defecto, pero:
+
+```properties
+server.port=9090
+```
+
+cambia ese comportamiento sin modificar el código Java.
+
+Esto ilustra una regla importante:
+
+> El valor por defecto sirve para arrancar rápido; la configuración explícita sirve para adaptar el sistema.
+
+### Pregunta
+
+¿Por qué es importante que una auto-configuración pueda sobrescribirse o ceder ante una configuración explícita?
+
+### Respuesta razonada
+
+Porque un sistema que sólo funciona mientras aceptemos todas sus decisiones por defecto no es realmente configurable. Las convenciones son valiosas cuando reducen trabajo repetitivo, pero una aplicación real necesita adaptar puertos, seguridad, serialización, conexiones, cachés y muchas otras piezas. El objetivo es evitar configuración innecesaria, no impedir configuración necesaria.
+
+### 3.6 Diagnóstico: no memorizar cientos de auto-configuraciones
+
+No necesitas memorizar todas las clases de auto-configuración. Necesitas dominar una estrategia:
+
+1. identifica qué infraestructura esperabas;
+2. comprueba que la dependencia necesaria está en el classpath;
+3. comprueba propiedades relevantes;
+4. arranca con `--debug` cuando necesites explicación adicional;
+5. busca la configuración relacionada;
+6. lee por qué hizo *match* o por qué no lo hizo.
+
+Eso convierte un sistema aparentemente “mágico” en un sistema observable.
+
+## Bloque 4 - Starters y gestión coherente de dependencias
+
+### 4.1 Qué es un starter
+
+Un starter es una dependencia de conveniencia diseñada para expresar una capacidad de alto nivel. En lugar de obligar al alumno a seleccionar manualmente todas las librerías necesarias para construir una aplicación web, podemos declarar:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+A partir de ahí Maven resuelve las dependencias transitivas que ese starter necesita.
+
+El starter no debe imaginarse como “una megabiblioteca que contiene físicamente todo”. Su valor principal es **declarativo**: expresa un conjunto coherente de dependencias para una finalidad.
+
+### 4.2 Dependencias directas y transitivas
+
+En nuestro POM declaramos `spring-boot-starter-web` directamente. Otras librerías aparecen porque son dependencias de ese starter o de sus dependencias.
+
+Podemos comprobarlo con:
+
+```bash
+./mvnw dependency:tree
+```
+
+En Windows:
+
+```cmd
+mvnw.cmd dependency:tree
+```
+
+Ahí veremos piezas como Spring Web MVC, Jackson y Tomcat dentro del árbol resuelto. La versión exacta de cada artefacto no debe memorizarse; lo importante es entender de dónde procede y quién gestiona su compatibilidad.
+
+### 4.3 Starter no significa “usar todo en cada petición”
+
+Que una librería esté disponible no significa que cada endpoint la utilice siempre. Nuestro `/hola` devuelve texto; Jackson puede estar presente en el classpath, pero ese `String` sencillo no demuestra por sí solo una serialización compleja de DTO.
+
+Este matiz será importante en la práctica: para demostrar el efecto de Jackson necesitaremos un endpoint temporal que obligue realmente a producir JSON estructurado.
+
+### 4.4 Versiones coordinadas
+
+Spring Boot proporciona gestión de dependencias para un conjunto amplio de librerías compatibles. Por eso el POM de nuestro proyecto no necesita escribir una versión manual junto a cada starter.
+
+La ventaja no es sólo escribir menos XML. El beneficio mayor es reducir combinaciones arbitrarias de versiones que podrían ser incompatibles.
+
+Eso no significa que una actualización sea siempre trivial. Cambiar de línea de Spring Boot puede implicar cambios de API o comportamiento. Significa que partimos de un conjunto coordinado en lugar de construir uno al azar.
+
+### Pregunta
+
+¿Qué problema evita coordinar versiones mediante Spring Boot frente a declarar manualmente una versión independiente para cada librería?
+
+### Respuesta razonada
+
+Reduce el riesgo de construir un classpath incoherente. Si elegimos por separado versiones de Spring MVC, Jackson, Tomcat y decenas de dependencias, podemos seleccionar combinaciones que nunca se probaron juntas. La gestión centralizada proporciona un conjunto conocido y permite que el equipo razone sobre una versión de plataforma en lugar de docenas de decisiones aisladas.
+
+### 4.5 Starter frente a dependencia específica
+
+Los starters son excelentes para capacidades amplias, pero no toda dependencia de un proyecto debe ser un starter. A lo largo del curso añadiremos también librerías concretas cuando exista una razón explícita.
+
+La regla pedagógica es comprender **qué capacidad estamos pidiendo** y **qué dependencia la introduce**, no acumular starters preventivamente.
+
+## Bloque 5 - Servidor embebido y aplicaciones modernas
+
+### 5.1 Dos modelos de despliegue
+
+En el modelo tradicional de muchas aplicaciones Java web se construía un WAR y se desplegaba en un servidor de aplicaciones o contenedor servlet instalado y administrado por separado.
+
+Esquema simplificado:
+
+```text
+servidor instalado
+  `-- Tomcat
+      `-- despliegue de aplicacion.war
+```
+
+Con el modelo habitual de Spring Boot para una aplicación web, el servidor puede viajar como parte de la aplicación ejecutable:
+
+```text
+java -jar mi-proyecto.jar
+  -> arranca la JVM
+  -> arranca Spring Boot
+  -> arranca Tomcat embebido
+  -> publica el puerto HTTP
+```
+
+En nuestro curso utilizamos este segundo modelo.
+
+### 5.2 “Embebido” no significa que Tomcat deje de existir
+
+Tomcat sigue siendo un servidor web/servlet real. La diferencia es cómo se empaqueta y quién controla su ciclo de vida.
+
+No necesitamos instalar un Tomcat externo para ejecutar el proyecto. Maven resuelve las librerías de Tomcat y Spring Boot crea y arranca el servidor apropiado cuando la aplicación web se inicia.
+
+Por tanto, el experimento correcto no es sólo preguntar “¿tengo instalado Tomcat?”. La evidencia fuerte consiste en demostrar simultáneamente que:
+
+- Tomcat está en el árbol de dependencias de la aplicación;
+- el JAR puede arrancar por sí mismo con Java;
+- el proceso publica el puerto HTTP;
+- no depende de desplegarse manualmente en una instalación externa.
+
+### 5.3 Ventajas del modelo embebido
+
+**Despliegue sencillo.** El artefacto ejecutable concentra aplicación y runtime web necesario.
+
+**Reproducibilidad.** El proyecto controla qué versión del servidor entra en su conjunto de dependencias.
+
+**Aislamiento.** Dos aplicaciones pueden llevar ciclos de versión distintos sin compartir obligatoriamente una única instalación global de Tomcat.
+
+**Automatización.** Un proceso que se inicia con un comando bien definido encaja naturalmente en pipelines, servicios del sistema y contenedores.
+
+**Desarrollo coherente.** El mismo modelo básico de arranque se utiliza en la máquina del alumno y en otros entornos, aunque configuración y operación de producción sean mucho más estrictas.
+
+### 5.4 Costes y límites
+
+El servidor embebido no elimina los problemas operativos. Seguimos necesitando:
+
+- controlar memoria y CPU;
+- configurar puertos y TLS cuando corresponda;
+- gestionar logs;
+- monitorizar disponibilidad;
+- aplicar actualizaciones de seguridad;
+- planificar despliegues y rollback;
+- configurar proxies o balanceadores cuando la arquitectura los necesite.
+
+Además, un JAR ejecutable incluye numerosas dependencias y por eso pesa más que un artefacto que presuponga un servidor ya instalado.
+
+### 5.5 APIs, servicios y contenedores
+
+El modelo “una aplicación = un proceso ejecutable con su servidor” encaja bien con arquitecturas de servicios y con contenedores. No porque Docker o Kubernetes exijan Spring Boot, sino porque es sencillo empaquetar y automatizar una aplicación que ya sabe arrancarse a sí misma.
+
+Un contenedor no sustituye al servidor embebido: normalmente contiene el proceso Java que, a su vez, arranca Spring Boot y su servidor web.
+
+### 5.6 Monolito y microservicio no son sinónimos de viejo y moderno
+
+Spring Boot puede utilizarse para aplicaciones monolíticas, servicios pequeños, APIs internas y otros estilos. Elegir microservicios no es una consecuencia automática de usar Spring Boot.
+
+La tecnología facilita crear procesos independientes, pero la decisión arquitectónica debe responder a necesidades de dominio, despliegue, escalado, organización y operación. Dividir un sistema sin necesidad puede aumentar complejidad de red, datos, observabilidad y despliegue.
+
+### Pregunta
+
+¿Por qué el servidor embebido facilita el despliegue sin convertirlo automáticamente en “producción lista”?
+
+### Respuesta razonada
+
+Porque reduce una parte concreta del problema: empaquetar y arrancar la infraestructura web junto con la aplicación. Producción incluye además seguridad, configuración, secretos, monitorización, escalado, backups, redes, actualizaciones y procedimientos operativos. Un JAR ejecutable simplifica el vehículo de despliegue, no toda la explotación del sistema.
+
+## Cómo se combinan las tres ideas en nuestro proyecto
+
+Nuestro proyecto M1 parte del snapshot final de M0. Si seguimos la cadena completa:
+
+1. `pom.xml` declara `spring-boot-starter-web`.
+2. Maven resuelve el starter y sus dependencias transitivas.
+3. El classpath contiene Spring MVC, Jackson y Tomcat, entre otras piezas.
+4. `@SpringBootApplication` habilita el modelo de configuración y auto-configuración.
+5. Spring Boot evalúa condiciones durante el arranque.
+6. Se crea infraestructura web apropiada.
+7. Tomcat embebido escucha en el puerto configurado.
+8. Spring MVC descubre `SaludoController` mediante component scan.
+9. `GET /hola` se asigna al método `saludar()`.
+10. El navegador o `curl` recibe la respuesta.
+
+En M0 observamos partes de esta cadena. En 1.1 el objetivo es **explicarla y demostrarla con evidencias**.
+
+## Resumen del Punto 1.1
+
+- Spring Boot reduce configuración repetitiva mediante convenciones y auto-configuración.
+- Spring Boot no sustituye Spring Framework; se apoya en él y facilita su integración y arranque.
+- La auto-configuración evalúa condiciones; no “adivina” y no configura todo indiscriminadamente.
+- El *Conditions Evaluation Report* permite observar por qué ciertas configuraciones se aplicaron o no.
+- Una buena auto-configuración admite sobrescritura y *back-off*.
+- Los starters expresan capacidades de alto nivel y arrastran dependencias transitivas coherentes.
+- Maven y el classpath forman parte del mecanismo: cambiar dependencias puede cambiar las condiciones de runtime.
+- El servidor embebido viaja con la aplicación y permite arrancarla como un proceso Java autocontenido.
+- Este modelo encaja bien con APIs y despliegues automatizados, pero no decide por sí solo la arquitectura ni resuelve la operación de producción.
+- Comprender estas piezas convierte la “magia de Spring Boot” en un sistema que podemos inspeccionar, verificar y diagnosticar.
+
+---
+
+> El siguiente punto estudiará la arquitectura cliente-servidor y HTTP. Antes de diseñar APIs necesitamos comprender qué viaja entre cliente y servidor, cómo se representa una petición y por qué 200, 404 o 405 describen situaciones diferentes.
