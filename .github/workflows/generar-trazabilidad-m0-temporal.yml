@@ -1,0 +1,28 @@
+name: Generar trazabilidad humana M0 temporal
+
+on:
+  push:
+    branches: [m0-trazabilidad-fuerte]
+    paths:
+      - '.github/workflows/generar-trazabilidad-m0-temporal.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: m0-trazabilidad-fuerte
+      - name: Generar vistas humanas desde contratos v3
+        run: python .course/traceability/generate_human_traceability.py
+      - name: Commit de vistas humanas
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add M0/TRAZABILIDAD.md .course/traceability/TRAZABILIDAD_M0.md
+          git diff --cached --quiet && exit 0
+          git commit -m 'trace(m0): genera vista humana fuerte de 51 pasos'
+          git push
