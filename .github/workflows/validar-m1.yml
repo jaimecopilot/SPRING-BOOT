@@ -211,8 +211,6 @@ jobs:
           }
           trap cleanup EXIT
 
-          # Reempaquetar después del laboratorio temporal de 1.2 garantiza que
-          # el JAR probado corresponde otra vez al snapshot final del repositorio.
           ./mvnw -B -DskipTests package
           java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m1-json.log 2>&1 &
           PID=$!
@@ -289,3 +287,111 @@ jobs:
           test "$(curl --fail --silent http://localhost:8080/hola)" = "Hola, Ministerio de Educación"
           test "$(curl --fail --silent http://localhost:8080/adios)" = "Adiós, Ministerio de Educación"
           grep -q 'Started MiProyectoApplication' /tmp/m1-json.log
+
+      - name: Validar contrato REST permanente de 1.4
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          PID=''
+          cleanup() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
+          ./mvnw -B -DskipTests package
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m1-rest.log 2>&1 &
+          PID=$!
+          for i in {1..45}; do
+            CODE="$(curl --silent --output /tmp/m1-alumnos.json --write-out '%{http_code}' \
+              http://localhost:8080/api/v1/alumnos || true)"
+            if [[ "$CODE" == "200" ]]; then break; fi
+            sleep 1
+          done
+          test "$CODE" = "200"
+          curl --fail --silent --show-error -D /tmp/m1-alumnos.headers \
+            -o /tmp/m1-alumnos.json http://localhost:8080/api/v1/alumnos
+          grep -qi '^Content-Type: application/json' /tmp/m1-alumnos.headers
+
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-alumnos.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert isinstance(data, list) and len(data)==2, data
+          assert [x['id'] for x in data]==['1','2'], data
+          assert [x['nombre'] for x in data]==['Ana','Luis'], data
+          assert data[0]['curso']=='5º Primaria', data
+          assert data[1]['curso']=='6º Primaria', data
+          assert data[0]['fechaNacimiento']=='2010-05-12', data
+          assert data[1]['fechaNacimiento']=='2009-09-03', data
+          assert all('documentos' not in x for x in data), data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-alumno-1.json --write-out '%{http_code}' \
+            http://localhost:8080/api/v1/alumnos/1)" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-alumno-1.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['id']=='1' and data['nombre']=='Ana', data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-alumno-999.json --write-out '%{http_code}' \
+            http://localhost:8080/api/v1/alumnos/999)" = "404"
+
+          test "$(curl --silent --output /tmp/m1-alumno-post.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos \
+            -H 'Content-Type: application/json' \
+            -d '{"nombre":"María","apellidos":"López","dni":"DNI-DEMO-03","fechaNacimiento":"2011-03-20","curso":"4º Primaria"}')" = "201"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-alumno-post.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data['nombre']=='María', data
+          assert data['curso']=='4º Primaria', data
+          assert data['fechaNacimiento']=='2011-03-20', data
+          PY
+
+          curl --fail --silent http://localhost:8080/api/v1/alumnos > /tmp/m1-alumnos-after-post.json
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-alumnos-after-post.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert len(data)==2, data
+          assert all(x['nombre']!='María' for x in data), data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-curso-5.json --write-out '%{http_code}' \
+            -G http://localhost:8080/api/v1/alumnos \
+            --data-urlencode 'curso=5º Primaria')" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-curso-5.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert len(data)==1 and data[0]['nombre']=='Ana', data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-curso-3.json --write-out '%{http_code}' \
+            -G http://localhost:8080/api/v1/alumnos \
+            --data-urlencode 'curso=3º Primaria')" = "200"
+          python - <<'PY'
+          import json
+          with open('/tmp/m1-curso-3.json', encoding='utf-8') as f:
+              data=json.load(f)
+          assert data==[], data
+          PY
+
+          test "$(curl --silent --output /tmp/m1-alumno-bad.json --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos \
+            -H 'Content-Type: application/json' \
+            -d '{"nombre":"María",}')" = "400"
+          test "$(curl --silent --output /tmp/m1-alumno-unsupported.txt --write-out '%{http_code}' \
+            -X POST http://localhost:8080/api/v1/alumnos \
+            -H 'Content-Type: text/plain' \
+            -d 'hola')" = "415"
+
+          test "$(curl --silent --output /tmp/m1-expediente-regression.json --write-out '%{http_code}' \
+            http://localhost:8080/api/v1/expedientes/ejemplo)" = "200"
+          test "$(curl --fail --silent http://localhost:8080/hola)" = "Hola, Ministerio de Educación"
+          test "$(curl --fail --silent http://localhost:8080/adios)" = "Adiós, Ministerio de Educación"
+          grep -q 'Started MiProyectoApplication' /tmp/m1-rest.log
