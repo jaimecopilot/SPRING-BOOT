@@ -1174,7 +1174,7 @@ Sin modificar código, completa esta tabla con evidencias de tus propias pruebas
 | inexistente | GET | `/no-existe` | 404 | no existe handler/recurso solicitado |
 | método incorrecto | POST | `/hola` | 405 | ruta conocida pero método no permitido |
 
-Ahora responde:
+### Pregunta
 
 1. ¿Qué cambia entre 404 y 405?
 2. ¿Qué información aporta `Content-Type`?
