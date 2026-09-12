@@ -12,7 +12,7 @@ fail = []
 def bad(msg):
     fail.append(msg)
 
-# Todos los checkpoints heredan primero los invariantes reutilizables.
+# 1) Invariantes estructurales reutilizables.
 generic = root / ".course/traceability/validate_module.py"
 cp = subprocess.run([sys.executable, str(generic), "M1", str(root)], text=True, capture_output=True)
 if cp.returncode:
@@ -22,89 +22,42 @@ manifest = json.loads((root / ".course/traceability/M1.json").read_text(encoding
 theory = (root / "M1/TEORIA.md").read_text(encoding="utf-8")
 practice = (root / "M1/PRACTICA.md").read_text(encoding="utf-8")
 
-# Checkpoint acumulativo 1.1 + 1.2 + 1.3 + 1.4.
-if manifest.get("status") != "IN_PROGRESS":
-    bad("M1 must remain IN_PROGRESS until all 58 steps are complete")
+# 2) El módulo completo debe ser exactamente 58/58, no un checkpoint parcial.
+if manifest.get("status") != "COMPLETE":
+    bad("final M1 manifest must be COMPLETE")
 if manifest.get("expected_total_steps_when_complete") != 58:
-    bad("M1 expected final total must remain 58")
-if manifest.get("current_traced_steps") != 46:
-    bad("M1.4 checkpoint must expose exactly 46 traced steps")
+    bad("M1 expected final total must be 58")
+if manifest.get("current_traced_steps") != 58:
+    bad("final M1 must expose exactly 58 traced steps")
 expected_manifests = [
     ".course/traceability/M1/1.1.json",
     ".course/traceability/M1/1.2.json",
     ".course/traceability/M1/1.3.json",
     ".course/traceability/M1/1.4.json",
+    ".course/traceability/M1/1.5.json",
 ]
 if manifest.get("step_manifests") != expected_manifests:
-    bad(f"M1.4 checkpoint manifests must be {expected_manifests}")
-if len(manifest.get("theory_concepts", [])) != 20:
-    bad("M1.4 checkpoint must expose exactly 20 theory concepts")
+    bad(f"final M1 manifests must be {expected_manifests}")
+if len(manifest.get("theory_concepts", [])) != 25:
+    bad("final M1 must expose exactly 25 theory concepts")
 
-expected_11 = [
-    "## Paso 1 - Abrir el proyecto y arrancarlo",
-    "## Paso 2 - Ver el informe de auto-configuración",
-    "## Paso 3 - Leer el informe con calma",
-    "## Paso 4 - Demostrar que Tomcat está embebido",
-    "## Paso 5 - Cambiar una configuración por defecto y restaurarla",
-    "## Paso 6 - Observar los starters y las dependencias transitivas",
-    "## Paso 7 - Probar `/hola` y reconstruir toda la cadena",
-    "## Paso 8 - Explicar el papel de Spring Boot usando evidencias del proyecto",
-    "## Paso 9 - Diagnosticar errores frecuentes sin cambiar varias cosas a la vez",
-    "## Paso 10 - Reto resuelto: excluir temporalmente Jackson y demostrar el efecto",
-]
-expected_12 = [
-    "## Paso 1 - Arrancar la aplicación y formular hipótesis",
-    "## Paso 2 - Probar GET con el navegador",
-    "## Paso 3 - Probar una ruta que no existe",
-    "## Paso 4 - Probar GET con curl y ver las cabeceras",
-    "## Paso 5 - Probar una ruta inexistente con curl",
-    "## Paso 6 - Probar un método HTTP no soportado",
-    "## Paso 7 - Ver las cabeceras que envía el cliente con curl",
-    "## Paso 8 - Observar la misma petición con DevTools",
-    "## Paso 9 - Razonar sobre lo observado",
-    "## Paso 10 - Diagnosticar errores comunes de comunicación HTTP",
-    "## Paso 11 - Resumir lo observado con pruebas reproducibles",
-    "## Paso 12 - Reto resuelto: provocar un 400 Bad Request y restaurar el proyecto",
-]
-expected_13 = [
-    "## Paso 1 - Crear el paquete dto",
-    "## Paso 2 - Crear la clase ExpedienteDTO",
-    "## Paso 3 - Crear un controlador para probar la serialización",
-    "## Paso 4 - Arrancar y probar la serialización por defecto",
-    "## Paso 5 - Renombrar el campo con @JsonProperty",
-    "## Paso 6 - Formatear la fecha con @JsonFormat",
-    "## Paso 7 - Omitir campos nulos con @JsonInclude",
-    "## Paso 8 - Excluir un campo con @JsonIgnore",
-    "## Paso 9 - Probar la deserialización con POST",
-    "## Paso 10 - Probar la deserialización con campos desconocidos",
-    "## Paso 11 - Errores comunes del ejercicio",
-    "## Paso 12 - Reto resuelto: DTO con DTO anidado",
-]
-expected_14 = [
-    "## Paso 1 - Identificar los recursos y sus operaciones",
-    "## Paso 2 - Crear el DTO AlumnoDTO",
-    "## Paso 3 - Crear AlumnoController con GET colección y POST básico",
-    "## Paso 4 - Arrancar y probar el GET de colección",
-    "## Paso 5 - Probar el POST de creación y observar el 200 inicial",
-    "## Paso 6 - Analizar por qué 200 no describe una creación",
-    "## Paso 7 - Corregir el POST para devolver 201 Created",
-    "## Paso 8 - Añadir el endpoint GET individual",
-    "## Paso 9 - Probar un ID inexistente",
-    "## Paso 10 - Auditar el diseño actual de la API",
-    "## Paso 11 - Reconocer errores comunes de diseño",
-    "## Paso 12 - Reto resuelto: filtrar por curso con query parameter",
-]
 blocks = re.findall(r"(?ms)^# Práctica (1\.\d+) - .*?(?=^# Práctica |\Z)", practice)
-if blocks != ["1.1", "1.2", "1.3", "1.4"]:
-    bad(f"published practical blocks must be exactly 1.1-1.4; got {blocks}")
-all_headings = re.findall(r"^## Paso \d+ - .+$", practice, re.M)
-if all_headings != expected_11 + expected_12 + expected_13 + expected_14:
-    bad(f"M1.4 practical headings changed or out of order: {all_headings}")
-if "# Práctica 1.5" in practice or "# Punto 1.5" in theory:
-    bad("M1.5 content must not enter before its traceability checkpoint exists")
+if blocks != ["1.1", "1.2", "1.3", "1.4", "1.5"]:
+    bad(f"published practical blocks must be exactly 1.1-1.5; got {blocks}")
+point_blocks = re.findall(r"^# Punto (1\.\d+) - ", theory, re.M)
+if point_blocks != ["1.1", "1.2", "1.3", "1.4", "1.5"]:
+    bad(f"published theory points must be exactly 1.1-1.5; got {point_blocks}")
+if re.search(r"^# (?:Punto|Práctica) 2\.", theory + "\n" + practice, re.M):
+    bad("M2 content leaked into M1")
 
-# Todo lo heredado de M0 debe seguir byte a byte idéntico. Tras 1.4 el conjunto
-# exacto de ficheros funcionales nuevos es el de 1.3 más AlumnoDTO/Controller.
+# Los marcadores de auditoría/conversación nunca pertenecen al material del alumno.
+for name, text in [("TEORIA", theory), ("PRACTICA", practice)]:
+    for token in ["filecite", "turn291file", ".course/tmp/", "assemble-m1-"]:
+        if token in text:
+            bad(f"{name}: internal/source marker leaked into student material: {token}")
+
+# 3) Herencia: todos los ficheros procedentes de M0 siguen byte a byte iguales.
+# M1 añade exactamente cinco ficheros funcionales nuevos; 1.5 modifica sólo uno de ellos.
 def files_under(base):
     return {
         p.relative_to(base).as_posix(): p
@@ -127,13 +80,14 @@ else:
     missing = set(f0) - set(f1)
     extra = set(f1) - set(f0)
     if missing:
-        bad(f"M1.4 lost inherited M0 files: {sorted(missing)}")
+        bad(f"M1 lost inherited M0 files: {sorted(missing)}")
     if extra != expected_new:
-        bad(f"M1.4 new file set must be exactly {sorted(expected_new)}; got {sorted(extra)}")
+        bad(f"final M1 new functional file set must be exactly {sorted(expected_new)}; got {sorted(extra)}")
     for rel in sorted(set(f0) & set(f1)):
         if not filecmp.cmp(f0[rel], f1[rel], shallow=False):
-            bad(f"inherited M0 artifact changed unexpectedly in M1.4: {rel}")
+            bad(f"inherited M0 artifact changed unexpectedly in M1: {rel}")
 
+# 4) Contrato de código final.
 contracts = {
     "M1/proyecto/pom.xml": [
         "spring-boot-starter-parent", "3.5.16", "<java.version>17</java.version>",
@@ -169,27 +123,32 @@ contracts = {
         "public AlumnoDTO()", "getIdentificador", "setIdentificador", "getCurso", "setCurso"
     ],
     "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java": [
-        "@RequestMapping(\"/api/v1/alumnos\")", "private final List<AlumnoDTO> alumnos = List.of",
-        "@RequestParam(required = false) String curso", "a.getCurso().equalsIgnoreCase(curso)",
-        "@PostMapping", "ResponseEntity.status(HttpStatus.CREATED).body(dto)",
-        "@GetMapping(\"/{id}\")", "@PathVariable String id", "ResponseEntity.notFound().build()"
-    ],
-    "M1/proyecto/src/test/java/es/mecd/demo/miproyecto/controller/SaludoControllerTest.java": [
-        "saludarDebeDevolverElMensajeEsperado", "despedirDebeDevolverElMensajeEsperado"
+        "import java.util.ArrayList", "import java.util.Map",
+        "private final List<AlumnoDTO> alumnos = new ArrayList<>(List.of(",
+        "@RequestParam(required = false) String curso", "@RequestParam(required = false) String sort",
+        "int siguienteId = alumnos.stream()", ".mapToInt(Integer::parseInt)", ".max()",
+        "dto.setIdentificador(String.valueOf(siguienteId))", "alumnos.add(dto)",
+        "@PutMapping(\"/{id}\")", "dto.setIdentificador(id)", "alumnos.set(i, dto)",
+        "@PatchMapping(\"/{id}\")", "@RequestBody Map<String, Object> cambios",
+        "cambios.containsKey(\"nombre\")", "cambios.containsKey(\"apellidos\")",
+        "cambios.containsKey(\"dni\")", "cambios.containsKey(\"curso\")",
+        "@DeleteMapping(\"/{id}\")", "alumnos.removeIf", "ResponseEntity.noContent().build()",
+        "\"nombre\".equalsIgnoreCase(sort)", "getNombre().compareToIgnoreCase",
+        "\"apellidos\".equalsIgnoreCase(sort)", "getApellidos().compareToIgnoreCase"
     ],
     "M1/proyecto/.mvn/wrapper/maven-wrapper.properties": ["apache-maven-3.9.16-bin.zip"],
 }
 for rel, tokens in contracts.items():
     p = root / rel
     if not p.exists():
-        bad(f"missing M1.4 contract file: {rel}")
+        bad(f"missing final M1 contract file: {rel}")
         continue
     txt = p.read_text(encoding="utf-8")
     for token in tokens:
         if token not in txt:
             bad(f"{rel}: missing contract token {token}")
 
-# Ningún laboratorio temporal de 1.1/1.2 puede filtrarse al snapshot final.
+# No puede quedar ningún laboratorio temporal de 1.1/1.2.
 temporary_forbidden = {
     "M1/proyecto/src/main/resources/application.properties": ["server.port=9090"],
     "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java": ["JacksonAutoConfiguration.class"],
@@ -204,34 +163,41 @@ for rel, tokens in temporary_forbidden.items():
         if token in txt:
             bad(f"temporary M1.1/M1.2 residue leaked into final snapshot: {rel} -> {token}")
 
-# 1.4 debe preservar deliberadamente la frontera con 1.5.
-alumno_controller = (root / "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java").read_text(encoding="utf-8")
-for forbidden in ["@PutMapping", "@PatchMapping", "@DeleteMapping", "alumnos.add(", "new ArrayList<"]:
-    if forbidden in alumno_controller:
-        bad(f"M1.5 behavior leaked into M1.4 AlumnoController: {forbidden}")
-
-# Contratos didácticos acumulativos que no pueden desaparecer de las guías.
-for token in [
-    "--debug", "CONDITIONS EVALUATION REPORT", "Positive matches", "Negative matches", "Exclusions",
-    "./mvnw dependency:tree", "server.port=9090", "JacksonAutoConfiguration.class",
-    "curl -i http://localhost:8080/no-existe", "curl -i -X POST http://localhost:8080/hola",
-    "curl -v http://localhost:8080/hola", "400 Bad Request", "415 Unsupported Media Type",
-    "@PostMapping(\"/eco\")", "Map<String, Object>",
-    "src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java",
-    "@JsonProperty(\"id\")", "@JsonFormat(pattern = \"yyyy-MM-dd\")",
-    "@JsonInclude(JsonInclude.Include.NON_NULL)", "@JsonIgnore",
-    "POST http://localhost:8080/api/v1/expedientes/eco",
-    "campoInexistente", "SolicitanteDTO",
-    "src/main/java/es/mecd/demo/miproyecto/dto/AlumnoDTO.java",
-    "@RequestMapping(\"/api/v1/alumnos\")", "201 Created", "ResponseEntity.status(HttpStatus.CREATED).body(dto)",
-    "@GetMapping(\"/{id}\")", "@PathVariable String id", "@RequestParam(required = false) String curso",
-    "--data-urlencode \"curso=5º Primaria\"", "El POST todavía **no añade** el DTO a la lista",
-    "./mvnw -DskipTests package", "IntelliJ IDEA", "Eclipse", "VS Code"
+# M1 no debe adelantar todavía capas de M2 ni persistencia real.
+for forbidden_path in [
+    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/service",
+    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/repository",
+    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/entity",
 ]:
+    if (root / forbidden_path).exists():
+        bad(f"future-layer package leaked into M1: {forbidden_path}")
+for p in (root / "M1/proyecto/src/main/java").rglob("*.java"):
+    text=p.read_text(encoding="utf-8")
+    for forbidden in ["@Service", "@Repository", "@Entity", "JpaRepository"]:
+        if forbidden in text:
+            bad(f"future M2+ behavior leaked into {p.relative_to(root)}: {forbidden}")
+
+# 5) Contratos didácticos acumulativos de alto valor.
+practice_tokens = [
+    "--debug", "CONDITIONS EVALUATION REPORT", "./mvnw dependency:tree",
+    "server.port=9090", "JacksonAutoConfiguration.class",
+    "curl -i http://localhost:8080/no-existe", "400 Bad Request", "415 Unsupported Media Type",
+    "@PostMapping(\"/eco\")", "Map<String, Object>",
+    "@JsonProperty(\"id\")", "@JsonFormat(pattern = \"yyyy-MM-dd\")",
+    "@JsonInclude(JsonInclude.Include.NON_NULL)", "@JsonIgnore", "SolicitanteDTO",
+    "@RequestMapping(\"/api/v1/alumnos\")", "201 Created", "@GetMapping(\"/{id}\")",
+    "@RequestParam(required = false) String curso",
+    "new ArrayList<>(List.of(", "alumnos.add(dto)", "@PutMapping(\"/{id}\")",
+    "@PatchMapping(\"/{id}\")", "@DeleteMapping(\"/{id}\")",
+    "@RequestParam(required = false) String sort", "removeIf", "204 No Content",
+    "POST http://localhost:8080/api/v1/alumnos/1", "405 Method Not Allowed",
+    "./mvnw test", "./mvnw -DskipTests package", "IntelliJ IDEA", "Eclipse", "VS Code"
+]
+for token in practice_tokens:
     if token not in practice:
         bad(f"M1 practical guide lost high-value token: {token}")
 
-for token in [
+theory_tokens = [
     "Spring Framework", "Spring Boot", "Auto-configuración", "servidor embebido",
     "Cliente y servidor", "petición-respuesta", "Front-end y back-end",
     "405 Method Not Allowed", "415 Unsupported Media Type", "curl -v", "DevTools",
@@ -239,25 +205,36 @@ for token in [
     "Serialización", "Deserialización", "@JsonProperty", "@JsonFormat", "@JsonInclude", "@JsonIgnore",
     "FAIL_ON_UNKNOWN_PROPERTIES", "Qué es REST", "Diseño de URLs",
     "Métodos HTTP y códigos de estado", "Paginación, filtrado y ordenación",
-    "Documentación y evolución", "idempotente", "201 Created", "query parameters"
-]:
+    "Documentación y evolución", "El ciclo CRUD", "PUT en detalle",
+    "PATCH y DELETE en detalle", "Códigos de estado en el CRUD", "Consolidación del Módulo 1",
+    "idempotente", "201 Created", "204 No Content", "Map<String, Object>"
+]
+for token in theory_tokens:
     if token.lower() not in theory.lower():
         bad(f"M1 theory missing high-value concept token: {token}")
 
-# La matriz editorial previa sigue siendo el contrato de escala de los cinco puntos.
+# 6) La matriz editorial original debe seguir demostrando que el cierre estaba previsto desde el inicio.
 audit = (root / ".course/source-audit/M1.md").read_text(encoding="utf-8")
 for token in [
-    "**58**", "M1-P-11-S10", "M1-P-12-S12", "M1-P-13-S12", "M1-P-14-S12",
-    "M1-T-11-AUTOCONFIG", "M1-T-12-CLIENT-SERVER", "M1-T-13-JACKSON", "M1-T-14-REST",
-    "server.port=9090", "excluyendo Jackson", "ExpedienteDTO", "SolicitanteDTO", "AlumnoDTO", "AlumnoController"
+    "**58**", "M1-P-11-S10", "M1-P-12-S12", "M1-P-13-S12", "M1-P-14-S12", "M1-P-15-S12",
+    "M1-T-11-AUTOCONFIG", "M1-T-12-CLIENT-SERVER", "M1-T-13-JACKSON", "M1-T-14-REST", "M1-T-15-CRUD",
+    "ExpedienteDTO", "SolicitanteDTO", "AlumnoDTO", "AlumnoController", "ArrayList", "@PutMapping", "@PatchMapping", "@DeleteMapping"
 ]:
     if token not in audit:
         bad(f"M1 source audit lost required contract token: {token}")
 
+# 7) No deben sobrevivir ensambladores temporales.
+if (root / ".course/tmp").exists() and any((root / ".course/tmp").rglob("*")):
+    bad("temporary editorial assembly files remain under .course/tmp")
+for p in (root / ".github/workflows").glob("assemble-m1-*.yml"):
+    bad(f"temporary assembly workflow remains: {p.relative_to(root)}")
+if (root / ".github/workflows/finalize-m1-manifest.yml").exists():
+    bad("temporary final manifest migration workflow remains")
+
 if fail:
-    print("M1 CHECKPOINT 1.4: FAIL")
+    print("M1 FINAL CONTRACT: FAIL")
     for x in fail:
         print(" -", x)
     raise SystemExit(1)
 
-print("M1 CHECKPOINT 1.4: PASS | 20 theory concepts | 46/58 steps | 5 permanent functional files added")
+print("M1 FINAL CONTRACT: PASS | status=COMPLETE | theory=25 | steps=58 | new-functional-files=5")
