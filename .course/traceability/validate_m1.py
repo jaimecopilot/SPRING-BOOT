@@ -131,7 +131,7 @@ for token in [
 
 # La matriz editorial previa debe seguir fijando la escala total y el checkpoint actual.
 audit = (root / ".course/source-audit/M1.md").read_text(encoding="utf-8")
-for token in ["**58**", "M1-P-11-S10", "M1-T-11-AUTOCONFIG", "server.port=9090", "JacksonAutoConfiguration"]:
+for token in ["**58**", "M1-P-11-S10", "M1-T-11-AUTOCONFIG", "server.port=9090", "excluyendo Jackson"]:
     if token not in audit:
         bad(f"M1 source audit lost required contract token: {token}")
 
