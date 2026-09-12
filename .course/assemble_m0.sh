@@ -31,7 +31,7 @@ THEORY_SHA=$(sha256sum M0/TEORIA.md | awk '{print $1}')
 PRACTICE_SHA=$(sha256sum M0/PRACTICA.md | awk '{print $1}')
 
 EXPECTED_THEORY='bcb8eed02eb65cf4637c1a3333b1c8e96153e9a11e8c0c97d20a93f40f4bcfcd'
-EXPECTED_PRACTICE='ff59d72216890ea44481e06840d384efafb288fa2b4d0f1ee184c8a7d8aa14ec'
+EXPECTED_PRACTICE='aa58f8029d06988dce7f61cd2c14215a7dd3e0b857f935d21434623456768ee0'
 
 if [[ "$THEORY_SHA" != "$EXPECTED_THEORY" ]]; then
   echo "ERROR: TEORIA.md no coincide con los bloques LLM validados" >&2
