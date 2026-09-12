@@ -13,7 +13,12 @@
     {"id":"M1-T-11-FRAMEWORK-VS-BOOT","anchor":"## Bloque 2 - Spring Framework y Spring Boot"},
     {"id":"M1-T-11-AUTOCONFIG","anchor":"## Bloque 3 - Auto-configuración"},
     {"id":"M1-T-11-STARTERS","anchor":"## Bloque 4 - Starters y gestión coherente de dependencias"},
-    {"id":"M1-T-11-EMBEDDED","anchor":"## Bloque 5 - Servidor embebido y aplicaciones modernas"}
+    {"id":"M1-T-11-EMBEDDED","anchor":"## Bloque 5 - Servidor embebido y aplicaciones modernas"},
+    {"id":"M1-T-12-CLIENT-SERVER","anchor":"## Bloque 1 - Cliente y servidor"},
+    {"id":"M1-T-12-REQUEST-RESPONSE","anchor":"## Bloque 2 - El ciclo petición-respuesta"},
+    {"id":"M1-T-12-FRONT-BACK","anchor":"## Bloque 3 - Front-end y back-end"},
+    {"id":"M1-T-12-METHODS-STATUS","anchor":"## Bloque 4 - Métodos HTTP y códigos de estado"},
+    {"id":"M1-T-12-OBSERVABILITY","anchor":"## Bloque 5 - Herramientas para observar HTTP"}
   ],
   "environment_workflows": [
     {"id":"M1-W-CONSOLE","anchor":"Desde la carpeta `M1/proyecto`, en Linux/macOS"},
@@ -30,7 +35,7 @@
     {"path":"M1/proyecto/mvnw.cmd","classification":"INHERITED","origin":"M0-P-02-S05","evolution":[],"symbols":["Maven Wrapper Windows"],"used_by":["Windows shell"],"missing_effect":"Se pierde ejecución Maven reproducible Windows."},
     {"path":"M1/proyecto/.mvn/wrapper/maven-wrapper.properties","classification":"INHERITED","origin":"M0-P-02-S05","evolution":[],"symbols":["apache-maven-3.9.16-bin.zip"],"used_by":["mvnw","mvnw.cmd"],"missing_effect":"El Wrapper deja de fijar Maven 3.9.16."},
     {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java","classification":"INHERITED","origin":"M0-P-02-S05","evolution":[],"symbols":["MiProyectoApplication","@SpringBootApplication","main","SpringApplication.run"],"temporary_symbols":["JacksonAutoConfiguration.class"],"used_by":["Spring Boot startup","M1 practice"],"missing_effect":"La aplicación pierde su punto de entrada."},
-    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","classification":"INHERITED","origin":"M0-P-03-S07","evolution":["M0-P-04-S12"],"symbols":["SaludoController","@RestController","@GetMapping(\"/hola\")","@GetMapping(\"/adios\")","saludar","despedir","construirMensaje"],"temporary_symbols":["@GetMapping(\"/info-json\")","infoJson","LinkedHashMap","java.util.Map"],"used_by":["HTTP runtime","M1 practice","inherited tests"],"missing_effect":"Desaparecen los endpoints de baseline usados para observar Spring Boot y HTTP."},
+    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","classification":"INHERITED","origin":"M0-P-03-S07","evolution":["M0-P-04-S12"],"symbols":["SaludoController","@RestController","@GetMapping(\"/hola\")","@GetMapping(\"/adios\")","saludar","despedir","construirMensaje"],"temporary_symbols":["@GetMapping(\"/info-json\")","infoJson","LinkedHashMap","java.util.Map","@PostMapping(\"/eco\")","@RequestBody","eco"],"used_by":["HTTP runtime","M1 practices 1.1 and 1.2","inherited tests"],"missing_effect":"Desaparecen los endpoints de baseline usados para observar Spring Boot y HTTP."},
     {"path":"M1/proyecto/src/main/resources/application.properties","classification":"INHERITED","origin":"M0-P-02-S05","evolution":["M0-P-03-S05","M0-P-04-S02"],"symbols":["spring.application.name=mi-proyecto"],"temporary_symbols":["server.port=9090"],"used_by":["Spring Boot configuration","M1 port experiment"],"missing_effect":"Se pierde la configuración base y el experimento de externalización."},
     {"path":"M1/proyecto/src/test/java/es/mecd/demo/miproyecto/controller/SaludoControllerTest.java","classification":"INHERITED","origin":"M0-P-04-S07","evolution":[],"symbols":["SaludoControllerTest","saludarDebeDevolverElMensajeEsperado","despedirDebeDevolverElMensajeEsperado"],"used_by":["Maven test","baseline regression"],"missing_effect":"Se pierde una regresión automática del comportamiento heredado."},
     {"path":"M1/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTests.java","classification":"INHERITED","origin":"Initializr","evolution":[],"symbols":["MiProyectoApplicationTests","contextLoads"],"used_by":["Maven test","context smoke test"],"missing_effect":"Se pierde el smoke test del contexto."},
@@ -38,14 +43,16 @@
     {"path":".course/source-audit/M1.md","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["editorial audit","maintainers"],"missing_effect":"Se pierde la matriz maestra que fija alcance y decisiones editoriales."},
     {"path":".course/traceability/M1.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["traceability tooling"],"missing_effect":"Se pierde el inventario inverso del módulo."},
     {"path":".course/traceability/M1/1.1.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["step audit"],"missing_effect":"Se pierde el contrato individual de los diez pasos de 1.1."},
+    {"path":".course/traceability/M1/1.2.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["step audit"],"missing_effect":"Se pierde el contrato individual de los doce pasos de 1.2."},
     {"path":".course/traceability/validate_module.py","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["M1 CI","future module CI"],"missing_effect":"Se pierden los invariantes reutilizables de trazabilidad y superficie de alumno."},
-    {"path":".course/traceability/validate_m1.py","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["M1 CI","checkpoint audit"],"missing_effect":"Se pierde el gate semántico específico y la comprobación de restauración exacta de M1.1."},
-    {"path":".github/workflows/validar-m1.yml","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["GitHub Actions"],"missing_effect":"Se pierde la comprobación automatizada de Wrapper, dependencias, tests, JAR, informe de condiciones y HTTP real."},
+    {"path":".course/traceability/validate_m1.py","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["M1 CI","checkpoint audit"],"missing_effect":"Se pierde el gate semántico específico y la comprobación de restauración exacta de 1.1/1.2."},
+    {"path":".github/workflows/validar-m1.yml","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["GitHub Actions"],"missing_effect":"Se pierde la comprobación automatizada de Wrapper, dependencias, tests, JAR, HTTP real y experimentos temporales controlados."},
     {"path":".course/internal/PROMPT_MAESTRO_CONTINUIDAD.md","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["future project chats","maintainers"],"missing_effect":"Se pierde el contrato de continuidad que registra M0 aprobado y M1 autorizado."}
   ],
   "step_manifests": [
-    ".course/traceability/M1/1.1.json"
+    ".course/traceability/M1/1.1.json",
+    ".course/traceability/M1/1.2.json"
   ],
   "expected_total_steps_when_complete": 58,
-  "current_traced_steps": 10
+  "current_traced_steps": 22
 }
