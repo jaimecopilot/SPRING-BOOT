@@ -32,6 +32,8 @@ Antes de modificar nada, consultar el estado real de `main`; no reconstruir el e
 
 Las fuentes son el suelo mínimo de alcance, profundidad y cadencia pedagógica, no un techo. Se puede corregir, reorganizar y enriquecer, pero no resumir de forma que se pierdan funciones didácticas presentes en la fuente.
 
+La fuente primaria manda en alcance, orden, intención, preguntas y ejercicios. El repositorio histórico se usa para contrastar una materialización anterior, no para sustituir la fuente ni para copiarla acríticamente.
+
 ## 4. Filosofía pedagógica
 
 Cuando la fuente explica qué hace algo, por qué se usa, cómo se ejecuta, qué resultado se espera, qué errores son frecuentes, cómo se diagnostican o qué pregunta debe hacerse el alumno, la nueva edición debe conservar esas funciones.
@@ -41,6 +43,8 @@ Un paso práctico, cuando proceda, debe mantener aproximadamente:
 `qué hacemos → por qué → archivo/ruta → código/comando → explicación → ejecución → resultado esperado → errores/diagnóstico → pregunta → respuesta razonada`
 
 No introducir comportamiento funcional mediante “magia”. Todo método, clase, dependencia, import o configuración necesario para un comportamiento visible debe enseñarse o identificarse claramente como infraestructura auxiliar.
+
+Cuando la fuente contenga una contradicción, afirmación desactualizada o ejercicio no reproducible en la baseline actual, no corregirlo silenciosamente: registrar la decisión en `.course/source-audit/` y conservar la intención pedagógica mediante una solución ejecutable.
 
 ## 5. Preguntas y respuestas
 
@@ -66,7 +70,7 @@ La raíz del repositorio debe permanecer limpia. El alumno debe encontrar sólo 
 
 En la raíz, el único Markdown de alumno es `README.md`.
 
-En `M0/`, los Markdown visibles son únicamente:
+En cada `M<n>/`, los Markdown visibles deben limitarse normalmente a:
 
 - `README.md`;
 - `TEORIA.md`;
@@ -121,11 +125,13 @@ Una evolución de un artefacto no puede inventarse a partir de un paso que sólo
 
 Los pasos temporales deben cerrar explícitamente su transición mediante `RESTORE` o `DELETE` cuando proceda.
 
+En M1–M7, los artefactos heredados deben resolver recursivamente su origen en módulos anteriores. Un snapshot nuevo no puede perder silenciosamente comportamiento o tests aprobados del módulo anterior.
+
 ## 10. Informe humano
 
-Debe existir un informe humano interno por módulo, para M0:
+Debe existir un informe humano interno por módulo, por ejemplo:
 
-`.course/traceability/TRAZABILIDAD_M0.md`
+`.course/traceability/TRAZABILIDAD_M1.md`
 
 Debe poder auditarse sin leer primero el JSON y contener como mínimo:
 
@@ -139,7 +145,7 @@ Debe poder auditarse sin leer primero el JSON y contener como mínimo:
 8. Estados temporales y restauraciones.
 9. Gates automáticos.
 
-No mantener una copia de este informe dentro de `M0/`: esa duplicación confunde la superficie del alumno y crea riesgo de divergencia.
+No mantener copias de estos informes dentro de `M<n>/`.
 
 ## 11. Validación automática
 
@@ -153,13 +159,16 @@ El CI debe fallar, entre otros casos, si:
 - un símbolo permanente declarado para creación/modificación/restauración no existe en el snapshot final;
 - un origen `GUIDE` no corresponde a una acción `CREATE`;
 - una evolución declarada no corresponde a `MODIFY/RESTORE`;
+- un `INHERITED` no resuelve su origen histórico;
 - un temporal no se cierra mediante `RESTORE/DELETE`;
 - falta un observable o una verificación;
 - comportamiento funcional público se esconde como `SUPPORT`;
-- desaparecen consola, IntelliJ, Eclipse o VS Code;
+- desaparecen consola, IntelliJ IDEA, Eclipse o VS Code cuando sean necesarios;
 - reaparecen Markdown internos en la superficie del alumno;
 - la vista humana está desincronizada;
 - falla compilación, tests, empaquetado o HTTP real.
+
+El workflow publicado debe operar normalmente con `contents: read`. No usar un CI que se autocorrija para convertir un estado roto en verde.
 
 ## 12. Baseline técnico
 
@@ -171,29 +180,44 @@ Mientras no exista una razón técnica fuerte explicada al usuario:
 
 ## 13. Estado durable de M0
 
+M0 está **aprobado explícitamente por el usuario el 2026-09-13** como patrón editorial y técnico del curso.
+
 M0 contiene teoría, práctica, ejemplo Java, proyecto Spring Boot, tests, Wrapper y trazabilidad fuerte a nivel de paso.
 
 La práctica M0 expone 51 pasos trazables: 12 en 0.1, 12 en 0.2, 12 en 0.3, 12 en 0.4 y 3 cierres finales.
 
-La trazabilidad de M0 se compone de:
+La auditoría posterior a su trazabilidad corrigió orígenes/evoluciones semánticas, estados temporales y limpió la superficie Markdown del alumno. El último estado publicado debe verificarse siempre consultando `main` y Actions.
 
-- `.course/traceability/M0.json`;
-- `.course/traceability/M0/0.1.json`;
-- `.course/traceability/M0/0.2.json`;
-- `.course/traceability/M0/0.3.json`;
-- `.course/traceability/M0/0.4.json`;
-- `.course/traceability/M0/final.json`;
-- `.course/traceability/TRAZABILIDAD_M0.md`;
-- `.course/traceability/validate_m0.py`;
-- `.course/traceability/generate_human_traceability.py`;
-- `.github/workflows/validar-m0.yml`.
+## 14. Estado durable de M1
 
-El SHA exacto de `main`, PR y último resultado de CI deben consultarse en GitHub en cada nueva conversación; no fijarlos aquí para evitar que el contrato quede obsoleto.
+M1 está autorizado y en desarrollo en la rama `m1-edicion-fuerte`.
 
-## 14. Regla de avance
+Antes de redactar teoría/práctica se creó:
 
-No comenzar M1 hasta que el usuario apruebe explícitamente M0 como patrón editorial y técnico.
+`.course/source-audit/M1.md`
 
-## 15. Honestidad operativa
+Ese documento fija la matriz maestra de M1:
+
+- cinco puntos 1.1–1.5;
+- 58 pasos (10 + 12 + 12 + 12 + 12);
+- catálogo teórico inicial;
+- herencia exacta desde el snapshot M0;
+- acciones previstas paso a paso;
+- estados temporales y restauraciones;
+- contradicciones/correcciones detectadas en la fuente;
+- snapshot final esperado;
+- gate funcional mínimo.
+
+El flujo de producción de M1 debe seguir `1.1 → 1.2 → 1.3 → 1.4 → 1.5`, sincronizando teoría, práctica, código y contrato por bloque, sin rediseñar desde cero la infraestructura ya validada en M0.
+
+## 15. Regla de avance
+
+M1 puede continuar porque M0 está aprobado.
+
+**No comenzar M2 hasta que el usuario apruebe explícitamente M1** como continuación válida del patrón.
+
+## 16. Honestidad operativa
 
 No declarar cerrado, validado, publicado o trazable sin comprobarlo realmente. Si un gate falla, explicar qué falló y corregir la causa; no debilitar el criterio para obtener un verde artificial.
+
+El SHA exacto de `main`, la rama de trabajo, PR y último resultado de CI deben consultarse en GitHub en cada nueva conversación; no fijarlos aquí para evitar que el contrato quede obsoleto.
