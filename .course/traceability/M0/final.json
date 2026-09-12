@@ -1,0 +1,52 @@
+{
+  "module": "M0",
+  "practice": "FINAL",
+  "steps": [
+    {
+      "id": "M0-P-FINAL-A",
+      "practice": "FINAL",
+      "number": "A",
+      "heading": "## Paso final A - Ejecutar la suite",
+      "summary": "Cerrar M0 con la suite completa.",
+      "theory_refs": ["M0-T-04-TEST","M0-T-01-WRAPPER"],
+      "artifacts": [
+        {"path":"M0/proyecto/src/test/java/es/mecd/demo/miproyecto/controller/SaludoControllerTest.java","action":"USE","state":"PERMANENT"},
+        {"path":"M0/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTests.java","action":"USE","state":"PERMANENT"},
+        {"path":"M0/proyecto/mvnw","action":"USE","state":"PERMANENT"}
+      ],
+      "commands": ["./mvnw test","mvnw.cmd test"],
+      "observables": ["Todos los tests pasan."],
+      "verification": ["CI ejecuta `./mvnw -B test`."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-FINAL-B",
+      "practice": "FINAL",
+      "number": "B",
+      "heading": "## Paso final B - Empaquetar",
+      "summary": "Crear el JAR ejecutable del módulo.",
+      "theory_refs": ["M0-T-04-CICLO","M0-T-02-POM"],
+      "artifacts": [
+        {"path":"M0/proyecto/pom.xml","action":"USE","state":"PERMANENT","symbols":["spring-boot-maven-plugin"]},
+        {"path":"M0/proyecto/mvnw","action":"USE","state":"PERMANENT"}
+      ],
+      "commands": ["./mvnw package"],
+      "observables": ["Aparece `target/mi-proyecto-0.0.1-SNAPSHOT.jar`."],
+      "verification": ["CI ejecuta package y usa el JAR generado."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-FINAL-C",
+      "practice": "FINAL",
+      "number": "C",
+      "heading": "## Paso final C - Arrancar el JAR",
+      "summary": "Validar el artefacto empaquetado por HTTP real.",
+      "theory_refs": ["M0-T-04-CICLO","M0-T-03-HTTP","M0-T-04-CURL"],
+      "artifacts": [{"path":"M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT","symbols":["saludar","despedir"]}],
+      "commands": ["java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar","curl -i http://localhost:8080/hola","curl -i http://localhost:8080/adios"],
+      "observables": ["JAR arranca; `/hola` y `/adios` responden con los cuerpos esperados."],
+      "verification": ["CI arranca el JAR, busca `Started MiProyectoApplication` y valida ambos endpoints."],
+      "state": "PERMANENT"
+    }
+  ]
+}

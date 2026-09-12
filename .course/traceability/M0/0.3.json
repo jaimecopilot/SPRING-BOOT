@@ -1,0 +1,426 @@
+{
+  "module": "M0",
+  "practice": "0.3",
+  "steps": [
+    {
+      "id": "M0-P-03-S01",
+      "practice": "0.3",
+      "number": 1,
+      "heading": "## Paso 1 - Abrir la raíz del proyecto",
+      "summary": "Verificar que se trabaja en la raíz Maven.",
+      "theory_refs": [
+        "M0-T-03-ESTRUCTURA"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/pom.xml",
+          "action": "USE",
+          "state": "PERMANENT"
+        },
+        {
+          "path": "M0/proyecto/mvnw",
+          "action": "USE",
+          "state": "PERMANENT"
+        },
+        {
+          "path": "M0/proyecto/mvnw.cmd",
+          "action": "USE",
+          "state": "PERMANENT"
+        }
+      ],
+      "commands": [],
+      "observables": [
+        "Se ven `pom.xml`, wrappers y `src/`."
+      ],
+      "verification": [
+        "Árbol real del proyecto."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S02",
+      "practice": "0.3",
+      "number": 2,
+      "heading": "## Paso 2 - Explorar la estructura completa",
+      "summary": "Distinguir fuentes, recursos, tests y `target` generado.",
+      "theory_refs": [
+        "M0-T-03-ESTRUCTURA",
+        "M0-T-01-WRAPPER"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/pom.xml",
+          "action": "USE",
+          "state": "PERMANENT"
+        },
+        {
+          "path": "M0/proyecto/mvnw",
+          "action": "USE",
+          "state": "PERMANENT"
+        }
+      ],
+      "commands": [
+        "./mvnw package",
+        "./mvnw clean"
+      ],
+      "observables": [
+        "`target/` aparece con package y desaparece con clean; `src/` permanece."
+      ],
+      "verification": [
+        "CI ejecuta package; `target/` no está versionado."
+      ],
+      "state": "TEMPORARY"
+    },
+    {
+      "id": "M0-P-03-S03",
+      "practice": "0.3",
+      "number": 3,
+      "heading": "## Paso 3 - Analizar `pom.xml`",
+      "summary": "Leer parent, coordenadas, properties, dependencies y plugins.",
+      "theory_refs": [
+        "M0-T-02-POM",
+        "M0-T-02-STARTER"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/pom.xml",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring-boot-starter-parent",
+            "java.version",
+            "spring-boot-starter-web",
+            "spring-boot-devtools",
+            "spring-boot-starter-test",
+            "spring-boot-maven-plugin"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw dependency:tree",
+        "./mvnw help:effective-pom"
+      ],
+      "observables": [
+        "Dependencias transitivas y configuración heredada visibles."
+      ],
+      "verification": [
+        "Validador comprueba tokens de alto valor del POM final."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S04",
+      "practice": "0.3",
+      "number": 4,
+      "heading": "## Paso 4 - Analizar la clase principal",
+      "summary": "Comprender `@SpringBootApplication`, main y `SpringApplication.run`.",
+      "theory_refs": [
+        "M0-T-03-MAIN",
+        "M0-T-03-SCAN"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "MiProyectoApplication",
+            "@SpringBootApplication",
+            "main",
+            "SpringApplication.run"
+          ]
+        }
+      ],
+      "commands": [],
+      "observables": [
+        "La clase principal está en el package raíz del proyecto."
+      ],
+      "verification": [
+        "Validador comprueba anotación y llamada `SpringApplication.run`."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S05",
+      "practice": "0.3",
+      "number": 5,
+      "heading": "## Paso 5 - Analizar `application.properties`",
+      "summary": "Comprender configuración externa y experimentar temporalmente con el puerto.",
+      "theory_refs": [
+        "M0-T-03-CONFIG",
+        "M0-T-03-HTTP"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/resources/application.properties",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.application.name"
+          ]
+        },
+        {
+          "path": "M0/proyecto/src/main/resources/application.properties",
+          "action": "MODIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "server.port=8081"
+          ]
+        },
+        {
+          "path": "M0/proyecto/src/main/resources/application.properties",
+          "action": "RESTORE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.application.name=mi-proyecto"
+          ]
+        }
+      ],
+      "commands": [
+        "arrancar temporalmente y probar http://localhost:8081"
+      ],
+      "observables": [
+        "La aplicación puede escuchar en 8081 durante el experimento y vuelve a 8080 tras restaurar."
+      ],
+      "verification": [
+        "El snapshot final sólo conserva `spring.application.name=mi-proyecto`."
+      ],
+      "state": "TEMPORARY"
+    },
+    {
+      "id": "M0-P-03-S06",
+      "practice": "0.3",
+      "number": 6,
+      "heading": "## Paso 6 - Crear el paquete `controller`",
+      "summary": "Crear el package bajo el ámbito de component scan.",
+      "theory_refs": [
+        "M0-T-03-SCAN",
+        "M0-T-03-ESTRUCTURA"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "package es.mecd.demo.miproyecto.controller"
+          ],
+          "note": "El archivo completo se materializa en el paso 7; este paso introduce el package/ruta."
+        }
+      ],
+      "commands": [],
+      "observables": [
+        "Existe la ruta lógica `...miproyecto.controller` bajo `src/main/java`."
+      ],
+      "verification": [
+        "Ruta y package de `SaludoController.java` coinciden."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S07",
+      "practice": "0.3",
+      "number": 7,
+      "heading": "## Paso 7 - Crear `SaludoController`",
+      "summary": "Crear el controlador mínimo con `/hola`, `/adios` y helper para depuración.",
+      "theory_refs": [
+        "M0-T-03-CONTROLLER",
+        "M0-T-03-HTTP",
+        "M0-T-03-SCAN"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "@RestController",
+            "SaludoController",
+            "@GetMapping(\"/hola\")",
+            "saludar",
+            "@GetMapping(\"/adios\")",
+            "despedir",
+            "construirMensaje"
+          ]
+        }
+      ],
+      "commands": [],
+      "observables": [
+        "Spring puede registrar dos mappings GET y el helper no es endpoint."
+      ],
+      "verification": [
+        "Validador comprueba anotaciones, mappings y helper del snapshot final."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S08",
+      "practice": "0.3",
+      "number": 8,
+      "heading": "## Paso 8 - Arrancar la aplicación",
+      "summary": "Arrancar por Maven Wrapper tras crear el controlador.",
+      "theory_refs": [
+        "M0-T-02-PRIMER_ARRANQUE",
+        "M0-T-03-CONTROLLER"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+          "action": "USE",
+          "state": "PERMANENT"
+        },
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "action": "USE",
+          "state": "PERMANENT"
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run",
+        "mvnw.cmd spring-boot:run"
+      ],
+      "observables": [
+        "Aplicación iniciada correctamente en 8080."
+      ],
+      "verification": [
+        "CI arranca aplicación empaquetada; el mismo código debe arrancar con plugin."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S09",
+      "practice": "0.3",
+      "number": 9,
+      "heading": "## Paso 9 - Probar `/hola` en navegador",
+      "summary": "Comprobar el mapping HTTP recién creado.",
+      "theory_refs": [
+        "M0-T-03-HTTP",
+        "M0-T-03-CONTROLLER"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "@GetMapping(\"/hola\")",
+            "saludar"
+          ]
+        }
+      ],
+      "commands": [
+        "GET http://localhost:8080/hola"
+      ],
+      "observables": [
+        "`Hola, Ministerio de Educación`."
+      ],
+      "verification": [
+        "CI valida HTTP `/hola` con cuerpo exacto."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S10",
+      "practice": "0.3",
+      "number": 10,
+      "heading": "## Paso 10 - Probar con `curl`",
+      "summary": "Observar cuerpo, estado y cabeceras de `/hola` y `/adios`.",
+      "theory_refs": [
+        "M0-T-03-HTTP",
+        "M0-T-04-CURL"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "saludar",
+            "despedir"
+          ]
+        }
+      ],
+      "commands": [
+        "curl http://localhost:8080/hola",
+        "curl -i http://localhost:8080/hola",
+        "curl -i http://localhost:8080/adios"
+      ],
+      "observables": [
+        "HTTP 200 y cuerpos esperados; `-i` incluye estado y cabeceras."
+      ],
+      "verification": [
+        "CI valida ambos endpoints reales."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S11",
+      "practice": "0.3",
+      "number": 11,
+      "heading": "## Paso 11 - Diagnóstico de estructura/endpoints",
+      "summary": "Relacionar 404, imports, puerto, DevTools y mappings con evidencia concreta.",
+      "theory_refs": [
+        "M0-T-01-DIAGNOSTICO",
+        "M0-T-03-HTTP",
+        "M0-T-03-CONTROLLER"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/pom.xml",
+          "action": "USE",
+          "state": "PERMANENT"
+        },
+        {
+          "path": "M0/proyecto/src/main/resources/application.properties",
+          "action": "USE",
+          "state": "PERMANENT"
+        },
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "action": "USE",
+          "state": "PERMANENT"
+        }
+      ],
+      "commands": [],
+      "observables": [
+        "Tabla de diagnóstico permite localizar el nivel del fallo."
+      ],
+      "verification": [
+        "Guía y CI separan compilación, arranque y respuesta HTTP."
+      ],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M0-P-03-S12",
+      "practice": "0.3",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: consolidar `/adios`",
+      "summary": "Verificar la evolución conceptual del segundo mapping ya presente en el estado completo del paso 7.",
+      "theory_refs": [
+        "M0-T-03-CONTROLLER",
+        "M0-T-03-HTTP"
+      ],
+      "artifacts": [
+        {
+          "path": "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@GetMapping(\"/adios\")",
+            "despedir"
+          ]
+        }
+      ],
+      "commands": [
+        "curl http://localhost:8080/adios"
+      ],
+      "observables": [
+        "`Adiós, Ministerio de Educación`."
+      ],
+      "verification": [
+        "CI valida HTTP `/adios`; el controlador final contiene `despedir()`."
+      ],
+      "state": "PERMANENT"
+    }
+  ]
+}
