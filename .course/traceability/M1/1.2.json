@@ -1,0 +1,188 @@
+{
+  "module": "M1",
+  "practice": "1.2",
+  "steps": [
+    {
+      "id": "M1-P-12-S01",
+      "practice": "1.2",
+      "number": 1,
+      "heading": "## Paso 1 - Arrancar la aplicación y formular hipótesis",
+      "summary": "Arrancar el baseline, comprobar /hola y formular predicciones antes de observar HTTP.",
+      "theory_refs": ["M1-T-12-CLIENT-SERVER"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")","saludar"]}
+      ],
+      "commands": ["./mvnw spring-boot:run", "mvnw.cmd spring-boot:run", "curl -i http://localhost:8080/hola"],
+      "observables": ["La aplicación escucha en 8080 y GET /hola devuelve 200 con el saludo heredado."],
+      "verification": ["Se establece un baseline antes de observar rutas y métodos de error."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S02",
+      "practice": "1.2",
+      "number": 2,
+      "heading": "## Paso 2 - Probar GET con el navegador",
+      "summary": "Observar GET /hola desde el navegador y reconstruir el ciclo cliente-servidor.",
+      "theory_refs": ["M1-T-12-CLIENT-SERVER", "M1-T-12-REQUEST-RESPONSE"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")","saludar"]}
+      ],
+      "commands": ["abrir http://localhost:8080/hola en el navegador"],
+      "observables": ["El navegador muestra el saludo y la guía reconstruye cliente, conexión, Tomcat, Spring MVC, handler y respuesta."],
+      "verification": ["La explicación no presupone que localhost deba resolver exclusivamente a 127.0.0.1."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S03",
+      "practice": "1.2",
+      "number": 3,
+      "heading": "## Paso 3 - Probar una ruta que no existe",
+      "summary": "Distinguir un servidor vivo con ruta inexistente de un fallo de conexión.",
+      "theory_refs": ["M1-T-12-METHODS-STATUS"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT","symbols":["SaludoController"]}
+      ],
+      "commands": ["abrir http://localhost:8080/no-existe en el navegador"],
+      "observables": ["La petición a /no-existe produce un 404 cuando la aplicación está viva."],
+      "verification": ["La práctica trata el estado 404 como contrato estable y no exige un cuerpo de error literal."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S04",
+      "practice": "1.2",
+      "number": 4,
+      "heading": "## Paso 4 - Probar GET con curl y ver las cabeceras",
+      "summary": "Comparar el cuerpo simple de curl con cabeceras más cuerpo mediante curl -i.",
+      "theory_refs": ["M1-T-12-REQUEST-RESPONSE", "M1-T-12-OBSERVABILITY"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")","saludar"]}
+      ],
+      "commands": ["curl http://localhost:8080/hola", "curl -i http://localhost:8080/hola"],
+      "observables": ["GET /hola devuelve 200, Content-Type de texto y el saludo en el cuerpo."],
+      "verification": ["No se fijan Date ni Content-Length como valores literales invariables."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S05",
+      "practice": "1.2",
+      "number": 5,
+      "heading": "## Paso 5 - Probar una ruta inexistente con curl",
+      "summary": "Confirmar de forma reproducible el estado 404 de una ruta inexistente.",
+      "theory_refs": ["M1-T-12-METHODS-STATUS", "M1-T-12-OBSERVABILITY"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT","symbols":["SaludoController"]}
+      ],
+      "commands": ["curl -i http://localhost:8080/no-existe", "curl --silent --output /dev/null --write-out \"%{http_code}\\n\" http://localhost:8080/no-existe"],
+      "observables": ["El código de estado observado es 404."],
+      "verification": ["El gate HTTP comprueba /no-existe=404 sin depender del JSON exacto de error."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S06",
+      "practice": "1.2",
+      "number": 6,
+      "heading": "## Paso 6 - Probar un método HTTP no soportado",
+      "summary": "Demostrar que ruta y método forman conjuntamente el contrato del endpoint.",
+      "theory_refs": ["M1-T-12-METHODS-STATUS"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")"]}
+      ],
+      "commands": ["curl -i -X POST http://localhost:8080/hola"],
+      "observables": ["POST /hola devuelve 405 mientras GET /hola devuelve 200."],
+      "verification": ["El gate HTTP comprueba POST /hola=405."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S07",
+      "practice": "1.2",
+      "number": 7,
+      "heading": "## Paso 7 - Ver las cabeceras que envía el cliente con curl",
+      "summary": "Usar curl -v para distinguir datos enviados por el cliente y recibidos del servidor.",
+      "theory_refs": ["M1-T-12-REQUEST-RESPONSE", "M1-T-12-OBSERVABILITY"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")"]}
+      ],
+      "commands": ["curl -v http://localhost:8080/hola"],
+      "observables": ["La salida verbose muestra línea GET, Host, User-Agent, Accept, estado y Content-Type."],
+      "verification": ["La práctica explica la convención visual > cliente y < servidor de curl verbose."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S08",
+      "practice": "1.2",
+      "number": 8,
+      "heading": "## Paso 8 - Observar la misma petición con DevTools",
+      "summary": "Inspeccionar método, estado, cabeceras, cuerpo y tiempos desde Network del navegador.",
+      "theory_refs": ["M1-T-12-FRONT-BACK", "M1-T-12-OBSERVABILITY"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT","symbols":["SaludoController"]}
+      ],
+      "commands": ["F12 -> Network -> GET http://localhost:8080/hola", "F12 -> Network -> GET http://localhost:8080/no-existe"],
+      "observables": ["DevTools permite localizar URL, método, estado, request headers, response headers, body y timing."],
+      "verification": ["La práctica distingue la herramienta que arranca el servidor de la herramienta cliente que observa HTTP."],
+      "state": "PERMANENT",
+      "environment_refs": ["M1-W-CONSOLE", "M1-W-INTELLIJ", "M1-W-ECLIPSE", "M1-W-VSCODE"]
+    },
+    {
+      "id": "M1-P-12-S09",
+      "practice": "1.2",
+      "number": 9,
+      "heading": "## Paso 9 - Razonar sobre lo observado",
+      "summary": "Comparar 200, 404 y 405 y distinguir cabeceras de cuerpo a partir de pruebas reales.",
+      "theory_refs": ["M1-T-12-CLIENT-SERVER", "M1-T-12-METHODS-STATUS"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")"]}
+      ],
+      "commands": ["comparar GET /hola, GET /no-existe y POST /hola"],
+      "observables": ["El alumno distingue 200, 404 y 405 y explica el papel de Content-Type, cabeceras y cuerpo."],
+      "verification": ["La tabla de razonamiento de la práctica asocia cada caso con una causa contractual distinta."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S10",
+      "practice": "1.2",
+      "number": 10,
+      "heading": "## Paso 10 - Diagnosticar errores comunes de comunicación HTTP",
+      "summary": "Diagnosticar de abajo arriba conexión, puerto, ruta, método, representación y fallo interno.",
+      "theory_refs": ["M1-T-12-METHODS-STATUS", "M1-T-12-OBSERVABILITY"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"USE","state":"PERMANENT","symbols":["SaludoController"]}
+      ],
+      "commands": ["reproducir el cliente mínimo adecuado al síntoma antes de modificar código"],
+      "observables": ["Connection refused se separa de 404/405/400/415/500 y cada síntoma se asigna a una capa probable."],
+      "verification": ["La práctica exige empezar por la capa más baja que aún pueda explicar el fallo."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S11",
+      "practice": "1.2",
+      "number": 11,
+      "heading": "## Paso 11 - Resumir lo observado con pruebas reproducibles",
+      "summary": "Cerrar la observación HTTP repitiendo un conjunto mínimo de peticiones reproducibles.",
+      "theory_refs": ["M1-T-12-REQUEST-RESPONSE", "M1-T-12-METHODS-STATUS", "M1-T-12-OBSERVABILITY"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")"]}
+      ],
+      "commands": ["curl -i http://localhost:8080/hola", "curl -i http://localhost:8080/no-existe", "curl -i -X POST http://localhost:8080/hola", "curl -v http://localhost:8080/hola"],
+      "observables": ["El mismo servidor produce 200, 404 y 405 según ruta/método y permite inspeccionar cabeceras con curl -v."],
+      "verification": ["Ninguna de estas observaciones modifica permanentemente el proyecto."],
+      "state": "PERMANENT"
+    },
+    {
+      "id": "M1-P-12-S12",
+      "practice": "1.2",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: provocar un 400 Bad Request y restaurar el proyecto",
+      "summary": "Añadir /eco temporal con Map para forzar deserialización JSON, observar 400/200/415 y restaurar el controlador.",
+      "theory_refs": ["M1-T-12-REQUEST-RESPONSE", "M1-T-12-METHODS-STATUS", "M1-T-12-OBSERVABILITY"],
+      "artifacts": [
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"MODIFY","state":"TEMPORARY","symbols":["@PostMapping(\"/eco\")","@RequestBody","eco","java.util.Map"]},
+        {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java","action":"RESTORE","state":"PERMANENT","symbols":["@GetMapping(\"/hola\")","@GetMapping(\"/adios\")","saludar","despedir","construirMensaje"]}
+      ],
+      "commands": ["./mvnw test", "curl -i -X POST http://localhost:8080/eco -H Content-Type:application/json -d malformed-json", "curl -i -X POST http://localhost:8080/eco -H Content-Type:application/json -d valid-json", "curl -i -X POST http://localhost:8080/eco -H Content-Type:text/plain -d valid-json"],
+      "observables": ["JSON mal formado produce 400; JSON válido produce 200; text/plain no compatible produce 415 en el runtime validado; tras restaurar /eco desaparece."],
+      "verification": ["El gate crea el probe sólo en el working tree de CI, verifica 400/200/415, restaura SaludoController y exige diff limpio."],
+      "state": "TEMPORARY"
+    }
+  ]
+}
