@@ -43,7 +43,7 @@ jobs:
       - name: Validar invariantes reutilizables del módulo
         run: python .course/traceability/validate_module.py M1 .
 
-      - name: Validar contrato semántico del checkpoint M1.1
+      - name: Validar contrato semántico del checkpoint M1
         run: python .course/traceability/validate_m1.py .
 
       - name: Verificar Maven Wrapper heredado
@@ -74,7 +74,7 @@ jobs:
         working-directory: M1/proyecto
         run: ./mvnw -B -DskipTests package
 
-      - name: Probar runtime, informe de condiciones y restauración final
+      - name: Probar runtime 1.1 y observables HTTP estables de 1.2
         working-directory: M1/proyecto
         shell: bash
         run: |
@@ -99,6 +99,7 @@ jobs:
           test "$(curl --fail --silent http://localhost:8080/adios)" = "Adiós, Ministerio de Educación"
           test "$(curl --silent --output /tmp/m1-info-json.txt --write-out '%{http_code}' http://localhost:8080/info-json)" = "404"
           test "$(curl --silent --output /tmp/m1-no-existe.txt --write-out '%{http_code}' http://localhost:8080/no-existe)" = "404"
+          test "$(curl --silent --output /tmp/m1-post-hola.txt --write-out '%{http_code}' -X POST http://localhost:8080/hola)" = "405"
           grep -q 'CONDITIONS EVALUATION REPORT' /tmp/m1-debug.log
           grep -q 'Positive matches:' /tmp/m1-debug.log
           grep -q 'Negative matches:' /tmp/m1-debug.log
@@ -119,3 +120,82 @@ jobs:
           done
           test "$(cat /tmp/m1-hola-9090.txt)" = "Hola, Ministerio de Educación"
           grep -q 'Started MiProyectoApplication' /tmp/m1-9090.log
+
+      - name: Validar el probe temporal 400/200/415 de 1.2 y restaurarlo
+        working-directory: M1/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          CONTROLLER='src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java'
+          cp "$CONTROLLER" /tmp/SaludoController.baseline.java
+          PID=''
+          restore() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+            cp /tmp/SaludoController.baseline.java "$CONTROLLER"
+          }
+          trap restore EXIT
+
+          cat > "$CONTROLLER" <<'JAVA'
+          package es.mecd.demo.miproyecto.controller;
+
+          import org.springframework.web.bind.annotation.GetMapping;
+          import org.springframework.web.bind.annotation.PostMapping;
+          import org.springframework.web.bind.annotation.RequestBody;
+          import org.springframework.web.bind.annotation.RestController;
+
+          import java.util.Map;
+
+          @RestController
+          public class SaludoController {
+
+              @GetMapping("/hola")
+              public String saludar() {
+                  return construirMensaje("Ministerio de Educación");
+              }
+
+              @GetMapping("/adios")
+              public String despedir() {
+                  return "Adiós, Ministerio de Educación";
+              }
+
+              @PostMapping("/eco")
+              public Map<String, Object> eco(@RequestBody Map<String, Object> mensaje) {
+                  return mensaje;
+              }
+
+              private String construirMensaje(String destinatario) {
+                  return "Hola, " + destinatario;
+              }
+          }
+          JAVA
+
+          ./mvnw -B -DskipTests package
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m1-eco.log 2>&1 &
+          PID=$!
+          for i in {1..45}; do
+            CODE="$(curl --silent --output /tmp/m1-eco-ready.txt --write-out '%{http_code}' \
+              -X POST http://localhost:8080/eco \
+              -H 'Content-Type: application/json' \
+              -d '{"mensaje":"hola"}' || true)"
+            if [[ "$CODE" == "200" ]]; then break; fi
+            sleep 1
+          done
+          test "$CODE" = "200"
+          grep -q '"mensaje":"hola"' /tmp/m1-eco-ready.txt
+
+          test "$(curl --silent --output /tmp/m1-eco-bad.txt --write-out '%{http_code}' \
+            -X POST http://localhost:8080/eco \
+            -H 'Content-Type: application/json' \
+            -d '{"mensaje":"hola",}')" = "400"
+
+          test "$(curl --silent --output /tmp/m1-eco-unsupported.txt --write-out '%{http_code}' \
+            -X POST http://localhost:8080/eco \
+            -H 'Content-Type: text/plain' \
+            -d '{"mensaje":"hola"}')" = "415"
+
+          kill "$PID" 2>/dev/null || true
+          wait "$PID" 2>/dev/null || true
+          PID=''
+          cp /tmp/SaludoController.baseline.java "$CONTROLLER"
+          git diff --exit-code -- "$CONTROLLER"
+          trap - EXIT
