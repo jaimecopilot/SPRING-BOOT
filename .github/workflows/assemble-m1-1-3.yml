@@ -1,0 +1,38 @@
+name: Ensamblar M1.3
+
+on:
+  push:
+    branches: [m1-edicion-fuerte]
+    paths:
+      - '.course/assembly/M1_1_3_TEORIA.append.txt'
+      - '.course/assembly/M1_1_3_PRACTICA.append.txt'
+      - '.github/workflows/assemble-m1-1-3.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: assemble-m1-1-3
+  cancel-in-progress: false
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: m1-edicion-fuerte
+      - name: Integrar bloques 1.3 y retirar infraestructura temporal
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .course/assembly/M1_1_3_TEORIA.append.txt >> M1/TEORIA.md
+          cat .course/assembly/M1_1_3_PRACTICA.append.txt >> M1/PRACTICA.md
+          git rm .course/assembly/M1_1_3_TEORIA.append.txt
+          git rm .course/assembly/M1_1_3_PRACTICA.append.txt
+          git rm .github/workflows/assemble-m1-1-3.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add M1/TEORIA.md M1/PRACTICA.md
+          git commit -m 'docs(m1): integra teoría y práctica 1.3'
+          git push origin HEAD:m1-edicion-fuerte
