@@ -22,18 +22,24 @@ manifest = json.loads((root / ".course/traceability/M1.json").read_text(encoding
 theory = (root / "M1/TEORIA.md").read_text(encoding="utf-8")
 practice = (root / "M1/PRACTICA.md").read_text(encoding="utf-8")
 
-# Este gate describe el primer checkpoint industrial. Se ampliará acumulativamente
-# al cerrar 1.2, 1.3, 1.4 y 1.5; nunca se rebajan comprobaciones ya cerradas.
+# Checkpoint acumulativo 1.1 + 1.2. Al avanzar se amplía, nunca se rebajan
+# comprobaciones de puntos ya cerrados.
 if manifest.get("status") != "IN_PROGRESS":
     bad("M1 must remain IN_PROGRESS until all 58 steps are complete")
 if manifest.get("expected_total_steps_when_complete") != 58:
     bad("M1 expected final total must remain 58")
-if manifest.get("current_traced_steps") != 10:
-    bad("M1.1 checkpoint must currently expose exactly 10 traced steps")
-if manifest.get("step_manifests") != [".course/traceability/M1/1.1.json"]:
-    bad("M1.1 checkpoint must currently contain only the 1.1 step manifest")
+if manifest.get("current_traced_steps") != 22:
+    bad("M1.2 checkpoint must expose exactly 22 traced steps")
+expected_manifests = [
+    ".course/traceability/M1/1.1.json",
+    ".course/traceability/M1/1.2.json",
+]
+if manifest.get("step_manifests") != expected_manifests:
+    bad(f"M1.2 checkpoint manifests must be {expected_manifests}")
+if len(manifest.get("theory_concepts", [])) != 10:
+    bad("M1.2 checkpoint must expose exactly 10 theory concepts")
 
-expected_headings = [
+expected_11 = [
     "## Paso 1 - Abrir el proyecto y arrancarlo",
     "## Paso 2 - Ver el informe de auto-configuración",
     "## Paso 3 - Leer el informe con calma",
@@ -45,14 +51,31 @@ expected_headings = [
     "## Paso 9 - Diagnosticar errores frecuentes sin cambiar varias cosas a la vez",
     "## Paso 10 - Reto resuelto: excluir temporalmente Jackson y demostrar el efecto",
 ]
-actual_headings = re.findall(r"^## Paso \d+ - .+$", practice, re.M)
-if actual_headings != expected_headings:
-    bad(f"M1.1 practical headings changed: {actual_headings}")
-if "# Práctica 1.2" in practice or "# Punto 1.2" in theory:
-    bad("M1.2 content must not enter the M1.1 checkpoint")
+expected_12 = [
+    "## Paso 1 - Arrancar la aplicación y formular hipótesis",
+    "## Paso 2 - Probar GET con el navegador",
+    "## Paso 3 - Probar una ruta que no existe",
+    "## Paso 4 - Probar GET con curl y ver las cabeceras",
+    "## Paso 5 - Probar una ruta inexistente con curl",
+    "## Paso 6 - Probar un método HTTP no soportado",
+    "## Paso 7 - Ver las cabeceras que envía el cliente con curl",
+    "## Paso 8 - Observar la misma petición con DevTools",
+    "## Paso 9 - Razonar sobre lo observado",
+    "## Paso 10 - Diagnosticar errores comunes de comunicación HTTP",
+    "## Paso 11 - Resumir lo observado con pruebas reproducibles",
+    "## Paso 12 - Reto resuelto: provocar un 400 Bad Request y restaurar el proyecto",
+]
+blocks = re.findall(r"(?ms)^# Práctica (1\.\d+) - .*?(?=^# Práctica |\Z)", practice)
+if blocks != ["1.1", "1.2"]:
+    bad(f"published practical blocks must be exactly 1.1 and 1.2; got {blocks}")
+all_headings = re.findall(r"^## Paso \d+ - .+$", practice, re.M)
+if all_headings != expected_11 + expected_12:
+    bad(f"M1.2 practical headings changed or out of order: {all_headings}")
+if "# Práctica 1.3" in practice or "# Punto 1.3" in theory:
+    bad("M1.3 content must not enter before its traceability checkpoint exists")
 
-# M1.1 is deliberately observational: after all temporary experiments the
-# executable snapshot must be byte-for-byte identical to approved M0.
+# 1.1 y 1.2 son deliberadamente observacionales. Tras cerrar todos los
+# experimentos temporales el snapshot ejecutable debe seguir idéntico a M0.
 def files_under(base):
     return {
         p.relative_to(base).as_posix(): p
@@ -66,10 +89,10 @@ if not m0.exists() or not m1.exists():
 else:
     f0, f1 = files_under(m0), files_under(m1)
     if set(f0) != set(f1):
-        bad(f"M1.1 snapshot file set differs from M0: missing={sorted(set(f0)-set(f1))}, extra={sorted(set(f1)-set(f0))}")
+        bad(f"M1.2 final snapshot file set differs from M0: missing={sorted(set(f0)-set(f1))}, extra={sorted(set(f1)-set(f0))}")
     for rel in sorted(set(f0) & set(f1)):
         if not filecmp.cmp(f0[rel], f1[rel], shallow=False):
-            bad(f"M1.1 final snapshot must still equal approved M0: content differs at {rel}")
+            bad(f"M1.2 final snapshot must still equal approved M0: content differs at {rel}")
 
 contracts = {
     "M1/proyecto/pom.xml": [
@@ -92,53 +115,75 @@ contracts = {
 for rel, tokens in contracts.items():
     p = root / rel
     if not p.exists():
-        bad(f"missing M1.1 contract file: {rel}")
+        bad(f"missing M1.2 contract file: {rel}")
         continue
     txt = p.read_text(encoding="utf-8")
     for token in tokens:
         if token not in txt:
             bad(f"{rel}: missing contract token {token}")
 
-# No laboratorio temporal puede filtrarse al snapshot final.
+# Ningún laboratorio temporal de 1.1/1.2 puede filtrarse al snapshot final.
 temporary_forbidden = {
     "M1/proyecto/src/main/resources/application.properties": ["server.port=9090"],
     "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java": ["JacksonAutoConfiguration.class"],
-    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java": ["/info-json", "infoJson", "LinkedHashMap", "java.util.Map"],
+    "M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java": [
+        "/info-json", "infoJson", "LinkedHashMap", "java.util.Map",
+        "/eco", "@PostMapping", "@RequestBody"
+    ],
 }
 for rel, tokens in temporary_forbidden.items():
     txt = (root / rel).read_text(encoding="utf-8")
     for token in tokens:
         if token in txt:
-            bad(f"temporary M1.1 residue leaked into final snapshot: {rel} -> {token}")
+            bad(f"temporary M1.1/M1.2 residue leaked into final snapshot: {rel} -> {token}")
 
-# El alumno debe poder ejecutar realmente todo lo que el contrato 1.1 promete.
+# Contratos didácticos de 1.1 que siguen siendo obligatorios.
 for token in [
     "--debug", "CONDITIONS EVALUATION REPORT", "Positive matches", "Negative matches", "Exclusions",
     "./mvnw dependency:tree", "java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar",
-    "server.port=9090", "curl -i http://localhost:9090/hola", "curl -i http://localhost:8080/hola",
+    "server.port=9090", "curl -i http://localhost:9090/hola",
     "JacksonAutoConfiguration.class", "@GetMapping(\"/info-json\")", "./mvnw test",
     "IntelliJ IDEA", "Eclipse", "VS Code"
 ]:
     if token not in practice:
-        bad(f"M1.1 practical guide missing high-value token: {token}")
+        bad(f"M1.1 practical guide lost high-value token: {token}")
+
+# Contratos didácticos de 1.2.
+for token in [
+    "curl -i http://localhost:8080/no-existe",
+    "curl -i -X POST http://localhost:8080/hola",
+    "curl -v http://localhost:8080/hola",
+    "F12", "Network", "404", "405 Method Not Allowed",
+    "Connection refused", "400 Bad Request", "415 Unsupported Media Type",
+    "@PostMapping(\"/eco\")", "@RequestBody", "Map<String, Object>",
+    "Content-Type: application/json", "Content-Type: text/plain",
+    "{\"mensaje\":\"hola\",}", "{\"mensaje\":\"hola\"}"
+]:
+    if token not in practice:
+        bad(f"M1.2 practical guide missing high-value token: {token}")
 
 for token in [
     "Spring Framework", "Spring Boot", "Auto-configuración", "Positive matches", "Negative matches",
-    "spring-boot-starter-web", "dependencias transitivas", "servidor embebido", "back off"
+    "spring-boot-starter-web", "dependencias transitivas", "servidor embebido",
+    "Cliente y servidor", "petición-respuesta", "Front-end y back-end",
+    "405 Method Not Allowed", "415 Unsupported Media Type", "curl -v", "DevTools"
 ]:
     if token.lower() not in theory.lower():
-        bad(f"M1.1 theory missing high-value concept token: {token}")
+        bad(f"M1.1/M1.2 theory missing high-value concept token: {token}")
 
-# La matriz editorial previa debe seguir fijando la escala total y el checkpoint actual.
+# La matriz editorial previa debe seguir fijando escala, decisiones y temporales.
 audit = (root / ".course/source-audit/M1.md").read_text(encoding="utf-8")
-for token in ["**58**", "M1-P-11-S10", "M1-T-11-AUTOCONFIG", "server.port=9090", "excluyendo Jackson"]:
+for token in [
+    "**58**", "M1-P-11-S10", "M1-P-12-S12", "M1-T-11-AUTOCONFIG",
+    "M1-T-12-CLIENT-SERVER", "server.port=9090", "excluyendo Jackson", "POST /eco"
+]:
     if token not in audit:
         bad(f"M1 source audit lost required contract token: {token}")
 
 if fail:
-    print("M1 CHECKPOINT 1.1: FAIL")
+    print("M1 CHECKPOINT 1.2: FAIL")
     for x in fail:
         print(" -", x)
     raise SystemExit(1)
 
-print("M1 CHECKPOINT 1.1: PASS | 5 theory concepts | 10/58 steps | snapshot=M0 restored")
+print("M1 CHECKPOINT 1.2: PASS | 10 theory concepts | 22/58 steps | snapshot=M0 restored")
