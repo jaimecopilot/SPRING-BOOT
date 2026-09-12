@@ -1,0 +1,25 @@
+name: Exportar fuentes M1
+
+on:
+  push:
+    branches: [m1-edicion-fuerte]
+    paths:
+      - '.github/workflows/export-m1-source.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exportar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Empaquetar fuentes M1
+        uses: actions/upload-artifact@v4
+        with:
+          name: m1-markdown-source
+          path: |
+            M1/TEORIA.md
+            M1/PRACTICA.md
+          if-no-files-found: error
+          retention-days: 1
