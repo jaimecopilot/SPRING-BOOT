@@ -23,7 +23,12 @@
     {"id":"M1-T-13-SYNTAX","anchor":"## Bloque 2 - Sintaxis de JSON"},
     {"id":"M1-T-13-CONVENTIONS","anchor":"## Bloque 3 - Convenciones de JSON en APIs REST"},
     {"id":"M1-T-13-JACKSON","anchor":"## Bloque 4 - Jackson"},
-    {"id":"M1-T-13-ANNOTATIONS","anchor":"## Bloque 5 - Anotaciones de Jackson"}
+    {"id":"M1-T-13-ANNOTATIONS","anchor":"## Bloque 5 - Anotaciones de Jackson"},
+    {"id":"M1-T-14-REST","anchor":"## Bloque 1 - Qué es REST"},
+    {"id":"M1-T-14-URLS","anchor":"## Bloque 2 - Diseño de URLs"},
+    {"id":"M1-T-14-METHODS-STATUS","anchor":"## Bloque 3 - Métodos HTTP y códigos de estado"},
+    {"id":"M1-T-14-COLLECTIONS-QUERY","anchor":"## Bloque 4 - Paginación, filtrado y ordenación"},
+    {"id":"M1-T-14-DOC-EVOLUTION","anchor":"## Bloque 5 - Documentación y evolución"}
   ],
   "environment_workflows": [
     {"id":"M1-W-CONSOLE","anchor":"Desde la carpeta `M1/proyecto`, en Linux/macOS"},
@@ -45,15 +50,18 @@
     {"path":"M1/proyecto/src/test/java/es/mecd/demo/miproyecto/controller/SaludoControllerTest.java","classification":"INHERITED","origin":"M0-P-04-S07","evolution":[],"symbols":["SaludoControllerTest","saludarDebeDevolverElMensajeEsperado","despedirDebeDevolverElMensajeEsperado"],"used_by":["Maven test","baseline regression"],"missing_effect":"Se pierde una regresión automática del comportamiento heredado."},
     {"path":"M1/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTests.java","classification":"INHERITED","origin":"Initializr","evolution":[],"symbols":["MiProyectoApplicationTests","contextLoads"],"used_by":["Maven test","context smoke test"],"missing_effect":"Se pierde el smoke test del contexto."},
     {"path":"M1/proyecto/.gitignore","classification":"INHERITED","origin":null,"evolution":[],"symbols":[],"used_by":["repository hygiene"],"missing_effect":"Podrían versionarse artefactos generados."},
-    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto","classification":"GUIDE","origin":"M1-P-13-S01","evolution":[],"symbols":["es.mecd.demo.miproyecto.dto"],"used_by":["ExpedienteDTO","SolicitanteDTO","M1 practices 1.3-1.5"],"missing_effect":"Los DTOs dejan de estar agrupados en el package enseñado."},
+    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto","classification":"GUIDE","origin":"M1-P-13-S01","evolution":[],"symbols":["es.mecd.demo.miproyecto.dto"],"used_by":["ExpedienteDTO","SolicitanteDTO","AlumnoDTO","M1 practices 1.3-1.5"],"missing_effect":"Los DTOs dejan de estar agrupados en el package enseñado."},
     {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","classification":"GUIDE","origin":"M1-P-13-S02","evolution":["M1-P-13-S05","M1-P-13-S06","M1-P-13-S07","M1-P-13-S08","M1-P-13-S12"],"symbols":["public class ExpedienteDTO","@JsonInclude(JsonInclude.Include.NON_NULL)","@JsonProperty(\"id\")","@JsonFormat(pattern = \"yyyy-MM-dd\")","@JsonIgnore","private String numeroSeguridadSocial","private SolicitanteDTO solicitante","getSolicitante","setSolicitante"],"used_by":["ExpedienteController","Jackson serialization","Jackson deserialization","M1 HTTP contract"],"missing_effect":"Desaparece el DTO central usado para demostrar el contrato JSON del módulo."},
     {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/SolicitanteDTO.java","classification":"GUIDE","origin":"M1-P-13-S12","evolution":[],"symbols":["public class SolicitanteDTO","@JsonProperty(\"dni\")","private String documentoIdentidad","public SolicitanteDTO()"],"used_by":["ExpedienteDTO","nested JSON example"],"missing_effect":"Desaparece la estructura anidada del solicitante enseñada en 1.3."},
     {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","classification":"GUIDE","origin":"M1-P-13-S03","evolution":["M1-P-13-S08","M1-P-13-S09","M1-P-13-S12"],"symbols":["public class ExpedienteController","@RequestMapping(\"/api/v1/expedientes\")","@GetMapping(\"/ejemplo\")","@PostMapping(\"/eco\")","public ExpedienteDTO ejemplo()","public ExpedienteDTO eco","setNumeroSeguridadSocial","setSolicitante(new SolicitanteDTO"],"used_by":["HTTP runtime","M1 practice 1.3","M1 CI"],"missing_effect":"Desaparecen los endpoints permanentes que prueban serialización y deserialización JSON."},
+    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/AlumnoDTO.java","classification":"GUIDE","origin":"M1-P-14-S02","evolution":[],"symbols":["public class AlumnoDTO","@JsonInclude(JsonInclude.Include.NON_NULL)","@JsonProperty(\"id\")","@JsonFormat(pattern = \"yyyy-MM-dd\")","private String identificador","private String curso","private List<String> documentos","public AlumnoDTO()"],"used_by":["AlumnoController","Jackson serialization","Jackson deserialization","M1 REST contract"],"missing_effect":"Desaparece el DTO del recurso Alumno usado en 1.4 y 1.5."},
+    {"path":"M1/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","classification":"GUIDE","origin":"M1-P-14-S03","evolution":["M1-P-14-S07","M1-P-14-S08","M1-P-14-S12"],"symbols":["public class AlumnoController","@RequestMapping(\"/api/v1/alumnos\")","private final List<AlumnoDTO> alumnos = List.of","public List<AlumnoDTO> listar(@RequestParam(required = false) String curso)","public ResponseEntity<AlumnoDTO> crear","ResponseEntity.status(HttpStatus.CREATED).body(dto)","@GetMapping(\"/{id}\")","ResponseEntity.notFound().build()"],"used_by":["HTTP runtime","M1 practice 1.4","M1 practice 1.5","M1 CI"],"missing_effect":"Desaparece la API de alumnos diseñada en 1.4 y el punto de partida del CRUD de 1.5."},
     {"path":".course/source-audit/M1.md","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["editorial audit","maintainers"],"missing_effect":"Se pierde la matriz maestra que fija alcance y decisiones editoriales."},
     {"path":".course/traceability/M1.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["traceability tooling"],"missing_effect":"Se pierde el inventario inverso del módulo."},
     {"path":".course/traceability/M1/1.1.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["step audit"],"missing_effect":"Se pierde el contrato individual de los diez pasos de 1.1."},
     {"path":".course/traceability/M1/1.2.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["step audit"],"missing_effect":"Se pierde el contrato individual de los doce pasos de 1.2."},
     {"path":".course/traceability/M1/1.3.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["step audit"],"missing_effect":"Se pierde el contrato individual de los doce pasos de 1.3."},
+    {"path":".course/traceability/M1/1.4.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["step audit"],"missing_effect":"Se pierde el contrato individual de los doce pasos de 1.4."},
     {"path":".course/traceability/validate_module.py","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["M1 CI","future module CI"],"missing_effect":"Se pierden los invariantes reutilizables de trazabilidad y superficie de alumno."},
     {"path":".course/traceability/validate_m1.py","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["M1 CI","checkpoint audit"],"missing_effect":"Se pierde el gate semántico específico y la comprobación acumulativa de M1."},
     {"path":".github/workflows/validar-m1.yml","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],"used_by":["GitHub Actions"],"missing_effect":"Se pierde la comprobación automatizada de Wrapper, dependencias, tests, JAR, HTTP real y experimentos temporales controlados."},
@@ -62,8 +70,9 @@
   "step_manifests": [
     ".course/traceability/M1/1.1.json",
     ".course/traceability/M1/1.2.json",
-    ".course/traceability/M1/1.3.json"
+    ".course/traceability/M1/1.3.json",
+    ".course/traceability/M1/1.4.json"
   ],
   "expected_total_steps_when_complete": 58,
-  "current_traced_steps": 34
+  "current_traced_steps": 46
 }
