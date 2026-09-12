@@ -24,6 +24,11 @@ for c in concepts:
     if c["anchor"].lower() not in theory.lower():
         bad(f"theory anchor missing: {c['id']} -> {c['anchor']}")
 
+inventory_list=m.get("artifacts",[])
+inventory={a["path"]:a for a in inventory_list}
+if len(inventory) != len(inventory_list): bad("duplicate artifact inventory path")
+inventory_paths=set(inventory)
+
 derived=[]
 headings={}
 for pblock in re.finditer(r'(?ms)^# Práctica (0\.\d+) - .*?(?=^# Práctica |^# Empaquetado y verificación final del Módulo 0|\Z)', practice):
@@ -47,6 +52,9 @@ if len(declared) != len(set(declared)): bad("duplicate step id")
 
 allowed_actions={"CREATE","MODIFY","USE","DELETE","RESTORE","VERIFY"}
 allowed_states={"PERMANENT","TEMPORARY"}
+env_ids={w["id"] for w in m.get("environment_workflows",[])}
+textual_suffixes={".java",".xml",".properties",".cmd",".md",".yml",".yaml",".json",".py"}
+skip_literal_symbols={"Maven Wrapper","Maven Wrapper Windows","target/"}
 
 for s in steps:
     sid=s["id"]
@@ -56,31 +64,44 @@ for s in steps:
     if not refs: bad(f"{sid}: no theory_refs")
     for ref in refs:
         if ref not in theory_ids: bad(f"{sid}: unknown theory ref {ref}")
+    for ref in s.get("environment_refs",[]):
+        if ref not in env_ids: bad(f"{sid}: unknown environment ref {ref}")
     if s.get("state") not in allowed_states: bad(f"{sid}: invalid state {s.get('state')}")
     if not (s.get("artifacts") or s.get("commands") or s.get("observables")):
         bad(f"{sid}: no trace evidence")
     if not s.get("observables"): bad(f"{sid}: no observables")
     if not s.get("verification"): bad(f"{sid}: no verification")
     for a in s.get("artifacts",[]):
-        if a.get("action") not in allowed_actions: bad(f"{sid}: invalid action {a.get('action')}")
-        if a.get("state") not in allowed_states: bad(f"{sid}: invalid artifact state {a.get('state')}")
-        p=root/a["path"]
-        if a["state"]=="PERMANENT" and a["action"] not in {"DELETE"} and not p.exists():
-            bad(f"{sid}: permanent artifact missing: {a['path']}")
-        if a["action"] in {"CREATE","MODIFY","RESTORE","VERIFY"} and not a.get("symbols"):
-            bad(f"{sid}: {a['action']} artifact without symbols: {a['path']}")
+        action=a.get("action")
+        state=a.get("state")
+        rel=a.get("path")
+        if action not in allowed_actions: bad(f"{sid}: invalid action {action}")
+        if state not in allowed_states: bad(f"{sid}: invalid artifact state {state}")
+        if not rel: bad(f"{sid}: artifact without path")
+        if not rel: continue
+        p=root/rel
+        if state=="PERMANENT" and action!="DELETE" and not p.exists():
+            bad(f"{sid}: permanent artifact missing: {rel}")
+        if state=="PERMANENT" and action!="DELETE" and rel not in inventory_paths:
+            bad(f"{sid}: permanent artifact absent from reverse inventory: {rel}")
+        if action in {"CREATE","MODIFY","RESTORE","VERIFY"} and not a.get("symbols"):
+            bad(f"{sid}: {action} artifact without symbols: {rel}")
+        if state=="PERMANENT" and action in {"CREATE","MODIFY","RESTORE","VERIFY"} and p.is_file() and p.suffix in textual_suffixes:
+            txt=p.read_text(encoding="utf-8")
+            for token in a.get("symbols",[]):
+                if token in skip_literal_symbols: continue
+                if token not in txt:
+                    bad(f"{sid}: declared permanent symbol/token missing in {rel}: {token}")
     if s.get("state")=="TEMPORARY":
-        has_restore=any(a.get("action")=="RESTORE" for a in s.get("artifacts",[]))
-        if not has_restore and sid != "M0-P-03-S02":
-            bad(f"{sid}: TEMPORARY step without RESTORE")
+        has_close=any(a.get("action") in {"RESTORE","DELETE"} for a in s.get("artifacts",[]))
+        if not has_close:
+            bad(f"{sid}: TEMPORARY step without RESTORE/DELETE transition")
 
 for w in m.get("environment_workflows",[]):
     if w["anchor"] not in practice: bad(f"environment workflow missing: {w['id']}")
-if {w["id"] for w in m.get("environment_workflows",[])} != {"M0-W-CONSOLE","M0-W-INTELLIJ","M0-W-ECLIPSE","M0-W-VSCODE"}:
+if env_ids != {"M0-W-CONSOLE","M0-W-INTELLIJ","M0-W-ECLIPSE","M0-W-VSCODE"}:
     bad("exact four environment workflows required")
 
-inventory={a["path"]:a for a in m.get("artifacts",[])}
-if len(inventory) != len(m.get("artifacts",[])): bad("duplicate artifact inventory path")
 for rel,a in inventory.items():
     p=root/rel
     if not p.exists(): bad(f"classified artifact missing: {rel}")
@@ -104,22 +125,43 @@ for rel in functional:
 for rel,a in inventory.items():
     if a["classification"]!="GUIDE": continue
     p=root/rel
-    if not p.exists() or p.suffix not in {".java",".xml",".properties"}: continue
+    if not p.exists() or not p.is_file() or p.suffix not in {".java",".xml",".properties"}: continue
     txt=p.read_text(encoding="utf-8")
     for token in a.get("symbols",[]):
-        if token in {"Maven Wrapper","Maven Wrapper Windows"}: continue
+        if token in skip_literal_symbols: continue
         if token not in txt:
             bad(f"{rel}: final symbol/token missing: {token}")
 
 step_relations={}
+step_actions={}
 for s in steps:
     for a in s.get("artifacts",[]):
         step_relations.setdefault(a["path"],set()).add(s["id"])
+        step_actions.setdefault((a["path"],s["id"]),set()).add(a["action"])
 for rel,a in inventory.items():
     if a["classification"]!="GUIDE": continue
-    for sid in [a.get("origin"),*a.get("evolution",[])]:
-        if sid and sid.startswith("M0-P-") and sid not in step_relations.get(rel,set()):
-            bad(f"{rel}: inventory references {sid} but no step relation exists")
+    origin=a.get("origin")
+    if origin and origin.startswith("M0-P-"):
+        if origin not in step_relations.get(rel,set()):
+            bad(f"{rel}: inventory origin {origin} has no step relation")
+        elif "CREATE" not in step_actions.get((rel,origin),set()):
+            bad(f"{rel}: pedagogical origin {origin} is not a CREATE action")
+    for sid in a.get("evolution",[]):
+        if sid and sid.startswith("M0-P-"):
+            if sid not in step_relations.get(rel,set()):
+                bad(f"{rel}: inventory evolution {sid} has no step relation")
+            elif not (step_actions.get((rel,sid),set()) & {"MODIFY","RESTORE"}):
+                bad(f"{rel}: inventory evolution {sid} does not modify/restore the artifact")
+
+public_behavior_paths={
+    "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+    "M0/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/SaludoController.java",
+    "M0/proyecto/pom.xml",
+    "M0/proyecto/src/main/resources/application.properties"
+}
+for rel in public_behavior_paths:
+    if inventory.get(rel,{}).get("classification")!="GUIDE":
+        bad(f"public/functional behavior cannot be SUPPORT: {rel}")
 
 for name,text in [("TEORIA",theory),("PRACTICA",practice)]:
     q=len(re.findall(r'^### Pregunta(?: breve| de integración)?$', text, re.M))
@@ -141,10 +183,39 @@ for rel,tokens in contracts.items():
     for token in tokens:
         if token not in txt: bad(f"{rel}: code token missing: {token}")
 
-for token in ["public class HolaMinisterio","args.length > 0","@SpringBootApplication","@RestController",
-              "@GetMapping(\"/hola\")","@GetMapping(\"/adios\")","saludarDebeDevolverElMensajeEsperado",
-              "despedirDebeDevolverElMensajeEsperado","./mvnw test","./mvnw package","./mvnw spring-boot:run","mvnw.cmd test"]:
+for token in [
+    "public class HolaMinisterio","args.length > 0","java -version","javac -version","mvn -version",
+    "@SpringBootApplication","@RestController","@GetMapping(\"/hola\")","@GetMapping(\"/adios\")",
+    "saludarDebeDevolverElMensajeEsperado","despedirDebeDevolverElMensajeEsperado",
+    "./mvnw test","./mvnw package","./mvnw clean","./mvnw spring-boot:run","mvnw.cmd test",
+    "./mvnw dependency:tree","./mvnw help:effective-pom","server.port=8081",
+    "logging.level.org.springframework.web=DEBUG","/no-existe"
+]:
     if token not in practice: bad(f"practical guide missing high-value token: {token}")
+
+root_markdown={p.name for p in root.glob("*.md")}
+if root_markdown != {"README.md"}:
+    bad(f"student repository root must contain only README.md as Markdown; got {sorted(root_markdown)}")
+m0_markdown={p.name for p in (root/"M0").glob("*.md")}
+if m0_markdown != {"README.md","TEORIA.md","PRACTICA.md"}:
+    bad(f"M0 student surface must contain only README/TEORIA/PRACTICA Markdown; got {sorted(m0_markdown)}")
+if not (root/".course/internal/PROMPT_MAESTRO_CONTINUIDAD.md").exists():
+    bad("missing internal continuity contract under .course/internal")
+
+human_report=root/".course/traceability/TRAZABILIDAD_M0.md"
+if not human_report.exists():
+    bad("missing internal human traceability report")
+else:
+    report=human_report.read_text(encoding="utf-8")
+    required_sections=[
+        "## Cómo puedes auditarlo tú","## Resumen verificable","## Teoría → práctica","## Guía → proyecto",
+        "## Proyecto → guía","## Artefactos necesarios no introducidos en este módulo",
+        "## Trazabilidad inversa por artefacto/símbolo","## Estados temporales y restauraciones","## Gates automáticos"
+    ]
+    for section in required_sections:
+        if section not in report: bad(f"human report missing section: {section}")
+    for sid in declared:
+        if f"`{sid}`" not in report: bad(f"human report missing step id: {sid}")
 
 gen=root/".course/traceability/generate_human_traceability.py"
 if not gen.exists():
