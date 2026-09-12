@@ -3,17 +3,25 @@ name: Validar M0
 on:
   push:
     branches: [m0-draft]
+    paths:
+      - 'M0/**'
+      - '.course/traceability/**'
+      - '.course/source-audit/**'
+      - '.github/workflows/validar-m0.yml'
   pull_request:
     paths:
       - 'M0/**'
+      - '.course/traceability/**'
+      - '.course/source-audit/**'
       - '.github/workflows/validar-m0.yml'
 
 jobs:
   validar-m0:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: M0/proyecto
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
     steps:
       - uses: actions/checkout@v5
 
@@ -22,20 +30,38 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: maven
 
-      - name: Mostrar versiones
+      - name: Validar trazabilidad teoría-práctica-código
+        run: python .course/traceability/validate_m0.py .
+
+      - name: Verificar ejemplo Java previo a Spring
+        shell: bash
         run: |
-          java -version
-          mvn -version
+          set -euo pipefail
+          javac --release 17 M0/ejemplos/HolaMinisterio.java
+          test "$(java -Dfile.encoding=UTF-8 -cp M0/ejemplos HolaMinisterio)" = "Hola, Ministerio de Educación"
+          test "$(java -Dfile.encoding=UTF-8 -cp M0/ejemplos HolaMinisterio Ana)" = "Hola, Ana, bienvenido al Ministerio de Educación"
+          rm -f M0/ejemplos/HolaMinisterio.class
 
-      - name: Ejecutar tests
-        run: mvn -B test
+      - name: Verificar Maven Wrapper enseñado en la guía
+        working-directory: M0/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x mvnw
+          ./mvnw -version
+          ./mvnw -version | grep -q 'Apache Maven 3.9.16'
 
-      - name: Empaquetar JAR
-        run: mvn -B -DskipTests package
+      - name: Ejecutar tests con Maven Wrapper
+        working-directory: M0/proyecto
+        run: ./mvnw -B test
 
-      - name: Arrancar aplicación y probar HTTP real
+      - name: Empaquetar JAR con Maven Wrapper
+        working-directory: M0/proyecto
+        run: ./mvnw -B -DskipTests package
+
+      - name: Arrancar JAR y probar HTTP real
+        working-directory: M0/proyecto
         shell: bash
         run: |
           set -euo pipefail
