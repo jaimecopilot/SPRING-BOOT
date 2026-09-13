@@ -1,1 +1,0 @@
-Trigger transitorio para ejecutar los gates sobre el estado final de M2.2. Se elimina en el commit inmediatamente posterior.
