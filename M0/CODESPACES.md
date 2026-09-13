@@ -10,15 +10,21 @@ Esta guía te explica cómo levantar un **Codespace** y ejecutar el proyecto de 
 
 ## Paso 1: Abrir el Codespace
 
-### Opción A: Desde la rama main del repositorio
+### Opción A: Desde la página principal del repositorio
 1. Ve a la página principal del repositorio: https://github.com/jaimecopilot/SPRING-BOOT
 2. Haz clic en el botón verde **`<> Code`**
 3. Selecciona la pestaña **`Codespaces`**
 4. Haz clic en **`Create codespace on main`**
 
-### Opción B: Directamente desde esta carpeta (M0)
-1. Ve a la carpeta M0: https://github.com/jaimecopilot/SPRING-BOOT/tree/main/M0
-2. Repite los pasos anteriores
+### Opción B: Desde la rama main y navegar a M0
+1. Ve a la página principal del repositorio: https://github.com/jaimecopilot/SPRING-BOOT
+2. Haz clic en el botón verde **`<> Code`**
+3. Selecciona la pestaña **`Codespaces`**
+4. Haz clic en **`Create codespace on main`**
+5. Una vez que Codespaces se abra, navega a la carpeta M0 desde la terminal:
+   ```bash
+   cd M0/proyecto
+   ```
 
 > **Nota:** GitHub tardará 30-60 segundos en crear el Codespace. Una vez listo, verás VS Code en el navegador.
 
