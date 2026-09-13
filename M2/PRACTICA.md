@@ -838,7 +838,7 @@ public class AlumnoService {
 }
 ```
 
-Mueve al servicio la colección inicial que estaba en el controlador. Conservamos los mismos datos del checkpoint 2.1 para que el refactor sea observable como equivalente:
+Mueve al servicio la colección inicial que estaba en el controlador. Conservamos los mismos datos del estado de 2.1 2.1 para que el refactor sea observable como equivalente:
 
 ```java
 private final List<AlumnoDTO> alumnos = new ArrayList<>(List.of(
