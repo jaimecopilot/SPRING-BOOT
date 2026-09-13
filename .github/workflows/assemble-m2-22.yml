@@ -1,0 +1,45 @@
+name: Ensamblar M2 2.2
+
+on:
+  push:
+    branches: [m2-edicion-fuerte]
+    paths:
+      - '.course/tmp/M2_22_TEORIA_APPEND.md'
+      - '.course/tmp/M2_22_PRACTICA_APPEND.md'
+      - '.github/workflows/assemble-m2-22.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: m2-edicion-fuerte
+          fetch-depth: 0
+      - name: Integrar 2.2 y eliminar ensamblador temporal
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin m2-edicion-fuerte
+          python - <<'PY'
+          from pathlib import Path
+          pairs = [
+              (Path('M2/TEORIA.md'), Path('.course/tmp/M2_22_TEORIA_APPEND.md'), '# Punto 2.2 - Capas de la aplicación: Servicio'),
+              (Path('M2/PRACTICA.md'), Path('.course/tmp/M2_22_PRACTICA_APPEND.md'), '# Punto 2.2 - Capas de la aplicación: Servicio'),
+          ]
+          for target, fragment, marker in pairs:
+              text = target.read_text(encoding='utf-8')
+              if marker in text:
+                  raise SystemExit(f'{marker} ya existe en {target}')
+              addition = fragment.read_text(encoding='utf-8')
+              target.write_text(text.rstrip() + addition + '\n', encoding='utf-8')
+          PY
+          git rm .course/tmp/M2_22_TEORIA_APPEND.md .course/tmp/M2_22_PRACTICA_APPEND.md .github/workflows/assemble-m2-22.yml
+          git add M2/TEORIA.md M2/PRACTICA.md
+          git commit -m 'M2.2: integrar teoría y práctica de servicio'
+          git push origin HEAD:m2-edicion-fuerte
