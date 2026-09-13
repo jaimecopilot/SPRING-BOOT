@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /** Tests del aislamiento y secuencia del repositorio en memoria. */
 class AlumnoRepositoryTest {
@@ -14,8 +15,12 @@ class AlumnoRepositoryTest {
         AlumnoRepository repo = new AlumnoRepository();
         repo.guardar(new AlumnoDTO("1", "Ana", "García", "DNI-1", LocalDate.of(2010, 1, 1), "5º"));
         var lista = repo.listarTodos();
-        lista.clear();
+        assertThrows(UnsupportedOperationException.class, lista::clear);
         assertEquals(1, repo.contar());
+
+        lista.get(0).setNombre("CAMBIO DESDE LISTA");
+        assertEquals("Ana", repo.buscarPorId("1").orElseThrow().getNombre());
+
         AlumnoDTO obtenido = repo.buscarPorId("1").orElseThrow();
         obtenido.setNombre("CAMBIO EXTERNO");
         assertEquals("Ana", repo.buscarPorId("1").orElseThrow().getNombre());

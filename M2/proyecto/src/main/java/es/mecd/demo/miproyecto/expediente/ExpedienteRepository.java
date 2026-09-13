@@ -33,11 +33,11 @@ public class ExpedienteRepository {
     public String siguienteIdentificador() { return String.valueOf(secuencia.incrementAndGet()); }
 
     private void actualizarSecuencia(String id) {
-        if (id != null && id.matches("\d+")) secuencia.accumulateAndGet(Integer.parseInt(id), Math::max);
+        if (id != null && id.matches("\\d+")) secuencia.accumulateAndGet(Integer.parseInt(id), Math::max);
     }
     private int idNumerico(ExpedienteDTO expediente) {
         String id = expediente.getIdentificador();
-        return id != null && id.matches("\d+") ? Integer.parseInt(id) : Integer.MAX_VALUE;
+        return id != null && id.matches("\\d+") ? Integer.parseInt(id) : Integer.MAX_VALUE;
     }
     private ExpedienteDTO copiar(ExpedienteDTO original) {
         ExpedienteDTO copia = new ExpedienteDTO(

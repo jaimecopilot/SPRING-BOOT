@@ -36,7 +36,8 @@ class AlumnoControllerTest {
                 new AlumnoDTO("3", "Carlos", "Zeta", "DNI-3", LocalDate.of(2011, 1, 2), "5º"));
         mockMvc.perform(post("/api/v1/alumnos")
                         .contentType("application/json")
-                        .content("{\"nombre\":\"Carlos\",\"apellidos\":\"Zeta\",\"dni\":\"DNI-3\",\"fechaNacimiento\":\"2011-01-02\",\"curso\":\"5º\"}"))
+                        .content("{\"nombre\":\"Carlos\",\"apellidos\":\"Zeta\",\"dni\":\"DNI-3\","
+                                + "\"fechaNacimiento\":\"2011-01-02\",\"curso\":\"5º\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/api/v1/alumnos/3"))
                 .andExpect(jsonPath("$.id").value("3"));

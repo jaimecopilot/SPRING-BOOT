@@ -78,14 +78,14 @@ public class AlumnoRepository {
     public String siguienteIdentificador() { return String.valueOf(secuencia.incrementAndGet()); }
 
     private void actualizarSecuencia(String id) {
-        if (id != null && id.matches("\d+")) {
+        if (id != null && id.matches("\\d+")) {
             secuencia.accumulateAndGet(Integer.parseInt(id), Math::max);
         }
     }
 
     private int idNumerico(AlumnoDTO alumno) {
         String id = alumno.getIdentificador();
-        return id != null && id.matches("\d+") ? Integer.parseInt(id) : Integer.MAX_VALUE;
+        return id != null && id.matches("\\d+") ? Integer.parseInt(id) : Integer.MAX_VALUE;
     }
 
     private AlumnoDTO copiar(AlumnoDTO original) {

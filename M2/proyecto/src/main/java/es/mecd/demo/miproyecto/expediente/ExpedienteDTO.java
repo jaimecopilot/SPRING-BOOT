@@ -54,7 +54,9 @@ public class ExpedienteDTO {
     public String getObservaciones() { return observaciones; }
     public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
     public String getNumeroSeguridadSocial() { return numeroSeguridadSocial; }
-    public void setNumeroSeguridadSocial(String numeroSeguridadSocial) { this.numeroSeguridadSocial = numeroSeguridadSocial; }
+    public void setNumeroSeguridadSocial(String numeroSeguridadSocial) {
+        this.numeroSeguridadSocial = numeroSeguridadSocial;
+    }
     public SolicitanteDTO getSolicitante() { return solicitante; }
     public void setSolicitante(SolicitanteDTO solicitante) { this.solicitante = solicitante; }
 }
