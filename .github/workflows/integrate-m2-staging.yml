@@ -1,0 +1,60 @@
+name: Integrar M2 staging
+
+on:
+  push:
+    branches: [m2-integration-staging]
+    paths:
+      - '.course/tmp/m2_integration_bundle.b64'
+      - '.github/workflows/integrate-m2-staging.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  integrar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: m2-integration-staging
+          fetch-depth: 0
+
+      - name: Integrar paquete M2 completo
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUNDLE='.course/tmp/m2_integration_bundle.b64'
+          if [[ ! -f "$BUNDLE" ]]; then
+            echo 'Bundle todavía no disponible; no hay nada que integrar.'
+            exit 0
+          fi
+
+          mkdir -p /tmp/m2bundle
+          base64 -d "$BUNDLE" > /tmp/m2bundle/m2.zip
+          unzip -q -o /tmp/m2bundle/m2.zip -d /tmp/m2bundle/unpacked
+
+          # Sustituir el material M2 y los contratos internos incluidos en el bundle.
+          rm -rf M2
+          cp -a /tmp/m2bundle/unpacked/M2 ./M2
+          mkdir -p .course/traceability/M2 .course/source-audit
+          cp -a /tmp/m2bundle/unpacked/.course/traceability/M2.json .course/traceability/M2.json
+          cp -a /tmp/m2bundle/unpacked/.course/traceability/M2/. .course/traceability/M2/
+          cp -a /tmp/m2bundle/unpacked/.course/traceability/TRAZABILIDAD_M2.md .course/traceability/TRAZABILIDAD_M2.md
+          cp -a /tmp/m2bundle/unpacked/.course/traceability/validate_m2.py .course/traceability/validate_m2.py
+          cp -a /tmp/m2bundle/unpacked/.course/source-audit/M2.md .course/source-audit/M2.md
+          cp -a /tmp/m2bundle/unpacked/.github/workflows/validar-m2.yml .github/workflows/validar-m2.yml
+
+          # El bundle representa el snapshot final: eliminar restos temporales previos.
+          rm -f .course/tmp/M2_23_TEORIA_APPEND.md
+          rm -f "$BUNDLE"
+          rm -f .github/workflows/integrate-m2-staging.yml
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No hay cambios tras integrar.'
+            exit 0
+          fi
+          git commit -m 'M2: integrar módulo completo 2.1-2.6 y proyecto final'
+          git push origin HEAD:m2-integration-staging
