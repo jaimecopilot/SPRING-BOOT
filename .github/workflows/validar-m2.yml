@@ -1,0 +1,197 @@
+name: Validar M2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'M2/**'
+      - '.course/traceability/M2*'
+      - '.course/traceability/TRAZABILIDAD_M2.md'
+      - '.course/traceability/generate_module_traceability.py'
+      - '.course/traceability/validate_module.py'
+      - '.course/traceability/validate_m2.py'
+      - '.course/source-audit/M2.md'
+      - '.course/internal/**'
+      - '.github/workflows/validar-m2.yml'
+  pull_request:
+    paths:
+      - 'M2/**'
+      - '.course/traceability/M2*'
+      - '.course/traceability/TRAZABILIDAD_M2.md'
+      - '.course/traceability/generate_module_traceability.py'
+      - '.course/traceability/validate_module.py'
+      - '.course/traceability/validate_m2.py'
+      - '.course/source-audit/M2.md'
+      - '.course/internal/**'
+      - '.github/workflows/validar-m2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validar-m2:
+    runs-on: ubuntu-latest
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Validar contrato estructural y semántico 2.1
+        run: python .course/traceability/validate_m2.py .
+
+      - name: Verificar Maven Wrapper 3.9.16
+        working-directory: M2/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x mvnw
+          ./mvnw -version | tee /tmp/m2-maven-version.txt
+          grep -q 'Apache Maven 3.9.16' /tmp/m2-maven-version.txt
+
+      - name: Ejecutar tests acumulativos
+        working-directory: M2/proyecto
+        run: ./mvnw -B test
+
+      - name: Empaquetar JAR ejecutable
+        working-directory: M2/proyecto
+        run: ./mvnw -B -DskipTests package
+
+      - name: Validar runtime HTTP de M2 2.1 y regresiones M0-M1
+        working-directory: M2/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          PID=''
+          cleanup() {
+            if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar > /tmp/m2-21.log 2>&1 &
+          PID=$!
+          CODE=''
+          for i in {1..45}; do
+            CODE="$(curl --silent --output /tmp/m2-ready.txt --write-out '%{http_code}' http://localhost:8080/hola || true)"
+            if [[ "$CODE" == "200" ]]; then break; fi
+            sleep 1
+          done
+          test "$CODE" = "200"
+          test "$(cat /tmp/m2-ready.txt)" = "Hola, Ministerio de Educación"
+          test "$(curl --fail --silent http://localhost:8080/adios)" = "Adiós, Ministerio de Educación"
+
+          test "$(curl --silent --output /tmp/m2-expediente.json --write-out '%{http_code}' http://localhost:8080/api/v1/expedientes/ejemplo)" = "200"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-expediente.json', encoding='utf-8'))
+          assert data['id']=='12345', data
+          assert data['fechaSolicitud']=='2025-01-15', data
+          assert 'numeroSeguridadSocial' not in data, data
+          PY
+
+          test "$(curl --silent --output /tmp/m2-inicial.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos)" = "200"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-inicial.json', encoding='utf-8'))
+          assert len(data)==2, data
+          assert [x['id'] for x in data]==['1','2'], data
+          assert [x['nombre'] for x in data]==['Ana','Luis'], data
+          PY
+          test "$(curl --silent --output /tmp/m2-get1.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/1)" = "200"
+          test "$(curl --silent --output /tmp/m2-get999.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/999)" = "404"
+
+          test "$(curl --silent --output /tmp/m2-info.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/info-peticion -H 'User-Agent: MiCliente/1.0' -H 'Accept-Language: es-ES')" = "200"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-info.json', encoding='utf-8'))
+          assert data=={'userAgent':'MiCliente/1.0','idioma':'es-ES'}, data
+          PY
+          test "$(curl --silent --output /tmp/m2-info-fallback.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/info-peticion -H 'User-Agent: MiCliente/2.0')" = "200"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-info-fallback.json', encoding='utf-8'))
+          assert data['userAgent']=='MiCliente/2.0', data
+          assert data['idioma']=='desconocido', data
+          PY
+
+          curl --fail --silent 'http://localhost:8080/api/v1/alumnos?page=0&size=1' > /tmp/m2-page0.json
+          curl --fail --silent 'http://localhost:8080/api/v1/alumnos?page=1&size=1' > /tmp/m2-page1.json
+          curl --fail --silent 'http://localhost:8080/api/v1/alumnos?sort=nombre&page=0&size=20' > /tmp/m2-sort.json
+          curl --fail --silent --get http://localhost:8080/api/v1/alumnos --data-urlencode 'curso=5º Primaria' --data-urlencode 'sort=nombre' --data-urlencode 'page=0' --data-urlencode 'size=10' > /tmp/m2-filter.json
+          python - <<'PY'
+          import json
+          p0=json.load(open('/tmp/m2-page0.json', encoding='utf-8'))
+          p1=json.load(open('/tmp/m2-page1.json', encoding='utf-8'))
+          so=json.load(open('/tmp/m2-sort.json', encoding='utf-8'))
+          fi=json.load(open('/tmp/m2-filter.json', encoding='utf-8'))
+          assert [x['id'] for x in p0]==['1'], p0
+          assert [x['id'] for x in p1]==['2'], p1
+          assert [x['nombre'] for x in so]==['Ana','Luis'], so
+          assert [x['id'] for x in fi]==['1'], fi
+          PY
+
+          curl --silent -D /tmp/m2-post.headers -o /tmp/m2-post.json -X POST http://localhost:8080/api/v1/alumnos -H 'Content-Type: application/json' -d '{"nombre":"Carlos","apellidos":"Zeta","dni":"DNI-DEMO-03","fechaNacimiento":"2011-01-02","curso":"5º Primaria"}'
+          grep -Eq '^HTTP/[^ ]+ 201' /tmp/m2-post.headers
+          grep -Eiq '^Location: /api/v1/alumnos/3\r?$' /tmp/m2-post.headers
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-post.json', encoding='utf-8'))
+          assert data['id']=='3', data
+          assert data['nombre']=='Carlos', data
+          PY
+          test "$(curl --silent --output /tmp/m2-get3.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/3)" = "200"
+
+          test "$(curl --silent --output /tmp/m2-put.json --write-out '%{http_code}' -X PUT http://localhost:8080/api/v1/alumnos/3 -H 'Content-Type: application/json' -d '{"id":"999","nombre":"Aaron","apellidos":"Abarca","dni":"DNI-DEMO-03","fechaNacimiento":"2011-01-02","curso":"5º Primaria"}')" = "200"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-put.json', encoding='utf-8'))
+          assert data['id']=='3', data
+          assert data['nombre']=='Aaron', data
+          PY
+          test "$(curl --silent --output /tmp/m2-put404.json --write-out '%{http_code}' -X PUT http://localhost:8080/api/v1/alumnos/999 -H 'Content-Type: application/json' -d '{"nombre":"X","apellidos":"Y","dni":"Z","fechaNacimiento":"2010-01-01","curso":"1º"}')" = "404"
+
+          test "$(curl --silent --output /tmp/m2-patch.json --write-out '%{http_code}' -X PATCH http://localhost:8080/api/v1/alumnos/3 -H 'Content-Type: application/json' -d '{"curso":"6º Primaria B"}')" = "200"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-patch.json', encoding='utf-8'))
+          assert data['id']=='3', data
+          assert data['nombre']=='Aaron', data
+          assert data['curso']=='6º Primaria B', data
+          PY
+          test "$(curl --silent --output /tmp/m2-patch404.json --write-out '%{http_code}' -X PATCH http://localhost:8080/api/v1/alumnos/999 -H 'Content-Type: application/json' -d '{"curso":"X"}')" = "404"
+
+          test "$(curl --silent --output /tmp/m2-links.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/1/con-enlaces)" = "200"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-links.json', encoding='utf-8'))
+          assert data['alumno']['id']=='1', data
+          assert data['_links']['self']=='/api/v1/alumnos/1', data
+          assert data['_links']['documentos']=='/api/v1/alumnos/1/documentos', data
+          assert data['_links']['curso']=='/api/v1/cursos/5º Primaria', data
+          PY
+          test "$(curl --silent --output /tmp/m2-links404.json --write-out '%{http_code}' http://localhost:8080/api/v1/alumnos/999/con-enlaces)" = "404"
+
+          test "$(curl --silent --output /tmp/m2-bad-json.json --write-out '%{http_code}' -X POST http://localhost:8080/api/v1/alumnos -H 'Content-Type: application/json' -d '{"nombre":"Pedro", "apellidos":"Sánchez",}')" = "400"
+          test "$(curl --silent --output /tmp/m2-media.txt --write-out '%{http_code}' -X POST http://localhost:8080/api/v1/alumnos -H 'Content-Type: text/plain' --data 'hola')" = "415"
+
+          test "$(curl --silent --output /tmp/m2-delete.txt --write-out '%{http_code}' -X DELETE http://localhost:8080/api/v1/alumnos/3)" = "204"
+          test "$(curl --silent --output /tmp/m2-delete404.txt --write-out '%{http_code}' -X DELETE http://localhost:8080/api/v1/alumnos/3)" = "404"
+
+          test "$(curl --silent --output /tmp/m2-promote.txt --write-out '%{http_code}' -X POST http://localhost:8080/api/v1/alumnos/promocionar)" = "204"
+          test ! -s /tmp/m2-promote.txt
+          curl --fail --silent http://localhost:8080/api/v1/alumnos > /tmp/m2-promoted.json
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/m2-promoted.json', encoding='utf-8'))
+          assert len(data)==2, data
+          assert all(x['curso'].endswith(' (promocionado)') for x in data), data
+          PY
+
+          grep -q 'Started MiProyectoApplication' /tmp/m2-21.log
