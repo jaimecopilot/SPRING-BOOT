@@ -5,7 +5,7 @@ M2 continúa exactamente desde el proyecto final publicado de M1 y desarrolla pr
 ## Estado de la edición
 
 - **2.1 — Controlador:** completado.
-- **2.2 — Servicio:** completado.
+- **2.2 — Servicio:** completado y validado.
 - **2.3 — Repositorio:** siguiente punto.
 - 2.4 — Inyección de dependencias y configuración.
 - 2.5 — Introducción al testing.
