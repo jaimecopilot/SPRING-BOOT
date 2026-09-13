@@ -1,0 +1,216 @@
+{
+  "module": "M4",
+  "point": "4.6",
+  "theory_concepts": [
+    {
+      "id": "M4-4.6-T1",
+      "point": "4.6",
+      "title": "Qué es una transacción",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - Qué es una transacción"
+    },
+    {
+      "id": "M4-4.6-T2",
+      "point": "4.6",
+      "title": "Propagación",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Propagación"
+    },
+    {
+      "id": "M4-4.6-T3",
+      "point": "4.6",
+      "title": "Aislamiento y concurrencia",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - Aislamiento y concurrencia"
+    },
+    {
+      "id": "M4-4.6-T4",
+      "point": "4.6",
+      "title": "Rollback y excepciones",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Rollback y excepciones"
+    },
+    {
+      "id": "M4-4.6-T5",
+      "point": "4.6",
+      "title": "Buenas prácticas y errores",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Buenas prácticas y errores"
+    }
+  ],
+  "steps": [
+    {
+      "id": "M4-4.6-P01",
+      "point": "4.6",
+      "step": 1,
+      "title": "Repasar las anotaciones actuales",
+      "theory": "M4-4.6-T1",
+      "action": "Repasar las anotaciones actuales",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "@Transactional",
+      "command": "./mvnw test",
+      "observable": "Operaciones de escritura quedan en una transacción",
+      "verification": "Verificar el observable del paso 4.6.1 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P02",
+      "point": "4.6",
+      "step": 2,
+      "title": "Provocar un rollback",
+      "theory": "M4-4.6-T1",
+      "action": "Provocar un rollback",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "rollback por RuntimeException",
+      "command": "./mvnw test",
+      "observable": "Una excepción revierte cambios",
+      "verification": "Verificar el observable del paso 4.6.2 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P03",
+      "point": "4.6",
+      "step": 3,
+      "title": "Probar el rollback",
+      "theory": "M4-4.6-T1",
+      "action": "Probar el rollback",
+      "artifact": "base H2 de test",
+      "symbol": "estado tras rollback",
+      "command": "./mvnw test",
+      "observable": "No quedan cambios parciales",
+      "verification": "Verificar el observable del paso 4.6.3 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P04",
+      "point": "4.6",
+      "step": 4,
+      "title": "Quitar el rollback temporal",
+      "theory": "M4-4.6-T2",
+      "action": "Quitar el rollback temporal",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "restauración del flujo normal",
+      "command": "./mvnw test",
+      "observable": "Proyecto final no conserva fallo artificial",
+      "verification": "Verificar el observable del paso 4.6.4 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P05",
+      "point": "4.6",
+      "step": 5,
+      "title": "Añadir @Transactional a un nuevo método con REQUIRES_NEW",
+      "theory": "M4-4.6-T2",
+      "action": "Añadir @Transactional a un nuevo método con REQUIRES_NEW",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "symbol": "REQUIRES_NEW",
+      "command": "./mvnw test",
+      "observable": "Auditoría puede usar transacción independiente",
+      "verification": "Verificar el observable del paso 4.6.5 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P06",
+      "point": "4.6",
+      "step": 6,
+      "title": "Usar el servicio de auditoría desde el servicio de alumnos",
+      "theory": "M4-4.6-T2",
+      "action": "Usar el servicio de auditoría desde el servicio de alumnos",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "symbol": "colaboración transaccional",
+      "command": "./mvnw test",
+      "observable": "Límites transaccionales quedan explícitos",
+      "verification": "Verificar el observable del paso 4.6.6 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P07",
+      "point": "4.6",
+      "step": 7,
+      "title": "Provocar un rollback y verificar que la auditoría persiste",
+      "theory": "M4-4.6-T3",
+      "action": "Provocar un rollback y verificar que la auditoría persiste",
+      "artifact": "tabla AUDITORIA",
+      "symbol": "commit independiente",
+      "command": "./mvnw test",
+      "observable": "La auditoría puede persistir aunque otra transacción falle",
+      "verification": "Verificar el observable del paso 4.6.7 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P08",
+      "point": "4.6",
+      "step": 8,
+      "title": "Probar el rollback con auditoría",
+      "theory": "M4-4.6-T3",
+      "action": "Probar el rollback con auditoría",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "symbol": "consulta de auditoría",
+      "command": "./mvnw test",
+      "observable": "Se verifica el efecto de REQUIRES_NEW",
+      "verification": "Verificar el observable del paso 4.6.8 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P09",
+      "point": "4.6",
+      "step": 9,
+      "title": "Quitar el rollback temporal",
+      "theory": "M4-4.6-T4",
+      "action": "Quitar el rollback temporal",
+      "artifact": "M4/proyecto",
+      "symbol": "restauración tras experimento",
+      "command": "./mvnw test",
+      "observable": "No quedan excepciones artificiales en estado final",
+      "verification": "Verificar el observable del paso 4.6.9 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P10",
+      "point": "4.6",
+      "step": 10,
+      "title": "Añadir bloqueo optimista",
+      "theory": "M4-4.6-T4",
+      "action": "Añadir bloqueo optimista",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "symbol": "@Version",
+      "command": "./mvnw test",
+      "observable": "Actualizaciones concurrentes disponen de versión",
+      "verification": "Verificar el observable del paso 4.6.10 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P11",
+      "point": "4.6",
+      "step": 11,
+      "title": "Probar el bloqueo optimista",
+      "theory": "M4-4.6-T4",
+      "action": "Probar el bloqueo optimista",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "PESSIMISTIC_WRITE / @Version",
+      "command": "./mvnw test",
+      "observable": "Estrategias de concurrencia están modeladas",
+      "verification": "Verificar el observable del paso 4.6.11 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P12",
+      "point": "4.6",
+      "step": 12,
+      "title": "Errores comunes del ejercicio",
+      "theory": "M4-4.6-T5",
+      "action": "Errores comunes del ejercicio",
+      "artifact": "M4/proyecto",
+      "symbol": "diagnóstico transaccional",
+      "command": "./mvnw test",
+      "observable": "Se distinguen rollback, propagación y bloqueo",
+      "verification": "Verificar el observable del paso 4.6.12 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.6-P13",
+      "point": "4.6",
+      "step": 13,
+      "title": "Reto resuelto — Transacción con timeout",
+      "theory": "M4-4.6-T5",
+      "action": "Reto resuelto — Transacción con timeout",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "timeout transaccional conceptual",
+      "command": "./mvnw test",
+      "observable": "El reto documenta límite temporal sin degradar baseline",
+      "verification": "Verificar el observable del paso 4.6.13 y contrastarlo con PRACTICA.md"
+    }
+  ],
+  "counts": {
+    "theory": 5,
+    "steps": 13
+  }
+}

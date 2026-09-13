@@ -1,0 +1,216 @@
+{
+  "module": "M4",
+  "point": "4.4",
+  "theory_concepts": [
+    {
+      "id": "M4-4.4-T1",
+      "point": "4.4",
+      "title": "Los cuatro tipos de relaciones",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - Los cuatro tipos de relaciones"
+    },
+    {
+      "id": "M4-4.4-T2",
+      "point": "4.4",
+      "title": "@ManyToOne",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - @ManyToOne"
+    },
+    {
+      "id": "M4-4.4-T3",
+      "point": "4.4",
+      "title": "@OneToMany",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - @OneToMany"
+    },
+    {
+      "id": "M4-4.4-T4",
+      "point": "4.4",
+      "title": "Cascade y orphanRemoval",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Cascade y orphanRemoval"
+    },
+    {
+      "id": "M4-4.4-T5",
+      "point": "4.4",
+      "title": "Rendimiento y problemas comunes",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Rendimiento y problemas comunes"
+    }
+  ],
+  "steps": [
+    {
+      "id": "M4-4.4-P01",
+      "point": "4.4",
+      "step": 1,
+      "title": "Crear la entidad Curso",
+      "theory": "M4-4.4-T1",
+      "action": "Crear la entidad Curso",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "symbol": "@Entity Curso / @OneToMany",
+      "command": "./mvnw test",
+      "observable": "Hibernate crea tabla CURSOS",
+      "verification": "Verificar el observable del paso 4.4.1 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P02",
+      "point": "4.4",
+      "step": 2,
+      "title": "Modificar la entidad Alumno para añadir la relación",
+      "theory": "M4-4.4-T1",
+      "action": "Modificar la entidad Alumno para añadir la relación",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "symbol": "@ManyToOne / @JoinColumn",
+      "command": "./mvnw test",
+      "observable": "ALUMNOS referencia CURSOS con clave foránea",
+      "verification": "Verificar el observable del paso 4.4.2 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P03",
+      "point": "4.4",
+      "step": 3,
+      "title": "Arrancar y ver el SQL generado",
+      "theory": "M4-4.4-T1",
+      "action": "Arrancar y ver el SQL generado",
+      "artifact": "DDL Hibernate",
+      "symbol": "FK curso_id",
+      "command": "./mvnw spring-boot:run",
+      "observable": "SQL generado contiene la relación",
+      "verification": "Verificar el observable del paso 4.4.3 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P04",
+      "point": "4.4",
+      "step": 4,
+      "title": "Crear el repositorio de Curso",
+      "theory": "M4-4.4-T2",
+      "action": "Crear el repositorio de Curso",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "symbol": "JpaRepository<Curso,Long>",
+      "command": "./mvnw test",
+      "observable": "Curso dispone de persistencia Spring Data",
+      "verification": "Verificar el observable del paso 4.4.4 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P05",
+      "point": "4.4",
+      "step": 5,
+      "title": "Crear el DTO de Curso",
+      "theory": "M4-4.4-T2",
+      "action": "Crear el DTO de Curso",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "symbol": "proyección REST de Curso",
+      "command": "./mvnw test",
+      "observable": "La API no serializa directamente la colección LAZY",
+      "verification": "Verificar el observable del paso 4.4.5 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P06",
+      "point": "4.4",
+      "step": 6,
+      "title": "Crear el servicio de Curso",
+      "theory": "M4-4.4-T2",
+      "action": "Crear el servicio de Curso",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "symbol": "transacción de Curso",
+      "command": "./mvnw test",
+      "observable": "Servicio accede a alumnos dentro de transacción",
+      "verification": "Verificar el observable del paso 4.4.6 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P07",
+      "point": "4.4",
+      "step": 7,
+      "title": "Modificar el AlumnoService para asignar el curso",
+      "theory": "M4-4.4-T3",
+      "action": "Modificar el AlumnoService para asignar el curso",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "obtenerOCrearCurso",
+      "command": "./mvnw test",
+      "observable": "Alumno se asocia a una entidad Curso gestionada",
+      "verification": "Verificar el observable del paso 4.4.7 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P08",
+      "point": "4.4",
+      "step": 8,
+      "title": "Crear el controlador de Curso",
+      "theory": "M4-4.4-T3",
+      "action": "Crear el controlador de Curso",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "symbol": "/api/v1/cursos",
+      "command": "curl http://localhost:8080/api/v1/cursos",
+      "observable": "API de cursos responde JSON",
+      "verification": "Verificar el observable del paso 4.4.8 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P09",
+      "point": "4.4",
+      "step": 9,
+      "title": "Añadir el método listarPorCurso al AlumnoService",
+      "theory": "M4-4.4-T4",
+      "action": "Añadir el método listarPorCurso al AlumnoService",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "consulta por curso",
+      "command": "./mvnw test",
+      "observable": "Servicio puede filtrar alumnos por relación",
+      "verification": "Verificar el observable del paso 4.4.9 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P10",
+      "point": "4.4",
+      "step": 10,
+      "title": "Arrancar y probar",
+      "theory": "M4-4.4-T4",
+      "action": "Arrancar y probar",
+      "artifact": "APIs alumnos/cursos",
+      "symbol": "relación bidireccional",
+      "command": "curl http://localhost:8080/api/v1/cursos",
+      "observable": "Relación funciona sin recursión JSON",
+      "verification": "Verificar el observable del paso 4.4.10 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P11",
+      "point": "4.4",
+      "step": 11,
+      "title": "Detectar y resolver el problema N+1",
+      "theory": "M4-4.4-T4",
+      "action": "Detectar y resolver el problema N+1",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "JOIN FETCH buscarDetalle",
+      "command": "./mvnw test",
+      "observable": "Detalle carga curso en una sola consulta lógica",
+      "verification": "Verificar el observable del paso 4.4.11 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P12",
+      "point": "4.4",
+      "step": 12,
+      "title": "Errores comunes del ejercicio",
+      "theory": "M4-4.4-T5",
+      "action": "Errores comunes del ejercicio",
+      "artifact": "M4/proyecto",
+      "symbol": "diagnóstico de relaciones",
+      "command": "./mvnw test",
+      "observable": "Se controlan owning side, LAZY y cascadas",
+      "verification": "Verificar el observable del paso 4.4.12 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.4-P13",
+      "point": "4.4",
+      "step": 13,
+      "title": "Reto resuelto — Eliminar un curso con cascade",
+      "theory": "M4-4.4-T5",
+      "action": "Reto resuelto — Eliminar un curso con cascade",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "symbol": "cascade al eliminar",
+      "command": "./mvnw test",
+      "observable": "El borrado de Curso respeta la cascada definida",
+      "verification": "Verificar el observable del paso 4.4.13 y contrastarlo con PRACTICA.md"
+    }
+  ],
+  "counts": {
+    "theory": 5,
+    "steps": 13
+  }
+}

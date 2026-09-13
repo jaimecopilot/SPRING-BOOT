@@ -1,0 +1,229 @@
+{
+  "module": "M4",
+  "point": "4.3",
+  "theory_concepts": [
+    {
+      "id": "M4-4.3-T1",
+      "point": "4.3",
+      "title": "La jerarquía de repositorios",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - La jerarquía de repositorios"
+    },
+    {
+      "id": "M4-4.3-T2",
+      "point": "4.3",
+      "title": "Métodos derivados",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Métodos derivados"
+    },
+    {
+      "id": "M4-4.3-T3",
+      "point": "4.3",
+      "title": "Consultas con @Query",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - Consultas con @Query"
+    },
+    {
+      "id": "M4-4.3-T4",
+      "point": "4.3",
+      "title": "Paginación y ordenación",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Paginación y ordenación"
+    },
+    {
+      "id": "M4-4.3-T5",
+      "point": "4.3",
+      "title": "Consultas dinámicas con Specifications",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Consultas dinámicas con Specifications"
+    }
+  ],
+  "steps": [
+    {
+      "id": "M4-4.3-P01",
+      "point": "4.3",
+      "step": 1,
+      "title": "Repasar el repositorio actual",
+      "theory": "M4-4.3-T1",
+      "action": "Repasar el repositorio actual",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "JpaRepository/JpaSpecificationExecutor",
+      "command": "./mvnw test",
+      "observable": "Contrato de repositorio disponible",
+      "verification": "Verificar el observable del paso 4.3.1 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P02",
+      "point": "4.3",
+      "step": 2,
+      "title": "Añadir métodos derivados",
+      "theory": "M4-4.3-T1",
+      "action": "Añadir métodos derivados",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "métodos derivados",
+      "command": "./mvnw test",
+      "observable": "Spring Data deriva consultas del nombre",
+      "verification": "Verificar el observable del paso 4.3.2 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P03",
+      "point": "4.3",
+      "step": 3,
+      "title": "Arrancar y verificar",
+      "theory": "M4-4.3-T1",
+      "action": "Arrancar y verificar",
+      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "symbol": "consultas derivadas",
+      "command": "./mvnw test",
+      "observable": "Consultas derivadas devuelven resultados esperados",
+      "verification": "Verificar el observable del paso 4.3.3 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P04",
+      "point": "4.3",
+      "step": 4,
+      "title": "Añadir un método con @Query",
+      "theory": "M4-4.3-T2",
+      "action": "Añadir un método con @Query",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "@Query JPQL",
+      "command": "./mvnw test",
+      "observable": "JPQL se valida y ejecuta",
+      "verification": "Verificar el observable del paso 4.3.4 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P05",
+      "point": "4.3",
+      "step": 5,
+      "title": "Añadir un método con @Modifying",
+      "theory": "M4-4.3-T2",
+      "action": "Añadir un método con @Modifying",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "@Modifying",
+      "command": "./mvnw test",
+      "observable": "Bulk update modifica filas dentro de transacción",
+      "verification": "Verificar el observable del paso 4.3.5 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P06",
+      "point": "4.3",
+      "step": 6,
+      "title": "Usar el método @Modifying desde el servicio",
+      "theory": "M4-4.3-T2",
+      "action": "Usar el método @Modifying desde el servicio",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "actualizarEstadoPorCurso",
+      "command": "./mvnw test",
+      "observable": "Servicio encapsula la operación @Modifying",
+      "verification": "Verificar el observable del paso 4.3.6 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P07",
+      "point": "4.3",
+      "step": 7,
+      "title": "Añadir paginación",
+      "theory": "M4-4.3-T3",
+      "action": "Añadir paginación",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "Pageable / Page",
+      "command": "./mvnw test",
+      "observable": "Repositorio produce páginas deterministas",
+      "verification": "Verificar el observable del paso 4.3.7 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P08",
+      "point": "4.3",
+      "step": 8,
+      "title": "Probar la paginación",
+      "theory": "M4-4.3-T3",
+      "action": "Probar la paginación",
+      "artifact": "API /api/v1/alumnos",
+      "symbol": "page / size / sort",
+      "command": "curl 'http://localhost:8080/api/v1/alumnos?page=0&size=2'",
+      "observable": "Respuesta contiene metadatos de paginación",
+      "verification": "Verificar el observable del paso 4.3.8 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P09",
+      "point": "4.3",
+      "step": 9,
+      "title": "Añadir Specifications",
+      "theory": "M4-4.3-T3",
+      "action": "Añadir Specifications",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "symbol": "Specification<Alumno>",
+      "command": "./mvnw test",
+      "observable": "Filtros dinámicos se pueden combinar",
+      "verification": "Verificar el observable del paso 4.3.9 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P10",
+      "point": "4.3",
+      "step": 10,
+      "title": "Crear una clase de Specifications",
+      "theory": "M4-4.3-T4",
+      "action": "Crear una clase de Specifications",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "symbol": "curso/dni/nacidosEntre/activos",
+      "command": "./mvnw test",
+      "observable": "Predicados JPA se construyen según parámetros",
+      "verification": "Verificar el observable del paso 4.3.10 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P11",
+      "point": "4.3",
+      "step": 11,
+      "title": "Usar Specifications en el servicio",
+      "theory": "M4-4.3-T4",
+      "action": "Usar Specifications en el servicio",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "Specification.allOf",
+      "command": "./mvnw test",
+      "observable": "Servicio aplica filtros opcionales sin concatenar JPQL",
+      "verification": "Verificar el observable del paso 4.3.11 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P12",
+      "point": "4.3",
+      "step": 12,
+      "title": "Probar Specifications",
+      "theory": "M4-4.3-T4",
+      "action": "Probar Specifications",
+      "artifact": "API /api/v1/alumnos",
+      "symbol": "filtros combinados",
+      "command": "curl 'http://localhost:8080/api/v1/alumnos?curso=5%C2%BA%20Primaria'",
+      "observable": "Filtro devuelve sólo alumnos compatibles",
+      "verification": "Verificar el observable del paso 4.3.12 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P13",
+      "point": "4.3",
+      "step": 13,
+      "title": "Errores comunes del ejercicio",
+      "theory": "M4-4.3-T5",
+      "action": "Errores comunes del ejercicio",
+      "artifact": "M4/proyecto",
+      "symbol": "diagnóstico Spring Data JPA",
+      "command": "./mvnw test",
+      "observable": "Errores de firmas, Page y @Modifying se detectan",
+      "verification": "Verificar el observable del paso 4.3.13 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.3-P14",
+      "point": "4.3",
+      "step": 14,
+      "title": "Reto resuelto — Consulta con agregación",
+      "theory": "M4-4.3-T5",
+      "action": "Reto resuelto — Consulta con agregación",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "contarPorCurso",
+      "command": "./mvnw test",
+      "observable": "Agregación GROUP BY devuelve conteos por curso",
+      "verification": "Verificar el observable del paso 4.3.14 y contrastarlo con PRACTICA.md"
+    }
+  ],
+  "counts": {
+    "theory": 5,
+    "steps": 14
+  }
+}

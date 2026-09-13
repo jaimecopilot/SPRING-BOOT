@@ -1,0 +1,216 @@
+{
+  "module": "M4",
+  "point": "4.5",
+  "theory_concepts": [
+    {
+      "id": "M4-4.5-T1",
+      "point": "4.5",
+      "title": "JPQL en profundidad",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - JPQL en profundidad"
+    },
+    {
+      "id": "M4-4.5-T2",
+      "point": "4.5",
+      "title": "Joins en JPQL",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Joins en JPQL"
+    },
+    {
+      "id": "M4-4.5-T3",
+      "point": "4.5",
+      "title": "Funciones y expresiones",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - Funciones y expresiones"
+    },
+    {
+      "id": "M4-4.5-T4",
+      "point": "4.5",
+      "title": "Agregaciones y proyecciones",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Agregaciones y proyecciones"
+    },
+    {
+      "id": "M4-4.5-T5",
+      "point": "4.5",
+      "title": "Buenas prácticas y errores",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Buenas prácticas y errores"
+    }
+  ],
+  "steps": [
+    {
+      "id": "M4-4.5-P01",
+      "point": "4.5",
+      "step": 1,
+      "title": "Repasar el repositorio actual",
+      "theory": "M4-4.5-T1",
+      "action": "Repasar el repositorio actual",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "JPQL sobre entidades",
+      "command": "./mvnw test",
+      "observable": "Repositorio contiene consultas JPQL válidas",
+      "verification": "Verificar el observable del paso 4.5.1 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P02",
+      "point": "4.5",
+      "step": 2,
+      "title": "Consulta con JOIN simple",
+      "theory": "M4-4.5-T1",
+      "action": "Consulta con JOIN simple",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "JOIN por curso",
+      "command": "./mvnw test",
+      "observable": "JPQL navega la relación Alumno.curso",
+      "verification": "Verificar el observable del paso 4.5.2 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P03",
+      "point": "4.5",
+      "step": 3,
+      "title": "Consulta con JOIN FETCH",
+      "theory": "M4-4.5-T1",
+      "action": "Consulta con JOIN FETCH",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "JOIN FETCH",
+      "command": "./mvnw test",
+      "observable": "Detalle evita acceso LAZY posterior",
+      "verification": "Verificar el observable del paso 4.5.3 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P04",
+      "point": "4.5",
+      "step": 4,
+      "title": "Consulta con función de string",
+      "theory": "M4-4.5-T2",
+      "action": "Consulta con función de string",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "symbol": "lower() / comparación string",
+      "command": "./mvnw test",
+      "observable": "Filtro ignora mayúsculas cuando procede",
+      "verification": "Verificar el observable del paso 4.5.4 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P05",
+      "point": "4.5",
+      "step": 5,
+      "title": "Consulta con función de fecha",
+      "theory": "M4-4.5-T2",
+      "action": "Consulta con función de fecha",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "comparación LocalDate",
+      "command": "./mvnw test",
+      "observable": "Consulta filtra por fecha",
+      "verification": "Verificar el observable del paso 4.5.5 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P06",
+      "point": "4.5",
+      "step": 6,
+      "title": "Consulta con agregación",
+      "theory": "M4-4.5-T2",
+      "action": "Consulta con agregación",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "count / group by",
+      "command": "./mvnw test",
+      "observable": "Agregación devuelve conteos",
+      "verification": "Verificar el observable del paso 4.5.6 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P07",
+      "point": "4.5",
+      "step": 7,
+      "title": "Consulta con HAVING",
+      "theory": "M4-4.5-T3",
+      "action": "Consulta con HAVING",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "GROUP BY/HAVING conceptual",
+      "command": "./mvnw test",
+      "observable": "Consulta agregada conserva semántica JPQL",
+      "verification": "Verificar el observable del paso 4.5.7 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P08",
+      "point": "4.5",
+      "step": 8,
+      "title": "Consulta con proyección a DTO",
+      "theory": "M4-4.5-T3",
+      "action": "Consulta con proyección a DTO",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "symbol": "proyección DTO",
+      "command": "./mvnw test",
+      "observable": "Resultados agregados se pueden proyectar",
+      "verification": "Verificar el observable del paso 4.5.8 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P09",
+      "point": "4.5",
+      "step": 9,
+      "title": "Añadir los métodos al servicio",
+      "theory": "M4-4.5-T4",
+      "action": "Añadir los métodos al servicio",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "symbol": "capa de servicio de consultas",
+      "command": "./mvnw test",
+      "observable": "Controlador no accede al repositorio directamente",
+      "verification": "Verificar el observable del paso 4.5.9 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P10",
+      "point": "4.5",
+      "step": 10,
+      "title": "Añadir los endpoints",
+      "theory": "M4-4.5-T4",
+      "action": "Añadir los endpoints",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "symbol": "endpoints de consulta",
+      "command": "curl http://localhost:8080/api/v1/alumnos",
+      "observable": "Consultas quedan accesibles por HTTP",
+      "verification": "Verificar el observable del paso 4.5.10 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P11",
+      "point": "4.5",
+      "step": 11,
+      "title": "Probar las consultas",
+      "theory": "M4-4.5-T4",
+      "action": "Probar las consultas",
+      "artifact": "API + logs SQL",
+      "symbol": "JPQL traducido a SQL",
+      "command": "./mvnw spring-boot:run",
+      "observable": "Hibernate ejecuta SQL coherente con JPQL",
+      "verification": "Verificar el observable del paso 4.5.11 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P12",
+      "point": "4.5",
+      "step": 12,
+      "title": "Errores comunes del ejercicio",
+      "theory": "M4-4.5-T5",
+      "action": "Errores comunes del ejercicio",
+      "artifact": "M4/proyecto",
+      "symbol": "diagnóstico JPQL",
+      "command": "./mvnw test",
+      "observable": "Errores de nombres de entidad/campo se detectan",
+      "verification": "Verificar el observable del paso 4.5.12 y contrastarlo con PRACTICA.md"
+    },
+    {
+      "id": "M4-4.5-P13",
+      "point": "4.5",
+      "step": 13,
+      "title": "Reto resuelto — Consulta con subconsulta",
+      "theory": "M4-4.5-T5",
+      "action": "Reto resuelto — Consulta con subconsulta",
+      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "symbol": "subconsulta/alternativa segura",
+      "command": "./mvnw test",
+      "observable": "El reto se contrasta sin comprometer el arranque",
+      "verification": "Verificar el observable del paso 4.5.13 y contrastarlo con PRACTICA.md"
+    }
+  ],
+  "counts": {
+    "theory": 5,
+    "steps": 13
+  }
+}
