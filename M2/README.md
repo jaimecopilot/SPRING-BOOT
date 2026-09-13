@@ -1,14 +1,20 @@
 # Módulo 2 — Creación y estructura de proyectos Spring Boot
 
-Este módulo evoluciona el CRUD construido en M1 hacia una arquitectura en capas, configuración explícita, testing y prácticas de calidad.
+M2 continúa exactamente desde el proyecto final publicado de M1 y desarrolla progresivamente la arquitectura por capas, la inyección de dependencias, el testing y las buenas prácticas de organización.
 
-Contenido previsto:
+## Estado de la edición
 
-1. 2.1 — Capas de la aplicación: Controlador.
-2. 2.2 — Capas de la aplicación: Servicio.
-3. 2.3 — Capas de la aplicación: Repositorio.
-4. 2.4 — Inyección de dependencias y configuración.
-5. 2.5 — Introducción al testing.
-6. 2.6 — Buenas prácticas de organización.
+- **2.1 — Controlador:** completado.
+- **2.2 — Servicio:** completado.
+- **2.3 — Repositorio:** siguiente punto.
+- 2.4 — Inyección de dependencias y configuración.
+- 2.5 — Introducción al testing.
+- 2.6 — Buenas prácticas de organización.
 
-La teoría, la práctica y el proyecto evolucionan de forma acumulativa desde el snapshot final aprobado de M1.
+Material del alumno:
+
+- [`TEORIA.md`](TEORIA.md)
+- [`PRACTICA.md`](PRACTICA.md)
+- [`proyecto/`](proyecto/)
+
+El proyecto es acumulativo: cada punto conserva los contratos válidos de los anteriores y sólo introduce cambios funcionales cuando la guía los explica y permite verificarlos.
