@@ -3,7 +3,7 @@
   "module": "M2",
   "status": "IN_PROGRESS",
   "expected_total_steps_when_complete": 69,
-  "current_traced_steps": 12,
+  "current_traced_steps": 23,
   "policy": {
     "step_level_traceability_required": true,
     "student_surface_clean": true,
@@ -15,7 +15,12 @@
     {"id":"M2-T-21-MAPPINGS","anchor":"## Bloque 2 - Anotaciones de mapeo en profundidad"},
     {"id":"M2-T-21-REQUEST-DATA","anchor":"## Bloque 3 - Extracción de datos de la petición"},
     {"id":"M2-T-21-RESPONSE","anchor":"## Bloque 4 - Construcción de la respuesta"},
-    {"id":"M2-T-21-PRACTICES","anchor":"## Bloque 5 - Anti-patrones y buenas prácticas"}
+    {"id":"M2-T-21-PRACTICES","anchor":"## Bloque 5 - Anti-patrones y buenas prácticas"},
+    {"id":"M2-T-22-ROLE","anchor":"## Bloque 1 - Qué es un servicio y cuál es su responsabilidad"},
+    {"id":"M2-T-22-SERVICE","anchor":"## Bloque 2 - La anotación `@Service`"},
+    {"id":"M2-T-22-CONSTRUCTOR-DI","anchor":"## Bloque 3 - Inyección de dependencias por constructor"},
+    {"id":"M2-T-22-DTO-ENTITY","anchor":"## Bloque 4 - Transformación DTO ↔ Entidad"},
+    {"id":"M2-T-22-BUSINESS-EXCEPTIONS","anchor":"## Bloque 5 - Excepciones de negocio"}
   ],
   "environment_workflows": [
     {"id":"M2-W-CONSOLE","anchor":"### Desde consola y editor de texto"},
@@ -66,29 +71,45 @@
       "symbols":["SaludoController","@GetMapping(\"/hola\")","@GetMapping(\"/adios\")","construirMensaje"],"used_by":["M0/M1 regression","HTTP runtime"],"missing_effect":"Desaparecen endpoints heredados de regresión."
     },
     {
-      "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","classification":"INHERITED","origin":"M1-P-13-S03","evolution":["M1-P-13-S08","M1-P-13-S09","M1-P-13-S12"],
-      "symbols":["ExpedienteController","@RequestMapping(\"/api/v1/expedientes\")","@GetMapping(\"/ejemplo\")","@PostMapping(\"/eco\")"],"used_by":["M1 regression","JSON runtime"],"missing_effect":"Se pierde el contrato JSON heredado de M1."
+      "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","classification":"INHERITED","origin":"M1-P-13-S03","evolution":["M1-P-13-S08","M1-P-13-S09","M1-P-13-S12","M2-P-22-S11"],
+      "symbols":["ExpedienteController","private final ExpedienteService service","public ExpedienteController(ExpedienteService service)","@RequestMapping(\"/api/v1/expedientes\")","@GetMapping(\"/ejemplo\")","@PostMapping(\"/eco\")","@GetMapping(\"/{id}\")","@PutMapping(\"/{id}\")","@DeleteMapping(\"/{id}\")"],
+      "used_by":["M1 regression","M2 practice 2.2","JSON runtime","HTTP runtime"],"missing_effect":"Se pierde el contrato JSON heredado y el CRUD de expedientes introducido en 2.2."
     },
     {
       "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","classification":"INHERITED","origin":"M1-P-14-S03",
-      "evolution":["M1-P-14-S07","M1-P-14-S08","M1-P-14-S12","M1-P-15-S02","M1-P-15-S03","M1-P-15-S04","M1-P-15-S05","M1-P-15-S06","M1-P-15-S12","M2-P-21-S03","M2-P-21-S04","M2-P-21-S05","M2-P-21-S06","M2-P-21-S07","M2-P-21-S12"],
-      "symbols":["public class AlumnoController","@RequestMapping(\"/api/v1/alumnos\")","@RequestParam(defaultValue = \"0\") int page","@RequestParam(defaultValue = \"20\") int size","@GetMapping(\"/info-peticion\")","@PostMapping(\"/promocionar\")","@GetMapping(\"/{id}/con-enlaces\")","private AlumnoDTO guardarAlumno","private Optional<AlumnoDTO> buscarPorId","ResponseEntity.created(location).body(creado)"],
-      "used_by":["M2 practice 2.1","HTTP runtime","M1 regression"],"missing_effect":"Se pierde el CRUD heredado y las evoluciones de frontera HTTP de 2.1."
+      "evolution":["M1-P-14-S07","M1-P-14-S08","M1-P-14-S12","M1-P-15-S02","M1-P-15-S03","M1-P-15-S04","M1-P-15-S05","M1-P-15-S06","M1-P-15-S12","M2-P-21-S03","M2-P-21-S04","M2-P-21-S05","M2-P-21-S06","M2-P-21-S07","M2-P-21-S12","M2-P-22-S05"],
+      "symbols":["public class AlumnoController","@RequestMapping(\"/api/v1/alumnos\")","private final AlumnoService service","public AlumnoController(AlumnoService service)","@RequestParam(defaultValue = \"0\") int page","@RequestParam(defaultValue = \"20\") int size","@GetMapping(\"/info-peticion\")","@PostMapping(\"/promocionar\")","@GetMapping(\"/{id}/con-enlaces\")","ResponseEntity.created(location).body(creado)","@ExceptionHandler(NegocioException.class)","HttpStatus.CONFLICT"],
+      "used_by":["M2 practices 2.1-2.2","HTTP runtime","M1 regression"],"missing_effect":"Se pierde la frontera HTTP del CRUD de alumnos y la delegación a la capa de servicio."
+    },
+    {
+      "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/service/AlumnoService.java","classification":"GUIDE","origin":"M2-P-22-S04","evolution":[],
+      "symbols":["@Service","public class AlumnoService","private final List<AlumnoDTO> alumnos","public List<AlumnoDTO> listar","public Optional<AlumnoDTO> consultar","public AlumnoDTO crear","throw new NegocioException","int siguienteId = alumnos.stream()","public Optional<AlumnoDTO> actualizar","public Optional<AlumnoDTO> actualizarParcial","public boolean eliminar","public void promocionar"],
+      "used_by":["AlumnoController","M2 practice 2.2","HTTP runtime"],"missing_effect":"El controlador pierde la lógica delegada y el CRUD de alumnos deja de funcionar."
+    },
+    {
+      "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/service/ExpedienteService.java","classification":"GUIDE","origin":"M2-P-22-S11","evolution":[],
+      "symbols":["@Service","public class ExpedienteService","private final List<ExpedienteDTO> expedientes","public List<ExpedienteDTO> listar","public Optional<ExpedienteDTO> consultar","public ExpedienteDTO crear","public Optional<ExpedienteDTO> actualizar","public boolean eliminar","public ExpedienteDTO ejemplo","public ExpedienteDTO eco"],
+      "used_by":["ExpedienteController","M2 practice 2.2","M1 JSON regression","HTTP runtime"],"missing_effect":"Desaparece la capa de servicio del recurso Expediente y se rompen el CRUD y los laboratorios JSON heredados."
+    },
+    {
+      "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/exception/NegocioException.java","classification":"GUIDE","origin":"M2-P-22-S03","evolution":[],
+      "symbols":["public class NegocioException extends RuntimeException","public NegocioException(String mensaje)","public NegocioException(String mensaje, Throwable causa)"],
+      "used_by":["AlumnoService","AlumnoController","M2 practice 2.2"],"missing_effect":"Se pierde la representación explícita del conflicto de negocio por DNI duplicado."
     },
     {
       "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/AlumnoDTO.java","classification":"INHERITED","origin":"M1-P-14-S02","evolution":[],
       "symbols":["public class AlumnoDTO","@JsonProperty(\"id\")","@JsonFormat(pattern = \"yyyy-MM-dd\")","private String identificador","private String curso"],
-      "used_by":["AlumnoController","Jackson"],"missing_effect":"Desaparece el contrato de datos del recurso Alumno."
+      "used_by":["AlumnoController","AlumnoService","Jackson"],"missing_effect":"Desaparece el contrato de datos del recurso Alumno."
     },
     {
       "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/ExpedienteDTO.java","classification":"INHERITED","origin":"M1-P-13-S02","evolution":[],
       "symbols":["public class ExpedienteDTO","@JsonProperty(\"id\")","@JsonIgnore","private SolicitanteDTO solicitante"],
-      "used_by":["ExpedienteController","Jackson"],"missing_effect":"Se pierde el DTO de expedientes heredado."
+      "used_by":["ExpedienteController","ExpedienteService","Jackson"],"missing_effect":"Se pierde el DTO de expedientes heredado."
     },
     {
       "path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/dto/SolicitanteDTO.java","classification":"INHERITED","origin":"M1-P-13-S12","evolution":[],
       "symbols":["public class SolicitanteDTO","@JsonProperty(\"dni\")","private String documentoIdentidad"],
-      "used_by":["ExpedienteDTO"],"missing_effect":"Se pierde el DTO anidado del solicitante."
+      "used_by":["ExpedienteDTO","ExpedienteService"],"missing_effect":"Se pierde el DTO anidado del solicitante."
     },
     {
       "path":"M2/proyecto/src/main/resources/application.properties","classification":"INHERITED","origin":"M0-P-02-S05","evolution":["M0-P-03-S05","M0-P-04-S02"],
@@ -109,9 +130,14 @@
     {
       "path":".course/traceability/M2/2.1.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],
       "used_by":["traceability validator","human report generator"],"missing_effect":"Se pierde la trazabilidad de los 12 pasos de 2.1."
+    },
+    {
+      "path":".course/traceability/M2/2.2.json","classification":"SUPPORT","origin":null,"evolution":[],"symbols":[],
+      "used_by":["traceability validator","human report generator"],"missing_effect":"Se pierde la trazabilidad de los 11 pasos de 2.2."
     }
   ],
   "step_manifests": [
-    ".course/traceability/M2/2.1.json"
+    ".course/traceability/M2/2.1.json",
+    ".course/traceability/M2/2.2.json"
   ]
 }
