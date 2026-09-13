@@ -1,0 +1,420 @@
+{
+  "module": "M3",
+  "point": "3.2",
+  "steps": [
+    {
+      "id": "M3-P-32-S01",
+      "practice": "3.2",
+      "number": 1,
+      "summary": "Repasar el estado actual",
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "theory_refs": [
+        "M3-T-32-B01"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S02",
+      "practice": "3.2",
+      "number": 2,
+      "summary": "Mejorar la construcción de la URI con ServletUriComponentsBuilder",
+      "heading": "## Paso 2 - Mejorar la construcción de la URI con ServletUriComponentsBuilder",
+      "theory_refs": [
+        "M3-T-32-B01"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "ServletUriComponentsBuilder"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S03",
+      "practice": "3.2",
+      "number": 3,
+      "summary": "Arrancar y probar el POST con Location",
+      "heading": "## Paso 3 - Arrancar y probar el POST con Location",
+      "theory_refs": [
+        "M3-T-32-B01"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S04",
+      "practice": "3.2",
+      "number": 4,
+      "summary": "Probar el POST con DNI duplicado",
+      "heading": "## Paso 4 - Probar el POST con DNI duplicado",
+      "theory_refs": [
+        "M3-T-32-B02"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S05",
+      "practice": "3.2",
+      "number": 5,
+      "summary": "Probar el POST con JSON mal formado",
+      "heading": "## Paso 5 - Probar el POST con JSON mal formado",
+      "theory_refs": [
+        "M3-T-32-B02"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S06",
+      "practice": "3.2",
+      "number": 6,
+      "summary": "Probar el POST sin Content-Type",
+      "heading": "## Paso 6 - Probar el POST sin Content-Type",
+      "theory_refs": [
+        "M3-T-32-B03"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S07",
+      "practice": "3.2",
+      "number": 7,
+      "summary": "Escribir tests del servicio para POST",
+      "heading": "## Paso 7 - Escribir tests del servicio para POST",
+      "theory_refs": [
+        "M3-T-32-B03"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "duplicado"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S08",
+      "practice": "3.2",
+      "number": 8,
+      "summary": "Escribir tests del controlador para POST",
+      "heading": "## Paso 8 - Escribir tests del controlador para POST",
+      "theory_refs": [
+        "M3-T-32-B04"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "Location"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S09",
+      "practice": "3.2",
+      "number": 9,
+      "summary": "Ejecutar todos los tests",
+      "heading": "## Paso 9 - Ejecutar todos los tests",
+      "theory_refs": [
+        "M3-T-32-B04"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S10",
+      "practice": "3.2",
+      "number": 10,
+      "summary": "Probar el POST con un cuerpo vacío",
+      "heading": "## Paso 10 - Probar el POST con un cuerpo vacío",
+      "theory_refs": [
+        "M3-T-32-B05"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S11",
+      "practice": "3.2",
+      "number": 11,
+      "summary": "Errores comunes del ejercicio",
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "theory_refs": [
+        "M3-T-32-B05"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-32-S12",
+      "practice": "3.2",
+      "number": 12,
+      "summary": "Reto resuelto - POST con validación de campos obligatorios",
+      "heading": "## Paso 12 - Reto resuelto - POST con validación de campos obligatorios",
+      "theory_refs": [
+        "M3-T-32-B05"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    }
+  ]
+}

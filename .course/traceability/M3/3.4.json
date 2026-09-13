@@ -1,0 +1,448 @@
+{
+  "module": "M3",
+  "point": "3.4",
+  "steps": [
+    {
+      "id": "M3-P-34-S01",
+      "practice": "3.4",
+      "number": 1,
+      "summary": "Repasar el estado actual",
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "theory_refs": [
+        "M3-T-34-B01"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S02",
+      "practice": "3.4",
+      "number": 2,
+      "summary": "Verificar el comportamiento esperado",
+      "heading": "## Paso 2 - Verificar el comportamiento esperado",
+      "theory_refs": [
+        "M3-T-34-B01"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S03",
+      "practice": "3.4",
+      "number": 3,
+      "summary": "Añadir un segundo recurso para probar dependencias",
+      "heading": "## Paso 3 - Añadir un segundo recurso para probar dependencias",
+      "theory_refs": [
+        "M3-T-34-B01"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "DocumentoRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S04",
+      "practice": "3.4",
+      "number": 4,
+      "summary": "Añadir validación de dependencias en el servicio",
+      "heading": "## Paso 4 - Añadir validación de dependencias en el servicio",
+      "theory_refs": [
+        "M3-T-34-B02"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "documentos"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S05",
+      "practice": "3.4",
+      "number": 5,
+      "summary": "Probar la eliminación con dependencias",
+      "heading": "## Paso 5 - Probar la eliminación con dependencias",
+      "theory_refs": [
+        "M3-T-34-B02"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S06",
+      "practice": "3.4",
+      "number": 6,
+      "summary": "Probar la eliminación sin dependencias",
+      "heading": "## Paso 6 - Probar la eliminación sin dependencias",
+      "theory_refs": [
+        "M3-T-34-B03"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S07",
+      "practice": "3.4",
+      "number": 7,
+      "summary": "Probar la eliminación en cascada",
+      "heading": "## Paso 7 - Probar la eliminación en cascada",
+      "theory_refs": [
+        "M3-T-34-B03"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "eliminarCascada"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S08",
+      "practice": "3.4",
+      "number": 8,
+      "summary": "Escribir tests del servicio para DELETE",
+      "heading": "## Paso 8 - Escribir tests del servicio para DELETE",
+      "theory_refs": [
+        "M3-T-34-B04"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "AlumnoServiceTest"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S09",
+      "practice": "3.4",
+      "number": 9,
+      "summary": "Escribir tests del controlador para DELETE",
+      "heading": "## Paso 9 - Escribir tests del controlador para DELETE",
+      "theory_refs": [
+        "M3-T-34-B04"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S10",
+      "practice": "3.4",
+      "number": 10,
+      "summary": "Probar la idempotencia de DELETE",
+      "heading": "## Paso 10 - Probar la idempotencia de DELETE",
+      "theory_refs": [
+        "M3-T-34-B05"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S11",
+      "practice": "3.4",
+      "number": 11,
+      "summary": "Errores comunes del ejercicio",
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "theory_refs": [
+        "M3-T-34-B05"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    },
+    {
+      "id": "M3-P-34-S12",
+      "practice": "3.4",
+      "number": 12,
+      "summary": "Reto resuelto - Soft delete de alumnos",
+      "heading": "## Paso 12 - Reto resuelto - Soft delete de alumnos",
+      "theory_refs": [
+        "M3-T-34-B05"
+      ],
+      "environment_refs": [
+        "M3-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "eliminado"
+          ]
+        },
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "fechaDesde"
+          ]
+        },
+        {
+          "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "existePorDniYIdDistinto"
+          ]
+        },
+        {
+          "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "devuelveCopiasDefensivas"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "status HTTP y cuerpo/cabeceras coherentes con el paso",
+        "suite de tests verde"
+      ],
+      "verification": [
+        "reproducir petición manual",
+        "ejecutar Maven Wrapper tests"
+      ]
+    }
+  ]
+}

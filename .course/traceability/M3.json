@@ -1,0 +1,641 @@
+{
+  "schema_version": 3,
+  "module": "M3",
+  "status": "COMPLETE",
+  "policy": {
+    "step_level_traceability_required": true,
+    "temporary_transitions_must_close": true
+  },
+  "theory_concepts": [
+    {
+      "id": "M3-T-31-B01",
+      "anchor": "Bloque 1 - Qué significa consultar un recurso",
+      "point": "3.1",
+      "title": "Qué significa consultar un recurso"
+    },
+    {
+      "id": "M3-T-31-B02",
+      "anchor": "Bloque 2 - Parámetros de ruta y query",
+      "point": "3.1",
+      "title": "Parámetros de ruta y query"
+    },
+    {
+      "id": "M3-T-31-B03",
+      "anchor": "Bloque 3 - Filtrado con streams",
+      "point": "3.1",
+      "title": "Filtrado con streams"
+    },
+    {
+      "id": "M3-T-31-B04",
+      "anchor": "Bloque 4 - Paginación manual",
+      "point": "3.1",
+      "title": "Paginación manual"
+    },
+    {
+      "id": "M3-T-31-B05",
+      "anchor": "Bloque 5 - Códigos de estado y buenas prácticas",
+      "point": "3.1",
+      "title": "Códigos de estado y buenas prácticas"
+    },
+    {
+      "id": "M3-T-32-B01",
+      "anchor": "Bloque 1 - Qué significa crear un recurso",
+      "point": "3.2",
+      "title": "Qué significa crear un recurso"
+    },
+    {
+      "id": "M3-T-32-B02",
+      "anchor": "Bloque 2 - @RequestBody y deserialización",
+      "point": "3.2",
+      "title": "@RequestBody y deserialización"
+    },
+    {
+      "id": "M3-T-32-B03",
+      "anchor": "Bloque 3 - Códigos de estado y cabecera Location",
+      "point": "3.2",
+      "title": "Códigos de estado y cabecera Location"
+    },
+    {
+      "id": "M3-T-32-B04",
+      "anchor": "Bloque 4 - Validación de datos",
+      "point": "3.2",
+      "title": "Validación de datos"
+    },
+    {
+      "id": "M3-T-32-B05",
+      "anchor": "Bloque 5 - Buenas prácticas y tests",
+      "point": "3.2",
+      "title": "Buenas prácticas y tests"
+    },
+    {
+      "id": "M3-T-33-B01",
+      "anchor": "Bloque 1 - Qué significa actualizar un recurso",
+      "point": "3.3",
+      "title": "Qué significa actualizar un recurso"
+    },
+    {
+      "id": "M3-T-33-B02",
+      "anchor": "Bloque 2 - PUT en profundidad",
+      "point": "3.3",
+      "title": "PUT en profundidad"
+    },
+    {
+      "id": "M3-T-33-B03",
+      "anchor": "Bloque 3 - PATCH en profundidad",
+      "point": "3.3",
+      "title": "PATCH en profundidad"
+    },
+    {
+      "id": "M3-T-33-B04",
+      "anchor": "Bloque 4 - Códigos de estado y errores",
+      "point": "3.3",
+      "title": "Códigos de estado y errores"
+    },
+    {
+      "id": "M3-T-33-B05",
+      "anchor": "Bloque 5 - Buenas prácticas y tests",
+      "point": "3.3",
+      "title": "Buenas prácticas y tests"
+    },
+    {
+      "id": "M3-T-34-B01",
+      "anchor": "Bloque 1 - Qué significa eliminar un recurso",
+      "point": "3.4",
+      "title": "Qué significa eliminar un recurso"
+    },
+    {
+      "id": "M3-T-34-B02",
+      "anchor": "Bloque 2 - Hard delete vs soft delete",
+      "point": "3.4",
+      "title": "Hard delete vs soft delete"
+    },
+    {
+      "id": "M3-T-34-B03",
+      "anchor": "Bloque 3 - Implementación de DELETE",
+      "point": "3.4",
+      "title": "Implementación de DELETE"
+    },
+    {
+      "id": "M3-T-34-B04",
+      "anchor": "Bloque 4 - Dependencias entre recursos",
+      "point": "3.4",
+      "title": "Dependencias entre recursos"
+    },
+    {
+      "id": "M3-T-34-B05",
+      "anchor": "Bloque 5 - Buenas prácticas y tests",
+      "point": "3.4",
+      "title": "Buenas prácticas y tests"
+    },
+    {
+      "id": "M3-T-35-B01",
+      "anchor": "Bloque 1 - DTOs de entrada y de salida",
+      "point": "3.5",
+      "title": "DTOs de entrada y de salida"
+    },
+    {
+      "id": "M3-T-35-B02",
+      "anchor": "Bloque 2 - DTOs anidados",
+      "point": "3.5",
+      "title": "DTOs anidados"
+    },
+    {
+      "id": "M3-T-35-B03",
+      "anchor": "Bloque 3 - Bean Validation",
+      "point": "3.5",
+      "title": "Bean Validation"
+    },
+    {
+      "id": "M3-T-35-B04",
+      "anchor": "Bloque 4 - Manejo de errores de validación",
+      "point": "3.5",
+      "title": "Manejo de errores de validación"
+    },
+    {
+      "id": "M3-T-35-B05",
+      "anchor": "Bloque 5 - Buenas prácticas y tests",
+      "point": "3.5",
+      "title": "Buenas prácticas y tests"
+    },
+    {
+      "id": "M3-T-36-B01",
+      "anchor": "Bloque 1 - @RequestParam en profundidad",
+      "point": "3.6",
+      "title": "@RequestParam en profundidad"
+    },
+    {
+      "id": "M3-T-36-B02",
+      "anchor": "Bloque 2 - @RequestHeader",
+      "point": "3.6",
+      "title": "@RequestHeader"
+    },
+    {
+      "id": "M3-T-36-B03",
+      "anchor": "Bloque 3 - @CookieValue y @MatrixVariable",
+      "point": "3.6",
+      "title": "@CookieValue y @MatrixVariable"
+    },
+    {
+      "id": "M3-T-36-B04",
+      "anchor": "Bloque 4 - Postman",
+      "point": "3.6",
+      "title": "Postman"
+    },
+    {
+      "id": "M3-T-36-B05",
+      "anchor": "Bloque 5 - Buenas prácticas con parámetros y cabeceras",
+      "point": "3.6",
+      "title": "Buenas prácticas con parámetros y cabeceras"
+    }
+  ],
+  "environment_workflows": [
+    {
+      "id": "M3-W-CONSOLE",
+      "anchor": "### Consola M3"
+    },
+    {
+      "id": "M3-W-INTELLIJ",
+      "anchor": "### IntelliJ IDEA M3"
+    },
+    {
+      "id": "M3-W-ECLIPSE",
+      "anchor": "### Eclipse M3"
+    },
+    {
+      "id": "M3-W-VSCODE",
+      "anchor": "### VS Code M3"
+    }
+  ],
+  "step_manifests": [
+    ".course/traceability/M3/3.1.json",
+    ".course/traceability/M3/3.2.json",
+    ".course/traceability/M3/3.3.json",
+    ".course/traceability/M3/3.4.json",
+    ".course/traceability/M3/3.5.json",
+    ".course/traceability/M3/3.6.json"
+  ],
+  "current_traced_steps": 72,
+  "expected_total_steps_when_complete": 72,
+  "artifacts": [
+    {
+      "path": "M3/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "3.9.16"
+      ]
+    },
+    {
+      "path": "M3/proyecto/mvnw",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "MavenWrapperMain"
+      ]
+    },
+    {
+      "path": "M3/proyecto/mvnw.cmd",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "MavenWrapperMain"
+      ]
+    },
+    {
+      "path": "M3/proyecto/config/checkstyle/checkstyle.xml",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "LineLength"
+      ]
+    },
+    {
+      "path": "M3/proyecto/.gitignore",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "SpringBootApplication"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "NegocioException"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "DateTimeFormatter",
+        "dd/MM/yyyy"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "CommandLineRunner"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "Jackson2ObjectMapperBuilderCustomizer"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "/api/v1/info"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "/hola",
+        "/adios"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/resources/application.properties",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "Curso Spring Boot 2026"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/resources/application-dev.properties",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "dev"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/resources/application-prod.properties",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "prod"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteDTO"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteRepository"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteService"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "FechasUtil"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "SaludoController"
+      ]
+    },
+    {
+      "path": "M3/proyecto/pom.xml",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-35-S01"
+      ],
+      "symbols": [
+        "spring-boot-starter-validation",
+        "3.5.16"
+      ]
+    },
+    {
+      "path": "M3/proyecto/README.md",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-36-S06"
+      ],
+      "symbols": [
+        "Estado final M3"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-31-S06",
+        "M3-P-32-S02",
+        "M3-P-33-S05",
+        "M3-P-34-S07",
+        "M3-P-35-S04",
+        "M3-P-36-S01"
+      ],
+      "symbols": [
+        "DateTimeFormat",
+        "ServletUriComponentsBuilder",
+        "CookieValue"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-31-S02",
+        "M3-P-31-S12",
+        "M3-P-33-S02",
+        "M3-P-34-S04",
+        "M3-P-34-S12",
+        "M3-P-35-S04"
+      ],
+      "symbols": [
+        "fechaDesde",
+        "existePorDniYIdDistinto",
+        "eliminarEnCascada"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-33-S02",
+        "M3-P-34-S12"
+      ],
+      "symbols": [
+        "existePorDniYIdDistinto",
+        "isEliminado"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-34-S12"
+      ],
+      "symbols": [
+        "eliminado"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-33-S12",
+        "M3-P-35-S12"
+      ],
+      "symbols": [
+        "/estado",
+        "@Valid"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "classification": "GUIDE",
+      "origin": "M1-CUMULATIVE",
+      "evolution": [
+        "M3-P-35-S12"
+      ],
+      "symbols": [
+        "@NotBlank",
+        "@Size"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-31-S10",
+        "M3-P-32-S08",
+        "M3-P-35-S10"
+      ],
+      "symbols": [
+        "@WebMvcTest",
+        "@MockitoBean"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-31-S09",
+        "M3-P-32-S07",
+        "M3-P-33-S09",
+        "M3-P-34-S08"
+      ],
+      "symbols": [
+        "filtraYPagina",
+        "duplicado"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-34-S12"
+      ],
+      "symbols": [
+        "devuelveCopiasDefensivas"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-CUMULATIVE",
+      "evolution": [
+        "M3-P-33-S12"
+      ],
+      "symbols": [
+        "cambioEstadoInexistenteNoCrea"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "classification": "GUIDE",
+      "origin": "M3-P-34-S03",
+      "evolution": [],
+      "symbols": [
+        "DocumentoRepository",
+        "existePorAlumnoId"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "classification": "GUIDE",
+      "origin": "M3-P-35-S02",
+      "evolution": [],
+      "symbols": [
+        "AlumnoRequestDTO",
+        "@NotBlank"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "classification": "GUIDE",
+      "origin": "M3-P-35-S03",
+      "evolution": [],
+      "symbols": [
+        "AlumnoResponseDTO",
+        "activo"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GlobalExceptionHandler.java",
+      "classification": "GUIDE",
+      "origin": "M3-P-35-S05",
+      "evolution": [],
+      "symbols": [
+        "RestControllerAdvice",
+        "MethodArgumentNotValidException"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "classification": "GUIDE",
+      "origin": "M3-P-35-S12",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteRequestDTO",
+        "@Valid"
+      ]
+    },
+    {
+      "path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "classification": "GUIDE",
+      "origin": "M3-P-35-S10",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteControllerTest",
+        "@WebMvcTest"
+      ]
+    },
+    {
+      "path": "M3/postman/M3.postman_collection.json",
+      "classification": "GUIDE",
+      "origin": "M3-P-36-S06",
+      "evolution": [
+        "M3-P-36-S10"
+      ],
+      "symbols": [
+        "GET alumnos",
+        "pm.test"
+      ]
+    },
+    {
+      "path": "M3/postman/M3.local.postman_environment.json",
+      "classification": "GUIDE",
+      "origin": "M3-P-36-S07",
+      "evolution": [],
+      "symbols": [
+        "baseUrl"
+      ]
+    }
+  ]
+}

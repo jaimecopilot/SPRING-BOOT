@@ -1,0 +1,80 @@
+name: Validar M3
+
+on:
+  push:
+    branches: [main]
+    paths: ['M3/**', '.course/traceability/M3*', '.course/traceability/TRAZABILIDAD_M3.md', '.course/traceability/validate_module.py', '.course/source-audit/M3.md', '.github/workflows/validar-m3.yml']
+  pull_request:
+    paths: ['M3/**', '.course/traceability/M3*', '.course/traceability/TRAZABILIDAD_M3.md', '.course/traceability/validate_module.py', '.course/source-audit/M3.md', '.github/workflows/validar-m3.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  validar-m3:
+    runs-on: ubuntu-latest
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8
+    steps:
+      - uses: actions/checkout@v5
+      - name: Configurar Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Validar contrato final M3 72/72
+        run: python .course/traceability/validate_m3.py .
+      - name: Verificar sincronía de trazabilidad humana
+        run: python .course/traceability/generate_module_traceability.py M3 --check
+      - name: Verificar Maven Wrapper 3.9.16
+        working-directory: M3/proyecto
+        shell: bash
+        run: |
+          chmod +x mvnw
+          ./mvnw -version | tee /tmp/m3-maven.txt
+          grep -q 'Apache Maven 3.9.16' /tmp/m3-maven.txt
+      - name: Ejecutar tests y calidad
+        working-directory: M3/proyecto
+        run: ./mvnw -B clean verify
+      - name: Generar Javadoc
+        working-directory: M3/proyecto
+        run: ./mvnw -B javadoc:javadoc
+      - name: Empaquetar JAR ejecutable
+        working-directory: M3/proyecto
+        run: ./mvnw -B -DskipTests package
+      - name: Validar runtime acumulativo y OpenAPI
+        working-directory: M3/proyecto
+        shell: bash
+        run: |
+          set -euo pipefail
+          PID=''
+          cleanup(){ if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi; }
+          trap cleanup EXIT
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar >/tmp/m3-final.log 2>&1 & PID=$!
+          for i in {1..45}; do curl -fsS http://localhost:8080/hola >/tmp/hola && break || sleep 1; done
+          test "$(cat /tmp/hola)" = 'Hola, Ministerio de Educación'
+          test "$(curl -fsS http://localhost:8080/adios)" = 'Adiós, Ministerio de Educación'
+          curl -fsS 'http://localhost:8080/api/v1/alumnos?page=0&size=20' >/tmp/alumnos.json
+          curl -fsS http://localhost:8080/api/v1/expedientes/ejemplo >/tmp/exp.json
+          curl -fsS http://localhost:8080/api/v1/info >/tmp/info.json
+          curl -fsS http://localhost:8080/v3/api-docs >/tmp/openapi.json
+          CODE=$(curl -sS -o /tmp/invalid.json -w '%{http_code}' -X POST \
+            -H 'Content-Type: application/json' \
+            -d '{"nombre":""}' http://localhost:8080/api/v1/alumnos)
+          test "$CODE" = '400'
+          python - <<'PY'
+          import json
+          a=json.load(open('/tmp/alumnos.json'))
+          assert isinstance(a['content'],list) and len(a['content'])==2,a
+          assert [x['id'] for x in a['content']]==['1','2'],a
+          assert a['page']==0 and a['size']==20 and a['totalElements']==2 and a['totalPages']==1,a
+          e=json.load(open('/tmp/exp.json'))
+          assert e['id']=='12345' and e['fechaSolicitud']=='2025-01-15' and 'numeroSeguridadSocial' not in e,e
+          i=json.load(open('/tmp/info.json'))
+          assert i['entorno']=='base' and i['nombre']=='Curso Spring Boot 2026',i
+          o=json.load(open('/tmp/openapi.json')); paths=o['paths']
+          for p in ['/api/v1/alumnos','/api/v1/alumnos/{id}','/api/v1/alumnos/request-info','/api/v1/expedientes','/api/v1/info']:
+              assert p in paths,(p,paths.keys())
+          PY
