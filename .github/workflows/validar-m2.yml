@@ -3,9 +3,9 @@ name: Validar M2
 on:
   push:
     branches: [main]
-    paths: ['M2/**', '.course/traceability/M2*', '.course/traceability/TRAZABILIDAD_M2.md', '.course/source-audit/M2.md', '.github/workflows/validar-m2.yml']
+    paths: ['M2/**', '.course/traceability/M2*', '.course/traceability/TRAZABILIDAD_M2.md', '.course/traceability/validate_module.py', '.course/source-audit/M2.md', '.github/workflows/validar-m2.yml']
   pull_request:
-    paths: ['M2/**', '.course/traceability/M2*', '.course/traceability/TRAZABILIDAD_M2.md', '.course/source-audit/M2.md', '.github/workflows/validar-m2.yml']
+    paths: ['M2/**', '.course/traceability/M2*', '.course/traceability/TRAZABILIDAD_M2.md', '.course/traceability/validate_module.py', '.course/source-audit/M2.md', '.github/workflows/validar-m2.yml']
 
 permissions:
   contents: read
