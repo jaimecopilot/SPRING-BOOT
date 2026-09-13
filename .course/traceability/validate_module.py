@@ -24,8 +24,10 @@ module_dir = root / module
 manifest_path = root / ".course/traceability" / f"{module}.json"
 
 fail = []
+
 def bad(msg):
     fail.append(msg)
+
 
 def load_json(path):
     try:
@@ -33,6 +35,7 @@ def load_json(path):
     except Exception as exc:
         bad(f"cannot read JSON {path.relative_to(root)}: {exc}")
         return {}
+
 
 if not manifest_path.exists():
     raise SystemExit(f"missing manifest: {manifest_path}")
@@ -70,7 +73,12 @@ for c in concepts:
 
 workflows = m.get("environment_workflows", [])
 env_ids = {w.get("id") for w in workflows}
-expected_env = {f"{module}-W-CONSOLE", f"{module}-W-INTELLIJ", f"{module}-W-ECLIPSE", f"{module}-W-VSCODE"}
+expected_env = {
+    f"{module}-W-CONSOLE",
+    f"{module}-W-INTELLIJ",
+    f"{module}-W-ECLIPSE",
+    f"{module}-W-VSCODE",
+}
 if env_ids != expected_env:
     bad(f"exact four environment workflows required: {sorted(expected_env)}")
 for w in workflows:
@@ -92,10 +100,13 @@ for rel in manifest_files:
     steps.extend(data.get("steps", []))
 
 # Derive every currently published practical step directly from PRACTICA.md.
+# Historical modules use '# Práctica N.x'; source-faithful newer guides may use
+# '# Punto N.x'. Both forms represent the same practical block contract.
 derived = []
 headings = {}
 practice_re = re.compile(
-    rf"(?ms)^# Práctica ({module_number}\.\d+) - .*?(?=^# Práctica |\Z)"
+    rf"(?ms)^# (?:Práctica|Punto) ({module_number}\.\d+) - .*?"
+    rf"(?=^# (?:Práctica|Punto) |\Z)"
 )
 for pblock in practice_re.finditer(practice):
     pnum = pblock.group(1)
@@ -216,7 +227,6 @@ for rel, a in inventory.items():
                 continue
             if token not in txt:
                 bad(f"{rel}: final symbol/token missing: {token}")
-        # Temporary symbols document experiments, but they must not leak into the final snapshot.
         for token in a.get("temporary_symbols", []):
             if token in txt:
                 bad(f"{rel}: temporary symbol leaked into final snapshot: {token}")
@@ -263,7 +273,12 @@ for name, text in [("TEORIA", theory), ("PRACTICA", practice)]:
         bad(f"{name}: questions/answers invalid {questions}/{answers}")
     if questions == 0:
         bad(f"{name}: no question/answer pedagogy detected")
-    for patt in [r"(?i)\bcheckpoint\b", r"(?i)fidelidad didáctica", r"(?i)GUIDE/INHERITED/SUPPORT", r"(?i)\.course/traceability"]:
+    for patt in [
+        r"(?i)\bcheckpoint\b",
+        r"(?i)fidelidad didáctica",
+        r"(?i)GUIDE/INHERITED/SUPPORT",
+        r"(?i)\.course/traceability",
+    ]:
         if re.search(patt, text):
             bad(f"{name}: internal meta visible: {patt}")
 

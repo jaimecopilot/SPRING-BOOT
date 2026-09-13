@@ -1,0 +1,467 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "practice": "2.1",
+  "steps": [
+    {
+      "id": "M2-P-21-S01",
+      "practice": "2.1",
+      "number": 1,
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "summary": "Verificar el CRUD y las regresiones heredadas de M1 antes de refactorizar el controlador.",
+      "theory_refs": [
+        "M2-T-21-ROLE",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@RequestMapping(\"/api/v1/alumnos\")",
+            "@GetMapping",
+            "@PostMapping",
+            "@PutMapping(\"/{id}\")",
+            "@PatchMapping(\"/{id}\")",
+            "@DeleteMapping(\"/{id}\")"
+          ]
+        }
+      ],
+      "commands": [
+        "GET /hola",
+        "GET /adios",
+        "GET /api/v1/expedientes/ejemplo",
+        "GET /api/v1/alumnos",
+        "GET /api/v1/alumnos/1"
+      ],
+      "observables": [
+        "El baseline M0/M1 sigue respondiendo antes de introducir cambios de 2.1."
+      ],
+      "verification": [
+        "CI ejecuta regresiones de saludo, expedientes y CRUD de alumnos sobre el snapshot M2."
+      ]
+    },
+    {
+      "id": "M2-P-21-S02",
+      "practice": "2.1",
+      "number": 2,
+      "heading": "## Paso 2 - Identificar la lógica que debería ir en un servicio",
+      "summary": "Separar conceptualmente generación de ID y persistencia de la construcción de la respuesta HTTP.",
+      "theory_refs": [
+        "M2-T-21-ROLE",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@PostMapping",
+            "ResponseEntity.created(location).body(creado)"
+          ]
+        }
+      ],
+      "commands": [
+        "inspeccionar crear() y distinguir lógica de aplicación de semántica HTTP"
+      ],
+      "observables": [
+        "La guía clasifica generación de ID y almacenamiento como lógica que migrará al servicio en 2.2."
+      ],
+      "verification": [
+        "2.1 identificó generación de ID y almacenamiento como lógica no HTTP; 2.2 mueve esa implementación a AlumnoService y el controlador final conserva la construcción de la respuesta."
+      ]
+    },
+    {
+      "id": "M2-P-21-S03",
+      "practice": "2.1",
+      "number": 3,
+      "heading": "## Paso 3 - Refactorizar el método crear",
+      "summary": "Extraer guardarAlumno, conservar la generación segura de ID heredada de M1 y devolver 201 con Location.",
+      "theory_refs": [
+        "M2-T-21-ROLE",
+        "M2-T-21-RESPONSE",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "import java.net.URI",
+            "URI location = URI.create(",
+            "ResponseEntity.created(location).body(creado)"
+          ]
+        }
+      ],
+      "commands": [
+        "POST /api/v1/alumnos con JSON válido",
+        "GET /api/v1/alumnos/3"
+      ],
+      "observables": [
+        "POST devuelve 201, cabecera Location=/api/v1/alumnos/3 y el recurso queda consultable."
+      ],
+      "verification": [
+        "El 201 + Location introducido en 2.1 permanece; el helper guardarAlumno y la generación de ID evolucionan en 2.2 hacia AlumnoService."
+      ]
+    },
+    {
+      "id": "M2-P-21-S04",
+      "practice": "2.1",
+      "number": 4,
+      "heading": "## Paso 4 - Añadir un endpoint con `@RequestHeader`",
+      "summary": "Leer User-Agent y Accept-Language como metadatos HTTP y devolverlos como JSON.",
+      "theory_refs": [
+        "M2-T-21-REQUEST-DATA",
+        "M2-T-21-MAPPINGS"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "import org.springframework.web.bind.annotation.RequestHeader",
+            "@GetMapping(\"/info-peticion\")",
+            "public Map<String, String> infoPeticion",
+            "Accept-Language",
+            "desconocido"
+          ]
+        }
+      ],
+      "commands": [
+        "GET /api/v1/alumnos/info-peticion con User-Agent y Accept-Language",
+        "GET /api/v1/alumnos/info-peticion sin Accept-Language"
+      ],
+      "observables": [
+        "La respuesta refleja las cabeceras recibidas y usa desconocido para una cabecera opcional ausente."
+      ],
+      "verification": [
+        "CI valida JSON con cabeceras explícitas y el fallback del idioma."
+      ]
+    },
+    {
+      "id": "M2-P-21-S05",
+      "practice": "2.1",
+      "number": 5,
+      "heading": "## Paso 5 - Añadir `@RequestParam` con valores por defecto sin perder M1",
+      "summary": "Añadir page/size con defaults y conservar curso/sort del contrato acumulativo de M1.",
+      "theory_refs": [
+        "M2-T-21-REQUEST-DATA",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@RequestParam(required = false) String curso",
+            "@RequestParam(required = false) String sort",
+            "@RequestParam(defaultValue = \"0\") int page",
+            "@RequestParam(defaultValue = \"20\") int size",
+            "return service.listar(curso, sort, page, size)"
+          ]
+        }
+      ],
+      "commands": [
+        "GET colección sin query",
+        "GET ?page=0&size=1",
+        "GET ?page=1&size=1",
+        "GET ?sort=nombre",
+        "GET combinando curso/sort/page/size"
+      ],
+      "observables": [
+        "Las páginas devuelven subconjuntos distintos y filtro/orden de M1 siguen disponibles."
+      ],
+      "verification": [
+        "Los cuatro parámetros HTTP permanecen en el controlador; 2.2 mueve skip/limit y la lógica de consulta al servicio sin cambiar el contrato externo."
+      ]
+    },
+    {
+      "id": "M2-P-21-S06",
+      "practice": "2.1",
+      "number": 6,
+      "heading": "## Paso 6 - Añadir un endpoint que devuelve 204",
+      "summary": "Introducir POST /promocionar para observar 204 No Content y una mutación sin representación de respuesta.",
+      "theory_refs": [
+        "M2-T-21-RESPONSE",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@PostMapping(\"/promocionar\")",
+            "public ResponseEntity<Void> promocionar",
+            "service.promocionar()",
+            "ResponseEntity.noContent().build()"
+          ]
+        }
+      ],
+      "commands": [
+        "POST /api/v1/alumnos/promocionar",
+        "GET /api/v1/alumnos"
+      ],
+      "observables": [
+        "POST devuelve 204 sin cuerpo; una consulta posterior muestra el efecto en los cursos."
+      ],
+      "verification": [
+        "El endpoint y su 204 permanecen; 2.2 traslada la mutación de cursos a AlumnoService."
+      ]
+    },
+    {
+      "id": "M2-P-21-S07",
+      "practice": "2.1",
+      "number": 7,
+      "heading": "## Paso 7 - Refactorizar el controlador para que sea más fino",
+      "summary": "Extraer buscarPorId y reutilizarlo en GET, PUT y PATCH para hacer los métodos HTTP más declarativos.",
+      "theory_refs": [
+        "M2-T-21-ROLE",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "service.consultar(id)",
+            "service.actualizar(id, dto)"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "La búsqueda por ID queda centralizada y los endpoints conservan 200/404."
+      ],
+      "verification": [
+        "2.1 hizo explícita la reutilización de la búsqueda; 2.2 completa la evolución trasladando esa responsabilidad al servicio y los endpoints conservan 200/404."
+      ]
+    },
+    {
+      "id": "M2-P-21-S08",
+      "practice": "2.1",
+      "number": 8,
+      "heading": "## Paso 8 - Probar el controlador refactorizado",
+      "summary": "Ejecutar una regresión completa del CRUD y de los endpoints nuevos tras la refactorización.",
+      "theory_refs": [
+        "M2-T-21-MAPPINGS",
+        "M2-T-21-REQUEST-DATA",
+        "M2-T-21-RESPONSE",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@GetMapping",
+            "@PostMapping",
+            "@PutMapping(\"/{id}\")",
+            "@PatchMapping(\"/{id}\")",
+            "@DeleteMapping(\"/{id}\")",
+            "@GetMapping(\"/info-peticion\")"
+          ]
+        }
+      ],
+      "commands": [
+        "GET colección",
+        "GET /1",
+        "POST",
+        "PUT /1",
+        "PATCH /1",
+        "GET /info-peticion",
+        "GET paginado",
+        "DELETE del recurso creado"
+      ],
+      "observables": [
+        "Todos los endpoints heredados y nuevos responden después de la refactorización."
+      ],
+      "verification": [
+        "CI recorre el contrato HTTP sobre una instancia recién arrancada."
+      ]
+    },
+    {
+      "id": "M2-P-21-S09",
+      "practice": "2.1",
+      "number": 9,
+      "heading": "## Paso 9 - Analizar los códigos de estado devueltos",
+      "summary": "Consolidar 200/201/204/404 y Location como parte explícita del contrato del controlador.",
+      "theory_refs": [
+        "M2-T-21-RESPONSE"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "ResponseEntity.created(location).body(creado)",
+            "ResponseEntity.ok",
+            "ResponseEntity.notFound().build()",
+            "ResponseEntity.noContent().build()"
+          ]
+        }
+      ],
+      "commands": [
+        "comparar status de GET/POST/promocionar/PUT/PATCH/DELETE"
+      ],
+      "observables": [
+        "Las operaciones devuelven códigos coherentes y POST creación incluye Location."
+      ],
+      "verification": [
+        "Assertions HTTP del workflow cubren los status de la matriz de 2.1."
+      ]
+    },
+    {
+      "id": "M2-P-21-S10",
+      "practice": "2.1",
+      "number": 10,
+      "heading": "## Paso 10 - Probar un error de validación",
+      "summary": "Distinguir el error de formato JSON real de Bean Validation y comprobar 400/415 sin fijar un cuerpo interno inestable.",
+      "theory_refs": [
+        "M2-T-21-REQUEST-DATA",
+        "M2-T-21-RESPONSE"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@RequestBody AlumnoDTO dto"
+          ]
+        }
+      ],
+      "commands": [
+        "POST JSON con coma final",
+        "POST text/plain a colección"
+      ],
+      "observables": [
+        "JSON mal formado produce 400; media type incompatible produce 415."
+      ],
+      "verification": [
+        "CI exige ambos status sin acoplarse al JSON de error por defecto de Spring Boot."
+      ]
+    },
+    {
+      "id": "M2-P-21-S11",
+      "practice": "2.1",
+      "number": 11,
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "summary": "Diagnosticar mappings, media type, JSON, parámetros, mutabilidad, Location, 204, PATCH y regresiones de M1.",
+      "theory_refs": [
+        "M2-T-21-PRACTICES",
+        "M2-T-21-RESPONSE"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": [
+        "revisar síntoma-causa-comprobación antes de modificar código"
+      ],
+      "observables": [
+        "La guía incluye causas y soluciones para 405, 415, 400, nulls, inmutabilidad, Location, 204, PATCH, sort y generación de ID."
+      ],
+      "verification": [
+        "Los errores de protocolo de alto valor y las regresiones acumulativas están cubiertos por CI."
+      ]
+    },
+    {
+      "id": "M2-P-21-S12",
+      "practice": "2.1",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: endpoint que devuelve un alumno con enlaces HATEOAS",
+      "summary": "Añadir una representación pedagógica con alumno y _links sin introducir todavía una dependencia HATEOAS específica.",
+      "theory_refs": [
+        "M2-T-21-RESPONSE",
+        "M2-T-21-PRACTICES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "import java.util.LinkedHashMap",
+            "@GetMapping(\"/{id}/con-enlaces\")",
+            "public ResponseEntity<Map<String, Object>> consultarConEnlaces",
+            "respuesta.put(\"alumno\", alumno)",
+            "respuesta.put(\"_links\"",
+            "documentos",
+            "/api/v1/cursos/"
+          ]
+        }
+      ],
+      "commands": [
+        "GET /api/v1/alumnos/1/con-enlaces",
+        "GET /api/v1/alumnos/999/con-enlaces"
+      ],
+      "observables": [
+        "ID existente devuelve 200 con alumno y _links; ID inexistente devuelve 404."
+      ],
+      "verification": [
+        "CI valida claves alumno/_links y los enlaces self/documentos/curso, además del 404."
+      ]
+    }
+  ]
+}

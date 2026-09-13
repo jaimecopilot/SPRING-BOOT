@@ -1,0 +1,183 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "practice": "2.2",
+  "steps": [
+    {
+      "id": "M2-P-22-S01",
+      "practice": "2.2",
+      "number": 1,
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "summary": "Verificar el contrato acumulado de 2.1 y distinguir responsabilidades HTTP de lógica y estado de aplicación.",
+      "theory_refs": ["M2-T-22-ROLE"],
+      "environment_refs": ["M2-W-CONSOLE", "M2-W-INTELLIJ", "M2-W-ECLIPSE", "M2-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@RequestMapping(\"/api/v1/alumnos\")","@GetMapping(\"/info-peticion\")","@PostMapping(\"/promocionar\")","@GetMapping(\"/{id}/con-enlaces\")"]}
+      ],
+      "commands": ["./mvnw spring-boot:run", "GET /hola", "GET /adios", "GET /api/v1/alumnos", "GET /api/v1/expedientes/ejemplo"],
+      "observables": ["El baseline de 2.1 sigue disponible antes de mover la lógica al servicio."],
+      "verification": ["El runtime acumulativo se vuelve a comprobar en CI después de la refactorización."]
+    },
+    {
+      "id": "M2-P-22-S02",
+      "practice": "2.2",
+      "number": 2,
+      "heading": "## Paso 2 - Crear el paquete `service`",
+      "summary": "Introducir el paquete que expresará físicamente la capa de servicio sin adelantar todavía repository.",
+      "theory_refs": ["M2-T-22-ROLE", "M2-T-22-SERVICE"],
+      "environment_refs": ["M2-W-CONSOLE", "M2-W-INTELLIJ", "M2-W-ECLIPSE", "M2-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": ["crear es.mecd.demo.miproyecto.service", "./mvnw test"],
+      "observables": ["El árbol final contiene clases bajo el package service y no contiene todavía package repository."],
+      "verification": ["El gate exige AlumnoService y ExpedienteService y prohíbe repository en el checkpoint 2.2."]
+    },
+    {
+      "id": "M2-P-22-S03",
+      "practice": "2.2",
+      "number": 3,
+      "heading": "## Paso 3 - Crear la excepción de negocio",
+      "summary": "Crear NegocioException como excepción unchecked independiente de HTTP.",
+      "theory_refs": ["M2-T-22-BUSINESS-EXCEPTIONS"],
+      "environment_refs": ["M2-W-CONSOLE", "M2-W-INTELLIJ", "M2-W-ECLIPSE", "M2-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/exception/NegocioException.java","action":"CREATE","state":"PERMANENT","symbols":["public class NegocioException extends RuntimeException","public NegocioException(String mensaje)","public NegocioException(String mensaje, Throwable causa)"]}
+      ],
+      "commands": ["./mvnw test"],
+      "observables": ["La excepción compila sin importar ResponseEntity, HttpStatus ni anotaciones web."],
+      "verification": ["El gate comprueba la clase y su independencia de la capa HTTP."]
+    },
+    {
+      "id": "M2-P-22-S04",
+      "practice": "2.2",
+      "number": 4,
+      "heading": "## Paso 4 - Crear `AlumnoService`",
+      "summary": "Mover estado, consulta, filtro, orden, paginación, CRUD, promoción y regla de DNI único a un bean @Service.",
+      "theory_refs": ["M2-T-22-ROLE", "M2-T-22-SERVICE", "M2-T-22-CONSTRUCTOR-DI", "M2-T-22-BUSINESS-EXCEPTIONS"],
+      "environment_refs": ["M2-W-CONSOLE", "M2-W-INTELLIJ", "M2-W-ECLIPSE", "M2-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/service/AlumnoService.java","action":"CREATE","state":"PERMANENT","symbols":["@Service","public class AlumnoService","private final List<AlumnoDTO> alumnos","public List<AlumnoDTO> listar","public Optional<AlumnoDTO> consultar","public AlumnoDTO crear","throw new NegocioException","int siguienteId = alumnos.stream()","public Optional<AlumnoDTO> actualizar","public Optional<AlumnoDTO> actualizarParcial","public boolean eliminar","public void promocionar"]}
+      ],
+      "commands": ["./mvnw test"],
+      "observables": ["El servicio concentra la lógica antes alojada en el controlador y rechaza DNI duplicado antes de mutar la colección."],
+      "verification": ["CI comprueba símbolos, ausencia de size()+1 y comportamiento HTTP que atraviesa el servicio."]
+    },
+    {
+      "id": "M2-P-22-S05",
+      "practice": "2.2",
+      "number": 5,
+      "heading": "## Paso 5 - Refactorizar el controlador para que use el servicio",
+      "summary": "Inyectar AlumnoService por constructor y reducir AlumnoController a traducción HTTP y delegación.",
+      "theory_refs": ["M2-T-22-ROLE", "M2-T-22-CONSTRUCTOR-DI", "M2-T-22-BUSINESS-EXCEPTIONS"],
+      "environment_refs": ["M2-W-CONSOLE", "M2-W-INTELLIJ", "M2-W-ECLIPSE", "M2-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"MODIFY","state":"PERMANENT","symbols":["private final AlumnoService service","public AlumnoController(AlumnoService service)","return service.listar(curso, sort, page, size)","AlumnoDTO creado = service.crear(dto)","service.consultar(id)","service.actualizar(id, dto)","service.actualizarParcial(id, cambios)","service.eliminar(id)","service.promocionar()","@ExceptionHandler(NegocioException.class)","HttpStatus.CONFLICT"]}
+      ],
+      "commands": ["./mvnw test"],
+      "observables": ["El controlador mantiene rutas, cabeceras y status pero deja de poseer la colección y de generar IDs."],
+      "verification": ["El gate prohíbe estado ArrayList y generación de ID dentro de AlumnoController y exige inyección por constructor."]
+    },
+    {
+      "id": "M2-P-22-S06",
+      "practice": "2.2",
+      "number": 6,
+      "heading": "## Paso 6 - Arrancar y probar el CRUD completo",
+      "summary": "Demostrar que la refactorización interna mantiene el contrato HTTP acumulado de alumnos.",
+      "theory_refs": ["M2-T-22-ROLE", "M2-T-22-CONSTRUCTOR-DI"],
+      "environment_refs": ["M2-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@GetMapping","@PostMapping","@PutMapping(\"/{id}\")","@PatchMapping(\"/{id}\")","@DeleteMapping(\"/{id}\")"]},
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/service/AlumnoService.java","action":"VERIFY","state":"PERMANENT","symbols":["public List<AlumnoDTO> listar","public AlumnoDTO crear","public Optional<AlumnoDTO> actualizar","public Optional<AlumnoDTO> actualizarParcial","public boolean eliminar"]}
+      ],
+      "commands": ["./mvnw test", "./mvnw -DskipTests package", "GET/POST/PUT/PATCH/DELETE /api/v1/alumnos"],
+      "observables": ["El CRUD conserva 200/201/204/404, Location, filtro, sort y paginación tras introducir el servicio."],
+      "verification": ["El workflow ejecuta el ciclo HTTP completo sobre una instancia real."]
+    },
+    {
+      "id": "M2-P-22-S07",
+      "practice": "2.2",
+      "number": 7,
+      "heading": "## Paso 7 - Probar el error de negocio",
+      "summary": "Probar que un DNI duplicado se rechaza como conflicto de negocio y no muta el estado.",
+      "theory_refs": ["M2-T-22-BUSINESS-EXCEPTIONS"],
+      "environment_refs": ["M2-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/service/AlumnoService.java","action":"VERIFY","state":"PERMANENT","symbols":["throw new NegocioException","Ya existe un alumno con el DNI"]},
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@ExceptionHandler(NegocioException.class)","\"status\", 409","\"error\", \"Conflict\""]}
+      ],
+      "commands": ["POST /api/v1/alumnos con DNI-DEMO-01", "GET /api/v1/alumnos"],
+      "observables": ["La creación duplicada devuelve 409 con mensaje de negocio y la colección conserva dos alumnos."],
+      "verification": ["CI valida status, cuerpo JSON y ausencia de mutación posterior."]
+    },
+    {
+      "id": "M2-P-22-S08",
+      "practice": "2.2",
+      "number": 8,
+      "heading": "## Paso 8 - Probar un error técnico de entrada",
+      "summary": "Distinguir errores de frontera HTTP 400/415 del conflicto de negocio 409.",
+      "theory_refs": ["M2-T-22-BUSINESS-EXCEPTIONS", "M2-T-21-REQUEST-DATA"],
+      "environment_refs": ["M2-W-CONSOLE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["@RequestBody AlumnoDTO dto"]}
+      ],
+      "commands": ["POST JSON mal formado", "POST Content-Type text/plain"],
+      "observables": ["JSON mal formado devuelve 400 y media type incompatible devuelve 415 antes de aplicar la regla del servicio."],
+      "verification": ["CI exige ambos códigos y mantiene separado el caso 409."]
+    },
+    {
+      "id": "M2-P-22-S09",
+      "practice": "2.2",
+      "number": 9,
+      "heading": "## Paso 9 - Analizar la separación de capas",
+      "summary": "Auditar que HTTP queda en controller y lógica/estado temporal quedan en service.",
+      "theory_refs": ["M2-T-22-ROLE", "M2-T-22-SERVICE", "M2-T-22-CONSTRUCTOR-DI", "M2-T-22-DTO-ENTITY"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/service/AlumnoService.java","action":"VERIFY","state":"PERMANENT","symbols":["@Service","public class AlumnoService"]},
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/AlumnoController.java","action":"VERIFY","state":"PERMANENT","symbols":["private final AlumnoService service"]}
+      ],
+      "commands": ["buscar ResponseEntity/@RequestParam/@PathVariable/HttpStatus en AlumnoService"],
+      "observables": ["AlumnoService no contiene tipos ni anotaciones de transporte HTTP; AlumnoController no posee la colección."],
+      "verification": ["El validador semántico comprueba automáticamente ambas direcciones de la separación."]
+    },
+    {
+      "id": "M2-P-22-S10",
+      "practice": "2.2",
+      "number": 10,
+      "heading": "## Paso 10 - Errores comunes del ejercicio",
+      "summary": "Diagnosticar bean ausente, mala inyección, 500 en conflicto, lógica HTTP filtrada al servicio y regresiones del contrato acumulativo.",
+      "theory_refs": ["M2-T-22-SERVICE", "M2-T-22-CONSTRUCTOR-DI", "M2-T-22-BUSINESS-EXCEPTIONS"],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [],
+      "commands": ["./mvnw test", "./mvnw -DskipTests package"],
+      "observables": ["La guía relaciona cada síntoma con una causa verificable en lugar de proponer cambios al azar."],
+      "verification": ["Los casos de alto valor se cubren por contrato estructural o por runtime HTTP."]
+    },
+    {
+      "id": "M2-P-22-S11",
+      "practice": "2.2",
+      "number": 11,
+      "heading": "## Paso 11 - Reto resuelto: servicio para el recurso Expediente",
+      "summary": "Aplicar la separación controller/service al recurso Expediente sin perder los contratos JSON /ejemplo y /eco de M1.3.",
+      "theory_refs": ["M2-T-22-ROLE", "M2-T-22-SERVICE", "M2-T-22-CONSTRUCTOR-DI", "M2-T-22-DTO-ENTITY"],
+      "environment_refs": ["M2-W-CONSOLE", "M2-W-INTELLIJ", "M2-W-ECLIPSE", "M2-W-VSCODE"],
+      "state": "PERMANENT",
+      "artifacts": [
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/service/ExpedienteService.java","action":"CREATE","state":"PERMANENT","symbols":["@Service","public class ExpedienteService","private final List<ExpedienteDTO> expedientes","public List<ExpedienteDTO> listar","public Optional<ExpedienteDTO> consultar","public ExpedienteDTO crear","public Optional<ExpedienteDTO> actualizar","public boolean eliminar","public ExpedienteDTO ejemplo","public ExpedienteDTO eco"]},
+        {"path":"M2/proyecto/src/main/java/es/mecd/demo/miproyecto/controller/ExpedienteController.java","action":"MODIFY","state":"PERMANENT","symbols":["private final ExpedienteService service","public ExpedienteController(ExpedienteService service)","@GetMapping(\"/ejemplo\")","@PostMapping(\"/eco\")","@GetMapping","@GetMapping(\"/{id}\")","@PutMapping(\"/{id}\")","@DeleteMapping(\"/{id}\")"]}
+      ],
+      "commands": ["GET /api/v1/expedientes/ejemplo", "POST /api/v1/expedientes/eco", "GET /api/v1/expedientes", "POST /api/v1/expedientes", "PUT /api/v1/expedientes/3", "DELETE /api/v1/expedientes/3"],
+      "observables": ["Expedientes mantiene el contrato Jackson heredado y añade un CRUD básico delegado en ExpedienteService."],
+      "verification": ["CI prueba /ejemplo, /eco, colección, consulta, creación con Location, actualización, borrado y 404 final."]
+    }
+  ]
+}
