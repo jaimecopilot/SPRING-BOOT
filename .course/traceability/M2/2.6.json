@@ -1,0 +1,394 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "practice": "2.6",
+  "steps": [
+    {
+      "id": "M2-P-26-S01",
+      "practice": "2.6",
+      "number": 1,
+      "heading": "## Paso 1 - Revisar la estructura actual",
+      "summary": "Revisar la estructura actual",
+      "theory_refs": [
+        "M2-T-26-NAMING"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/pom.xml",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "springdoc-openapi-starter-webmvc-ui"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S02",
+      "practice": "2.6",
+      "number": 2,
+      "heading": "## Paso 2 - Identificar problemas de nomenclatura",
+      "summary": "Identificar problemas de nomenclatura",
+      "theory_refs": [
+        "M2-T-26-NAMING"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/config/checkstyle/checkstyle.xml",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "<module name=\"Checker\">"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S03",
+      "practice": "2.6",
+      "number": 3,
+      "heading": "## Paso 3 - Añadir Javadoc a las clases principales",
+      "summary": "Añadir Javadoc a las clases principales",
+      "theory_refs": [
+        "M2-T-26-NAMING"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/README.md",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "# Mi Proyecto — Módulo 2"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S04",
+      "practice": "2.6",
+      "number": 4,
+      "heading": "## Paso 4 - Añadir Javadoc a métodos públicos",
+      "summary": "Añadir Javadoc a métodos públicos",
+      "theory_refs": [
+        "M2-T-26-PACKAGES"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public final class FechasUtil"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S05",
+      "practice": "2.6",
+      "number": 5,
+      "heading": "## Paso 5 - Reorganizar los paquetes por funcionalidad",
+      "summary": "Reorganizar los paquetes por funcionalidad",
+      "theory_refs": [
+        "M2-T-26-PACKAGES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class FechasUtilTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S06",
+      "practice": "2.6",
+      "number": 6,
+      "heading": "## Paso 6 - Añadir Checkstyle a Maven",
+      "summary": "Añadir Checkstyle a Maven",
+      "theory_refs": [
+        "M2-T-26-CLASS-STRUCTURE"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/pom.xml",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "springdoc-openapi-starter-webmvc-ui"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S07",
+      "practice": "2.6",
+      "number": 7,
+      "heading": "## Paso 7 - Ajustar la configuración de Checkstyle",
+      "summary": "Ajustar la configuración de Checkstyle",
+      "theory_refs": [
+        "M2-T-26-CLASS-STRUCTURE"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/config/checkstyle/checkstyle.xml",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "<module name=\"Checker\">"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S08",
+      "practice": "2.6",
+      "number": 8,
+      "heading": "## Paso 8 - Añadir OpenAPI",
+      "summary": "Añadir OpenAPI",
+      "theory_refs": [
+        "M2-T-26-CLASS-STRUCTURE"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/README.md",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "# Mi Proyecto — Módulo 2"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S09",
+      "practice": "2.6",
+      "number": 9,
+      "heading": "## Paso 9 - Añadir anotaciones OpenAPI",
+      "summary": "Añadir anotaciones OpenAPI",
+      "theory_refs": [
+        "M2-T-26-QUALITY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public final class FechasUtil"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S10",
+      "practice": "2.6",
+      "number": 10,
+      "heading": "## Paso 10 - Crear el README del proyecto",
+      "summary": "Crear el README del proyecto",
+      "theory_refs": [
+        "M2-T-26-QUALITY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class FechasUtilTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S11",
+      "practice": "2.6",
+      "number": 11,
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "summary": "Errores comunes del ejercicio",
+      "theory_refs": [
+        "M2-T-26-DOCS"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/pom.xml",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "springdoc-openapi-starter-webmvc-ui"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-26-S12",
+      "practice": "2.6",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: `common/util` y `FechasUtil`",
+      "summary": "Reto resuelto: `common/util` y `FechasUtil`",
+      "theory_refs": [
+        "M2-T-26-DOCS"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/config/checkstyle/checkstyle.xml",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "<module name=\"Checker\">"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    }
+  ]
+}

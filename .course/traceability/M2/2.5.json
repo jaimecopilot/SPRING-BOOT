@@ -1,0 +1,394 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "practice": "2.5",
+  "steps": [
+    {
+      "id": "M2-P-25-S01",
+      "practice": "2.5",
+      "number": 1,
+      "heading": "## Paso 1 - Verificar la dependencia de test",
+      "summary": "Verificar la dependencia de test",
+      "theory_refs": [
+        "M2-T-25-WHY"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoServiceTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S02",
+      "practice": "2.5",
+      "number": 2,
+      "heading": "## Paso 2 - Crear la estructura de paquetes de test",
+      "summary": "Crear la estructura de paquetes de test",
+      "theory_refs": [
+        "M2-T-25-WHY"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoControllerTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S03",
+      "practice": "2.5",
+      "number": 3,
+      "heading": "## Paso 3 - Crear el setup de `AlumnoServiceTest`",
+      "summary": "Crear el setup de `AlumnoServiceTest`",
+      "theory_refs": [
+        "M2-T-25-WHY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class ExpedienteServiceTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S04",
+      "practice": "2.5",
+      "number": 4,
+      "heading": "## Paso 4 - Test de consulta exitosa",
+      "summary": "Test de consulta exitosa",
+      "theory_refs": [
+        "M2-T-25-JUNIT"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoRepositoryTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S05",
+      "practice": "2.5",
+      "number": 5,
+      "heading": "## Paso 5 - Test de consulta no encontrada",
+      "summary": "Test de consulta no encontrada",
+      "theory_refs": [
+        "M2-T-25-JUNIT"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoServiceTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S06",
+      "practice": "2.5",
+      "number": 6,
+      "heading": "## Paso 6 - Test de DNI duplicado",
+      "summary": "Test de DNI duplicado",
+      "theory_refs": [
+        "M2-T-25-MOCKITO"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoControllerTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S07",
+      "practice": "2.5",
+      "number": 7,
+      "heading": "## Paso 7 - Test de creación exitosa",
+      "summary": "Test de creación exitosa",
+      "theory_refs": [
+        "M2-T-25-MOCKITO"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class ExpedienteServiceTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S08",
+      "practice": "2.5",
+      "number": 8,
+      "heading": "## Paso 8 - Ejecutar los tests del servicio",
+      "summary": "Ejecutar los tests del servicio",
+      "theory_refs": [
+        "M2-T-25-MOCKITO"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoRepositoryTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S09",
+      "practice": "2.5",
+      "number": 9,
+      "heading": "## Paso 9 - Crear `AlumnoControllerTest`",
+      "summary": "Crear `AlumnoControllerTest`",
+      "theory_refs": [
+        "M2-T-25-SERVICE-TESTS"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoServiceTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S10",
+      "practice": "2.5",
+      "number": 10,
+      "heading": "## Paso 10 - Añadir test de POST",
+      "summary": "Añadir test de POST",
+      "theory_refs": [
+        "M2-T-25-SERVICE-TESTS"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoControllerTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S11",
+      "practice": "2.5",
+      "number": 11,
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "summary": "Errores comunes del ejercicio",
+      "theory_refs": [
+        "M2-T-25-WEBMVC"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class ExpedienteServiceTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-25-S12",
+      "practice": "2.5",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: `ExpedienteServiceTest`",
+      "summary": "Reto resuelto: `ExpedienteServiceTest`",
+      "theory_refs": [
+        "M2-T-25-WEBMVC"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "class AlumnoRepositoryTest"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    }
+  ]
+}

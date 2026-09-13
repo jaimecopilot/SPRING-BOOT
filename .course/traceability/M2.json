@@ -1,0 +1,623 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "status": "COMPLETE",
+  "expected_total_steps_when_complete": 69,
+  "current_traced_steps": 69,
+  "policy": {
+    "step_level_traceability_required": true,
+    "student_surface_clean": true,
+    "temporary_transitions_must_close": true,
+    "source_floor_not_ceiling": true
+  },
+  "theory_concepts": [
+    {
+      "id": "M2-T-21-ROLE",
+      "anchor": "## Bloque 1 - Qué Es Un Controlador Y Cuál Es Su Responsabilidad"
+    },
+    {
+      "id": "M2-T-21-MAPPINGS",
+      "anchor": "## Bloque 2 - Anotaciones De Mapeo En Profundidad"
+    },
+    {
+      "id": "M2-T-21-REQUEST-DATA",
+      "anchor": "## Bloque 3 - Extracción De Datos De La Petición"
+    },
+    {
+      "id": "M2-T-21-RESPONSE",
+      "anchor": "## Bloque 4 - Construcción De La Respuesta"
+    },
+    {
+      "id": "M2-T-21-PRACTICES",
+      "anchor": "## Bloque 5 - Anti-Patrones Y Buenas Prácticas"
+    },
+    {
+      "id": "M2-T-22-ROLE",
+      "anchor": "## Bloque 1 - Qué Es Un Servicio Y Cuál Es Su Responsabilidad"
+    },
+    {
+      "id": "M2-T-22-SERVICE",
+      "anchor": "## Bloque 2 - La Anotación @Service"
+    },
+    {
+      "id": "M2-T-22-CONSTRUCTOR-DI",
+      "anchor": "## Bloque 3 - Inyección De Dependencias Por Constructor"
+    },
+    {
+      "id": "M2-T-22-DTO-ENTITY",
+      "anchor": "## Bloque 4 - Transformación Dto ↔ Entidad"
+    },
+    {
+      "id": "M2-T-22-BUSINESS-EXCEPTIONS",
+      "anchor": "## Bloque 5 - Excepciones De Negocio"
+    },
+    {
+      "id": "M2-T-23-ROLE",
+      "anchor": "## Bloque 1 - Qué es un repositorio y cuál es su responsabilidad"
+    },
+    {
+      "id": "M2-T-23-REPOSITORY",
+      "anchor": "## Bloque 2 - `@Repository` y los estereotipos de Spring"
+    },
+    {
+      "id": "M2-T-23-INMEMORY",
+      "anchor": "## Bloque 3 - Diseño de un repositorio en memoria"
+    },
+    {
+      "id": "M2-T-23-DTO-MODEL",
+      "anchor": "## Bloque 4 - El servicio entre controlador y repositorio"
+    },
+    {
+      "id": "M2-T-23-PRACTICES",
+      "anchor": "## Bloque 5 - Buenas prácticas, inmutabilidad y concurrencia"
+    },
+    {
+      "id": "M2-T-24-IOC-DI",
+      "anchor": "## Bloque 1 - Inversión de control e inyección de dependencias"
+    },
+    {
+      "id": "M2-T-24-STEREOTYPES",
+      "anchor": "## Bloque 2 - Estereotipos y detección de componentes"
+    },
+    {
+      "id": "M2-T-24-CONFIG-BEAN",
+      "anchor": "## Bloque 3 - `@Configuration` y `@Bean`"
+    },
+    {
+      "id": "M2-T-24-RUNNER",
+      "anchor": "## Bloque 4 - `CommandLineRunner` y lógica de arranque"
+    },
+    {
+      "id": "M2-T-24-EXTERNAL-CONFIG",
+      "anchor": "## Bloque 5 - Configuración externalizada y perfiles"
+    },
+    {
+      "id": "M2-T-25-WHY",
+      "anchor": "## Bloque 1 - Por qué testear"
+    },
+    {
+      "id": "M2-T-25-JUNIT",
+      "anchor": "## Bloque 2 - JUnit 5"
+    },
+    {
+      "id": "M2-T-25-MOCKITO",
+      "anchor": "## Bloque 3 - Mockito"
+    },
+    {
+      "id": "M2-T-25-SERVICE-TESTS",
+      "anchor": "## Bloque 4 - Tests unitarios del servicio"
+    },
+    {
+      "id": "M2-T-25-WEBMVC",
+      "anchor": "## Bloque 5 - Tests web con `@WebMvcTest` y `MockMvc`"
+    },
+    {
+      "id": "M2-T-26-NAMING",
+      "anchor": "## Bloque 1 - Convenciones de nomenclatura"
+    },
+    {
+      "id": "M2-T-26-PACKAGES",
+      "anchor": "## Bloque 2 - Organización de paquetes"
+    },
+    {
+      "id": "M2-T-26-CLASS-STRUCTURE",
+      "anchor": "## Bloque 3 - Estructura interna de una clase"
+    },
+    {
+      "id": "M2-T-26-QUALITY",
+      "anchor": "## Bloque 4 - Herramientas de calidad"
+    },
+    {
+      "id": "M2-T-26-DOCS",
+      "anchor": "## Bloque 5 - Documentación: Javadoc, README y OpenAPI"
+    }
+  ],
+  "environment_workflows": [
+    {
+      "id": "M2-W-CONSOLE",
+      "anchor": "### Desde consola y editor de texto"
+    },
+    {
+      "id": "M2-W-INTELLIJ",
+      "anchor": "### Desde IntelliJ IDEA"
+    },
+    {
+      "id": "M2-W-ECLIPSE",
+      "anchor": "### Desde Eclipse"
+    },
+    {
+      "id": "M2-W-VSCODE",
+      "anchor": "### Desde VS Code"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "M2/TEORIA.md",
+      "classification": "GUIDE",
+      "origin": "M2-THEORY",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "student theory"
+      ],
+      "missing_effect": "Se pierde la teoría completa de M2."
+    },
+    {
+      "path": "M2/PRACTICA.md",
+      "classification": "GUIDE",
+      "origin": "M2-PRACTICE",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "student practice"
+      ],
+      "missing_effect": "Se pierde la práctica de 69 pasos."
+    },
+    {
+      "path": "M2/README.md",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "student navigation"
+      ],
+      "missing_effect": "Se pierde la navegación del módulo."
+    },
+    {
+      "path": "M2/proyecto/pom.xml",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "springdoc-openapi-starter-webmvc-ui"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/README.md",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "# Mi Proyecto — Módulo 2"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/config/checkstyle/checkstyle.xml",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "<module name=\"Checker\">"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "class AlumnoControllerTest"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "class AlumnoRepositoryTest"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "class AlumnoServiceTest"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "class ExpedienteServiceTest"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "class FechasUtilTest"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/resources/application.properties",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "app.nombre=Curso Spring Boot 2026"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/resources/application-prod.properties",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "app.entorno=produccion"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/resources/application-dev.properties",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "app.entorno=desarrollo"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class InfoAplicacionController"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class AlumnoRepository"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class AlumnoService"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class AlumnoController"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class ExpedienteRepository"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class ExpedienteService"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class JacksonConfig"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class DatosInicialesConfig"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public class NegocioException"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "classification": "GUIDE",
+      "origin": "M2-FINAL",
+      "evolution": [],
+      "symbols": [
+        "public final class FechasUtil"
+      ],
+      "used_by": [
+        "M2 final project"
+      ],
+      "missing_effect": "El proyecto final M2 pierde una pieza necesaria."
+    },
+    {
+      "path": ".course/source-audit/M2.md",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "editorial audit"
+      ],
+      "missing_effect": "Se pierde el contrato editorial de M2."
+    },
+    {
+      "path": ".course/traceability/M2/2.1.json",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "traceability"
+      ],
+      "missing_effect": "Se pierde trazabilidad de pasos."
+    },
+    {
+      "path": ".course/traceability/M2/2.2.json",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "traceability"
+      ],
+      "missing_effect": "Se pierde trazabilidad de pasos."
+    },
+    {
+      "path": ".course/traceability/M2/2.3.json",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "traceability"
+      ],
+      "missing_effect": "Se pierde trazabilidad de pasos."
+    },
+    {
+      "path": ".course/traceability/M2/2.4.json",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "traceability"
+      ],
+      "missing_effect": "Se pierde trazabilidad de pasos."
+    },
+    {
+      "path": ".course/traceability/M2/2.5.json",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "traceability"
+      ],
+      "missing_effect": "Se pierde trazabilidad de pasos."
+    },
+    {
+      "path": ".course/traceability/M2/2.6.json",
+      "classification": "SUPPORT",
+      "origin": null,
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "traceability"
+      ],
+      "missing_effect": "Se pierde trazabilidad de pasos."
+    }
+  ],
+  "step_manifests": [
+    ".course/traceability/M2/2.1.json",
+    ".course/traceability/M2/2.2.json",
+    ".course/traceability/M2/2.3.json",
+    ".course/traceability/M2/2.4.json",
+    ".course/traceability/M2/2.5.json",
+    ".course/traceability/M2/2.6.json"
+  ]
+}

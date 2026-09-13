@@ -1,0 +1,394 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "practice": "2.4",
+  "steps": [
+    {
+      "id": "M2-P-24-S01",
+      "practice": "2.4",
+      "number": 1,
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "summary": "Repasar el estado actual",
+      "theory_refs": [
+        "M2-T-24-IOC-DI"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class DatosInicialesConfig"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S02",
+      "practice": "2.4",
+      "number": 2,
+      "heading": "## Paso 2 - Crear el paquete `config`",
+      "summary": "Crear el paquete `config`",
+      "theory_refs": [
+        "M2-T-24-IOC-DI"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class JacksonConfig"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S03",
+      "practice": "2.4",
+      "number": 3,
+      "heading": "## Paso 3 - Crear `DatosInicialesConfig`",
+      "summary": "Crear `DatosInicialesConfig`",
+      "theory_refs": [
+        "M2-T-24-IOC-DI"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class InfoAplicacionController"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S04",
+      "practice": "2.4",
+      "number": 4,
+      "heading": "## Paso 4 - Limpiar los constructores de los repositorios",
+      "summary": "Limpiar los constructores de los repositorios",
+      "theory_refs": [
+        "M2-T-24-STEREOTYPES"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/resources/application.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.nombre=Curso Spring Boot 2026"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S05",
+      "practice": "2.4",
+      "number": 5,
+      "heading": "## Paso 5 - Añadir propiedades personalizadas",
+      "summary": "Añadir propiedades personalizadas",
+      "theory_refs": [
+        "M2-T-24-STEREOTYPES"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/resources/application-dev.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.entorno=desarrollo"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S06",
+      "practice": "2.4",
+      "number": 6,
+      "heading": "## Paso 6 - Leer propiedades con `@Value`",
+      "summary": "Leer propiedades con `@Value`",
+      "theory_refs": [
+        "M2-T-24-CONFIG-BEAN"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/resources/application-prod.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.entorno=produccion"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S07",
+      "practice": "2.4",
+      "number": 7,
+      "heading": "## Paso 7 - Exponer propiedades no sensibles en un endpoint",
+      "summary": "Exponer propiedades no sensibles en un endpoint",
+      "theory_refs": [
+        "M2-T-24-CONFIG-BEAN"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class DatosInicialesConfig"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S08",
+      "practice": "2.4",
+      "number": 8,
+      "heading": "## Paso 8 - Crear el perfil de desarrollo",
+      "summary": "Crear el perfil de desarrollo",
+      "theory_refs": [
+        "M2-T-24-CONFIG-BEAN"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class JacksonConfig"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S09",
+      "practice": "2.4",
+      "number": 9,
+      "heading": "## Paso 9 - Crear el perfil de producción",
+      "summary": "Crear el perfil de producción",
+      "theory_refs": [
+        "M2-T-24-RUNNER"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class InfoAplicacionController"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S10",
+      "practice": "2.4",
+      "number": 10,
+      "heading": "## Paso 10 - Probar `CommandLineRunner`",
+      "summary": "Probar `CommandLineRunner`",
+      "theory_refs": [
+        "M2-T-24-RUNNER"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/resources/application.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.nombre=Curso Spring Boot 2026"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S11",
+      "practice": "2.4",
+      "number": 11,
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "summary": "Errores comunes del ejercicio",
+      "theory_refs": [
+        "M2-T-24-EXTERNAL-CONFIG"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/resources/application-dev.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.entorno=desarrollo"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-24-S12",
+      "practice": "2.4",
+      "number": 12,
+      "heading": "## Paso 12 - Reto resuelto: bean personalizado con `@Bean`",
+      "summary": "Reto resuelto: bean personalizado con `@Bean`",
+      "theory_refs": [
+        "M2-T-24-EXTERNAL-CONFIG"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/resources/application-prod.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.entorno=produccion"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,363 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "practice": "2.2",
+  "steps": [
+    {
+      "id": "M2-P-22-S01",
+      "practice": "2.2",
+      "number": 1,
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "summary": "Repasar el estado actual",
+      "theory_refs": [
+        "M2-T-22-ROLE"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S02",
+      "practice": "2.2",
+      "number": 2,
+      "heading": "## Paso 2 - Crear el paquete service",
+      "summary": "Crear el paquete service",
+      "theory_refs": [
+        "M2-T-22-ROLE"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class NegocioException"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S03",
+      "practice": "2.2",
+      "number": 3,
+      "heading": "## Paso 3 - Crear la excepción de negocio",
+      "summary": "Crear la excepción de negocio",
+      "theory_refs": [
+        "M2-T-22-ROLE"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S04",
+      "practice": "2.2",
+      "number": 4,
+      "heading": "## Paso 4 - Crear el AlumnoService",
+      "summary": "Crear el AlumnoService",
+      "theory_refs": [
+        "M2-T-22-SERVICE"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S05",
+      "practice": "2.2",
+      "number": 5,
+      "heading": "## Paso 5 - Refactorizar el controlador para que use el servicio",
+      "summary": "Refactorizar el controlador para que use el servicio",
+      "theory_refs": [
+        "M2-T-22-SERVICE"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class NegocioException"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S06",
+      "practice": "2.2",
+      "number": 6,
+      "heading": "## Paso 6 - Arrancar y probar el CRUD completo",
+      "summary": "Arrancar y probar el CRUD completo",
+      "theory_refs": [
+        "M2-T-22-CONSTRUCTOR-DI"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S07",
+      "practice": "2.2",
+      "number": 7,
+      "heading": "## Paso 7 - Probar el error de negocio",
+      "summary": "Probar el error de negocio",
+      "theory_refs": [
+        "M2-T-22-CONSTRUCTOR-DI"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S08",
+      "practice": "2.2",
+      "number": 8,
+      "heading": "## Paso 8 - Probar un error técnico",
+      "summary": "Probar un error técnico",
+      "theory_refs": [
+        "M2-T-22-DTO-ENTITY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class NegocioException"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S09",
+      "practice": "2.2",
+      "number": 9,
+      "heading": "## Paso 9 - Analizar la separación de capas",
+      "summary": "Analizar la separación de capas",
+      "theory_refs": [
+        "M2-T-22-DTO-ENTITY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S10",
+      "practice": "2.2",
+      "number": 10,
+      "heading": "## Paso 10 - Errores comunes del ejercicio",
+      "summary": "Errores comunes del ejercicio",
+      "theory_refs": [
+        "M2-T-22-BUSINESS-EXCEPTIONS"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-22-S11",
+      "practice": "2.2",
+      "number": 11,
+      "heading": "## Paso 11 - Reto resuelto - Servicio para el recurso Expediente",
+      "summary": "Reto resuelto - Servicio para el recurso Expediente",
+      "theory_refs": [
+        "M2-T-22-BUSINESS-EXCEPTIONS"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class NegocioException"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    }
+  ]
+}

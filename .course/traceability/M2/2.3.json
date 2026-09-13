@@ -1,0 +1,332 @@
+{
+  "schema_version": 3,
+  "module": "M2",
+  "practice": "2.3",
+  "steps": [
+    {
+      "id": "M2-P-23-S01",
+      "practice": "2.3",
+      "number": 1,
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "summary": "Repasar el estado actual",
+      "theory_refs": [
+        "M2-T-23-ROLE"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S02",
+      "practice": "2.3",
+      "number": 2,
+      "heading": "## Paso 2 - Crear el paquete `repository`",
+      "summary": "Crear el paquete `repository`",
+      "theory_refs": [
+        "M2-T-23-ROLE"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S03",
+      "practice": "2.3",
+      "number": 3,
+      "heading": "## Paso 3 - Crear `AlumnoRepository`",
+      "summary": "Crear `AlumnoRepository`",
+      "theory_refs": [
+        "M2-T-23-REPOSITORY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S04",
+      "practice": "2.3",
+      "number": 4,
+      "heading": "## Paso 4 - Refactorizar `AlumnoService`",
+      "summary": "Refactorizar `AlumnoService`",
+      "theory_refs": [
+        "M2-T-23-REPOSITORY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S05",
+      "practice": "2.3",
+      "number": 5,
+      "heading": "## Paso 5 - Arrancar y probar el CRUD completo",
+      "summary": "Arrancar y probar el CRUD completo",
+      "theory_refs": [
+        "M2-T-23-INMEMORY"
+      ],
+      "environment_refs": [
+        "M2-W-CONSOLE",
+        "M2-W-INTELLIJ",
+        "M2-W-ECLIPSE",
+        "M2-W-VSCODE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S06",
+      "practice": "2.3",
+      "number": 6,
+      "heading": "## Paso 6 - Analizar la separación de capas",
+      "summary": "Analizar la separación de capas",
+      "theory_refs": [
+        "M2-T-23-INMEMORY"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S07",
+      "practice": "2.3",
+      "number": 7,
+      "heading": "## Paso 7 - Probar el aislamiento del repositorio",
+      "summary": "Probar el aislamiento del repositorio",
+      "theory_refs": [
+        "M2-T-23-DTO-MODEL"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S08",
+      "practice": "2.3",
+      "number": 8,
+      "heading": "## Paso 8 - Probar accesos concurrentes",
+      "summary": "Probar accesos concurrentes",
+      "theory_refs": [
+        "M2-T-23-DTO-MODEL"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteService"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S09",
+      "practice": "2.3",
+      "number": 9,
+      "heading": "## Paso 9 - Errores comunes del ejercicio",
+      "summary": "Errores comunes del ejercicio",
+      "theory_refs": [
+        "M2-T-23-PRACTICES"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class AlumnoRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    },
+    {
+      "id": "M2-P-23-S10",
+      "practice": "2.3",
+      "number": 10,
+      "heading": "## Paso 10 - Reto resuelto: repositorio para Expediente",
+      "summary": "Reto resuelto: repositorio para Expediente",
+      "theory_refs": [
+        "M2-T-23-PRACTICES"
+      ],
+      "environment_refs": [],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M2/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "public class ExpedienteRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "seguir el paso y ejecutar la comprobación indicada en la guía"
+      ],
+      "observables": [
+        "El comportamiento descrito por el paso queda materializado en el snapshot final de M2."
+      ],
+      "verification": [
+        "La validación final M2 comprobará estructura, build, tests y runtime acumulativo."
+      ]
+    }
+  ]
+}
