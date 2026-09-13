@@ -18,6 +18,13 @@ cp = subprocess.run([sys.executable, str(generic), "M2", str(root)], text=True, 
 if cp.returncode:
     bad("generic module validation failed:\n" + (cp.stdout + cp.stderr).strip())
 
+# La vista humana debe ser una proyección exacta de los manifests, también
+# mientras el módulo está IN_PROGRESS.
+generator = root / ".course/traceability/generate_module_traceability.py"
+cp = subprocess.run([sys.executable, str(generator), "M2", "--check"], text=True, capture_output=True)
+if cp.returncode:
+    bad("human traceability report is missing or out of date:\n" + (cp.stdout + cp.stderr).strip())
+
 manifest = json.loads((root / ".course/traceability/M2.json").read_text(encoding="utf-8"))
 theory = (root / "M2/TEORIA.md").read_text(encoding="utf-8")
 practice = (root / "M2/PRACTICA.md").read_text(encoding="utf-8")
@@ -169,4 +176,4 @@ if fail:
         print(" -", item)
     raise SystemExit(1)
 
-print("M2 2.1 CONTRACT: PASS | status=IN_PROGRESS | theory=5 | steps=12/69 | changed-functional-files=1")
+print("M2 2.1 CONTRACT: PASS | status=IN_PROGRESS | theory=5 | steps=12/69 | human-report=SYNC | changed-functional-files=1")
