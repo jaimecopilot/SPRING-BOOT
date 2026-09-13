@@ -92,10 +92,12 @@ for rel in manifest_files:
     steps.extend(data.get("steps", []))
 
 # Derive every currently published practical step directly from PRACTICA.md.
+# Current editions use '# Punto n.x - ...'; older editions used
+# '# Práctica n.x - ...'. Both are valid student-facing headings.
 derived = []
 headings = {}
 practice_re = re.compile(
-    rf"(?ms)^# Práctica ({module_number}\.\d+) - .*?(?=^# Práctica |\Z)"
+    rf"(?ms)^# (?:Práctica|Punto) ({module_number}\.\d+) - .*?(?=^# (?:Práctica|Punto) |\Z)"
 )
 for pblock in practice_re.finditer(practice):
     pnum = pblock.group(1)
@@ -132,6 +134,37 @@ if None in inventory:
     bad("artifact inventory entry without path")
 if len(inventory) != len(inventory_list):
     bad("duplicate artifact inventory path")
+
+# Maven Wrapper is cumulative course infrastructure inherited by every module.
+# Classify the canonical wrapper files centrally when a module snapshot contains
+# them, so modules do not have to pretend they were pedagogically created there.
+canonical_wrapper = {
+    f"{module}/proyecto/mvnw": {
+        "path": f"{module}/proyecto/mvnw",
+        "classification": "INHERITED",
+        "origin": "M0-MAVEN-WRAPPER",
+        "evolution": [],
+        "symbols": [],
+    },
+    f"{module}/proyecto/mvnw.cmd": {
+        "path": f"{module}/proyecto/mvnw.cmd",
+        "classification": "INHERITED",
+        "origin": "M0-MAVEN-WRAPPER",
+        "evolution": [],
+        "symbols": [],
+    },
+    f"{module}/proyecto/.mvn/wrapper/maven-wrapper.properties": {
+        "path": f"{module}/proyecto/.mvn/wrapper/maven-wrapper.properties",
+        "classification": "INHERITED",
+        "origin": "M0-MAVEN-WRAPPER",
+        "evolution": [],
+        "symbols": [],
+    },
+}
+for rel, entry in canonical_wrapper.items():
+    if (root / rel).exists() and rel not in inventory:
+        inventory[rel] = entry
+
 inventory_paths = set(inventory)
 
 allowed_actions = {"CREATE", "MODIFY", "USE", "DELETE", "RESTORE", "VERIFY"}
@@ -257,7 +290,7 @@ module_markdown = {p.name for p in module_dir.glob("*.md")}
 if module_markdown != {"README.md", "TEORIA.md", "PRACTICA.md"}:
     bad(f"{module} student surface must contain only README/TEORIA/PRACTICA Markdown; got {sorted(module_markdown)}")
 for name, text in [("TEORIA", theory), ("PRACTICA", practice)]:
-    questions = len(re.findall(r"^### Pregunta(?: breve| de integración)?$", text, re.M))
+    questions = len(re.findall(r"^### Pregunta(?: breve| de integración| final)?$", text, re.M))
     answers = len(re.findall(r"^### Respuesta(?: razonada)?$", text, re.M))
     if questions != answers:
         bad(f"{name}: questions/answers invalid {questions}/{answers}")
