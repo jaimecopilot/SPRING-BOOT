@@ -4,6 +4,20 @@
 
 > **Continuidad con M3:** el proyecto acumulativo mantiene `AlumnoRequestDTO` para entrada y `AlumnoResponseDTO` para salida. Cuando la fuente original hablaba de un único `AlumnoDTO`, los fragmentos de M4 se adaptan a esa separación sin perder el concepto JPA que se está practicando.
 
+## Recorridos de entorno
+
+### Consola M4
+Ejecuta `./mvnw` en Linux/macOS o `mvnw.cmd` en Windows desde `M4/proyecto`. Usa `curl -i`, los logs SQL y la consola H2 sólo cuando el paso lo indique.
+
+### IntelliJ IDEA M4
+Importa `M4/proyecto/pom.xml` como proyecto Maven, selecciona Java 17 y ejecuta `MiProyectoApplication` o los tests sin sustituir el Maven Wrapper del proyecto.
+
+### Eclipse M4
+Importa `M4/proyecto` como Existing Maven Project, selecciona Java 17 y conserva los perfiles y propiedades definidos en el proyecto.
+
+### VS Code M4
+Abre `M4/proyecto`, usa las extensiones Java/Spring y ejecuta siempre el Maven Wrapper incluido para reproducir los mismos comandos que en consola y CI.
+
 # Práctica 4.1 - Introducción a JPA e Hibernate
 
 Contexto del ejercicio: Vamos a convertir el repositorio en memoria de alumnos en un repositorio real con JPA y H2. Veremos cómo Spring Boot configura la base de datos automáticamente, cómo definir una entidad, cómo crear un repositorio de Spring Data JPA, y cómo verificar que los datos persisten entre reinicios. Requisitos previos: Tener el proyecto mi-proyecto con el AlumnoController, AlumnoService y AlumnoRepository del Módulo 2.
@@ -488,7 +502,16 @@ spring.datasource.url=jdbc:h2:file:./data/testdb
 
 Reinicia. Ahora los datos se guardan en un fichero data/testdb.mv.db. Para la aplicación, vuelve a arrancarla y verifica que los datos siguen ahí.
 
-> **Pregunta de reflexión:** ¿Qué diferencia hay entre H2 en memoria y H2 en fichero?
+**Cierre obligatorio del cambio temporal.** Esta configuración se usa sólo para observar persistencia entre reinicios. Antes de continuar con el paso 12, restaura el perfil de desarrollo al estado canónico del módulo:
+
+```properties
+spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+spring.jpa.hibernate.ddl-auto=create-drop
+```
+
+Detén la aplicación, elimina `data/testdb.mv.db` si se creó durante la prueba y vuelve a ejecutar `./mvnw test`. El observable de cierre es que la suite queda verde con la configuración canónica restaurada. Esta transición `MODIFY -> VERIFY -> RESTORE` también queda registrada en la trazabilidad de M4.
+
+> **Pregunta de reflexión:** ¿Qué diferencia hay entre H2 en memoria y H2 en fichero? ¿Por qué conviene restaurar la configuración de laboratorio antes de seguir?
 
 ## Paso 12 - Errores comunes del ejercicio
 

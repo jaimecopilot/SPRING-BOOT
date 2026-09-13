@@ -1,216 +1,474 @@
 {
   "module": "M4",
   "point": "4.1",
-  "theory_concepts": [
-    {
-      "id": "M4-4.1-T1",
-      "point": "4.1",
-      "title": "El problema de la persistencia",
-      "guide": "TEORIA.md",
-      "anchor": "Bloque 1 - El problema de la persistencia"
-    },
-    {
-      "id": "M4-4.1-T2",
-      "point": "4.1",
-      "title": "Configuración de Spring Boot para JPA",
-      "guide": "TEORIA.md",
-      "anchor": "Bloque 2 - Configuración de Spring Boot para JPA"
-    },
-    {
-      "id": "M4-4.1-T3",
-      "point": "4.1",
-      "title": "Entidades JPA",
-      "guide": "TEORIA.md",
-      "anchor": "Bloque 3 - Entidades JPA"
-    },
-    {
-      "id": "M4-4.1-T4",
-      "point": "4.1",
-      "title": "Repositorios Spring Data JPA",
-      "guide": "TEORIA.md",
-      "anchor": "Bloque 4 - Repositorios Spring Data JPA"
-    },
-    {
-      "id": "M4-4.1-T5",
-      "point": "4.1",
-      "title": "Transacciones y buenas prácticas",
-      "guide": "TEORIA.md",
-      "anchor": "Bloque 5 - Transacciones y buenas prácticas"
-    }
-  ],
   "steps": [
     {
-      "id": "M4-4.1-P01",
-      "point": "4.1",
-      "step": 1,
-      "title": "Añadir las dependencias al pom.xml",
-      "theory": "M4-4.1-T1",
-      "action": "Añadir las dependencias al pom.xml",
-      "artifact": "M4/proyecto/pom.xml",
-      "symbol": "spring-boot-starter-data-jpa / H2",
-      "command": "./mvnw dependency:tree",
-      "observable": "Dependencias JPA y H2 resueltas por Maven",
-      "verification": "Verificar el observable del paso 4.1.1 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S01",
+      "practice": "4.1",
+      "number": 1,
+      "summary": "Añadir las dependencias al pom.xml",
+      "heading": "## Paso 1 - Añadir las dependencias al pom.xml",
+      "theory_refs": [
+        "M4-4.1-T1"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/pom.xml",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring-boot-starter-data-jpa",
+            "3.5.16",
+            "17"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw dependency:tree"
+      ],
+      "observables": [
+        "Dependencias JPA y H2 resueltas por Maven"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.1 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P02",
-      "point": "4.1",
-      "step": 2,
-      "title": "Configurar application.properties",
-      "theory": "M4-4.1-T1",
-      "action": "Configurar application.properties",
-      "artifact": "M4/proyecto/src/main/resources/application-dev.properties",
-      "symbol": "spring.datasource / spring.jpa",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Spring Boot conecta HikariCP/Hibernate con H2",
-      "verification": "Verificar el observable del paso 4.1.2 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S02",
+      "practice": "4.1",
+      "number": 2,
+      "summary": "Configurar application.properties",
+      "heading": "## Paso 2 - Configurar application.properties",
+      "theory_refs": [
+        "M4-4.1-T1"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/resources/application-dev.properties",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.datasource",
+            "spring.jpa",
+            "spring.datasource.url",
+            "spring.jpa.hibernate.ddl-auto"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run"
+      ],
+      "observables": [
+        "Spring Boot conecta HikariCP/Hibernate con H2"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.2 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P03",
-      "point": "4.1",
-      "step": 3,
-      "title": "Arrancar y verificar la conexión",
-      "theory": "M4-4.1-T1",
-      "action": "Arrancar y verificar la conexión",
-      "artifact": "runtime H2",
-      "symbol": "HikariPool / Hibernate",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Aplicación arranca y la consola H2 queda disponible",
-      "verification": "Verificar el observable del paso 4.1.3 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S03",
+      "practice": "4.1",
+      "number": 3,
+      "summary": "Arrancar y verificar la conexión",
+      "heading": "## Paso 3 - Arrancar y verificar la conexión",
+      "theory_refs": [
+        "M4-4.1-T1"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/resources/application-dev.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.datasource.url",
+            "spring.jpa.hibernate.ddl-auto"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run"
+      ],
+      "observables": [
+        "Aplicación arranca y la consola H2 queda disponible"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.3 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P04",
-      "point": "4.1",
-      "step": 4,
-      "title": "Crear la entidad Alumno",
-      "theory": "M4-4.1-T2",
-      "action": "Crear la entidad Alumno",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Entity / @Id / @Column",
-      "command": "./mvnw test",
-      "observable": "Hibernate reconoce Alumno como entidad",
-      "verification": "Verificar el observable del paso 4.1.4 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S04",
+      "practice": "4.1",
+      "number": 4,
+      "summary": "Crear la entidad Alumno",
+      "heading": "## Paso 4 - Crear la entidad Alumno",
+      "theory_refs": [
+        "M4-4.1-T2"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "@Entity",
+            "@Id",
+            "@Column",
+            "Alumno"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Hibernate reconoce Alumno como entidad"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.4 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P05",
-      "point": "4.1",
-      "step": 5,
-      "title": "Arrancar y ver la tabla creada",
-      "theory": "M4-4.1-T2",
-      "action": "Arrancar y ver la tabla creada",
-      "artifact": "tabla ALUMNOS",
-      "symbol": "DDL generado por Hibernate",
-      "command": "./mvnw spring-boot:run",
-      "observable": "El log muestra CREATE TABLE y constraint UNIQUE",
-      "verification": "Verificar el observable del paso 4.1.5 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S05",
+      "practice": "4.1",
+      "number": 5,
+      "summary": "Arrancar y ver la tabla creada",
+      "heading": "## Paso 5 - Arrancar y ver la tabla creada",
+      "theory_refs": [
+        "M4-4.1-T2"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "Alumno"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run"
+      ],
+      "observables": [
+        "El log muestra CREATE TABLE y constraint UNIQUE"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.5 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P06",
-      "point": "4.1",
-      "step": 6,
-      "title": "Crear el repositorio Spring Data JPA",
-      "theory": "M4-4.1-T2",
-      "action": "Crear el repositorio Spring Data JPA",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "JpaRepository<Alumno,Long>",
-      "command": "./mvnw test",
-      "observable": "Repositorio JPA arranca sin implementación manual",
-      "verification": "Verificar el observable del paso 4.1.6 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S06",
+      "practice": "4.1",
+      "number": 6,
+      "summary": "Crear el repositorio Spring Data JPA",
+      "heading": "## Paso 6 - Crear el repositorio Spring Data JPA",
+      "theory_refs": [
+        "M4-4.1-T2"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "JpaRepository<Alumno",
+            "Long>",
+            "AlumnoRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Repositorio JPA arranca sin implementación manual"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.6 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P07",
-      "point": "4.1",
-      "step": 7,
-      "title": "Modificar el servicio para usar la entidad",
-      "theory": "M4-4.1-T3",
-      "action": "Modificar el servicio para usar la entidad",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "@Transactional / mapeo DTO-entidad",
-      "command": "./mvnw test",
-      "observable": "Servicio persiste y consulta mediante JpaRepository",
-      "verification": "Verificar el observable del paso 4.1.7 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S07",
+      "practice": "4.1",
+      "number": 7,
+      "summary": "Modificar el servicio para usar la entidad",
+      "heading": "## Paso 7 - Modificar el servicio para usar la entidad",
+      "theory_refs": [
+        "M4-4.1-T3"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "@Transactional",
+            "AlumnoService"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Servicio persiste y consulta mediante JpaRepository"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.7 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P08",
-      "point": "4.1",
-      "step": 8,
-      "title": "Modificar el controlador",
-      "theory": "M4-4.1-T3",
-      "action": "Modificar el controlador",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
-      "symbol": "Long @PathVariable / CRUD",
-      "command": "curl http://localhost:8080/api/v1/alumnos",
-      "observable": "CRUD REST responde sobre datos persistentes",
-      "verification": "Verificar el observable del paso 4.1.8 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S08",
+      "practice": "4.1",
+      "number": 8,
+      "summary": "Modificar el controlador",
+      "heading": "## Paso 8 - Modificar el controlador",
+      "theory_refs": [
+        "M4-4.1-T3"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "AlumnoController"
+          ]
+        }
+      ],
+      "commands": [
+        "curl http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "CRUD REST responde sobre datos persistentes"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.8 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P09",
-      "point": "4.1",
-      "step": 9,
-      "title": "Crear un CommandLineRunner para datos iniciales",
-      "theory": "M4-4.1-T4",
-      "action": "Crear un CommandLineRunner para datos iniciales",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
-      "symbol": "CommandLineRunner",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Se insertan datos iniciales sólo con tabla vacía",
-      "verification": "Verificar el observable del paso 4.1.9 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S09",
+      "practice": "4.1",
+      "number": 9,
+      "summary": "Crear un CommandLineRunner para datos iniciales",
+      "heading": "## Paso 9 - Crear un CommandLineRunner para datos iniciales",
+      "theory_refs": [
+        "M4-4.1-T4"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "CommandLineRunner",
+            "DatosInicialesConfig"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run"
+      ],
+      "observables": [
+        "Se insertan datos iniciales sólo con tabla vacía"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.9 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P10",
-      "point": "4.1",
-      "step": 10,
-      "title": "Arrancar y probar",
-      "theory": "M4-4.1-T4",
-      "action": "Arrancar y probar",
-      "artifact": "API /api/v1/alumnos",
-      "symbol": "GET/POST/PUT/DELETE",
-      "command": "curl http://localhost:8080/api/v1/alumnos",
-      "observable": "Endpoints devuelven códigos y JSON esperados",
-      "verification": "Verificar el observable del paso 4.1.10 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S10",
+      "practice": "4.1",
+      "number": 10,
+      "summary": "Arrancar y probar",
+      "heading": "## Paso 10 - Arrancar y probar",
+      "theory_refs": [
+        "M4-4.1-T4"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "AlumnoController"
+          ]
+        }
+      ],
+      "commands": [
+        "curl http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "Endpoints devuelven códigos y JSON esperados"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.10 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P11",
-      "point": "4.1",
-      "step": 11,
-      "title": "Verificar la persistencia",
-      "theory": "M4-4.1-T4",
-      "action": "Verificar la persistencia",
-      "artifact": "M4/proyecto/src/main/resources/application-dev.properties",
-      "symbol": "spring.jpa.hibernate.ddl-auto",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Se observa la diferencia entre create-drop y persistencia",
-      "verification": "Verificar el observable del paso 4.1.11 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S11",
+      "practice": "4.1",
+      "number": 11,
+      "summary": "Verificar la persistencia",
+      "heading": "## Paso 11 - Verificar la persistencia",
+      "theory_refs": [
+        "M4-4.1-T4"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "TEMPORARY",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/resources/application-dev.properties",
+          "action": "MODIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "spring.datasource.url",
+            "spring.jpa.hibernate.ddl-auto"
+          ]
+        },
+        {
+          "path": "M4/proyecto/src/main/resources/application-dev.properties",
+          "action": "VERIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "spring.datasource.url",
+            "spring.jpa.hibernate.ddl-auto"
+          ]
+        },
+        {
+          "path": "M4/proyecto/src/main/resources/application-dev.properties",
+          "action": "RESTORE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.datasource.url",
+            "spring.jpa.hibernate.ddl-auto"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run",
+        "./mvnw test"
+      ],
+      "observables": [
+        "H2 en fichero conserva el alumno entre reinicios durante la prueba",
+        "tras RESTORE, application-dev.properties vuelve a H2 en memoria y create-drop",
+        "la suite Maven queda verde después de restaurar la configuración canónica"
+      ],
+      "verification": [
+        "confirmar que la guía contiene el cierre MODIFY -> VERIFY -> RESTORE",
+        "comprobar los dos valores canónicos en application-dev.properties",
+        "ejecutar ./mvnw test después de la restauración"
+      ]
     },
     {
-      "id": "M4-4.1-P12",
-      "point": "4.1",
-      "step": 12,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.1-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico JPA/H2",
-      "command": "./mvnw test",
-      "observable": "Los fallos comunes quedan identificados y corregidos",
-      "verification": "Verificar el observable del paso 4.1.12 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S12",
+      "practice": "4.1",
+      "number": 12,
+      "summary": "Errores comunes del ejercicio",
+      "heading": "## Paso 12 - Errores comunes del ejercicio",
+      "theory_refs": [
+        "M4-4.1-T5"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/resources/application-dev.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "H2",
+            "spring.datasource.url",
+            "spring.jpa.hibernate.ddl-auto"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Los fallos comunes quedan identificados y corregidos"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.12 y contrastarlo con PRACTICA.md"
+      ]
     },
     {
-      "id": "M4-4.1-P13",
-      "point": "4.1",
-      "step": 13,
-      "title": "Reto resuelto — Consulta personalizada con @Query",
-      "theory": "M4-4.1-T5",
-      "action": "Reto resuelto — Consulta personalizada con @Query",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "@Query buscarPorCursoYNacidosDespues",
-      "command": "./mvnw test",
-      "observable": "Consulta personalizada devuelve el subconjunto esperado",
-      "verification": "Verificar el observable del paso 4.1.13 y contrastarlo con PRACTICA.md"
+      "id": "M4-P-41-S13",
+      "practice": "4.1",
+      "number": 13,
+      "summary": "Reto resuelto — Consulta personalizada con @Query",
+      "heading": "## Paso 13 - Reto resuelto — Consulta personalizada con @Query",
+      "theory_refs": [
+        "M4-4.1-T5"
+      ],
+      "environment_refs": [
+        "M4-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "AlumnoRepository"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Consulta personalizada devuelve el subconjunto esperado"
+      ],
+      "verification": [
+        "Verificar el observable del paso 4.1.13 y contrastarlo con PRACTICA.md"
+      ]
     }
-  ],
-  "counts": {
-    "theory": 5,
-    "steps": 13
-  }
+  ]
 }

@@ -9,8 +9,10 @@ on:
       - '.course/traceability/M4/**'
       - '.course/traceability/M4.json'
       - '.course/traceability/TRAZABILIDAD_M4.md'
+      - '.course/traceability/validate_m4_core.py'
       - '.course/traceability/validate_m4.py'
       - '.course/traceability/validate_m4_human.py'
+      - '.course/traceability/validate_m4_mutation.py'
       - '.course/traceability/validate_m4_runtime.py'
       - '.github/workflows/validar-m4.yml'
 
@@ -26,11 +28,17 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Validar contrato M4 92/92 y maquetación Markdown
+      - name: Validar contrato fuerte M4 R1
         run: python .course/traceability/validate_m4.py .
 
       - name: Verificar trazabilidad humana reversible
         run: python .course/traceability/validate_m4_human.py .
+
+      - name: Mutation gate de trazabilidad
+        run: python .course/traceability/validate_m4_mutation.py .
+
+      - name: Recuperar permiso Unix del Maven Wrapper
+        run: chmod +x M4/proyecto/mvnw
 
       - name: Verificar Maven Wrapper 3.9.16
         working-directory: M4/proyecto

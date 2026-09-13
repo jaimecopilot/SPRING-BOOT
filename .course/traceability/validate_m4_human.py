@@ -1,39 +1,36 @@
+#!/usr/bin/env python3
 from pathlib import Path
-import json
-import sys
-
-root = Path(sys.argv[1] if len(sys.argv) > 1 else '.').resolve()
-data = json.loads((root / '.course/traceability/M4.json').read_text(encoding='utf-8'))
-human = (root / '.course/traceability/TRAZABILIDAD_M4.md').read_text(encoding='utf-8')
-required = ('theory', 'action', 'artifact', 'symbol', 'command', 'observable', 'verification')
-errors = []
-concept_ids = {c['id'] for c in data.get('theory_concepts', [])}
-
-for step in data['steps']:
-    for key in required:
-        if not str(step.get(key, '')).strip():
-            errors.append(f"{step['id']}: falta {key}")
-    label = f"{step['point']}.{step['step']}"
-    if f'| {label} |' not in human:
-        errors.append(f'{step["id"]}: no aparece en vista humana')
-    theory = step['theory']
-    if theory not in concept_ids:
-        errors.append(f'{step["id"]}: concepto inexistente {theory}')
-    # Every repository path explicitly named by the chain must resolve.
-    for segment in (x.strip() for x in str(step.get('artifact', '')).split(' / ')):
-        if segment.startswith(('M4/', '.course/', '.github/')) and not (root / segment).exists():
-            errors.append(f'{step["id"]}: artefacto inexistente {segment}')
-
-if human.count('\n| 4.') != 92:
-    errors.append('La tabla humana no contiene exactamente 92 filas de pasos')
-if len({s['id'] for s in data['steps']}) != 92:
-    errors.append('IDs de pasos no son únicos')
-if len(concept_ids) != 35:
-    errors.append('IDs de conceptos no son únicos')
-
-if errors:
-    print('M4 HUMAN TRACEABILITY: FAIL')
-    for error in errors:
-        print(' -', error)
+import json, sys
+root=Path(sys.argv[1] if len(sys.argv)>1 else '.').resolve()
+m=json.loads((root/'.course/traceability/M4.json').read_text(encoding='utf-8'))
+report=(root/'.course/traceability/TRAZABILIDAD_M4.md').read_text(encoding='utf-8')
+fail=[]
+def check(c,msg):
+    if not c: fail.append(msg)
+required_sections=[
+'## Cómo puedes auditarlo tú','## Resumen verificable','## Teoría -> práctica',
+'## Práctica -> acción -> artefacto -> verificación','## Guía -> proyecto','## Proyecto -> guía',
+'## M3 -> M4: continuidad acumulativa','## Artefactos necesarios no introducidos en este módulo',
+'## Trazabilidad inversa por artefacto/símbolo','## Estados temporales y restauraciones',
+'## Regresión heredada M3 -> M4','## Gates automáticos','## Resultado global']
+for s in required_sections: check(s in report,f'human report missing section: {s}')
+steps=[]
+for rel in m['step_manifests']:
+    steps += json.loads((root/rel).read_text(encoding='utf-8'))['steps']
+check(len(steps)==92,'human validator expects 92 machine steps')
+for s in steps:
+    check(f"`{s['id']}`" in report,f"human report missing step {s['id']}")
+for c in m['theory_concepts']:
+    check(f"`{c['id']}`" in report,f"human report missing theory concept {c['id']}")
+for a in m['artifacts']:
+    check(f"`{a['path']}`" in report,f"human report missing artifact {a['path']}")
+for c in m['continuity_from_m3']:
+    check(f"`{c['m3_path']}`" in report and f"`{c['m4_path']}`" in report,
+          f"human report missing continuity row {c['m3_path']}")
+check('M3 project artifacts disappeared' not in report,'unexpected failure prose in human report')
+check(len(report.encode('utf-8'))>70_000,'human report suspiciously small (<70 KB)')
+if fail:
+    print('M4 HUMAN TRACEABILITY R1: FAIL')
+    for e in fail: print(' -',e)
     raise SystemExit(1)
-print('M4 HUMAN TRACEABILITY: PASS | reversible chains=92/92 | artifact paths=resolved')
+print(f"M4 HUMAN TRACEABILITY R1: PASS | reversible chains={len(steps)}/92 | artifacts={len(m['artifacts'])} | M3 continuity={len(m['continuity_from_m3'])}/38 | report_bytes={len(report.encode('utf-8'))}")

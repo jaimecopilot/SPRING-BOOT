@@ -1,5 +1,15 @@
 {
+  "schema_version": 3,
   "module": "M4",
+  "status": "COMPLETE",
+  "predecessor": "M3",
+  "policy": {
+    "step_level_traceability_required": true,
+    "temporary_transitions_must_close": true,
+    "cumulative_project_continuity_required": true,
+    "reverse_traceability_required": true,
+    "negative_mutation_validation_required": true
+  },
   "theory_concepts": [
     {
       "id": "M4-4.1-T1",
@@ -247,1206 +257,1013 @@
       "anchor": "Bloque 5 - Buenas prácticas y errores"
     }
   ],
-  "steps": [
-    {
-      "id": "M4-4.1-P01",
-      "point": "4.1",
-      "step": 1,
-      "title": "Añadir las dependencias al pom.xml",
-      "theory": "M4-4.1-T1",
-      "action": "Añadir las dependencias al pom.xml",
-      "artifact": "M4/proyecto/pom.xml",
-      "symbol": "spring-boot-starter-data-jpa / H2",
-      "command": "./mvnw dependency:tree",
-      "observable": "Dependencias JPA y H2 resueltas por Maven",
-      "verification": "Verificar el observable del paso 4.1.1 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P02",
-      "point": "4.1",
-      "step": 2,
-      "title": "Configurar application.properties",
-      "theory": "M4-4.1-T1",
-      "action": "Configurar application.properties",
-      "artifact": "M4/proyecto/src/main/resources/application-dev.properties",
-      "symbol": "spring.datasource / spring.jpa",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Spring Boot conecta HikariCP/Hibernate con H2",
-      "verification": "Verificar el observable del paso 4.1.2 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P03",
-      "point": "4.1",
-      "step": 3,
-      "title": "Arrancar y verificar la conexión",
-      "theory": "M4-4.1-T1",
-      "action": "Arrancar y verificar la conexión",
-      "artifact": "runtime H2",
-      "symbol": "HikariPool / Hibernate",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Aplicación arranca y la consola H2 queda disponible",
-      "verification": "Verificar el observable del paso 4.1.3 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P04",
-      "point": "4.1",
-      "step": 4,
-      "title": "Crear la entidad Alumno",
-      "theory": "M4-4.1-T2",
-      "action": "Crear la entidad Alumno",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Entity / @Id / @Column",
-      "command": "./mvnw test",
-      "observable": "Hibernate reconoce Alumno como entidad",
-      "verification": "Verificar el observable del paso 4.1.4 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P05",
-      "point": "4.1",
-      "step": 5,
-      "title": "Arrancar y ver la tabla creada",
-      "theory": "M4-4.1-T2",
-      "action": "Arrancar y ver la tabla creada",
-      "artifact": "tabla ALUMNOS",
-      "symbol": "DDL generado por Hibernate",
-      "command": "./mvnw spring-boot:run",
-      "observable": "El log muestra CREATE TABLE y constraint UNIQUE",
-      "verification": "Verificar el observable del paso 4.1.5 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P06",
-      "point": "4.1",
-      "step": 6,
-      "title": "Crear el repositorio Spring Data JPA",
-      "theory": "M4-4.1-T2",
-      "action": "Crear el repositorio Spring Data JPA",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "JpaRepository<Alumno,Long>",
-      "command": "./mvnw test",
-      "observable": "Repositorio JPA arranca sin implementación manual",
-      "verification": "Verificar el observable del paso 4.1.6 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P07",
-      "point": "4.1",
-      "step": 7,
-      "title": "Modificar el servicio para usar la entidad",
-      "theory": "M4-4.1-T3",
-      "action": "Modificar el servicio para usar la entidad",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "@Transactional / mapeo DTO-entidad",
-      "command": "./mvnw test",
-      "observable": "Servicio persiste y consulta mediante JpaRepository",
-      "verification": "Verificar el observable del paso 4.1.7 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P08",
-      "point": "4.1",
-      "step": 8,
-      "title": "Modificar el controlador",
-      "theory": "M4-4.1-T3",
-      "action": "Modificar el controlador",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
-      "symbol": "Long @PathVariable / CRUD",
-      "command": "curl http://localhost:8080/api/v1/alumnos",
-      "observable": "CRUD REST responde sobre datos persistentes",
-      "verification": "Verificar el observable del paso 4.1.8 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P09",
-      "point": "4.1",
-      "step": 9,
-      "title": "Crear un CommandLineRunner para datos iniciales",
-      "theory": "M4-4.1-T4",
-      "action": "Crear un CommandLineRunner para datos iniciales",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
-      "symbol": "CommandLineRunner",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Se insertan datos iniciales sólo con tabla vacía",
-      "verification": "Verificar el observable del paso 4.1.9 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P10",
-      "point": "4.1",
-      "step": 10,
-      "title": "Arrancar y probar",
-      "theory": "M4-4.1-T4",
-      "action": "Arrancar y probar",
-      "artifact": "API /api/v1/alumnos",
-      "symbol": "GET/POST/PUT/DELETE",
-      "command": "curl http://localhost:8080/api/v1/alumnos",
-      "observable": "Endpoints devuelven códigos y JSON esperados",
-      "verification": "Verificar el observable del paso 4.1.10 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P11",
-      "point": "4.1",
-      "step": 11,
-      "title": "Verificar la persistencia",
-      "theory": "M4-4.1-T4",
-      "action": "Verificar la persistencia",
-      "artifact": "M4/proyecto/src/main/resources/application-dev.properties",
-      "symbol": "spring.jpa.hibernate.ddl-auto",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Se observa la diferencia entre create-drop y persistencia",
-      "verification": "Verificar el observable del paso 4.1.11 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P12",
-      "point": "4.1",
-      "step": 12,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.1-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico JPA/H2",
-      "command": "./mvnw test",
-      "observable": "Los fallos comunes quedan identificados y corregidos",
-      "verification": "Verificar el observable del paso 4.1.12 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.1-P13",
-      "point": "4.1",
-      "step": 13,
-      "title": "Reto resuelto — Consulta personalizada con @Query",
-      "theory": "M4-4.1-T5",
-      "action": "Reto resuelto — Consulta personalizada con @Query",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "@Query buscarPorCursoYNacidosDespues",
-      "command": "./mvnw test",
-      "observable": "Consulta personalizada devuelve el subconjunto esperado",
-      "verification": "Verificar el observable del paso 4.1.13 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P01",
-      "point": "4.2",
-      "step": 1,
-      "title": "Repasar la entidad actual",
-      "theory": "M4-4.2-T1",
-      "action": "Repasar la entidad actual",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "mapeo de entidad",
-      "command": "./mvnw test",
-      "observable": "La entidad base compila y es gestionada por JPA",
-      "verification": "Verificar el observable del paso 4.2.1 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P02",
-      "point": "4.2",
-      "step": 2,
-      "title": "Añadir un enum de estado",
-      "theory": "M4-4.2-T1",
-      "action": "Añadir un enum de estado",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Enumerated(EnumType.STRING)",
-      "command": "./mvnw test",
-      "observable": "El estado se persiste como texto",
-      "verification": "Verificar el observable del paso 4.2.2 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P03",
-      "point": "4.2",
-      "step": 3,
-      "title": "Añadir un campo calculado con @Transient",
-      "theory": "M4-4.2-T1",
-      "action": "Añadir un campo calculado con @Transient",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Transient getEdad",
-      "command": "./mvnw test",
-      "observable": "La edad se calcula y no genera columna",
-      "verification": "Verificar el observable del paso 4.2.3 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P04",
-      "point": "4.2",
-      "step": 4,
-      "title": "Crear una clase embebida Direccion",
-      "theory": "M4-4.2-T2",
-      "action": "Crear una clase embebida Direccion",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Embeddable / @Embedded",
-      "command": "./mvnw test",
-      "observable": "Los campos de dirección se integran en ALUMNOS",
-      "verification": "Verificar el observable del paso 4.2.4 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P05",
-      "point": "4.2",
-      "step": 5,
-      "title": "Añadir un campo de versión con @Version",
-      "theory": "M4-4.2-T2",
-      "action": "Añadir un campo de versión con @Version",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Version",
-      "command": "./mvnw test",
-      "observable": "Hibernate mantiene versión para bloqueo optimista",
-      "verification": "Verificar el observable del paso 4.2.5 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P06",
-      "point": "4.2",
-      "step": 6,
-      "title": "Añadir un campo @Lob para observaciones",
-      "theory": "M4-4.2-T2",
-      "action": "Añadir un campo @Lob para observaciones",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Lob observaciones",
-      "command": "./mvnw test",
-      "observable": "El texto largo se mapea como LOB",
-      "verification": "Verificar el observable del paso 4.2.6 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P07",
-      "point": "4.2",
-      "step": 7,
-      "title": "Arrancar y ver el SQL generado",
-      "theory": "M4-4.2-T3",
-      "action": "Arrancar y ver el SQL generado",
-      "artifact": "DDL Hibernate",
-      "symbol": "columnas de entidad",
-      "command": "./mvnw spring-boot:run",
-      "observable": "El SQL refleja enum, embebido, LOB y versión",
-      "verification": "Verificar el observable del paso 4.2.7 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P08",
-      "point": "4.2",
-      "step": 8,
-      "title": "Actualizar el DTO y el servicio",
-      "theory": "M4-4.2-T3",
-      "action": "Actualizar el DTO y el servicio",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "DTO ↔ entidad",
-      "command": "./mvnw test",
-      "observable": "API expone datos sin devolver la entidad directamente",
-      "verification": "Verificar el observable del paso 4.2.8 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P09",
-      "point": "4.2",
-      "step": 9,
-      "title": "Arrancar y probar",
-      "theory": "M4-4.2-T4",
-      "action": "Arrancar y probar",
-      "artifact": "API /api/v1/alumnos",
-      "symbol": "serialización de entidad ampliada",
-      "command": "curl http://localhost:8080/api/v1/alumnos",
-      "observable": "Creación y consulta siguen funcionando",
-      "verification": "Verificar el observable del paso 4.2.9 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P10",
-      "point": "4.2",
-      "step": 10,
-      "title": "Ver el SQL de inserción",
-      "theory": "M4-4.2-T4",
-      "action": "Ver el SQL de inserción",
-      "artifact": "logs SQL",
-      "symbol": "INSERT de Alumno",
-      "command": "./mvnw spring-boot:run",
-      "observable": "El INSERT contiene las columnas persistentes esperadas",
-      "verification": "Verificar el observable del paso 4.2.10 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P11",
-      "point": "4.2",
-      "step": 11,
-      "title": "Añadir equals y hashCode",
-      "theory": "M4-4.2-T4",
-      "action": "Añadir equals y hashCode",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "equals / hashCode por identidad",
-      "command": "./mvnw test",
-      "observable": "La igualdad no depende de campos mutables",
-      "verification": "Verificar el observable del paso 4.2.11 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P12",
-      "point": "4.2",
-      "step": 12,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.2-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico de entidades",
-      "command": "./mvnw test",
-      "observable": "Errores de mapeo quedan cubiertos por validación",
-      "verification": "Verificar el observable del paso 4.2.12 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.2-P13",
-      "point": "4.2",
-      "step": 13,
-      "title": "Reto resuelto — Añadir un campo @Lob binario",
-      "theory": "M4-4.2-T5",
-      "action": "Reto resuelto — Añadir un campo @Lob binario",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Lob byte[] foto",
-      "command": "./mvnw test",
-      "observable": "El binario se mapea como LOB sin romper el modelo",
-      "verification": "Verificar el observable del paso 4.2.13 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P01",
-      "point": "4.3",
-      "step": 1,
-      "title": "Repasar el repositorio actual",
-      "theory": "M4-4.3-T1",
-      "action": "Repasar el repositorio actual",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "JpaRepository/JpaSpecificationExecutor",
-      "command": "./mvnw test",
-      "observable": "Contrato de repositorio disponible",
-      "verification": "Verificar el observable del paso 4.3.1 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P02",
-      "point": "4.3",
-      "step": 2,
-      "title": "Añadir métodos derivados",
-      "theory": "M4-4.3-T1",
-      "action": "Añadir métodos derivados",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "métodos derivados",
-      "command": "./mvnw test",
-      "observable": "Spring Data deriva consultas del nombre",
-      "verification": "Verificar el observable del paso 4.3.2 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P03",
-      "point": "4.3",
-      "step": 3,
-      "title": "Arrancar y verificar",
-      "theory": "M4-4.3-T1",
-      "action": "Arrancar y verificar",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "consultas derivadas",
-      "command": "./mvnw test",
-      "observable": "Consultas derivadas devuelven resultados esperados",
-      "verification": "Verificar el observable del paso 4.3.3 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P04",
-      "point": "4.3",
-      "step": 4,
-      "title": "Añadir un método con @Query",
-      "theory": "M4-4.3-T2",
-      "action": "Añadir un método con @Query",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "@Query JPQL",
-      "command": "./mvnw test",
-      "observable": "JPQL se valida y ejecuta",
-      "verification": "Verificar el observable del paso 4.3.4 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P05",
-      "point": "4.3",
-      "step": 5,
-      "title": "Añadir un método con @Modifying",
-      "theory": "M4-4.3-T2",
-      "action": "Añadir un método con @Modifying",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "@Modifying",
-      "command": "./mvnw test",
-      "observable": "Bulk update modifica filas dentro de transacción",
-      "verification": "Verificar el observable del paso 4.3.5 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P06",
-      "point": "4.3",
-      "step": 6,
-      "title": "Usar el método @Modifying desde el servicio",
-      "theory": "M4-4.3-T2",
-      "action": "Usar el método @Modifying desde el servicio",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "actualizarEstadoPorCurso",
-      "command": "./mvnw test",
-      "observable": "Servicio encapsula la operación @Modifying",
-      "verification": "Verificar el observable del paso 4.3.6 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P07",
-      "point": "4.3",
-      "step": 7,
-      "title": "Añadir paginación",
-      "theory": "M4-4.3-T3",
-      "action": "Añadir paginación",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "Pageable / Page",
-      "command": "./mvnw test",
-      "observable": "Repositorio produce páginas deterministas",
-      "verification": "Verificar el observable del paso 4.3.7 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P08",
-      "point": "4.3",
-      "step": 8,
-      "title": "Probar la paginación",
-      "theory": "M4-4.3-T3",
-      "action": "Probar la paginación",
-      "artifact": "API /api/v1/alumnos",
-      "symbol": "page / size / sort",
-      "command": "curl 'http://localhost:8080/api/v1/alumnos?page=0&size=2'",
-      "observable": "Respuesta contiene metadatos de paginación",
-      "verification": "Verificar el observable del paso 4.3.8 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P09",
-      "point": "4.3",
-      "step": 9,
-      "title": "Añadir Specifications",
-      "theory": "M4-4.3-T3",
-      "action": "Añadir Specifications",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
-      "symbol": "Specification<Alumno>",
-      "command": "./mvnw test",
-      "observable": "Filtros dinámicos se pueden combinar",
-      "verification": "Verificar el observable del paso 4.3.9 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P10",
-      "point": "4.3",
-      "step": 10,
-      "title": "Crear una clase de Specifications",
-      "theory": "M4-4.3-T4",
-      "action": "Crear una clase de Specifications",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
-      "symbol": "curso/dni/nacidosEntre/activos",
-      "command": "./mvnw test",
-      "observable": "Predicados JPA se construyen según parámetros",
-      "verification": "Verificar el observable del paso 4.3.10 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P11",
-      "point": "4.3",
-      "step": 11,
-      "title": "Usar Specifications en el servicio",
-      "theory": "M4-4.3-T4",
-      "action": "Usar Specifications en el servicio",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "Specification.allOf",
-      "command": "./mvnw test",
-      "observable": "Servicio aplica filtros opcionales sin concatenar JPQL",
-      "verification": "Verificar el observable del paso 4.3.11 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P12",
-      "point": "4.3",
-      "step": 12,
-      "title": "Probar Specifications",
-      "theory": "M4-4.3-T4",
-      "action": "Probar Specifications",
-      "artifact": "API /api/v1/alumnos",
-      "symbol": "filtros combinados",
-      "command": "curl 'http://localhost:8080/api/v1/alumnos?curso=5%C2%BA%20Primaria'",
-      "observable": "Filtro devuelve sólo alumnos compatibles",
-      "verification": "Verificar el observable del paso 4.3.12 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P13",
-      "point": "4.3",
-      "step": 13,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.3-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico Spring Data JPA",
-      "command": "./mvnw test",
-      "observable": "Errores de firmas, Page y @Modifying se detectan",
-      "verification": "Verificar el observable del paso 4.3.13 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.3-P14",
-      "point": "4.3",
-      "step": 14,
-      "title": "Reto resuelto — Consulta con agregación",
-      "theory": "M4-4.3-T5",
-      "action": "Reto resuelto — Consulta con agregación",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "contarPorCurso",
-      "command": "./mvnw test",
-      "observable": "Agregación GROUP BY devuelve conteos por curso",
-      "verification": "Verificar el observable del paso 4.3.14 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P01",
-      "point": "4.4",
-      "step": 1,
-      "title": "Crear la entidad Curso",
-      "theory": "M4-4.4-T1",
-      "action": "Crear la entidad Curso",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
-      "symbol": "@Entity Curso / @OneToMany",
-      "command": "./mvnw test",
-      "observable": "Hibernate crea tabla CURSOS",
-      "verification": "Verificar el observable del paso 4.4.1 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P02",
-      "point": "4.4",
-      "step": 2,
-      "title": "Modificar la entidad Alumno para añadir la relación",
-      "theory": "M4-4.4-T1",
-      "action": "Modificar la entidad Alumno para añadir la relación",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@ManyToOne / @JoinColumn",
-      "command": "./mvnw test",
-      "observable": "ALUMNOS referencia CURSOS con clave foránea",
-      "verification": "Verificar el observable del paso 4.4.2 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P03",
-      "point": "4.4",
-      "step": 3,
-      "title": "Arrancar y ver el SQL generado",
-      "theory": "M4-4.4-T1",
-      "action": "Arrancar y ver el SQL generado",
-      "artifact": "DDL Hibernate",
-      "symbol": "FK curso_id",
-      "command": "./mvnw spring-boot:run",
-      "observable": "SQL generado contiene la relación",
-      "verification": "Verificar el observable del paso 4.4.3 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P04",
-      "point": "4.4",
-      "step": 4,
-      "title": "Crear el repositorio de Curso",
-      "theory": "M4-4.4-T2",
-      "action": "Crear el repositorio de Curso",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
-      "symbol": "JpaRepository<Curso,Long>",
-      "command": "./mvnw test",
-      "observable": "Curso dispone de persistencia Spring Data",
-      "verification": "Verificar el observable del paso 4.4.4 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P05",
-      "point": "4.4",
-      "step": 5,
-      "title": "Crear el DTO de Curso",
-      "theory": "M4-4.4-T2",
-      "action": "Crear el DTO de Curso",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
-      "symbol": "proyección REST de Curso",
-      "command": "./mvnw test",
-      "observable": "La API no serializa directamente la colección LAZY",
-      "verification": "Verificar el observable del paso 4.4.5 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P06",
-      "point": "4.4",
-      "step": 6,
-      "title": "Crear el servicio de Curso",
-      "theory": "M4-4.4-T2",
-      "action": "Crear el servicio de Curso",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
-      "symbol": "transacción de Curso",
-      "command": "./mvnw test",
-      "observable": "Servicio accede a alumnos dentro de transacción",
-      "verification": "Verificar el observable del paso 4.4.6 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P07",
-      "point": "4.4",
-      "step": 7,
-      "title": "Modificar el AlumnoService para asignar el curso",
-      "theory": "M4-4.4-T3",
-      "action": "Modificar el AlumnoService para asignar el curso",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "obtenerOCrearCurso",
-      "command": "./mvnw test",
-      "observable": "Alumno se asocia a una entidad Curso gestionada",
-      "verification": "Verificar el observable del paso 4.4.7 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P08",
-      "point": "4.4",
-      "step": 8,
-      "title": "Crear el controlador de Curso",
-      "theory": "M4-4.4-T3",
-      "action": "Crear el controlador de Curso",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
-      "symbol": "/api/v1/cursos",
-      "command": "curl http://localhost:8080/api/v1/cursos",
-      "observable": "API de cursos responde JSON",
-      "verification": "Verificar el observable del paso 4.4.8 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P09",
-      "point": "4.4",
-      "step": 9,
-      "title": "Añadir el método listarPorCurso al AlumnoService",
-      "theory": "M4-4.4-T4",
-      "action": "Añadir el método listarPorCurso al AlumnoService",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "consulta por curso",
-      "command": "./mvnw test",
-      "observable": "Servicio puede filtrar alumnos por relación",
-      "verification": "Verificar el observable del paso 4.4.9 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P10",
-      "point": "4.4",
-      "step": 10,
-      "title": "Arrancar y probar",
-      "theory": "M4-4.4-T4",
-      "action": "Arrancar y probar",
-      "artifact": "APIs alumnos/cursos",
-      "symbol": "relación bidireccional",
-      "command": "curl http://localhost:8080/api/v1/cursos",
-      "observable": "Relación funciona sin recursión JSON",
-      "verification": "Verificar el observable del paso 4.4.10 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P11",
-      "point": "4.4",
-      "step": 11,
-      "title": "Detectar y resolver el problema N+1",
-      "theory": "M4-4.4-T4",
-      "action": "Detectar y resolver el problema N+1",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "JOIN FETCH buscarDetalle",
-      "command": "./mvnw test",
-      "observable": "Detalle carga curso en una sola consulta lógica",
-      "verification": "Verificar el observable del paso 4.4.11 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P12",
-      "point": "4.4",
-      "step": 12,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.4-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico de relaciones",
-      "command": "./mvnw test",
-      "observable": "Se controlan owning side, LAZY y cascadas",
-      "verification": "Verificar el observable del paso 4.4.12 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.4-P13",
-      "point": "4.4",
-      "step": 13,
-      "title": "Reto resuelto — Eliminar un curso con cascade",
-      "theory": "M4-4.4-T5",
-      "action": "Reto resuelto — Eliminar un curso con cascade",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
-      "symbol": "cascade al eliminar",
-      "command": "./mvnw test",
-      "observable": "El borrado de Curso respeta la cascada definida",
-      "verification": "Verificar el observable del paso 4.4.13 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P01",
-      "point": "4.5",
-      "step": 1,
-      "title": "Repasar el repositorio actual",
-      "theory": "M4-4.5-T1",
-      "action": "Repasar el repositorio actual",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "JPQL sobre entidades",
-      "command": "./mvnw test",
-      "observable": "Repositorio contiene consultas JPQL válidas",
-      "verification": "Verificar el observable del paso 4.5.1 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P02",
-      "point": "4.5",
-      "step": 2,
-      "title": "Consulta con JOIN simple",
-      "theory": "M4-4.5-T1",
-      "action": "Consulta con JOIN simple",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "JOIN por curso",
-      "command": "./mvnw test",
-      "observable": "JPQL navega la relación Alumno.curso",
-      "verification": "Verificar el observable del paso 4.5.2 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P03",
-      "point": "4.5",
-      "step": 3,
-      "title": "Consulta con JOIN FETCH",
-      "theory": "M4-4.5-T1",
-      "action": "Consulta con JOIN FETCH",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "JOIN FETCH",
-      "command": "./mvnw test",
-      "observable": "Detalle evita acceso LAZY posterior",
-      "verification": "Verificar el observable del paso 4.5.3 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P04",
-      "point": "4.5",
-      "step": 4,
-      "title": "Consulta con función de string",
-      "theory": "M4-4.5-T2",
-      "action": "Consulta con función de string",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
-      "symbol": "lower() / comparación string",
-      "command": "./mvnw test",
-      "observable": "Filtro ignora mayúsculas cuando procede",
-      "verification": "Verificar el observable del paso 4.5.4 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P05",
-      "point": "4.5",
-      "step": 5,
-      "title": "Consulta con función de fecha",
-      "theory": "M4-4.5-T2",
-      "action": "Consulta con función de fecha",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "comparación LocalDate",
-      "command": "./mvnw test",
-      "observable": "Consulta filtra por fecha",
-      "verification": "Verificar el observable del paso 4.5.5 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P06",
-      "point": "4.5",
-      "step": 6,
-      "title": "Consulta con agregación",
-      "theory": "M4-4.5-T2",
-      "action": "Consulta con agregación",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "count / group by",
-      "command": "./mvnw test",
-      "observable": "Agregación devuelve conteos",
-      "verification": "Verificar el observable del paso 4.5.6 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P07",
-      "point": "4.5",
-      "step": 7,
-      "title": "Consulta con HAVING",
-      "theory": "M4-4.5-T3",
-      "action": "Consulta con HAVING",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "GROUP BY/HAVING conceptual",
-      "command": "./mvnw test",
-      "observable": "Consulta agregada conserva semántica JPQL",
-      "verification": "Verificar el observable del paso 4.5.7 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P08",
-      "point": "4.5",
-      "step": 8,
-      "title": "Consulta con proyección a DTO",
-      "theory": "M4-4.5-T3",
-      "action": "Consulta con proyección a DTO",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
-      "symbol": "proyección DTO",
-      "command": "./mvnw test",
-      "observable": "Resultados agregados se pueden proyectar",
-      "verification": "Verificar el observable del paso 4.5.8 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P09",
-      "point": "4.5",
-      "step": 9,
-      "title": "Añadir los métodos al servicio",
-      "theory": "M4-4.5-T4",
-      "action": "Añadir los métodos al servicio",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "capa de servicio de consultas",
-      "command": "./mvnw test",
-      "observable": "Controlador no accede al repositorio directamente",
-      "verification": "Verificar el observable del paso 4.5.9 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P10",
-      "point": "4.5",
-      "step": 10,
-      "title": "Añadir los endpoints",
-      "theory": "M4-4.5-T4",
-      "action": "Añadir los endpoints",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
-      "symbol": "endpoints de consulta",
-      "command": "curl http://localhost:8080/api/v1/alumnos",
-      "observable": "Consultas quedan accesibles por HTTP",
-      "verification": "Verificar el observable del paso 4.5.10 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P11",
-      "point": "4.5",
-      "step": 11,
-      "title": "Probar las consultas",
-      "theory": "M4-4.5-T4",
-      "action": "Probar las consultas",
-      "artifact": "API + logs SQL",
-      "symbol": "JPQL traducido a SQL",
-      "command": "./mvnw spring-boot:run",
-      "observable": "Hibernate ejecuta SQL coherente con JPQL",
-      "verification": "Verificar el observable del paso 4.5.11 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P12",
-      "point": "4.5",
-      "step": 12,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.5-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico JPQL",
-      "command": "./mvnw test",
-      "observable": "Errores de nombres de entidad/campo se detectan",
-      "verification": "Verificar el observable del paso 4.5.12 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.5-P13",
-      "point": "4.5",
-      "step": 13,
-      "title": "Reto resuelto — Consulta con subconsulta",
-      "theory": "M4-4.5-T5",
-      "action": "Reto resuelto — Consulta con subconsulta",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "subconsulta/alternativa segura",
-      "command": "./mvnw test",
-      "observable": "El reto se contrasta sin comprometer el arranque",
-      "verification": "Verificar el observable del paso 4.5.13 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P01",
-      "point": "4.6",
-      "step": 1,
-      "title": "Repasar las anotaciones actuales",
-      "theory": "M4-4.6-T1",
-      "action": "Repasar las anotaciones actuales",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "@Transactional",
-      "command": "./mvnw test",
-      "observable": "Operaciones de escritura quedan en una transacción",
-      "verification": "Verificar el observable del paso 4.6.1 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P02",
-      "point": "4.6",
-      "step": 2,
-      "title": "Provocar un rollback",
-      "theory": "M4-4.6-T1",
-      "action": "Provocar un rollback",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "rollback por RuntimeException",
-      "command": "./mvnw test",
-      "observable": "Una excepción revierte cambios",
-      "verification": "Verificar el observable del paso 4.6.2 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P03",
-      "point": "4.6",
-      "step": 3,
-      "title": "Probar el rollback",
-      "theory": "M4-4.6-T1",
-      "action": "Probar el rollback",
-      "artifact": "base H2 de test",
-      "symbol": "estado tras rollback",
-      "command": "./mvnw test",
-      "observable": "No quedan cambios parciales",
-      "verification": "Verificar el observable del paso 4.6.3 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P04",
-      "point": "4.6",
-      "step": 4,
-      "title": "Quitar el rollback temporal",
-      "theory": "M4-4.6-T2",
-      "action": "Quitar el rollback temporal",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "restauración del flujo normal",
-      "command": "./mvnw test",
-      "observable": "Proyecto final no conserva fallo artificial",
-      "verification": "Verificar el observable del paso 4.6.4 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P05",
-      "point": "4.6",
-      "step": 5,
-      "title": "Añadir @Transactional a un nuevo método con REQUIRES_NEW",
-      "theory": "M4-4.6-T2",
-      "action": "Añadir @Transactional a un nuevo método con REQUIRES_NEW",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
-      "symbol": "REQUIRES_NEW",
-      "command": "./mvnw test",
-      "observable": "Auditoría puede usar transacción independiente",
-      "verification": "Verificar el observable del paso 4.6.5 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P06",
-      "point": "4.6",
-      "step": 6,
-      "title": "Usar el servicio de auditoría desde el servicio de alumnos",
-      "theory": "M4-4.6-T2",
-      "action": "Usar el servicio de auditoría desde el servicio de alumnos",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java / M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
-      "symbol": "colaboración transaccional",
-      "command": "./mvnw test",
-      "observable": "Límites transaccionales quedan explícitos",
-      "verification": "Verificar el observable del paso 4.6.6 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P07",
-      "point": "4.6",
-      "step": 7,
-      "title": "Provocar un rollback y verificar que la auditoría persiste",
-      "theory": "M4-4.6-T3",
-      "action": "Provocar un rollback y verificar que la auditoría persiste",
-      "artifact": "tabla AUDITORIA",
-      "symbol": "commit independiente",
-      "command": "./mvnw test",
-      "observable": "La auditoría puede persistir aunque otra transacción falle",
-      "verification": "Verificar el observable del paso 4.6.7 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P08",
-      "point": "4.6",
-      "step": 8,
-      "title": "Probar el rollback con auditoría",
-      "theory": "M4-4.6-T3",
-      "action": "Probar el rollback con auditoría",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
-      "symbol": "consulta de auditoría",
-      "command": "./mvnw test",
-      "observable": "Se verifica el efecto de REQUIRES_NEW",
-      "verification": "Verificar el observable del paso 4.6.8 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P09",
-      "point": "4.6",
-      "step": 9,
-      "title": "Quitar el rollback temporal",
-      "theory": "M4-4.6-T4",
-      "action": "Quitar el rollback temporal",
-      "artifact": "M4/proyecto",
-      "symbol": "restauración tras experimento",
-      "command": "./mvnw test",
-      "observable": "No quedan excepciones artificiales en estado final",
-      "verification": "Verificar el observable del paso 4.6.9 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P10",
-      "point": "4.6",
-      "step": 10,
-      "title": "Añadir bloqueo optimista",
-      "theory": "M4-4.6-T4",
-      "action": "Añadir bloqueo optimista",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
-      "symbol": "@Version",
-      "command": "./mvnw test",
-      "observable": "Actualizaciones concurrentes disponen de versión",
-      "verification": "Verificar el observable del paso 4.6.10 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P11",
-      "point": "4.6",
-      "step": 11,
-      "title": "Probar el bloqueo optimista",
-      "theory": "M4-4.6-T4",
-      "action": "Probar el bloqueo optimista",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
-      "symbol": "PESSIMISTIC_WRITE / @Version",
-      "command": "./mvnw test",
-      "observable": "Estrategias de concurrencia están modeladas",
-      "verification": "Verificar el observable del paso 4.6.11 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P12",
-      "point": "4.6",
-      "step": 12,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.6-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico transaccional",
-      "command": "./mvnw test",
-      "observable": "Se distinguen rollback, propagación y bloqueo",
-      "verification": "Verificar el observable del paso 4.6.12 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.6-P13",
-      "point": "4.6",
-      "step": 13,
-      "title": "Reto resuelto — Transacción con timeout",
-      "theory": "M4-4.6-T5",
-      "action": "Reto resuelto — Transacción con timeout",
-      "artifact": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
-      "symbol": "timeout transaccional conceptual",
-      "command": "./mvnw test",
-      "observable": "El reto documenta límite temporal sin degradar baseline",
-      "verification": "Verificar el observable del paso 4.6.13 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P01",
-      "point": "4.7",
-      "step": 1,
-      "title": "Verificar la dependencia de test",
-      "theory": "M4-4.7-T1",
-      "action": "Verificar la dependencia de test",
-      "artifact": "M4/proyecto/pom.xml",
-      "symbol": "spring-boot-starter-test",
-      "command": "./mvnw dependency:tree",
-      "observable": "Dependencias de test están disponibles",
-      "verification": "Verificar el observable del paso 4.7.1 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P02",
-      "point": "4.7",
-      "step": 2,
-      "title": "Crear la estructura de paquetes de test",
-      "theory": "M4-4.7-T1",
-      "action": "Crear la estructura de paquetes de test",
-      "artifact": "M4/proyecto/src/test/java",
-      "symbol": "paquetes de test",
-      "command": "./mvnw test",
-      "observable": "Maven descubre las clases de test",
-      "verification": "Verificar el observable del paso 4.7.2 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P03",
-      "point": "4.7",
-      "step": 3,
-      "title": "Crear el test básico de AlumnoRepository",
-      "theory": "M4-4.7-T1",
-      "action": "Crear el test básico de AlumnoRepository",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "@DataJpaTest / TestEntityManager",
-      "command": "./mvnw test",
-      "observable": "Persistencia real en H2 se verifica",
-      "verification": "Verificar el observable del paso 4.7.3 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P04",
-      "point": "4.7",
-      "step": 4,
-      "title": "Probar el método findByCurso",
-      "theory": "M4-4.7-T2",
-      "action": "Probar el método findByCurso",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "consulta derivada por curso",
-      "command": "./mvnw test",
-      "observable": "findByCurso devuelve el resultado esperado",
-      "verification": "Verificar el observable del paso 4.7.4 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P05",
-      "point": "4.7",
-      "step": 5,
-      "title": "Probar el caso vacío",
-      "theory": "M4-4.7-T2",
-      "action": "Probar el caso vacío",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "Optional vacío",
-      "command": "./mvnw test",
-      "observable": "Consulta inexistente devuelve vacío",
-      "verification": "Verificar el observable del paso 4.7.5 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P06",
-      "point": "4.7",
-      "step": 6,
-      "title": "Probar el método existsByDni",
-      "theory": "M4-4.7-T2",
-      "action": "Probar el método existsByDni",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "existsByDni / findByDni",
-      "command": "./mvnw test",
-      "observable": "Existencia y búsqueda por DNI se validan",
-      "verification": "Verificar el observable del paso 4.7.6 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P07",
-      "point": "4.7",
-      "step": 7,
-      "title": "Probar el constraint unique del DNI",
-      "theory": "M4-4.7-T3",
-      "action": "Probar el constraint unique del DNI",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "constraint UNIQUE dni",
-      "command": "./mvnw test",
-      "observable": "Duplicado provoca DataIntegrityViolationException",
-      "verification": "Verificar el observable del paso 4.7.7 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P08",
-      "point": "4.7",
-      "step": 8,
-      "title": "Probar una consulta con @Query",
-      "theory": "M4-4.7-T3",
-      "action": "Probar una consulta con @Query",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "@Query / repositorio",
-      "command": "./mvnw test",
-      "observable": "Consulta JPQL se ejecuta contra H2",
-      "verification": "Verificar el observable del paso 4.7.8 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P09",
-      "point": "4.7",
-      "step": 9,
-      "title": "Probar la relación entre Alumno y Curso",
-      "theory": "M4-4.7-T4",
-      "action": "Probar la relación entre Alumno y Curso",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java / M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "relación Alumno-Curso",
-      "command": "./mvnw test",
-      "observable": "FK y relación funcionan en test de integración",
-      "verification": "Verificar el observable del paso 4.7.9 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P10",
-      "point": "4.7",
-      "step": 10,
-      "title": "Crear el test de CursoRepository",
-      "theory": "M4-4.7-T4",
-      "action": "Crear el test de CursoRepository",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
-      "symbol": "findByNombreIgnoreCase",
-      "command": "./mvnw test",
-      "observable": "Repositorio Curso se prueba de forma aislada",
-      "verification": "Verificar el observable del paso 4.7.10 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P11",
-      "point": "4.7",
-      "step": 11,
-      "title": "Ejecutar los tests",
-      "theory": "M4-4.7-T4",
-      "action": "Ejecutar los tests",
-      "artifact": "M4/proyecto",
-      "symbol": "suite Maven",
-      "command": "./mvnw clean verify",
-      "observable": "Tests y Checkstyle terminan sin fallos",
-      "verification": "Verificar el observable del paso 4.7.11 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P12",
-      "point": "4.7",
-      "step": 12,
-      "title": "Errores comunes del ejercicio",
-      "theory": "M4-4.7-T5",
-      "action": "Errores comunes del ejercicio",
-      "artifact": "M4/proyecto",
-      "symbol": "diagnóstico @DataJpaTest",
-      "command": "./mvnw test",
-      "observable": "Errores comunes de contexto y datos quedan identificados",
-      "verification": "Verificar el observable del paso 4.7.12 y contrastarlo con PRACTICA.md"
-    },
-    {
-      "id": "M4-4.7-P13",
-      "point": "4.7",
-      "step": 13,
-      "title": "Reto resuelto — Test para Specification",
-      "theory": "M4-4.7-T5",
-      "action": "Reto resuelto — Test para Specification",
-      "artifact": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
-      "symbol": "Specification.allOf",
-      "command": "./mvnw test",
-      "observable": "Specification combinada devuelve una fila esperada",
-      "verification": "Verificar el observable del paso 4.7.13 y contrastarlo con PRACTICA.md"
+  "environment_workflows": [
+    {
+      "id": "M4-W-CONSOLE",
+      "anchor": "### Consola M4"
+    },
+    {
+      "id": "M4-W-INTELLIJ",
+      "anchor": "### IntelliJ IDEA M4"
+    },
+    {
+      "id": "M4-W-ECLIPSE",
+      "anchor": "### Eclipse M4"
+    },
+    {
+      "id": "M4-W-VSCODE",
+      "anchor": "### VS Code M4"
+    }
+  ],
+  "step_manifests": [
+    ".course/traceability/M4/4.1.json",
+    ".course/traceability/M4/4.2.json",
+    ".course/traceability/M4/4.3.json",
+    ".course/traceability/M4/4.4.json",
+    ".course/traceability/M4/4.5.json",
+    ".course/traceability/M4/4.6.json",
+    ".course/traceability/M4/4.7.json"
+  ],
+  "current_traced_steps": 92,
+  "expected_total_steps_when_complete": 92,
+  "artifacts": [
+    {
+      "path": "M4/proyecto/.gitignore",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M4/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M4/proyecto/README.md",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": []
+    },
+    {
+      "path": "M4/proyecto/config/checkstyle/checkstyle.xml",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M4/proyecto/mvnw",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": []
+    },
+    {
+      "path": "M4/proyecto/mvnw.cmd",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": []
+    },
+    {
+      "path": "M4/proyecto/pom.xml",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-41-S01",
+        "M4-P-47-S01"
+      ],
+      "symbols": [
+        "spring-boot-starter-data-jpa",
+        "3.5.16",
+        "17"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "MiProyectoApplication"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-41-S04",
+      "evolution": [
+        "M4-P-41-S05",
+        "M4-P-42-S01",
+        "M4-P-42-S02",
+        "M4-P-42-S03",
+        "M4-P-42-S04",
+        "M4-P-42-S05",
+        "M4-P-42-S06",
+        "M4-P-42-S07",
+        "M4-P-42-S09",
+        "M4-P-42-S10",
+        "M4-P-42-S11",
+        "M4-P-42-S12",
+        "M4-P-42-S13",
+        "M4-P-44-S02",
+        "M4-P-44-S03",
+        "M4-P-44-S10",
+        "M4-P-44-S12",
+        "M4-P-46-S10"
+      ],
+      "symbols": [
+        "Alumno"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-41-S08",
+        "M4-P-41-S10",
+        "M4-P-45-S10"
+      ],
+      "symbols": [
+        "AlumnoController"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "AlumnoDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-41-S06",
+        "M4-P-41-S13",
+        "M4-P-43-S01",
+        "M4-P-43-S02",
+        "M4-P-43-S04",
+        "M4-P-43-S05",
+        "M4-P-43-S07",
+        "M4-P-43-S08",
+        "M4-P-43-S12",
+        "M4-P-43-S13",
+        "M4-P-43-S14",
+        "M4-P-44-S11",
+        "M4-P-45-S01",
+        "M4-P-45-S02",
+        "M4-P-45-S03",
+        "M4-P-45-S05",
+        "M4-P-45-S06",
+        "M4-P-45-S07",
+        "M4-P-45-S08",
+        "M4-P-45-S11",
+        "M4-P-45-S12",
+        "M4-P-45-S13",
+        "M4-P-46-S11"
+      ],
+      "symbols": [
+        "AlumnoRepository"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "AlumnoRequestDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-42-S08"
+      ],
+      "symbols": [
+        "AlumnoResponseDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-45-S08",
+      "evolution": [],
+      "symbols": [
+        "AlumnoResumenDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-41-S07",
+        "M4-P-42-S08",
+        "M4-P-43-S06",
+        "M4-P-43-S07",
+        "M4-P-43-S11",
+        "M4-P-44-S07",
+        "M4-P-44-S09",
+        "M4-P-45-S09",
+        "M4-P-46-S01",
+        "M4-P-46-S02",
+        "M4-P-46-S03",
+        "M4-P-46-S04",
+        "M4-P-46-S06",
+        "M4-P-46-S07",
+        "M4-P-46-S09",
+        "M4-P-46-S12",
+        "M4-P-46-S13"
+      ],
+      "symbols": [
+        "AlumnoService"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-43-S09",
+      "evolution": [
+        "M4-P-43-S10",
+        "M4-P-45-S04"
+      ],
+      "symbols": [
+        "AlumnoSpecifications"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-42-S04",
+      "evolution": [],
+      "symbols": [
+        "Direccion"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-42-S08",
+      "evolution": [],
+      "symbols": [
+        "DireccionDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "DocumentoRepository"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-42-S02",
+      "evolution": [],
+      "symbols": [
+        "EstadoAlumno"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-46-S05",
+      "evolution": [],
+      "symbols": [
+        "Auditoria"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-46-S05",
+      "evolution": [
+        "M4-P-46-S08"
+      ],
+      "symbols": [
+        "AuditoriaRepository"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-46-S05",
+      "evolution": [
+        "M4-P-46-S06"
+      ],
+      "symbols": [
+        "AuditoriaService"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GlobalExceptionHandler.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "GlobalExceptionHandler"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "NegocioException"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "FechasUtil"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-41-S09"
+      ],
+      "symbols": [
+        "DatosInicialesConfig"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "JacksonConfig"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-44-S01",
+      "evolution": [
+        "M4-P-44-S03",
+        "M4-P-44-S10",
+        "M4-P-44-S12",
+        "M4-P-44-S13"
+      ],
+      "symbols": [
+        "Curso"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-44-S08",
+      "evolution": [],
+      "symbols": [
+        "CursoController"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-44-S05",
+      "evolution": [
+        "M4-P-45-S08"
+      ],
+      "symbols": [
+        "CursoDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-44-S04",
+      "evolution": [],
+      "symbols": [
+        "CursoRepository"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-44-S06",
+      "evolution": [
+        "M4-P-44-S13"
+      ],
+      "symbols": [
+        "CursoService"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteController"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteRepository"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteRequestDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "ExpedienteService"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "SolicitanteDTO"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "InfoAplicacionController"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "SaludoController"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/resources/application-dev.properties",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-41-S02",
+        "M4-P-41-S03",
+        "M4-P-41-S11",
+        "M4-P-41-S12"
+      ],
+      "symbols": [
+        "spring.datasource.url",
+        "spring.jpa.hibernate.ddl-auto"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/resources/application-prod.properties",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "spring.datasource.url",
+        "spring.jpa.hibernate.ddl-auto"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/main/resources/application.properties",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "spring.profiles.active"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-47-S11",
+      "evolution": [],
+      "symbols": [
+        "MiProyectoApplicationTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-47-S11",
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "AlumnoControllerTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "classification": "GUIDE",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-43-S03",
+        "M4-P-47-S02",
+        "M4-P-47-S03",
+        "M4-P-47-S04",
+        "M4-P-47-S05",
+        "M4-P-47-S06",
+        "M4-P-47-S07",
+        "M4-P-47-S08",
+        "M4-P-47-S09",
+        "M4-P-47-S11",
+        "M4-P-47-S12",
+        "M4-P-47-S13"
+      ],
+      "symbols": [
+        "AlumnoRepositoryTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-47-S11",
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "AlumnoServiceTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-47-S11",
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "FechasUtilTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+      "classification": "GUIDE",
+      "origin": "M4-P-47-S09",
+      "evolution": [
+        "M4-P-47-S10",
+        "M4-P-47-S11"
+      ],
+      "symbols": [
+        "CursoRepositoryTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-47-S11",
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "ExpedienteControllerTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-47-S11",
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "ExpedienteServiceTest"
+      ]
+    },
+    {
+      "path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M3-CUMULATIVE",
+      "evolution": [
+        "M4-P-47-S11",
+        "M4-R1-CONTINUITY"
+      ],
+      "symbols": [
+        "SaludoControllerTest"
+      ]
+    }
+  ],
+  "continuity_from_m3": [
+    {
+      "m3_path": "M3/proyecto/.gitignore",
+      "m4_path": "M4/proyecto/.gitignore",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "m4_path": "M4/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/README.md",
+      "m4_path": "M4/proyecto/README.md",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/config/checkstyle/checkstyle.xml",
+      "m4_path": "M4/proyecto/config/checkstyle/checkstyle.xml",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/mvnw",
+      "m4_path": "M4/proyecto/mvnw",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/mvnw.cmd",
+      "m4_path": "M4/proyecto/mvnw.cmd",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/pom.xml",
+      "m4_path": "M4/proyecto/pom.xml",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-41-S01",
+        "M4-P-47-S01"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-41-S08",
+        "M4-P-41-S10",
+        "M4-P-45-S10"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-41-S06",
+        "M4-P-41-S13",
+        "M4-P-43-S01",
+        "M4-P-43-S02",
+        "M4-P-43-S04",
+        "M4-P-43-S05",
+        "M4-P-43-S07",
+        "M4-P-43-S08",
+        "M4-P-43-S12",
+        "M4-P-43-S13",
+        "M4-P-43-S14",
+        "M4-P-44-S11",
+        "M4-P-45-S01",
+        "M4-P-45-S02",
+        "M4-P-45-S03",
+        "M4-P-45-S05",
+        "M4-P-45-S06",
+        "M4-P-45-S07",
+        "M4-P-45-S08",
+        "M4-P-45-S11",
+        "M4-P-45-S12",
+        "M4-P-45-S13",
+        "M4-P-46-S11"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-42-S08"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-41-S07",
+        "M4-P-42-S08",
+        "M4-P-43-S06",
+        "M4-P-43-S07",
+        "M4-P-43-S11",
+        "M4-P-44-S07",
+        "M4-P-44-S09",
+        "M4-P-45-S09",
+        "M4-P-46-S01",
+        "M4-P-46-S02",
+        "M4-P-46-S03",
+        "M4-P-46-S04",
+        "M4-P-46-S06",
+        "M4-P-46-S07",
+        "M4-P-46-S09",
+        "M4-P-46-S12",
+        "M4-P-46-S13"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GlobalExceptionHandler.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GlobalExceptionHandler.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-41-S09"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/resources/application-dev.properties",
+      "m4_path": "M4/proyecto/src/main/resources/application-dev.properties",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-41-S02",
+        "M4-P-41-S03",
+        "M4-P-41-S11",
+        "M4-P-41-S11",
+        "M4-P-41-S11",
+        "M4-P-41-S12"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/resources/application-prod.properties",
+      "m4_path": "M4/proyecto/src/main/resources/application-prod.properties",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/main/resources/application.properties",
+      "m4_path": "M4/proyecto/src/main/resources/application.properties",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "status": "RESTORED_ADAPTED",
+      "step_refs": [
+        "M4-P-47-S11"
+      ],
+      "reason": "Test heredado que faltaba en la primera publicación de M4; R1 lo restaura y adapta a JPA sin perder el comportamiento de regresión de M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "status": "MODIFIED_ADAPTED",
+      "step_refs": [
+        "M4-P-43-S03",
+        "M4-P-47-S02",
+        "M4-P-47-S03",
+        "M4-P-47-S04",
+        "M4-P-47-S05",
+        "M4-P-47-S06",
+        "M4-P-47-S07",
+        "M4-P-47-S08",
+        "M4-P-47-S09",
+        "M4-P-47-S11",
+        "M4-P-47-S12",
+        "M4-P-47-S13"
+      ],
+      "reason": "Artefacto heredado evolucionado para JPA/Hibernate o para el cierre técnico de M4."
+    },
+    {
+      "m3_path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "status": "RESTORED_ADAPTED",
+      "step_refs": [
+        "M4-P-47-S11"
+      ],
+      "reason": "Test heredado que faltaba en la primera publicación de M4; R1 lo restaura y adapta a JPA sin perder el comportamiento de regresión de M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "status": "RESTORED",
+      "step_refs": [
+        "M4-P-47-S11"
+      ],
+      "reason": "Test heredado que faltaba en la primera publicación de M4; R1 lo restaura sin cambiar su contrato M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "status": "RESTORED",
+      "step_refs": [
+        "M4-P-47-S11"
+      ],
+      "reason": "Test heredado que faltaba en la primera publicación de M4; R1 lo restaura sin cambiar su contrato M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "status": "RESTORED",
+      "step_refs": [
+        "M4-P-47-S11"
+      ],
+      "reason": "Test heredado que faltaba en la primera publicación de M4; R1 lo restaura sin cambiar su contrato M3."
+    },
+    {
+      "m3_path": "M3/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "status": "RESTORED",
+      "step_refs": [
+        "M4-P-47-S11"
+      ],
+      "reason": "Test heredado que faltaba en la primera publicación de M4; R1 lo restaura sin cambiar su contrato M3."
     }
   ],
   "counts": {
-    "theory": 35,
-    "steps": 92
+    "theory_concepts": 35,
+    "practice_steps": 92,
+    "artifact_inventory": 54,
+    "m3_project_files_accounted": 38
   }
 }

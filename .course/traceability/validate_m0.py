@@ -197,8 +197,12 @@ root_markdown={p.name for p in root.glob("*.md")}
 if root_markdown != {"README.md"}:
     bad(f"student repository root must contain only README.md as Markdown; got {sorted(root_markdown)}")
 m0_markdown={p.name for p in (root/"M0").glob("*.md")}
-if m0_markdown != {"README.md","TEORIA.md","PRACTICA.md"}:
-    bad(f"M0 student surface must contain only README/TEORIA/PRACTICA Markdown; got {sorted(m0_markdown)}")
+if m0_markdown != {"README.md","TEORIA.md","PRACTICA.md","CODESPACES.md"}:
+    bad(
+        "M0 student surface must contain only "
+        "README/TEORIA/PRACTICA/CODESPACES Markdown; "
+        f"got {sorted(m0_markdown)}"
+    )
 if not (root/".course/internal/PROMPT_MAESTRO_CONTINUIDAD.md").exists():
     bad("missing internal continuity contract under .course/internal")
 
