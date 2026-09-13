@@ -2,26 +2,21 @@ package es.mecd.demo.miproyecto.service;
 
 import es.mecd.demo.miproyecto.dto.AlumnoDTO;
 import es.mecd.demo.miproyecto.exception.NegocioException;
+import es.mecd.demo.miproyecto.repository.AlumnoRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class AlumnoService {
 
-    private final List<AlumnoDTO> alumnos = new ArrayList<>(List.of(
-            new AlumnoDTO(
-                    "1", "Ana", "García López", "DNI-DEMO-01",
-                    LocalDate.of(2010, 5, 12), "5º Primaria"),
-            new AlumnoDTO(
-                    "2", "Luis", "Pérez Ruiz", "DNI-DEMO-02",
-                    LocalDate.of(2009, 9, 3), "6º Primaria")
-    ));
+    private final AlumnoRepository repositorio;
+
+    public AlumnoService(AlumnoRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     public List<AlumnoDTO> listar(
             String curso,
@@ -29,7 +24,7 @@ public class AlumnoService {
             int page,
             int size) {
 
-        var stream = alumnos.stream();
+        var stream = repositorio.listarTodos().stream();
 
         if (curso != null && !curso.isBlank()) {
             stream = stream.filter(
@@ -47,38 +42,29 @@ public class AlumnoService {
         return stream
                 .skip((long) page * size)
                 .limit(size)
+                .map(this::toDTO)
                 .toList();
     }
 
     public Optional<AlumnoDTO> consultar(String id) {
-        return alumnos.stream()
-                .filter(a -> a.getIdentificador().equals(id))
-                .findFirst();
+        return repositorio.buscarPorId(id)
+                .map(this::toDTO);
     }
 
     public AlumnoDTO crear(AlumnoDTO dto) {
-        if (existePorDni(dto.getDni())) {
+        if (repositorio.existePorDni(dto.getDni())) {
             throw new NegocioException(
                     "Ya existe un alumno con el DNI " + dto.getDni());
         }
 
-        int siguienteId = alumnos.stream()
-                .map(AlumnoDTO::getIdentificador)
-                .filter(id -> id != null && id.matches("\\d+"))
-                .mapToInt(Integer::parseInt)
-                .max()
-                .orElse(0) + 1;
-
-        dto.setIdentificador(String.valueOf(siguienteId));
-        alumnos.add(dto);
-        return dto;
+        dto.setIdentificador(repositorio.siguienteIdentificador());
+        return toDTO(repositorio.guardar(toEntity(dto)));
     }
 
     public Optional<AlumnoDTO> actualizar(String id, AlumnoDTO dto) {
-        return consultar(id).map(existente -> {
+        return repositorio.buscarPorId(id).map(existente -> {
             dto.setIdentificador(id);
-            alumnos.set(alumnos.indexOf(existente), dto);
-            return dto;
+            return toDTO(repositorio.guardar(toEntity(dto)));
         });
     }
 
@@ -86,7 +72,7 @@ public class AlumnoService {
             String id,
             Map<String, Object> cambios) {
 
-        return consultar(id).map(alumno -> {
+        return repositorio.buscarPorId(id).map(alumno -> {
             if (cambios.containsKey("nombre")) {
                 alumno.setNombre((String) cambios.get("nombre"));
             }
@@ -99,22 +85,26 @@ public class AlumnoService {
             if (cambios.containsKey("curso")) {
                 alumno.setCurso((String) cambios.get("curso"));
             }
-            return alumno;
+            return toDTO(repositorio.guardar(toEntity(alumno)));
         });
     }
 
     public boolean eliminar(String id) {
-        return alumnos.removeIf(
-                a -> a.getIdentificador().equals(id));
+        return repositorio.eliminar(id);
     }
 
     public void promocionar() {
-        alumnos.forEach(
-                a -> a.setCurso(a.getCurso() + " (promocionado)"));
+        repositorio.listarTodos().forEach(alumno -> {
+            alumno.setCurso(alumno.getCurso() + " (promocionado)");
+            repositorio.guardar(toEntity(alumno));
+        });
     }
 
-    private boolean existePorDni(String dni) {
-        return alumnos.stream()
-                .anyMatch(a -> Objects.equals(a.getDni(), dni));
+    private AlumnoDTO toDTO(AlumnoDTO entidad) {
+        return entidad;
+    }
+
+    private AlumnoDTO toEntity(AlumnoDTO dto) {
+        return dto;
     }
 }
