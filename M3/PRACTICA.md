@@ -57,7 +57,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 2 - Ampliar el filtrado en el servicio
 
@@ -67,9 +67,16 @@ Vamos a ampliar el método listar del servicio para aceptar varios filtros: curs
 public List<AlumnoDTO> listar(String curso, String dni) {
     return repositorio.listarTodos().stream()
             .filter(a -> curso == null || curso.isBlank()
+                    || a.getCurso().equalsIgnoreCase(curso))
+            .filter(a -> dni == null || dni.isBlank()
+                    || a.getDni().equals(dni))
+            .toList();
+}
 ```
 
-|| a.getCurso().equalsIgnoreCase(curso)) .filter(a -> dni == null || dni.isBlank() || a.getDni().equals(dni)) .toList(); } .filter(a -> curso == null || curso.isBlank() || ...) aplica el filtro solo si curso no es nulo ni vacío. Si es nulo o vacío, la condición es true y no se filtra. .filter(a -> dni == null || dni.isBlank() || ...) hace lo mismo con el DNI. Los filtros se aplican en cadena. Si ambos son nulos, no se filtra por ninguno.
+.filter(a -> curso == null || curso.isBlank() || ...) aplica el filtro solo si curso no es nulo ni vacío. Si es nulo o vacío, la
+
+condición es true y no se filtra. .filter(a -> dni == null || dni.isBlank() || ...) hace lo mismo con el DNI. Los filtros se aplican en cadena. Si ambos son nulos, no se filtra por ninguno.
 
 **Pregunta: ¿Por qué es importante que los filtros sean condicionales? ¿Qué pasaría si no lo fueran?**
 
@@ -79,7 +86,7 @@ Modifica `AlumnoService` para aceptar `curso` y `dni`. Los filtros sólo se apli
 
 ### Verificación
 
-Comprueba **`service.listar(curso, dni, sort, fechaDesde, fechaHasta, page, size)`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`service.listar(curso, dni, sort, fechaDesde, fechaHasta, page, size)`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 3 - Añadir ordenación al servicio
 
@@ -89,9 +96,28 @@ Vamos a añadir ordenación al método listar. Modifica el método para aceptar 
 public List<AlumnoDTO> listar(String curso, String dni, String sort) {
     return repositorio.listarTodos().stream()
             .filter(a -> curso == null || curso.isBlank()
+                    || a.getCurso().equalsIgnoreCase(curso))
+            .filter(a -> dni == null || dni.isBlank()
+                    || a.getDni().equals(dni))
+            .sorted((a, b) -> {
+                if ("nombre".equals(sort)) {
+                    return a.getNombre().compareToIgnoreCase(b.getNombre());
+                }
+                if ("apellidos".equals(sort)) {
+                    return a.getApellidos().compareToIgnoreCase(b.getApellidos());
+                }
+                if ("curso".equals(sort)) {
+                    return a.getCurso().compareToIgnoreCase(b.getCurso());
+                }
+                return 0;
+            })
+            .toList();
+}
 ```
 
-|| a.getCurso().equalsIgnoreCase(curso)) .filter(a -> dni == null || dni.isBlank() || a.getDni().equals(dni)) .sorted((a, b) -> { if ("nombre".equals(sort)) { return a.getNombre().compareToIgnoreCase(b.getNombre()); } if ("apellidos".equals(sort)) { return a.getApellidos().compareToIgnoreCase(b.getApellidos()); } if ("curso".equals(sort)) { return a.getCurso().compareToIgnoreCase(b.getCurso()); } return 0; }) .toList(); } .sorted((a, b) -> ...) ordena el stream. El comparador comprueba qué campo se quiere ordenar y aplica el comparador correspondiente. Si sort no coincide con ninguno de los campos, se devuelve 0, lo que deja el orden original.
+.sorted((a, b) -> ...) ordena el stream. El comparador comprueba qué campo se quiere ordenar y aplica el comparador
+
+correspondiente. Si sort no coincide con ninguno de los campos, se devuelve 0, lo que deja el orden original.
 
 **Pregunta: ¿Qué orden tendría la lista si sort es null? ¿Y si es "dni"?**
 
@@ -101,7 +127,7 @@ Centraliza el comparador para `nombre`, `apellidos` y `curso`. Un `sort` ausente
 
 ### Verificación
 
-Comprueba **`sort=nombre`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`sort=nombre`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 4 - Añadir paginación al servicio
 
@@ -111,9 +137,28 @@ Vamos a añadir paginación. Modifica el método para aceptar page y size:
 public List<AlumnoDTO> listar(String curso, String dni, String sort, int page, int size) {
     return repositorio.listarTodos().stream()
             .filter(a -> curso == null || curso.isBlank()
+                    || a.getCurso().equalsIgnoreCase(curso))
+            .filter(a -> dni == null || dni.isBlank()
+                    || a.getDni().equals(dni))
+            .sorted((a, b) -> {
+                if ("nombre".equals(sort)) {
+                    return a.getNombre().compareToIgnoreCase(b.getNombre());
+                }
+                if ("apellidos".equals(sort)) {
+                    return a.getApellidos().compareToIgnoreCase(b.getApellidos());
+                }
+                if ("curso".equals(sort)) {
+                    return a.getCurso().compareToIgnoreCase(b.getCurso());
+                }
+                return 0;
+            })
+            .skip((long) page * size)
+            .limit(size)
+            .toList();
+}
 ```
 
-|| a.getCurso().equalsIgnoreCase(curso)) .filter(a -> dni == null || dni.isBlank() || a.getDni().equals(dni)) .sorted((a, b) -> { if ("nombre".equals(sort)) { return a.getNombre().compareToIgnoreCase(b.getNombre()); } if ("apellidos".equals(sort)) { return a.getApellidos().compareToIgnoreCase(b.getApellidos()); } if ("curso".equals(sort)) { return a.getCurso().compareToIgnoreCase(b.getCurso()); } return 0; }) .skip((long) page * size) .limit(size) .toList(); } .skip((long) page * size) descarta los primeros page * size elementos. .limit(size) limita el resultado a size elementos.
+.skip((long) page * size) descarta los primeros page * size elementos. .limit(size) limita el resultado a size elementos.
 
 **Pregunta: ¿Qué pasa si page es 0 y size es 10? ¿Y si page es 2 y size es 10?**
 
@@ -123,7 +168,7 @@ Aplica `.skip((long) page * size)` y `.limit(size)` después de filtrar y ordena
 
 ### Verificación
 
-Comprueba **`page=1&size=2`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`page=1&size=2`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 5 - Añadir un método para contar elementos
 
@@ -133,9 +178,14 @@ Para construir los metadatos de paginación, necesitamos saber cuántos elemento
 public long contar(String curso, String dni) {
     return repositorio.listarTodos().stream()
             .filter(a -> curso == null || curso.isBlank()
+                    || a.getCurso().equalsIgnoreCase(curso))
+            .filter(a -> dni == null || dni.isBlank()
+                    || a.getDni().equals(dni))
+            .count();
+}
 ```
 
-|| a.getCurso().equalsIgnoreCase(curso)) .filter(a -> dni == null || dni.isBlank() || a.getDni().equals(dni)) .count(); } .count() devuelve el número de elementos que cumplen los filtros. Es un long.
+.count() devuelve el número de elementos que cumplen los filtros. Es un long.
 
 **Pregunta: ¿Por qué el conteo no aplica paginación? ¿Qué representaría ese número?**
 
@@ -145,7 +195,7 @@ Añade `contar(...)` usando exactamente los mismos filtros, sin paginación.
 
 ### Verificación
 
-Comprueba **`totalElements` y `totalPages`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`totalElements` y `totalPages`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 6 - Refactorizar el controlador para usar los nuevos parámetros
 
@@ -165,9 +215,16 @@ public Map<String, Object> listar(
     int totalPages = (int) Math.ceil((double) total / size);
 
     return Map.of(
+            "content", contenido,
+            "page", page,
+            "size", size,
+            "totalElements", total,
+            "totalPages", totalPages
+    );
+}
 ```
 
-"content", contenido, "page", page, "size", size, "totalElements", total, "totalPages", totalPages ); } Los parámetros curso, dni y sort son opcionales. page y size tienen valores por defecto. service.listar(...) devuelve la página actual. service.contar(...) devuelve el total de elementos que cumplen los filtros. Math.ceil((double) total / size) calcula el número total de páginas. Se redondea hacia arriba porque una página parcial cuenta como una página completa. Map.of(...) construye la respuesta con los metadatos. Spring Boot lo serializa a JSON.
+Los parámetros curso, dni y sort son opcionales. page y size tienen valores por defecto. service.listar(...) devuelve la página actual. service.contar(...) devuelve el total de elementos que cumplen los filtros. Math.ceil((double) total / size) calcula el número total de páginas. Se redondea hacia arriba porque una página parcial cuenta como una página completa. Map.of(...) construye la respuesta con los metadatos. Spring Boot lo serializa a JSON.
 
 **Pregunta: ¿Por qué el método devuelve un Map en lugar de una lista? ¿Qué ventaja tiene?**
 
@@ -177,13 +234,14 @@ El GET de colección devuelve `content`, `page`, `size`, `totalElements` y `tota
 
 ### Verificación
 
-Comprueba **`GET /api/v1/alumnos`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`GET /api/v1/alumnos`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 7 - Arrancar y probar todos los casos
 
 Arranca la aplicación y prueba:
 
 ```bash
+
 # Listar todos (página 0, tamaño 20)
 curl http://localhost:8080/api/v1/alumnos
 
@@ -217,7 +275,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 8 - Provocar errores a propósito
 
@@ -227,13 +285,17 @@ Vamos a provocar algunos errores para entender cómo responde el servidor. Error
 curl -i "http://localhost:8080/api/v1/alumnos?page=-1&size=10"
 ```
 
-¿Qué crees que pasará? En nuestro caso, page * size sería negativo, y .skip(-10) lanzaría IllegalArgumentException. Spring Boot devolvería un 500. Error 2: parámetro size cero.
+¿Qué crees que pasará? En nuestro caso, `page * size` sería negativo y `.skip(-10)` lanzaría `IllegalArgumentException`. Sin una validación previa, Spring Boot terminaría devolviendo un `500`.
+
+Error 2: parámetro size cero.
 
 ```bash
 curl -i "http://localhost:8080/api/v1/alumnos?page=0&size=0"
 ```
 
-.limit(0) devuelve una lista vacía. No es un error, pero puede confundir. En una API real, se validaría que size sea positivo. Error 3: tipo incorrecto en un parámetro.
+.limit(0) devuelve una lista vacía. No es un error, pero puede confundir. En una API real, se validaría que size sea positivo.
+
+Error 3: tipo incorrecto en un parámetro.
 
 ```bash
 curl -i "http://localhost:8080/api/v1/alumnos?page=abc"
@@ -249,7 +311,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 9 - Escribir tests del servicio
 
@@ -257,54 +319,56 @@ Vamos a escribir tests para el método listar del servicio. Crea AlumnoServiceTe
 
 ```java
 @Test
-```
+void listar_debeDevolverTodos_cuandoNoHayFiltros() {
+    when(repositorio.listarTodos()).thenReturn(List.of(
+            new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º"),
+            new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º")
+    ));
 
-```java
-void listar_debeDevolverTodos_cuandoNoHayFiltros() { when(repositorio.listarTodos()).thenReturn(List.of( new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º"), new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º") ));
-```
+    List<AlumnoDTO> resultado = servicio.listar(null, null, null, 0, 20);
 
-```java
-List<AlumnoDTO> resultado = servicio.listar(null, null, null, 0, 20);
-```
+    assertEquals(2, resultado.size());
+}
 
-```java
-assertEquals(2, resultado.size()); }
-```
+@Test
+void listar_debeFiltrarPorCurso() {
+    when(repositorio.listarTodos()).thenReturn(List.of(
+            new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º"),
+            new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º")
+    ));
 
-```java
-@Test void listar_debeFiltrarPorCurso() { when(repositorio.listarTodos()).thenReturn(List.of( new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º"), new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º") ));
-```
+    List<AlumnoDTO> resultado = servicio.listar("5º", null, null, 0, 20);
 
-```java
-List<AlumnoDTO> resultado = servicio.listar("5º", null, null, 0, 20);
-```
+    assertEquals(1, resultado.size());
+    assertEquals("Ana", resultado.get(0).getNombre());
+}
 
-```java
-assertEquals(1, resultado.size()); assertEquals("Ana", resultado.get(0).getNombre()); }
-```
+@Test
+void listar_debeOrdenarPorNombre() {
+    when(repositorio.listarTodos()).thenReturn(List.of(
+            new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º"),
+            new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º")
+    ));
 
-```java
-@Test void listar_debeOrdenarPorNombre() { when(repositorio.listarTodos()).thenReturn(List.of( new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º"), new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º") ));
-```
+    List<AlumnoDTO> resultado = servicio.listar(null, null, "nombre", 0, 20);
 
-```java
-List<AlumnoDTO> resultado = servicio.listar(null, null, "nombre", 0, 20);
-```
+    assertEquals("Ana", resultado.get(0).getNombre());
+    assertEquals("Luis", resultado.get(1).getNombre());
+}
 
-```java
-assertEquals("Ana", resultado.get(0).getNombre()); assertEquals("Luis", resultado.get(1).getNombre()); }
-```
+@Test
+void listar_debePaginar() {
+    when(repositorio.listarTodos()).thenReturn(List.of(
+            new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º"),
+            new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º"),
+            new AlumnoDTO("3", "María", "López", "11111111C", null, "4º")
+    ));
 
-```java
-@Test void listar_debePaginar() { when(repositorio.listarTodos()).thenReturn(List.of( new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º"), new AlumnoDTO("2", "Luis", "Pérez", "87654321B", null, "6º"), new AlumnoDTO("3", "María", "López", "11111111C", null, "4º") ));
-```
+    List<AlumnoDTO> resultado = servicio.listar(null, null, null, 1, 2);
 
-```java
-List<AlumnoDTO> resultado = servicio.listar(null, null, null, 1, 2);
-```
-
-```java
-assertEquals(1, resultado.size()); assertEquals("María", resultado.get(0).getNombre()); }
+    assertEquals(1, resultado.size());
+    assertEquals("María", resultado.get(0).getNombre());
+}
 ```
 
 **Pregunta: ¿Por qué el test de paginación verifica que el tamaño del resultado es 1? ¿Qué representa ese 1?**
@@ -315,7 +379,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 10 - Escribir tests del controlador
 
@@ -323,15 +387,23 @@ Añade tests al AlumnoControllerTest:
 
 ```java
 @Test
+void listar_debeDevolver200ConMetadatos() throws Exception {
+    when(service.listar(any(), any(), any(), anyInt(), anyInt()))
+            .thenReturn(List.of(new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º")));
+    when(service.contar(any(), any())).thenReturn(1L);
+
+    mockMvc.perform(get("/api/v1/alumnos"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content").isArray())
+            .andExpect(jsonPath("$.content.length()").value(1))
+            .andExpect(jsonPath("$.page").value(0))
+            .andExpect(jsonPath("$.size").value(20))
+            .andExpect(jsonPath("$.totalElements").value(1))
+            .andExpect(jsonPath("$.totalPages").value(1));
+}
 ```
 
-```java
-void listar_debeDevolver200ConMetadatos() throws Exception { when(service.listar(any(), any(), any(), anyInt(), anyInt())) .thenReturn(List.of(new AlumnoDTO("1", "Ana", "García", "12345678A", null, "5º"))); when(service.contar(any(), any())).thenReturn(1L);
-```
-
-```java
-mockMvc.perform(get("/api/v1/alumnos")) .andExpect(status().isOk()) .andExpect(jsonPath("$.content").isArray()) .andExpect(jsonPath("$.content.length()").value(1)) .andExpect(jsonPath("$.page").value(0)) .andExpect(jsonPath("$.size").value(20)) .andExpect(jsonPath("$.totalElements").value(1)) .andExpect(jsonPath("$.totalPages").value(1)); } any() es un matcher de Mockito que coincide con cualquier valor, incluido null. anyInt() coincide con cualquier int. jsonPath("$.content").isArray() verifica que content es un array. jsonPath("$.content.length()").value(1) verifica que el array tiene 1 elemento. jsonPath("$.page").value(0) verifica que page es 0.
-```
+any() es un matcher de Mockito que coincide con cualquier valor, incluido null. anyInt() coincide con cualquier int. jsonPath("$.content").isArray() verifica que content es un array. jsonPath("$.content.length()").value(1) verifica que el array tiene 1 elemento. jsonPath("$.page").value(0) verifica que page es 0.
 
 **Pregunta: ¿Por qué se mockean listar y contar con any() en lugar de con valores concretos?**
 
@@ -341,11 +413,20 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 11 - Errores comunes del ejercicio
 
-Error Causa Solución 500 Internal Server Error con page negativo .skip() con valor negativo Validar page >= 0 400 Bad Request con page=abc Spring no puede convertir "abc" a int Documentar que page debe ser numérico La colección vacía devuelve 404 Se trata como recurso no encontrado Devolver [] con 200 El filtro no se aplica Se compara con == en lugar de .equals() Usar .equals() o equalsIgnoreCase Error Causa Solución La ordenación no funciona El comparador devuelve null Devolver 0 si no se reconoce el campo totalPages es 0 total es 0 Es correcto: 0 elementos, 0 páginas El test falla por any() Se ha usado un matcher en un solo argumento Usar matchers en todos los argumentos La paginación no devuelve nada page y size mal calculados Revisar skip y limit
+| Error | Causa | Solución |
+|---|---|---|
+| `500 Internal Server Error` con `page` negativo | `.skip()` recibe un valor negativo | Validar `page >= 0` antes de paginar |
+| `400 Bad Request` con `page=abc` | Spring no puede convertir `abc` a `int` | Documentar que `page` debe ser numérico |
+| La colección vacía devuelve `404` | Se trata como recurso no encontrado | Devolver `[]` con `200 OK` |
+| El filtro no se aplica | Se compara con `==` en lugar de `.equals()` | Usar `.equals()` o `equalsIgnoreCase()` |
+| La ordenación no funciona | El comparador no contempla el campo | Definir un comportamiento explícito para campos desconocidos |
+| `totalPages` es `0` | `totalElements` es `0` | Es correcto: cero elementos implican cero páginas |
+| El test falla por `any()` | Se mezclan matchers con valores concretos | Usar matchers en todos los argumentos |
+| La paginación no devuelve datos | `page` y `size` están mal calculados | Revisar `skip` y `limit` |
 
 ### Adaptación al snapshot final M3
 
@@ -353,7 +434,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 12 - Reto resuelto - Filtro por rango de fechas
 
@@ -361,9 +442,29 @@ Reto: Añadir un filtro por rango de fecha de nacimiento. El cliente envía fech
 
 ```java
 public List<AlumnoDTO> listar(String curso, String dni, String sort,
+                              LocalDate fechaDesde, LocalDate fechaHasta,
+                              int page, int size) {
+    return repositorio.listarTodos().stream()
+            .filter(a -> curso == null || curso.isBlank()
+                    || a.getCurso().equalsIgnoreCase(curso))
+            .filter(a -> dni == null || dni.isBlank()
+                    || a.getDni().equals(dni))
+            .filter(a -> fechaDesde == null
+                    || (a.getFechaNacimiento() != null
+                        && !a.getFechaNacimiento().isBefore(fechaDesde)))
+            .filter(a -> fechaHasta == null
+                    || (a.getFechaNacimiento() != null
+                        && !a.getFechaNacimiento().isAfter(fechaHasta)))
+            .sorted(...)
+            .skip((long) page * size)
+            .limit(size)
+            .toList();
+}
 ```
 
-LocalDate fechaDesde, LocalDate fechaHasta, int page, int size) { return repositorio.listarTodos().stream() .filter(a -> curso == null || curso.isBlank() || a.getCurso().equalsIgnoreCase(curso)) .filter(a -> dni == null || dni.isBlank() || a.getDni().equals(dni)) .filter(a -> fechaDesde == null || (a.getFechaNacimiento() != null && !a.getFechaNacimiento().isBefore(fechaDesde))) .filter(a -> fechaHasta == null || (a.getFechaNacimiento() != null && !a.getFechaNacimiento().isAfter(fechaHasta))) .sorted(...) .skip((long) page * size) .limit(size) .toList(); } !a.getFechaNacimiento().isBefore(fechaDesde) significa "la fecha de nacimiento no es anterior a fechaDesde", es decir, es igual o posterior. !a.getFechaNacimiento().isAfter(fechaHasta) significa "la fecha de nacimiento no es posterior a fechaHasta", es decir, es igual o anterior. Paso 2: Modificar el controlador para aceptar los nuevos parámetros:
+!a.getFechaNacimiento().isBefore(fechaDesde) significa "la fecha de nacimiento no es anterior a fechaDesde", es decir, es igual o
+
+posterior. !a.getFechaNacimiento().isAfter(fechaHasta) significa "la fecha de nacimiento no es posterior a fechaHasta", es decir, es igual o anterior. Paso 2: Modificar el controlador para aceptar los nuevos parámetros:
 
 ```java
 @GetMapping
@@ -377,9 +478,13 @@ public Map<String, Object> listar(
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size) {
+    // ...
+}
 ```
 
-// ... } @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) le dice a Spring que convierta el parámetro de String a LocalDate usando el formato ISO 8601 (yyyy-MM-dd). Paso 3: Probar:
+`@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)` indica a Spring que convierta el parámetro de `String` a `LocalDate` usando el formato ISO-8601.
+
+formato ISO 8601 (yyyy-MM-dd). Paso 3: Probar:
 
 ```bash
 curl "http://localhost:8080/api/v1/alumnos?fechaDesde=2010-01-01&fechaHasta=2010-12-31"
@@ -395,7 +500,7 @@ Añade `fechaDesde` y `fechaHasta` como `LocalDate` ISO, inclusivas, y rechaza u
 
 ### Verificación
 
-Comprueba **`fechaDesde=2010-01-01&fechaHasta=2010-12-31`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`fechaDesde=2010-01-01&fechaHasta=2010-12-31`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Resultado esperado de la práctica
 
@@ -405,6 +510,7 @@ Al final del ejercicio, deberías tener:
 -  Un GET individual que devuelve 200 o 404.
 -  Una respuesta paginada con metadatos (content, page, size, totalElements, totalPages).
 -  Tests del servicio y del controlador para los casos principales.
+
 ## Resumen técnico del ejercicio
 
 El ejercicio ha demostrado:
@@ -461,11 +567,11 @@ Arranca la aplicación y prueba:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"María","apellidos":"López","dni":"33333333E","fechaNacimiento":"2011-03-20","curso":"4º Primaria"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"María","apellidos":"López","dni":"33333333E","fechaNacimiento":"2011-03-20","curso":"4º Primaria"}' Verás un 201 con la cabecera Location y el recurso creado.
-```
+Verás un 201 con la cabecera Location y el recurso creado.
 
 **Pregunta: ¿Qué pasaría si el DNI ya existiera? ¿Qué código devolvería?**
 
@@ -475,7 +581,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 2 - Mejorar la construcción de la URI con ServletUriComponentsBuilder
 
@@ -493,9 +599,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @PostMapping
 public ResponseEntity<AlumnoDTO> crear(@RequestBody AlumnoDTO dto) {
     AlumnoDTO creado = service.crear(dto);
+    URI location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(creado.getIdentificador())
+            .toUri();
+    return ResponseEntity.created(location).body(creado);
+}
 ```
 
-URI location = ServletUriComponentsBuilder .fromCurrentRequest() .path("/{id}") .buildAndExpand(creado.getIdentificador()) .toUri(); return ResponseEntity.created(location).body(creado); } fromCurrentRequest() toma la URL actual (/api/v1/alumnos). .path("/{id}") añade la ruta del recurso individual. .buildAndExpand(id) reemplaza {id} con el ID del recurso creado. .toUri() construye la URI final. Esta forma es más robusta: si mañana cambia el contexto de la aplicación (por ejemplo, se despliega en /mecd/api), la URI se construye correctamente.
+fromCurrentRequest() toma la URL actual (/api/v1/alumnos). .path("/{id}") añade la ruta del recurso individual. .buildAndExpand(id) reemplaza {id} con el ID del recurso creado. .toUri() construye la URI final. Esta forma es más robusta: si mañana cambia el contexto de la aplicación (por ejemplo, se despliega en /mecd/api), la URI se construye correctamente.
 
 **Pregunta: ¿Qué ventaja tiene ServletUriComponentsBuilder frente a concatenar strings?**
 
@@ -505,7 +618,7 @@ Sustituye la concatenación manual de Location por `ServletUriComponentsBuilder.
 
 ### Verificación
 
-Comprueba **`Location: http://localhost:8080/api/v1/alumnos/{id}`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`Location: http://localhost:8080/api/v1/alumnos/{id}`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 3 - Arrancar y probar el POST con Location
 
@@ -513,11 +626,11 @@ Reinicia la aplicación y prueba:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"44444444F","fechaNacimiento":"2010-07-15","curso":"5º Primaria"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"44444444F","fechaNacimiento":"2010-07-15","curso":"5º Primaria"}' Verás algo como:
-```
+Verás algo como:
 
 ```text
 HTTP/1.1 201
@@ -537,7 +650,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 4 - Probar el POST con DNI duplicado
 
@@ -545,20 +658,22 @@ Ahora prueba a crear un alumno con un DNI que ya existe:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Otro","apellidos":"Alumno","dni":"12345678A","fechaNacimiento":"2010-01-01","curso":"1º Primaria"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Otro","apellidos":"Alumno","dni":"12345678A","fechaNacimiento":"2010-01-01","curso":"1º Primaria"}' Verás algo como:
-```
+Verás algo como:
 
 ```text
 HTTP/1.1 409
 Content-Type: application/json
-
-{"status":409,"error":"Conflict","message":"Ya existe un alumno con el DNI 12345678A"}
-El servicio ha detectado el duplicado y ha lanzado NegocioException. El manejador del controlador la ha capturado y ha devuelto un
-409 con un JSON descriptivo.
 ```
+
+```json
+{"status":409,"error":"Conflict","message":"Ya existe un alumno con el DNI 12345678A"}
+```
+
+El servicio ha detectado el duplicado y ha lanzado `NegocioException`. El manejador del controlador la captura y devuelve `409` con un JSON descriptivo.
 
 **Pregunta: ¿Por qué es 409 y no 400? ¿Qué diferencia hay entre un conflicto y una petición mal formada?**
 
@@ -568,7 +683,7 @@ Reutiliza la regla de DNI único del servicio. El conflicto debe quedar en 409 y
 
 ### Verificación
 
-Comprueba **`409 Conflict`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`409 Conflict`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 5 - Probar el POST con JSON mal formado
 
@@ -576,11 +691,11 @@ Vamos a provocar un error de sintaxis en el JSON:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Pedro", "apellidos":"Sánchez",}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Pedro", "apellidos":"Sánchez",}' El JSON tiene una coma final. Verás un 400 Bad Request con un mensaje que describe el error:
-```
+El JSON tiene una coma final. Verás un `400 Bad Request` con un mensaje que describe el error:
 
 ```json
 {
@@ -601,7 +716,7 @@ Envía JSON con una coma sobrante para observar un 400 de deserialización antes
 
 ### Verificación
 
-Comprueba **`400 Bad Request`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`400 Bad Request`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 6 - Probar el POST sin Content-Type
 
@@ -609,11 +724,10 @@ Vamos a enviar un POST sin la cabecera Content-Type:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"55555555G","fechaNacimiento":"2010-01-01","curso":"1º Primaria"}'
 ```
 
-```bash
--d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"55555555G","fechaNacimiento":"2010-01-01","curso":"1º Primaria"}' Verás un 415 Unsupported Media Type. Spring MVC no sabe cómo deserializar el cuerpo sin saber el tipo. El cliente debe enviar Content-Type: application/json.
-```
+Verás un `415 Unsupported Media Type`. Spring MVC no sabe cómo deserializar el cuerpo sin conocer el tipo. El cliente debe enviar `Content-Type: application/json`.
 
 **Pregunta: ¿Por qué Spring MVC necesita la cabecera Content-Type para deserializar?**
 
@@ -623,7 +737,7 @@ Envía el mismo cuerpo sin `Content-Type: application/json` y observa el rechazo
 
 ### Verificación
 
-Comprueba **`415 Unsupported Media Type`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`415 Unsupported Media Type`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 7 - Escribir tests del servicio para POST
 
@@ -631,31 +745,40 @@ Vamos a escribir tests para el método crear del servicio. Crea o amplía Alumno
 
 ```java
 @Test
+void crear_debeGuardarYDevolverAlumno_cuandoNoDuplicado() {
+    AlumnoDTO dto = new AlumnoDTO();
+    dto.setNombre("María");
+    dto.setApellidos("López");
+    dto.setDni("11111111C");
+    dto.setCurso("4º Primaria");
+
+    when(repositorio.existePorDni("11111111C")).thenReturn(false);
+    when(repositorio.contar()).thenReturn(5);
+    when(repositorio.guardar(any(AlumnoDTO.class)))
+            .thenAnswer(inv -> inv.getArgument(0));
+
+    AlumnoDTO resultado = servicio.crear(dto);
+
+    assertNotNull(resultado);
+    assertEquals("6", resultado.getIdentificador());
+    verify(repositorio).guardar(any(AlumnoDTO.class));
+}
+
+@Test
+void crear_debeLanzarExcepcion_cuandoDniDuplicado() {
+    AlumnoDTO dto = new AlumnoDTO();
+    dto.setDni("12345678A");
+
+    when(repositorio.existePorDni("12345678A")).thenReturn(true);
+
+    assertThrows(NegocioException.class, () -> servicio.crear(dto));
+    verify(repositorio, never()).guardar(any(AlumnoDTO.class));
+}
 ```
 
-void crear_debeGuardarYDevolverAlumno_cuandoNoDuplicado() { AlumnoDTO dto = new AlumnoDTO(); dto.setNombre("María"); dto.setApellidos("López"); dto.setDni("11111111C"); dto.setCurso("4º Primaria");
+verify(repositorio, never()).guardar(...) verifica que no se ha llamado a guardar. Eso es importante: si el DNI está duplicado, no
 
-```java
-when(repositorio.existePorDni("11111111C")).thenReturn(false); when(repositorio.contar()).thenReturn(5); when(repositorio.guardar(any(AlumnoDTO.class))) .thenAnswer(inv -> inv.getArgument(0));
-```
-
-AlumnoDTO resultado = servicio.crear(dto);
-
-```java
-assertNotNull(resultado); assertEquals("6", resultado.getIdentificador()); verify(repositorio).guardar(any(AlumnoDTO.class)); }
-```
-
-```java
-@Test void crear_debeLanzarExcepcion_cuandoDniDuplicado() { AlumnoDTO dto = new AlumnoDTO(); dto.setDni("12345678A");
-```
-
-```java
-when(repositorio.existePorDni("12345678A")).thenReturn(true);
-```
-
-```java
-assertThrows(NegocioException.class, () -> servicio.crear(dto)); verify(repositorio, never()).guardar(any(AlumnoDTO.class)); } verify(repositorio, never()).guardar(...) verifica que no se ha llamado a guardar. Eso es importante: si el DNI está duplicado, no se debe guardar nada.
-```
+se debe guardar nada.
 
 **Pregunta: ¿Por qué es importante verificar que no se ha llamado a guardar cuando hay duplicado?**
 
@@ -665,7 +788,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 8 - Escribir tests del controlador para POST
 
@@ -673,23 +796,52 @@ Añade tests al AlumnoControllerTest:
 
 ```java
 @Test
+void crear_debeDevolver201_cuandoDatosValidos() throws Exception {
+    AlumnoDTO dto = new AlumnoDTO("3", "María", "López", "11111111C",
+            LocalDate.of(2011, 3, 20), "4º Primaria");
+    when(service.crear(any(AlumnoDTO.class))).thenReturn(dto);
+
+    mockMvc.perform(post("/api/v1/alumnos")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {
+                      "nombre": "María",
+                      "apellidos": "López",
+                      "dni": "11111111C",
+                      "fechaNacimiento": "2011-03-20",
+                      "curso": "4º Primaria"
+                    }
+                    """))
+            .andExpect(status().isCreated())
+            .andExpect(header().exists("Location"))
+            .andExpect(jsonPath("$.id").value("3"))
+            .andExpect(jsonPath("$.nombre").value("María"));
+}
+
+@Test
+void crear_debeDevolver409_cuandoDniDuplicado() throws Exception {
+    when(service.crear(any(AlumnoDTO.class)))
+            .thenThrow(new NegocioException("Ya existe un alumno con el DNI 12345678A"));
+
+    mockMvc.perform(post("/api/v1/alumnos")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {
+                      "nombre": "Otro",
+                      "apellidos": "Alumno",
+                      "dni": "12345678A",
+                      "fechaNacimiento": "2010-01-01",
+                      "curso": "1º Primaria"
+                    }
+                    """))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.status").value(409));
+}
 ```
 
-```java
-void crear_debeDevolver201_cuandoDatosValidos() throws Exception { AlumnoDTO dto = new AlumnoDTO("3", "María", "López", "11111111C", LocalDate.of(2011, 3, 20), "4º Primaria"); when(service.crear(any(AlumnoDTO.class))).thenReturn(dto);
-```
+header().exists("Location") verifica que la cabecera Location existe, sin comprobar su valor exacto. Es útil cuando la URI completa
 
-```java
-mockMvc.perform(post("/api/v1/alumnos") .contentType(MediaType.APPLICATION_JSON) .content(""" { "nombre": "María", "apellidos": "López", "dni": "11111111C", "fechaNacimiento": "2011-03-20", "curso": "4º Primaria" } """)) .andExpect(status().isCreated()) .andExpect(header().exists("Location")) .andExpect(jsonPath("$.id").value("3")) .andExpect(jsonPath("$.nombre").value("María")); }
-```
-
-```java
-@Test void crear_debeDevolver409_cuandoDniDuplicado() throws Exception { when(service.crear(any(AlumnoDTO.class))) .thenThrow(new NegocioException("Ya existe un alumno con el DNI 12345678A"));
-```
-
-```java
-mockMvc.perform(post("/api/v1/alumnos") .contentType(MediaType.APPLICATION_JSON) .content(""" { "nombre": "Otro", "apellidos": "Alumno", "dni": "12345678A", "fechaNacimiento": "2010-01-01", "curso": "1º Primaria" } """)) .andExpect(status().isConflict()) .andExpect(jsonPath("$.status").value(409)); } header().exists("Location") verifica que la cabecera Location existe, sin comprobar su valor exacto. Es útil cuando la URI completa depende del host. thenThrow(new NegocioException(...)) configura el mock para que lance la excepción. Así el controlador la captura con @ExceptionHandler y devuelve 409.
-```
+depende del host. thenThrow(new NegocioException(...)) configura el mock para que lance la excepción. Así el controlador la captura con @ExceptionHandler y devuelve 409.
 
 **Pregunta: ¿Por qué el test del controlador mockea el servicio en lugar de usar uno real?**
 
@@ -699,7 +851,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 9 - Ejecutar todos los tests
 
@@ -723,7 +875,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 10 - Probar el POST con un cuerpo vacío
 
@@ -731,11 +883,10 @@ Vamos a provocar un error enviando un POST sin cuerpo:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json"
 ```
 
-```bash
--H "Content-Type: application/json" Verás un 400 Bad Request con un mensaje como:
-```
+Verás un `400 Bad Request` con un mensaje como:
 
 ```json
 {
@@ -755,11 +906,21 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 11 - Errores comunes del ejercicio
 
-Error Causa Solución 415 Unsupported Media Type Falta Content-Type Añadir -H "Content-Type: application/json" 400 Bad Request JSON mal formado Revisar la sintaxis 400 Bad Request Cuerpo vacío Enviar un cuerpo 409 Conflict DNI duplicado Es correcto: el servicio lo detecta 500 Internal Server Error Excepción no capturada Añadir @ExceptionHandler Location no aparece Falta ResponseEntity.created(location) Usarlo El ID no se asigna El servicio no genera ID Verificar la lógica El test falla por any() Matchers mezclados Usar matchers en todos los argumentos MethodArgumentNotValidException no capturada Falta el manejador Añadirlo (Módulo 5)
+| Error | Causa | Solución |
+|---|---|---|
+| `415 Unsupported Media Type` | Falta `Content-Type` | Añadir `-H "Content-Type: application/json"` |
+| `400 Bad Request` | JSON mal formado | Revisar la sintaxis del cuerpo |
+| `400 Bad Request` con cuerpo vacío | No se ha enviado un cuerpo | Enviar un JSON válido |
+| `409 Conflict` | DNI duplicado | Es correcto: el servicio detecta el conflicto |
+| `500 Internal Server Error` | Excepción no traducida | Añadir un manejador para la excepción conocida |
+| No aparece `Location` | Falta `ResponseEntity.created(location)` | Construir la respuesta con `created(...)` |
+| El ID no se asigna | El servicio no genera identidad | Revisar la lógica de creación |
+| El test falla por `any()` | Matchers mezclados | Usar matchers en todos los argumentos |
+| `MethodArgumentNotValidException` no se traduce | Falta el manejador | Añadirlo al manejo centralizado de errores |
 
 ### Adaptación al snapshot final M3
 
@@ -767,7 +928,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 12 - Reto resuelto - POST con validación de campos obligatorios
 
@@ -797,17 +958,19 @@ public AlumnoDTO crear(AlumnoDTO dto) {
 Cada validación comprueba que un campo no sea nulo ni vacío. Si falla, lanza NegocioException con un mensaje específico. Paso 2: Probar con curl:
 
 ```bash
+
 # Sin nombre
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"apellidos":"López","dni":"66666666H","fechaNacimiento":"2010-01-01","curso":"1º"}'
+
+# Sin DNI
+curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Pedro","apellidos":"López","fechaNacimiento":"2010-01-01","curso":"1º"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"apellidos":"López","dni":"66666666H","fechaNacimiento":"2010-01-01","curso":"1º"}'
-```
-
-```bash
-# Sin DNI curl -i -X POST http://localhost:8080/api/v1/alumnos \ -H "Content-Type: application/json" \ -d '{"nombre":"Pedro","apellidos":"López","fechaNacimiento":"2010-01-01","curso":"1º"}' Verás un 409 con el mensaje correspondiente. En el Módulo 5, cuando centralicemos el manejo de errores, podremos diferenciar entre 400 (validación de formato) y 409 (conflicto de negocio).
-```
+En esta fase transitoria verás el código definido por la validación manual. En el punto 3.5, al centralizar Bean Validation, quedará separada la validación de formato (`400`) del conflicto de negocio (`409`).
 
 **Pregunta: ¿Por qué hemos usado 409 y no 400 para los campos obligatorios? ¿Es correcto?**
 
@@ -819,7 +982,7 @@ Introduce primero la validación manual sólo como transición pedagógica; en 3
 
 ### Verificación
 
-Comprueba **`nombre`, `apellidos`, `dni` obligatorios** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`nombre`, `apellidos`, `dni` obligatorios** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Resultado esperado de la práctica
 
@@ -830,6 +993,7 @@ Al final del ejercicio, deberías tener:
 -  Manejo de NegocioException con 409.
 -  Tests del servicio y del controlador para POST.
 -  Capacidad de probar todos los casos con curl.
+
 ## Resumen técnico del ejercicio
 
 El ejercicio ha demostrado:
@@ -907,16 +1071,22 @@ public Optional<AlumnoDTO> actualizarParcial(String id, Map<String, Object> camb
 Arranca la aplicación y prueba:
 
 ```bash
+
 # PUT
 curl -i -X PUT http://localhost:8080/api/v1/alumnos/1 \
-```
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre":"Ana",
+    "apellidos":"García López",
+    "dni":"12345678A",
+    "fechaNacimiento":"2010-05-12",
+    "curso":"6º Primaria"
+  }'
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Ana","apellidos":"García López","dni":"12345678A","fechaNacimiento":"2010-05-12","curso":"6º Primaria"}'
-```
-
-```bash
-# PATCH curl -i -X PATCH http://localhost:8080/api/v1/alumnos/1 \ -H "Content-Type: application/json" \ -d '{"curso": "6º Primaria B"}'
+# PATCH
+curl -i -X PATCH http://localhost:8080/api/v1/alumnos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"curso": "6º Primaria B"}'
 ```
 
 **Pregunta: ¿Qué diferencia hay entre el PUT y el PATCH que acabas de probar?**
@@ -927,7 +1097,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 2 - Añadir validación de DNI duplicado en PUT
 
@@ -946,9 +1116,18 @@ anyMatch(a -> ...) comprueba si algún elemento cumple la condición. a.getDni()
 ```java
 public Optional<AlumnoDTO> actualizar(String id, AlumnoDTO dto) {
     if (dto.getDni() != null
+            && repositorio.existePorDniYIdDistinto(dto.getDni(), id)) {
+        throw new NegocioException(
+                "Ya existe otro alumno con el DNI " + dto.getDni());
+    }
+    return repositorio.buscarPorId(id).map(existente -> {
+        dto.setIdentificador(id);
+        return repositorio.guardar(dto);
+    });
+}
 ```
 
-&& repositorio.existePorDniYIdDistinto(dto.getDni(), id)) { throw new NegocioException( "Ya existe otro alumno con el DNI " + dto.getDni()); } return repositorio.buscarPorId(id).map(existente -> { dto.setIdentificador(id); return repositorio.guardar(dto); }); } dto.getDni() != null comprueba que el DNI no es nulo antes de validar. Si el cliente no envía DNI en el PUT, no se valida. repositorio.existePorDniYIdDistinto(...) comprueba si hay otro alumno con ese DNI. throw new NegocioException(...) lanza la excepción si hay duplicado.
+dto.getDni() != null comprueba que el DNI no es nulo antes de validar. Si el cliente no envía DNI en el PUT, no se valida. repositorio.existePorDniYIdDistinto(...) comprueba si hay otro alumno con ese DNI. throw new NegocioException(...) lanza la excepción si hay duplicado.
 
 **Pregunta: ¿Por qué se comprueba que el DNI no es nulo antes de validar?**
 
@@ -958,7 +1137,7 @@ Antes de guardar un PUT, comprueba si el DNI pertenece a otro alumno. La identid
 
 ### Verificación
 
-Comprueba **`existePorDniYIdDistinto` o comprobación equivalente** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`existePorDniYIdDistinto` o comprobación equivalente** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 3 - Probar el PUT con DNI duplicado
 
@@ -966,11 +1145,11 @@ Reinicia la aplicación y prueba a actualizar un alumno con un DNI que ya existe
 
 ```bash
 curl -i -X PUT http://localhost:8080/api/v1/alumnos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Ana","apellidos":"García","dni":"87654321B","fechaNacimiento":"2010-05-12","curso":"6º Primaria"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Ana","apellidos":"García","dni":"87654321B","fechaNacimiento":"2010-05-12","curso":"6º Primaria"}' El DNI 87654321B pertenece al alumno 2. Como estamos actualizando el alumno 1, hay conflicto. Verás un 409 Conflict con el mensaje:
-```
+El DNI 87654321B pertenece al alumno 2. Como estamos actualizando el alumno 1, hay conflicto. Verás un 409 Conflict con el mensaje:
 
 ```json
 {"status":409,"error":"Conflict","message":"Ya existe otro alumno con el DNI 87654321B"}
@@ -984,7 +1163,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 4 - Probar el PUT sobre recurso inexistente
 
@@ -992,11 +1171,11 @@ Prueba a actualizar un alumno que no existe:
 
 ```bash
 curl -i -X PUT http://localhost:8080/api/v1/alumnos/999 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"X","apellidos":"Y","dni":"00000000Z","fechaNacimiento":"2010-01-01","curso":"1º"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"X","apellidos":"Y","dni":"00000000Z","fechaNacimiento":"2010-01-01","curso":"1º"}' Verás un 404 Not Found. El servicio ha devuelto Optional.empty() porque no encontró el recurso, y el controlador lo ha traducido a 404.
-```
+Verás un `404 Not Found`. El servicio devuelve `Optional.empty()` porque no encuentra el recurso y el controlador lo traduce a `404`.
 
 **Pregunta: ¿Por qué el 404 es el código correcto en este caso?**
 
@@ -1006,7 +1185,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 5 - Añadir más campos al PATCH
 
@@ -1024,9 +1203,24 @@ public Optional<AlumnoDTO> actualizarParcial(String id, Map<String, Object> camb
         if (cambios.containsKey("dni")) {
             String nuevoDni = (String) cambios.get("dni");
             if (repositorio.existePorDniYIdDistinto(nuevoDni, id)) {
+                throw new NegocioException(
+                        "Ya existe otro alumno con el DNI " + nuevoDni);
+            }
+            alumno.setDni(nuevoDni);
+        }
+        if (cambios.containsKey("curso")) {
+            alumno.setCurso((String) cambios.get("curso"));
+        }
+        if (cambios.containsKey("fechaNacimiento")) {
+            alumno.setFechaNacimiento(
+                    LocalDate.parse((String) cambios.get("fechaNacimiento")));
+        }
+        return repositorio.guardar(alumno);
+    });
+}
 ```
 
-throw new NegocioException( "Ya existe otro alumno con el DNI " + nuevoDni); } alumno.setDni(nuevoDni); } if (cambios.containsKey("curso")) { alumno.setCurso((String) cambios.get("curso")); } if (cambios.containsKey("fechaNacimiento")) { alumno.setFechaNacimiento( LocalDate.parse((String) cambios.get("fechaNacimiento"))); } return repositorio.guardar(alumno); }); } LocalDate.parse(...) convierte un String en formato ISO 8601 (yyyy-MM-dd) a un LocalDate. Si el formato no es correcto, lanza DateTimeParseException.
+LocalDate.parse(...) convierte un String en formato ISO 8601 (yyyy-MM-dd) a un LocalDate. Si el formato no es correcto, lanza DateTimeParseException.
 
 **Pregunta: ¿Qué pasa si el cliente envía una fecha con formato incorrecto en el PATCH?**
 
@@ -1036,7 +1230,7 @@ Amplía PATCH a nombre, apellidos, dni, curso y fechaNacimiento; ignora o rechaz
 
 ### Verificación
 
-Comprueba **`Map<String,Object> cambios`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`Map<String,Object> cambios`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 6 - Probar el PATCH con varios campos
 
@@ -1044,11 +1238,11 @@ Reinicia y prueba un PATCH que modifique varios campos:
 
 ```bash
 curl -i -X PATCH http://localhost:8080/api/v1/alumnos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Ana María", "curso": "6º Primaria B"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre": "Ana María", "curso": "6º Primaria B"}' Verás un 200 con el alumno actualizado. Solo han cambiado nombre y curso; los demás campos se mantienen.
-```
+Verás un 200 con el alumno actualizado. Solo han cambiado nombre y curso; los demás campos se mantienen.
 
 **Pregunta: ¿Cómo puedes verificar que los demás campos no han cambiado?**
 
@@ -1058,7 +1252,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 7 - Probar el PATCH con DNI duplicado
 
@@ -1066,11 +1260,11 @@ Prueba un PATCH que cambie el DNI a uno que ya existe:
 
 ```bash
 curl -i -X PATCH http://localhost:8080/api/v1/alumnos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"dni": "87654321B"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"dni": "87654321B"}' Verás un 409 Conflict. El servicio detecta el duplicado y lanza NegocioException.
-```
+Verás un 409 Conflict. El servicio detecta el duplicado y lanza NegocioException.
 
 **Pregunta: ¿Qué diferencia hay entre este 409 y el del PUT?**
 
@@ -1080,7 +1274,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 8 - Probar el PATCH con fecha mal formateada
 
@@ -1088,11 +1282,11 @@ Prueba un PATCH con una fecha en formato incorrecto:
 
 ```bash
 curl -i -X PATCH http://localhost:8080/api/v1/alumnos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"fechaNacimiento": "12/05/2010"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"fechaNacimiento": "12/05/2010"}' LocalDate.parse espera formato ISO 8601 (yyyy-MM-dd). Como "12/05/2010" no lo es, lanza DateTimeParseException. Spring Boot devuelve un 500 Internal Server Error.
-```
+LocalDate.parse espera formato ISO 8601 (yyyy-MM-dd). Como "12/05/2010" no lo es, lanza DateTimeParseException. Spring Boot devuelve un 500 Internal Server Error.
 
 **Pregunta: ¿Qué habría que hacer para aceptar también el formato dd/MM/yyyy?**
 
@@ -1102,7 +1296,7 @@ Provoca una fecha no ISO en PATCH y asegúrate de obtener 400, nunca 500.
 
 ### Verificación
 
-Comprueba **`fechaNacimiento=15/07/2010`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`fechaNacimiento=15/07/2010`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 9 - Escribir tests del servicio para PUT
 
@@ -1110,44 +1304,41 @@ Añade tests al AlumnoServiceTest:
 
 ```java
 @Test
-```
+void actualizar_debeReemplazarAlumno_cuandoExiste() {
+    AlumnoDTO existente = new AlumnoDTO("1", "Ana", "García", "12345678A",
+            LocalDate.of(2010, 5, 12), "5º Primaria");
+    AlumnoDTO nuevosDatos = new AlumnoDTO(null, "Ana", "García López", "12345678A",
+            LocalDate.of(2010, 5, 12), "6º Primaria");
 
-void actualizar_debeReemplazarAlumno_cuandoExiste() { AlumnoDTO existente = new AlumnoDTO("1", "Ana", "García", "12345678A", LocalDate.of(2010, 5, 12), "5º Primaria"); AlumnoDTO nuevosDatos = new AlumnoDTO(null, "Ana", "García López", "12345678A", LocalDate.of(2010, 5, 12), "6º Primaria");
+    when(repositorio.buscarPorId("1")).thenReturn(Optional.of(existente));
+    when(repositorio.existePorDniYIdDistinto("12345678A", "1")).thenReturn(false);
+    when(repositorio.guardar(any())).thenAnswer(inv -> inv.getArgument(0));
 
-```java
-when(repositorio.buscarPorId("1")).thenReturn(Optional.of(existente)); when(repositorio.existePorDniYIdDistinto("12345678A", "1")).thenReturn(false); when(repositorio.guardar(any())).thenAnswer(inv -> inv.getArgument(0));
-```
+    Optional<AlumnoDTO> resultado = servicio.actualizar("1", nuevosDatos);
 
-```java
-Optional<AlumnoDTO> resultado = servicio.actualizar("1", nuevosDatos);
-```
+    assertTrue(resultado.isPresent());
+    assertEquals("6º Primaria", resultado.get().getCurso());
+    assertEquals("García López", resultado.get().getApellidos());
+}
 
-```java
-assertTrue(resultado.isPresent()); assertEquals("6º Primaria", resultado.get().getCurso()); assertEquals("García López", resultado.get().getApellidos()); }
-```
+@Test
+void actualizar_debeDevolverVacio_cuandoNoExiste() {
+    when(repositorio.buscarPorId("999")).thenReturn(Optional.empty());
 
-```java
-@Test void actualizar_debeDevolverVacio_cuandoNoExiste() { when(repositorio.buscarPorId("999")).thenReturn(Optional.empty());
-```
+    Optional<AlumnoDTO> resultado = servicio.actualizar("999", new AlumnoDTO());
 
-```java
-Optional<AlumnoDTO> resultado = servicio.actualizar("999", new AlumnoDTO());
-```
+    assertTrue(resultado.isEmpty());
+}
 
-```java
-assertTrue(resultado.isEmpty()); }
-```
+@Test
+void actualizar_debeLanzarExcepcion_cuandoDniDuplicado() {
+    AlumnoDTO dto = new AlumnoDTO();
+    dto.setDni("87654321B");
 
-```java
-@Test void actualizar_debeLanzarExcepcion_cuandoDniDuplicado() { AlumnoDTO dto = new AlumnoDTO(); dto.setDni("87654321B");
-```
+    when(repositorio.existePorDniYIdDistinto("87654321B", "1")).thenReturn(true);
 
-```java
-when(repositorio.existePorDniYIdDistinto("87654321B", "1")).thenReturn(true);
-```
-
-```java
-assertThrows(NegocioException.class, () -> servicio.actualizar("1", dto)); }
+    assertThrows(NegocioException.class, () -> servicio.actualizar("1", dto));
+}
 ```
 
 **Pregunta: ¿Por qué el test de DNI duplicado verifica que se lanza la excepción antes de buscar el recurso?**
@@ -1158,7 +1349,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 10 - Escribir tests del controlador para PUT y PATCH
 
@@ -1166,31 +1357,57 @@ Añade tests al AlumnoControllerTest:
 
 ```java
 @Test
+void actualizar_debeDevolver200_cuandoExiste() throws Exception {
+    AlumnoDTO actualizado = new AlumnoDTO("1", "Ana", "García López", "12345678A",
+            LocalDate.of(2010, 5, 12), "6º Primaria");
+    when(service.actualizar(eq("1"), any(AlumnoDTO.class)))
+            .thenReturn(Optional.of(actualizado));
+
+    mockMvc.perform(put("/api/v1/alumnos/1")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {
+                      "nombre": "Ana",
+                      "apellidos": "García López",
+                      "dni": "12345678A",
+                      "fechaNacimiento": "2010-05-12",
+                      "curso": "6º Primaria"
+                    }
+                    """))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.curso").value("6º Primaria"));
+}
+
+@Test
+void actualizar_debeDevolver404_cuandoNoExiste() throws Exception {
+    when(service.actualizar(eq("999"), any(AlumnoDTO.class)))
+            .thenReturn(Optional.empty());
+
+    mockMvc.perform(put("/api/v1/alumnos/999")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"nombre":"X","apellidos":"Y","dni":"00000000Z",
+                     "fechaNacimiento":"2010-01-01","curso":"1º"}
+                    """))
+            .andExpect(status().isNotFound());
+}
+
+@Test
+void actualizarParcial_debeDevolver200() throws Exception {
+    AlumnoDTO actualizado = new AlumnoDTO("1", "Ana", "García", "12345678A",
+            LocalDate.of(2010, 5, 12), "6º Primaria B");
+    when(service.actualizarParcial(eq("1"), anyMap()))
+            .thenReturn(Optional.of(actualizado));
+
+    mockMvc.perform(patch("/api/v1/alumnos/1")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"curso\": \"6º Primaria B\"}"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.curso").value("6º Primaria B"));
+}
 ```
 
-```java
-void actualizar_debeDevolver200_cuandoExiste() throws Exception { AlumnoDTO actualizado = new AlumnoDTO("1", "Ana", "García López", "12345678A", LocalDate.of(2010, 5, 12), "6º Primaria"); when(service.actualizar(eq("1"), any(AlumnoDTO.class))) .thenReturn(Optional.of(actualizado));
-```
-
-```java
-mockMvc.perform(put("/api/v1/alumnos/1") .contentType(MediaType.APPLICATION_JSON) .content(""" { "nombre": "Ana", "apellidos": "García López", "dni": "12345678A", "fechaNacimiento": "2010-05-12", "curso": "6º Primaria" } """)) .andExpect(status().isOk()) .andExpect(jsonPath("$.curso").value("6º Primaria")); }
-```
-
-```java
-@Test void actualizar_debeDevolver404_cuandoNoExiste() throws Exception { when(service.actualizar(eq("999"), any(AlumnoDTO.class))) .thenReturn(Optional.empty());
-```
-
-```java
-mockMvc.perform(put("/api/v1/alumnos/999") .contentType(MediaType.APPLICATION_JSON) .content(""" {"nombre":"X","apellidos":"Y","dni":"00000000Z", "fechaNacimiento":"2010-01-01","curso":"1º"} """)) .andExpect(status().isNotFound()); }
-```
-
-```java
-@Test void actualizarParcial_debeDevolver200() throws Exception { AlumnoDTO actualizado = new AlumnoDTO("1", "Ana", "García", "12345678A", LocalDate.of(2010, 5, 12), "6º Primaria B"); when(service.actualizarParcial(eq("1"), anyMap())) .thenReturn(Optional.of(actualizado));
-```
-
-```java
-mockMvc.perform(patch("/api/v1/alumnos/1") .contentType(MediaType.APPLICATION_JSON) .content("{\"curso\": \"6º Primaria B\"}")) .andExpect(status().isOk()) .andExpect(jsonPath("$.curso").value("6º Primaria B")); } anyMap() es un matcher de Mockito que coincide con cualquier Map. eq("1") coincide exactamente con el string "1". Se usa cuando se mezclan matchers con valores concretos.
-```
+anyMap() es un matcher de Mockito que coincide con cualquier Map. eq("1") coincide exactamente con el string "1". Se usa cuando se mezclan matchers con valores concretos.
 
 **Pregunta: ¿Por qué en el test de PATCH se usa anyMap() en lugar de un Map concreto?**
 
@@ -1200,11 +1417,20 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 11 - Errores comunes del ejercicio
 
-Error Causa Solución 404 en PUT de recurso existente El ID no coincide Verificar la URL 409 en PUT del mismo recurso Se valida el DNI contra el propio recurso Usar existePorDniYIdDistinto 500 en PATCH con fecha mal formateada LocalDate.parse falla Validar el formato o capturar la excepción El PATCH no actualiza un campo El campo no está en el Map Verificar el nombre del campo El PATCH actualiza campos no enviados Se usa get en lugar de containsKey Usar containsKey 415 Unsupported Media Type Falta Content-Type Añadir la cabecera El DNI duplicado no se detecta Falta existePorDniYIdDistinto Añadirlo al repositorio ClassCastException en PATCH El valor no es del tipo esperado Verificar el cast
+| Error | Causa | Solución |
+|---|---|---|
+| `404` en un PUT de recurso existente | El ID de la URL no coincide | Verificar la URL usada en la petición |
+| `409` al actualizar el mismo recurso | Se valida el DNI contra el propio recurso | Usar `existePorDniYIdDistinto(...)` |
+| `500` en PATCH con fecha mal formateada | Falla `LocalDate.parse(...)` | Validar el formato y traducir el error a `400` |
+| PATCH no actualiza un campo | El campo no está en el `Map` | Verificar el nombre del campo |
+| PATCH actualiza campos no enviados | Se usa `get(...)` sin `containsKey(...)` | Comprobar presencia antes de actualizar |
+| `415 Unsupported Media Type` | Falta `Content-Type` | Añadir la cabecera `application/json` |
+| No se detecta el DNI duplicado | Falta la comprobación específica | Añadir `existePorDniYIdDistinto(...)` al repositorio |
+| `ClassCastException` en PATCH | El valor recibido no tiene el tipo esperado | Validar/converter el valor antes del cast |
 
 ### Adaptación al snapshot final M3
 
@@ -1212,7 +1438,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 12 - Reto resuelto - Actualizar solo el estado de un expediente con PATCH
 
@@ -1245,11 +1471,11 @@ Paso 3: Probar:
 
 ```bash
 curl -i -X PATCH http://localhost:8080/api/v1/expedientes/1/estado \
+  -H "Content-Type: application/json" \
+  -d '{"estado": "RESUELTA"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"estado": "RESUELTA"}' Verás un 200 con el expediente actualizado. Solo ha cambiado el estado.
-```
+Verás un 200 con el expediente actualizado. Solo ha cambiado el estado.
 
 **Pregunta: ¿Qué ventaja tiene tener un endpoint específico para cambiar el estado en lugar de un PATCH genérico?**
 
@@ -1259,7 +1485,7 @@ Añade un PATCH específico en expediente para modificar el estado sin reenviar 
 
 ### Verificación
 
-Comprueba **`PATCH /api/v1/expedientes/{id}/estado`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`PATCH /api/v1/expedientes/{id}/estado`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Resultado esperado de la práctica
 
@@ -1269,6 +1495,7 @@ Al final del ejercicio, deberías tener:
 -  Un PATCH que actualiza parcialmente un recurso, con validación de DNI duplicado.
 -  Un PATCH específico para cambiar el estado de un expediente.
 -  Tests del servicio y del controlador para PUT y PATCH.
+
 ## Resumen técnico del ejercicio
 
 El ejercicio ha demostrado:
@@ -1301,9 +1528,12 @@ Abre el AlumnoController y observa el método eliminar:
 @DeleteMapping("/{id}")
 public ResponseEntity<Void> eliminar(@PathVariable String id) {
     return service.eliminar(id)
+            ? ResponseEntity.noContent().build()
+            : ResponseEntity.notFound().build();
+}
 ```
 
-? ResponseEntity.noContent().build() : ResponseEntity.notFound().build(); } Y el método del AlumnoService:
+Y el método del AlumnoService:
 
 ```java
 public boolean eliminar(String id) {
@@ -1322,6 +1552,7 @@ public boolean eliminar(String id) {
 Arranca la aplicación y prueba:
 
 ```bash
+
 # Eliminar un alumno existente
 curl -i -X DELETE http://localhost:8080/api/v1/alumnos/2
 
@@ -1340,7 +1571,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 2 - Verificar el comportamiento esperado
 
@@ -1354,7 +1585,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 3 - Añadir un segundo recurso para probar dependencias
 
@@ -1400,7 +1631,7 @@ Crea `DocumentoRepository` dentro de la funcionalidad alumno. Cada repositorio g
 
 ### Verificación
 
-Comprueba **`doc1 -> alumno 1`, `doc2 -> alumno 1`, `doc3 -> alumno 2`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`doc1 -> alumno 1`, `doc2 -> alumno 1`, `doc3 -> alumno 2`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 4 - Añadir validación de dependencias en el servicio
 
@@ -1414,15 +1645,25 @@ public class AlumnoService {
     private final DocumentoRepository documentoRepository;
 
     public AlumnoService(AlumnoRepository repositorio,
+                         DocumentoRepository documentoRepository) {
+        this.repositorio = repositorio;
+        this.documentoRepository = documentoRepository;
+    }
+
+    // ... resto de métodos
+
+    public boolean eliminar(String id) {
+        if (documentoRepository.existePorAlumnoId(id)) {
+            throw new NegocioException(
+                    "No se puede eliminar el alumno " + id
+                            + ": tiene documentos asociados");
+        }
+        return repositorio.eliminar(id);
+    }
+}
 ```
 
-DocumentoRepository documentoRepository) { this.repositorio = repositorio; this.documentoRepository = documentoRepository; }
-
-// ... resto de métodos
-
-```java
-public boolean eliminar(String id) { if (documentoRepository.existePorAlumnoId(id)) { throw new NegocioException( "No se puede eliminar el alumno " + id + ": tiene documentos asociados"); } return repositorio.eliminar(id); } } La inyección por constructor ahora recibe dos repositorios: el de alumnos y el de documentos. documentoRepository.existePorAlumnoId(id) comprueba si hay documentos asociados. throw new NegocioException(...) lanza la excepción si hay dependencias.
-```
+La inyección por constructor ahora recibe dos repositorios: el de alumnos y el de documentos. documentoRepository.existePorAlumnoId(id) comprueba si hay documentos asociados. throw new NegocioException(...) lanza la excepción si hay dependencias.
 
 **Pregunta: ¿Por qué la comprobación de dependencias va en el servicio y no en el repositorio?**
 
@@ -1432,7 +1673,7 @@ Antes de eliminar, si existen documentos asociados lanza `NegocioException` salv
 
 ### Verificación
 
-Comprueba **`No se puede eliminar ... tiene documentos asociados`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`No se puede eliminar ... tiene documentos asociados`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 5 - Probar la eliminación con dependencias
 
@@ -1442,7 +1683,7 @@ Reinicia la aplicación y prueba a eliminar un alumno que tiene documentos:
 curl -i -X DELETE http://localhost:8080/api/v1/alumnos/1
 ```
 
-El alumno 1 tiene dos documentos asociados (doc1 y doc2). Verás un 409 Conflict con el mensaje:
+El alumno 1 tiene dos documentos asociados (`doc1` y `doc2`). Verás un `409 Conflict` con el mensaje:
 
 ```json
 {
@@ -1452,7 +1693,7 @@ El alumno 1 tiene dos documentos asociados (doc1 y doc2). Verás un 409 Conflict
 }
 ```
 
-El servicio ha detectado las dependencias y ha lanzado NegocioException. El manejador del controlador la ha capturado y ha devuelto 409.
+El servicio detecta las dependencias y lanza `NegocioException`; el manejador la traduce a `409`.
 
 **Pregunta: ¿Por qué es 409 y no 400? ¿Qué diferencia hay entre un conflicto y una petición mal formada?**
 
@@ -1462,20 +1703,21 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 6 - Probar la eliminación sin dependencias
 
 Ahora prueba a eliminar un alumno que no tiene documentos. El alumno 2 tiene un documento (doc3), así que no podemos usarlo. Vamos a crear un alumno nuevo sin documentos:
 
 ```bash
+
 # Crear alumno nuevo
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"77777777J","fechaNacimiento":"2010-07-15","curso":"5º Primaria"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"77777777J","fechaNacimiento":"2010-07-15","curso":"5º Primaria"}' Ahora elimina ese alumno:
-```
+Ahora elimina ese alumno:
 
 ```bash
 curl -i -X DELETE http://localhost:8080/api/v1/alumnos/3
@@ -1491,7 +1733,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 7 - Probar la eliminación en cascada
 
@@ -1504,17 +1746,18 @@ public boolean eliminarConCascada(String id) {
 }
 ```
 
-```java
 documentoRepository.eliminarPorAlumnoId(id) elimina todos los documentos del alumno. repositorio.eliminar(id) elimina el alumno. Esta operación debería ser transaccional: si falla la eliminación del alumno, no deberían haberse eliminado los documentos. En el Módulo 4, cuando usemos JPA, veremos cómo gestionar transacciones con @Transactional. Por ahora, la implementación es secuencial. Añade un endpoint para la eliminación en cascada:
-```
 
 ```java
 @DeleteMapping("/{id}/cascada")
 public ResponseEntity<Void> eliminarConCascada(@PathVariable String id) {
     return service.eliminarConCascada(id)
+            ? ResponseEntity.noContent().build()
+            : ResponseEntity.notFound().build();
+}
 ```
 
-? ResponseEntity.noContent().build() : ResponseEntity.notFound().build(); } Prueba:
+Prueba:
 
 ```bash
 curl -i -X DELETE http://localhost:8080/api/v1/alumnos/1/cascada
@@ -1530,7 +1773,7 @@ La variante en cascada elimina documentos asociados y después aplica la elimina
 
 ### Verificación
 
-Comprueba **`DELETE /api/v1/alumnos/{id}/cascada`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`DELETE /api/v1/alumnos/{id}/cascada`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 8 - Escribir tests del servicio para DELETE
 
@@ -1538,35 +1781,38 @@ Añade tests al AlumnoServiceTest:
 
 ```java
 @Test
+void eliminar_debeDevolverTrue_cuandoExiste() {
+    when(documentoRepository.existePorAlumnoId("1")).thenReturn(false);
+    when(repositorio.eliminar("1")).thenReturn(true);
+
+    boolean resultado = servicio.eliminar("1");
+
+    assertTrue(resultado);
+    verify(repositorio).eliminar("1");
+}
+
+@Test
+void eliminar_debeDevolverFalse_cuandoNoExiste() {
+    when(documentoRepository.existePorAlumnoId("999")).thenReturn(false);
+    when(repositorio.eliminar("999")).thenReturn(false);
+
+    boolean resultado = servicio.eliminar("999");
+
+    assertFalse(resultado);
+}
+
+@Test
+void eliminar_debeLanzarExcepcion_cuandoTieneDependencias() {
+    when(documentoRepository.existePorAlumnoId("1")).thenReturn(true);
+
+    assertThrows(NegocioException.class, () -> servicio.eliminar("1"));
+    verify(repositorio, never()).eliminar("1");
+}
 ```
 
-```java
-void eliminar_debeDevolverTrue_cuandoExiste() { when(documentoRepository.existePorAlumnoId("1")).thenReturn(false); when(repositorio.eliminar("1")).thenReturn(true);
-```
+verify(repositorio, never()).eliminar("1") verifica que no se ha llamado a eliminar en el repositorio. Eso es importante: si hay
 
-boolean resultado = servicio.eliminar("1");
-
-```java
-assertTrue(resultado); verify(repositorio).eliminar("1"); }
-```
-
-```java
-@Test void eliminar_debeDevolverFalse_cuandoNoExiste() { when(documentoRepository.existePorAlumnoId("999")).thenReturn(false); when(repositorio.eliminar("999")).thenReturn(false);
-```
-
-boolean resultado = servicio.eliminar("999");
-
-```java
-assertFalse(resultado); }
-```
-
-```java
-@Test void eliminar_debeLanzarExcepcion_cuandoTieneDependencias() { when(documentoRepository.existePorAlumnoId("1")).thenReturn(true);
-```
-
-```java
-assertThrows(NegocioException.class, () -> servicio.eliminar("1")); verify(repositorio, never()).eliminar("1"); } verify(repositorio, never()).eliminar("1") verifica que no se ha llamado a eliminar en el repositorio. Eso es importante: si hay dependencias, no se debe eliminar nada.
-```
+dependencias, no se debe eliminar nada.
 
 **Pregunta: ¿Por qué el test de dependencias verifica que no se ha llamado a eliminar?**
 
@@ -1576,7 +1822,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 9 - Escribir tests del controlador para DELETE
 
@@ -1584,31 +1830,33 @@ Añade tests al AlumnoControllerTest:
 
 ```java
 @Test
+void eliminar_debeDevolver204_cuandoExiste() throws Exception {
+    when(service.eliminar("1")).thenReturn(true);
+
+    mockMvc.perform(delete("/api/v1/alumnos/1"))
+            .andExpect(status().isNoContent());
+}
+
+@Test
+void eliminar_debeDevolver404_cuandoNoExiste() throws Exception {
+    when(service.eliminar("999")).thenReturn(false);
+
+    mockMvc.perform(delete("/api/v1/alumnos/999"))
+            .andExpect(status().isNotFound());
+}
+
+@Test
+void eliminar_debeDevolver409_cuandoTieneDependencias() throws Exception {
+    when(service.eliminar("1"))
+            .thenThrow(new NegocioException("Tiene documentos asociados"));
+
+    mockMvc.perform(delete("/api/v1/alumnos/1"))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.status").value(409));
+}
 ```
 
-```java
-void eliminar_debeDevolver204_cuandoExiste() throws Exception { when(service.eliminar("1")).thenReturn(true);
-```
-
-```java
-mockMvc.perform(delete("/api/v1/alumnos/1")) .andExpect(status().isNoContent()); }
-```
-
-```java
-@Test void eliminar_debeDevolver404_cuandoNoExiste() throws Exception { when(service.eliminar("999")).thenReturn(false);
-```
-
-```java
-mockMvc.perform(delete("/api/v1/alumnos/999")) .andExpect(status().isNotFound()); }
-```
-
-```java
-@Test void eliminar_debeDevolver409_cuandoTieneDependencias() throws Exception { when(service.eliminar("1")) .thenThrow(new NegocioException("Tiene documentos asociados"));
-```
-
-```java
-mockMvc.perform(delete("/api/v1/alumnos/1")) .andExpect(status().isConflict()) .andExpect(jsonPath("$.status").value(409)); } delete("/api/v1/alumnos/1") simula una petición DELETE. status().isNoContent() verifica que el código es 204. status().isNotFound() verifica que el código es 404.
-```
+delete("/api/v1/alumnos/1") simula una petición DELETE. status().isNoContent() verifica que el código es 204. status().isNotFound() verifica que el código es 404.
 
 **Pregunta: ¿Por qué el test del controlador no necesita un repositorio real?**
 
@@ -1618,7 +1866,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 10 - Probar la idempotencia de DELETE
 
@@ -1626,13 +1874,14 @@ Vamos a probar la idempotencia de DELETE con curl. Primero, crea un alumno nuevo
 
 ```bash
 curl -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Test","apellidos":"Idempotencia","dni":"99999999K","fechaNacimiento":"2010-01-01","curso":"1º"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Test","apellidos":"Idempotencia","dni":"99999999K","fechaNacimiento":"2010-01-01","curso":"1º"}' Ahora elimínalo dos veces y observa los códigos:
-```
+Ahora elimínalo dos veces y observa los códigos:
 
 ```bash
+
 # Primera eliminación
 curl -i -X DELETE http://localhost:8080/api/v1/alumnos/4
 
@@ -1640,9 +1889,10 @@ curl -i -X DELETE http://localhost:8080/api/v1/alumnos/4
 curl -i -X DELETE http://localhost:8080/api/v1/alumnos/4
 ```
 
-Verás:
+La primera petición elimina el recurso. La segunda no debe recrear ningún efecto: el estado final sigue siendo "recurso ausente". Eso es la propiedad de idempotencia que queremos observar.
 
--  Primera: 204 No Content.
+Primera: 204 No Content.
+
 -  Segunda: 404 Not Found. El estado final es el mismo: el recurso no existe. Eso es la idempotencia. El código de la segunda llamada es distinto (404 en lugar de 204), pero el efecto es el mismo.
 **Pregunta: ¿Por qué se dice que DELETE es idempotente aunque la segunda llamada devuelva 404?**
 
@@ -1652,11 +1902,20 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 11 - Errores comunes del ejercicio
 
-Error Causa Solución 404 en DELETE de recurso existente El ID no coincide Verificar la URL 409 en DELETE sin dependencias La comprobación está mal Verificar existePorAlumnoId 500 en DELETE Excepción no capturada Añadir @ExceptionHandler El recurso no se elimina El repositorio no elimina Verificar remove Error Causa Solución 415 Unsupported Media Type Se envía cuerpo en DELETE No enviar cuerpo 405 Method Not Allowed Se usa GET en lugar de DELETE Usar DELETE El test falla por never() Se ha llamado a eliminar Verificar la lógica de dependencias La cascada no elimina documentos Falta eliminarPorAlumnoId Añadirlo al repositorio
+| Error | Causa | Solución |
+|---|---|---|
+| `404` en DELETE de recurso existente | El ID no coincide | Verificar la URL |
+| `409` en DELETE sin dependencias | La comprobación de dependencias es incorrecta | Revisar `existePorAlumnoId(...)` |
+| `500` en DELETE | La excepción conocida no está traducida | Añadir el manejo correspondiente |
+| El recurso no se elimina | El repositorio no ejecuta la eliminación | Verificar `remove(...)` |
+| `415 Unsupported Media Type` | Se envía un cuerpo innecesario | No enviar cuerpo en DELETE |
+| `405 Method Not Allowed` | Se usa GET en lugar de DELETE | Usar el método HTTP correcto |
+| El test falla por `never()` | Se llegó a llamar a `eliminar(...)` | Revisar la regla de dependencias |
+| La cascada no elimina documentos | Falta `eliminarPorAlumnoId(...)` | Añadir la operación al repositorio de documentos |
 
 ### Adaptación al snapshot final M3
 
@@ -1664,7 +1923,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 12 - Reto resuelto - Soft delete de alumnos
 
@@ -1703,31 +1962,28 @@ public List<AlumnoDTO> listarTodos() {
             .filter(a -> !a.getEliminado())
             .toList();
 }
-filter(a -> !a.getEliminado()) excluye los alumnos marcados como eliminados.
 ```
 
-Paso 4: Probar:
+filter(a -> !a.getEliminado()) excluye los alumnos marcados como eliminados. Paso 4: Probar:
 
 ```bash
+
 # Crear alumno
 curl -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Soft","apellidos":"Delete","dni":"10101010L","fechaNacimiento":"2010-01-01","curso":"1º"}'
+
+# Eliminar (soft delete)
+curl -i -X DELETE http://localhost:8080/api/v1/alumnos/5
+
+# Consultar (debe devolver 404)
+curl -i http://localhost:8080/api/v1/alumnos/5
+
+# Listar (no debe aparecer)
+curl http://localhost:8080/api/v1/alumnos
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Soft","apellidos":"Delete","dni":"10101010L","fechaNacimiento":"2010-01-01","curso":"1º"}'
-```
-
-```bash
-# Eliminar (soft delete) curl -i -X DELETE http://localhost:8080/api/v1/alumnos/5
-```
-
-```bash
-# Consultar (debe devolver 404) curl -i http://localhost:8080/api/v1/alumnos/5
-```
-
-```bash
-# Listar (no debe aparecer) curl http://localhost:8080/api/v1/alumnos Verás que el alumno 5 no aparece en las consultas, pero sigue en el almacén (marcado como eliminado).
-```
+Verás que el alumno 5 no aparece en las consultas, pero sigue en el almacén (marcado como eliminado).
 
 **Pregunta: ¿Qué ventaja tiene soft delete frente a hard delete en este caso?**
 
@@ -1737,7 +1993,7 @@ Añade `eliminado` al modelo interno y convierte DELETE ordinario sin dependenci
 
 ### Verificación
 
-Comprueba **`activo` en la respuesta se deriva de `!eliminado`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`activo` en la respuesta se deriva de `!eliminado`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Resultado esperado de la práctica
 
@@ -1748,6 +2004,7 @@ Al final del ejercicio, deberías tener:
 -  (Opcional) Eliminación en cascada.
 -  (Opcional) Soft delete.
 -  Tests del servicio y del controlador para DELETE.
+
 ## Resumen técnico del ejercicio
 
 El ejercicio ha demostrado:
@@ -1792,7 +2049,7 @@ Añade `spring-boot-starter-validation` sin versión explícita porque la gestio
 
 ### Verificación
 
-Comprueba **`jakarta.validation`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`jakarta.validation`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 2 - Crear el DTO de entrada AlumnoRequestDTO
 
@@ -1819,37 +2076,42 @@ public class AlumnoRequestDTO {
     private String apellidos;
 
     @NotBlank(message = "El DNI es obligatorio")
+    @Size(min = 9, max = 9, message = "El DNI debe tener 9 caracteres")
+    private String dni;
+
+    @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaNacimiento;
+
+    @NotBlank(message = "El curso es obligatorio")
+    private String curso;
+
+    public AlumnoRequestDTO() {
+    }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getApellidos() { return apellidos; }
+    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+
+    public String getCurso() { return curso; }
+    public void setCurso(String curso) { this.curso = curso; }
+}
 ```
 
-@Size(min = 9, max = 9, message = "El DNI debe tener 9 caracteres") private String dni;
+- `@NotBlank` valida que el campo no sea nulo, vacío ni sólo espacios.
+- `@Size(min = 9, max = 9)` valida que el DNI tenga exactamente nueve caracteres.
+- `@NotNull` valida que la fecha no sea nula.
+- `@JsonFormat` indica el formato de la fecha al deserializar.
 
-@NotNull(message = "La fecha de nacimiento es obligatoria") @JsonFormat(pattern = "yyyy-MM-dd") private LocalDate fechaNacimiento;
-
-@NotBlank(message = "El curso es obligatorio") private String curso;
-
-```java
-public AlumnoRequestDTO() { }
-```
-
-```java
-public String getNombre() { return nombre; } public void setNombre(String nombre) { this.nombre = nombre; }
-```
-
-```java
-public String getApellidos() { return apellidos; } public void setApellidos(String apellidos) { this.apellidos = apellidos; }
-```
-
-```java
-public String getDni() { return dni; } public void setDni(String dni) { this.dni = dni; }
-```
-
-```java
-public LocalDate getFechaNacimiento() { return fechaNacimiento; } public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
-```
-
-```java
-public String getCurso() { return curso; } public void setCurso(String curso) { this.curso = curso; } } @NotBlank valida que el campo no sea nulo, vacío ni solo espacios. @Size(min = 9, max = 9) valida que el DNI tenga exactamente 9 caracteres. @NotNull valida que la fecha no sea nula. @JsonFormat indica el formato de la fecha al deserializar. El DTO de entrada no tiene id ni activo porque el cliente no puede establecerlos.
-```
+El DTO de entrada no tiene id ni activo porque el cliente no puede establecerlos.
 
 **Pregunta: ¿Qué diferencia hay entre @NotNull y @NotBlank?**
 
@@ -1859,7 +2121,7 @@ El request contiene sólo campos editables y constraints declarativas: nombre/ap
 
 ### Verificación
 
-Comprueba **`AlumnoRequestDTO`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`AlumnoRequestDTO`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 3 - Crear el DTO de salida AlumnoResponseDTO
 
@@ -1894,37 +2156,40 @@ public class AlumnoResponseDTO {
     }
 
     public AlumnoResponseDTO(String identificador, String nombre, String apellidos,
+                             String dni, LocalDate fechaNacimiento, String curso) {
+        this.identificador = identificador;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.dni = dni;
+        this.fechaNacimiento = fechaNacimiento;
+        this.curso = curso;
+        this.activo = true;
+    }
+
+    public String getIdentificador() { return identificador; }
+    public void setIdentificador(String identificador) { this.identificador = identificador; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getApellidos() { return apellidos; }
+    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+
+    public String getCurso() { return curso; }
+    public void setCurso(String curso) { this.curso = curso; }
+
+    public Boolean getActivo() { return activo; }
+    public void setActivo(Boolean activo) { this.activo = activo; }
+}
 ```
 
-String dni, LocalDate fechaNacimiento, String curso) { this.identificador = identificador; this.nombre = nombre; this.apellidos = apellidos; this.dni = dni; this.fechaNacimiento = fechaNacimiento; this.curso = curso; this.activo = true; }
-
-```java
-public String getIdentificador() { return identificador; } public void setIdentificador(String identificador) { this.identificador = identificador; }
-```
-
-```java
-public String getNombre() { return nombre; } public void setNombre(String nombre) { this.nombre = nombre; }
-```
-
-```java
-public String getApellidos() { return apellidos; } public void setApellidos(String apellidos) { this.apellidos = apellidos; }
-```
-
-```java
-public String getDni() { return dni; } public void setDni(String dni) { this.dni = dni; }
-```
-
-```java
-public LocalDate getFechaNacimiento() { return fechaNacimiento; } public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
-```
-
-```java
-public String getCurso() { return curso; } public void setCurso(String curso) { this.curso = curso; }
-```
-
-```java
-public Boolean getActivo() { return activo; } public void setActivo(Boolean activo) { this.activo = activo; } } El DTO de salida tiene id y activo, que el cliente no puede establecer. No tiene validaciones porque los datos ya están validados.
-```
+El DTO de salida tiene id y activo, que el cliente no puede establecer. No tiene validaciones porque los datos ya están validados.
 
 **Pregunta: ¿Por qué el DTO de salida tiene un campo activo que el DTO de entrada no tiene?**
 
@@ -1934,7 +2199,7 @@ El response contiene id y estado derivado, pero no constraints de entrada.
 
 ### Verificación
 
-Comprueba **`AlumnoResponseDTO`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`AlumnoResponseDTO`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 4 - Modificar el controlador para usar los nuevos DTOs
 
@@ -1986,9 +2251,18 @@ Y modifica el controlador:
 public ResponseEntity<AlumnoResponseDTO> crear(
         @Valid @RequestBody AlumnoRequestDTO request) {
     AlumnoResponseDTO creado = service.crear(request);
+    URI location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(creado.getIdentificador())
+            .toUri();
+    return ResponseEntity.created(location).body(creado);
+}
 ```
 
-URI location = ServletUriComponentsBuilder .fromCurrentRequest() .path("/{id}") .buildAndExpand(creado.getIdentificador()) .toUri(); return ResponseEntity.created(location).body(creado); } @Valid activa la validación del DTO de entrada. Si hay errores, Spring MVC lanza MethodArgumentNotValidException antes de ejecutar el método.
+@Valid activa la validación del DTO de entrada. Si hay errores, Spring MVC lanza MethodArgumentNotValidException antes de ejecutar
+
+el método.
 
 **Pregunta: ¿Qué pasa si el cliente envía un POST con un DTO de entrada que tiene un campo id? ¿Se tiene en cuenta?**
 
@@ -1998,7 +2272,7 @@ Controlador recibe `@Valid @RequestBody AlumnoRequestDTO`; el servicio transform
 
 ### Verificación
 
-Comprueba **`@Valid`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`@Valid`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 5 - Añadir el manejador de errores de validación
 
@@ -2007,13 +2281,27 @@ Añade el manejador al controlador:
 ```java
 @ExceptionHandler(MethodArgumentNotValidException.class)
 public ResponseEntity<Map<String, Object>> handleValidation(
+        MethodArgumentNotValidException ex) {
+    List<Map<String, String>> errores = ex.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .map(e -> Map.of(
+                    "field", e.getField(),
+                    "message", e.getDefaultMessage()))
+            .toList();
+
+    Map<String, Object> respuesta = Map.of(
+            "timestamp", java.time.Instant.now().toString(),
+            "status", 400,
+            "error", "Bad Request",
+            "message", "Errores de validación",
+            "errors", errores
+    );
+    return ResponseEntity.badRequest().body(respuesta);
+}
 ```
 
-MethodArgumentNotValidException ex) { List<Map<String, String>> errores = ex.getBindingResult() .getFieldErrors() .stream() .map(e -> Map.of( "field", e.getField(), "message", e.getDefaultMessage())) .toList();
-
-```java
-Map<String, Object> respuesta = Map.of( "timestamp", java.time.Instant.now().toString(), "status", 400, "error", "Bad Request", "message", "Errores de validación", "errors", errores ); return ResponseEntity.badRequest().body(respuesta); } getFieldErrors() devuelve la lista de errores por campo. e.getField() devuelve el nombre del campo. e.getDefaultMessage() devuelve el mensaje de validación. Map.of(...) construye la respuesta con los errores.
-```
+getFieldErrors() devuelve la lista de errores por campo. e.getField() devuelve el nombre del campo. e.getDefaultMessage() devuelve el mensaje de validación. Map.of(...) construye la respuesta con los errores.
 
 **Pregunta: ¿Por qué se incluye el campo field en cada error? ¿Qué utilidad tiene para el cliente?**
 
@@ -2023,7 +2311,7 @@ Centraliza `MethodArgumentNotValidException` en `@RestControllerAdvice` y devuel
 
 ### Verificación
 
-Comprueba **`400` con `errors`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`400` con `errors`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 6 - Arrancar y probar el POST con datos válidos
 
@@ -2031,11 +2319,11 @@ Reinicia la aplicación y prueba:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"María","apellidos":"López","dni":"11111111C","fechaNacimiento":"2011-03-20","curso":"4º Primaria"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"María","apellidos":"López","dni":"11111111C","fechaNacimiento":"2011-03-20","curso":"4º Primaria"}' Verás un 201 con el recurso creado. El DTO de salida incluye id y activo.
-```
+Verás un 201 con el recurso creado. El DTO de salida incluye id y activo.
 
 **Pregunta: ¿Qué campos del DTO de salida no estaban en el DTO de entrada?**
 
@@ -2045,7 +2333,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 7 - Probar el POST con datos inválidos
 
@@ -2053,11 +2341,11 @@ Ahora prueba con datos inválidos:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"","apellidos":"López","dni":"123","fechaNacimiento":"2011-03-20","curso":"4º"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"","apellidos":"López","dni":"123","fechaNacimiento":"2011-03-20","curso":"4º"}' Verás un 400 con la lista de errores:
-```
+Verás un `400` con la lista de errores:
 
 ```json
 {
@@ -2067,9 +2355,12 @@ curl -i -X POST http://localhost:8080/api/v1/alumnos \
   "message": "Errores de validación",
   "errors": [
     {"field": "nombre", "message": "El nombre es obligatorio"},
+    {"field": "dni", "message": "El DNI debe tener 9 caracteres"}
+  ]
+}
 ```
 
-{"field": "dni", "message": "El DNI debe tener 9 caracteres"} ] } El cliente recibe dos errores: el nombre está vacío y el DNI tiene 3 caracteres en lugar de 9.
+El cliente recibe dos errores: el nombre está vacío y el DNI tiene 3 caracteres en lugar de 9.
 
 **Pregunta: ¿Qué pasaría si el cliente enviara solo un error? ¿La respuesta sería igual?**
 
@@ -2079,7 +2370,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 8 - Probar el POST sin fecha de nacimiento
 
@@ -2087,11 +2378,11 @@ Prueba con un POST sin fecha de nacimiento:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"22222222D","curso":"4º"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Pedro","apellidos":"Sánchez","dni":"22222222D","curso":"4º"}' Verás un 400 con el error:
-```
+Verás un `400` con el error:
 
 ```json
 {
@@ -2109,7 +2400,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 9 - Probar el POST con DNI duplicado
 
@@ -2117,11 +2408,11 @@ Prueba a crear un alumno con un DNI que ya existe:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/alumnos \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Otro","apellidos":"Alumno","dni":"12345678A","fechaNacimiento":"2010-01-01","curso":"1º"}'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"nombre":"Otro","apellidos":"Alumno","dni":"12345678A","fechaNacimiento":"2010-01-01","curso":"1º"}' Verás un 409 Conflict. La validación de Bean Validation ha pasado (el DNI tiene 9 caracteres), pero la validación de negocio ha fallado (el DNI está duplicado).
-```
+Verás un `409 Conflict`. Bean Validation ha pasado porque el DNI tiene nueve caracteres, pero la regla de negocio falla porque el DNI ya está registrado.
 
 **Pregunta: ¿Qué diferencia hay entre el 400 de validación de formato y el 409 de validación de negocio?**
 
@@ -2131,7 +2422,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 10 - Escribir tests para validaciones
 
@@ -2139,19 +2430,46 @@ Añade tests al AlumnoControllerTest:
 
 ```java
 @Test
+void crear_debeDevolver400_cuandoNombreVacio() throws Exception {
+    mockMvc.perform(post("/api/v1/alumnos")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"nombre":"", "apellidos":"López",
+                     "dni":"12345678A", "fechaNacimiento":"2011-03-20",
+                     "curso":"4º"}
+                    """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.errors[?(@.field=='nombre')].message")
+                    .value("El nombre es obligatorio"));
+}
+
+@Test
+void crear_debeDevolver400_cuandoDniCorto() throws Exception {
+    mockMvc.perform(post("/api/v1/alumnos")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"nombre":"María", "apellidos":"López",
+                     "dni":"123", "fechaNacimiento":"2011-03-20",
+                     "curso":"4º"}
+                    """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.errors[?(@.field=='dni')].message")
+                    .value("El DNI debe tener 9 caracteres"));
+}
+
+@Test
+void crear_debeDevolver400_cuandoFaltanCampos() throws Exception {
+    mockMvc.perform(post("/api/v1/alumnos")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"nombre":"María", "apellidos":"López"}
+                    """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.errors.length()").value(3));
+}
 ```
 
-```java
-void crear_debeDevolver400_cuandoNombreVacio() throws Exception { mockMvc.perform(post("/api/v1/alumnos") .contentType(MediaType.APPLICATION_JSON) .content(""" {"nombre":"", "apellidos":"López", "dni":"12345678A", "fechaNacimiento":"2011-03-20", "curso":"4º"} """)) .andExpect(status().isBadRequest()) .andExpect(jsonPath("$.errors[?(@.field=='nombre')].message") .value("El nombre es obligatorio")); }
-```
-
-```java
-@Test void crear_debeDevolver400_cuandoDniCorto() throws Exception { mockMvc.perform(post("/api/v1/alumnos") .contentType(MediaType.APPLICATION_JSON) .content(""" {"nombre":"María", "apellidos":"López", "dni":"123", "fechaNacimiento":"2011-03-20", "curso":"4º"} """)) .andExpect(status().isBadRequest()) .andExpect(jsonPath("$.errors[?(@.field=='dni')].message") .value("El DNI debe tener 9 caracteres")); }
-```
-
-```java
-@Test void crear_debeDevolver400_cuandoFaltanCampos() throws Exception { mockMvc.perform(post("/api/v1/alumnos") .contentType(MediaType.APPLICATION_JSON) .content(""" {"nombre":"María", "apellidos":"López"} """)) .andExpect(status().isBadRequest()) .andExpect(jsonPath("$.errors.length()").value(3)); } jsonPath("$.errors.length()").value(3) verifica que hay 3 errores: DNI, fecha de nacimiento y curso.
-```
+jsonPath("$.errors.length()").value(3) verifica que hay 3 errores: DNI, fecha de nacimiento y curso.
 
 **Pregunta: ¿Por qué el test de campos faltantes espera 3 errores y no 2?**
 
@@ -2161,11 +2479,20 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 11 - Errores comunes del ejercicio
 
-Error Causa Solución 400 Bad Request sin detalles Falta el @ExceptionHandler Añadirlo 500 Internal Server Error en validación No se captura MethodArgumentNotValidException Añadir el manejador La validación no se ejecuta Falta @Valid Añadirlo al parámetro Error Causa Solución El campo no se valida Falta la anotación Añadir @NotBlank, @Size, etc. El mensaje es genérico No se especificó message Añadirlo 415 Unsupported Media Type Falta Content-Type Añadir la cabecera 409 Conflict en lugar de 400 El error es de negocio, no de formato Verificar la lógica El test de validación falla El JSON está mal formado Revisar el contenido
+| Error | Causa | Solución |
+|---|---|---|
+| `400 Bad Request` sin detalles útiles | Falta el manejador de validación | Traducir `MethodArgumentNotValidException` |
+| `500 Internal Server Error` durante validación | La excepción de validación no se gestiona | Añadir el manejador centralizado |
+| La validación no se ejecuta | Falta `@Valid` | Añadir `@Valid` al parámetro de entrada |
+| Un campo no se valida | Falta la constraint | Añadir `@NotBlank`, `@Size`, etc. |
+| El mensaje es genérico | No se especificó `message` | Definir un mensaje de validación claro |
+| `415 Unsupported Media Type` | Falta `Content-Type` | Añadir `application/json` |
+| `409 Conflict` en lugar de `400` | Es una regla de negocio, no de formato | Revisar si el caso realmente es conflicto |
+| El test de validación falla | El JSON del test está mal formado | Revisar el contenido enviado |
 
 ### Adaptación al snapshot final M3
 
@@ -2173,7 +2500,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 12 - Reto resuelto - DTO anidado para Expediente
 
@@ -2194,15 +2521,17 @@ public class SolicitanteDTO {
     private String apellidos;
 
     @NotBlank(message = "El DNI del solicitante es obligatorio")
+    @Size(min = 9, max = 9, message = "El DNI debe tener 9 caracteres")
+    private String dni;
+
+    public SolicitanteDTO() {
+    }
+
+    // getters y setters
+}
 ```
 
-@Size(min = 9, max = 9, message = "El DNI debe tener 9 caracteres") private String dni;
-
-```java
-public SolicitanteDTO() { }
-```
-
-// getters y setters } Paso 2: Crear ExpedienteRequestDTO:
+Paso 2: Crear ExpedienteRequestDTO:
 
 ```java
 package es.mecd.demo.miproyecto.dto;
@@ -2225,31 +2554,44 @@ public class ExpedienteRequestDTO {
 
     @NotNull(message = "La fecha de solicitud es obligatoria")
     private LocalDate fechaSolicitud;
+
+    @PositiveOrZero(message = "El importe debe ser positivo o cero")
+    private Double importe;
+
+    public ExpedienteRequestDTO() {
+    }
+
+    // getters y setters
+}
 ```
 
-@PositiveOrZero(message = "El importe debe ser positivo o cero") private Double importe;
+`@Valid` en el campo `solicitante` activa la validación del DTO anidado. Sin esa anotación, las constraints de `SolicitanteDTO` no se evaluarían.
 
-```java
-public ExpedienteRequestDTO() { }
-```
-
-// getters y setters } @Valid en el campo solicitante activa la validación del DTO anidado. Sin esa anotación, las validaciones de SolicitanteDTO no se ejecutarían. Paso 3: Probar con un POST que tenga un solicitante inválido:
+ejecutarían. Paso 3: Probar con un POST que tenga un solicitante inválido:
 
 ```bash
 curl -i -X POST http://localhost:8080/api/v1/expedientes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "solicitante":{"nombre":"","apellidos":"García","dni":"123"},
+    "tipo":"BECA",
+    "fechaSolicitud":"2025-01-15",
+    "importe":1500.0
+  }'
 ```
 
-```bash
--H "Content-Type: application/json" \ -d '{"solicitante":{"nombre":"","apellidos":"García","dni":"123"},"tipo":"BECA","fechaSolicitud":"2025-01-15","importe":1500. 0}' Verás un 400 con los errores del solicitante anidado:
-```
+Verás un `400` con los errores del solicitante anidado:
 
 ```json
 {
   "errors": [
     {"field": "solicitante.nombre", "message": "El nombre del solicitante es obligatorio"},
+    {"field": "solicitante.dni", "message": "El DNI debe tener 9 caracteres"}
+  ]
+}
 ```
 
-{"field": "solicitante.dni", "message": "El DNI debe tener 9 caracteres"} ] } El campo se reporta como solicitante.nombre, indicando la ruta dentro del objeto anidado.
+El campo se reporta como solicitante.nombre, indicando la ruta dentro del objeto anidado.
 
 **Pregunta: ¿Por qué es necesario @Valid en el campo anidado? ¿Qué pasaría si no estuviera?**
 
@@ -2259,7 +2601,7 @@ Crea `ExpedienteRequestDTO` con `@Valid SolicitanteDTO` y constraints en ambos n
 
 ### Verificación
 
-Comprueba **`@Valid` anidado** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`@Valid` anidado** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Resultado esperado de la práctica
 
@@ -2271,6 +2613,7 @@ Al final del ejercicio, deberías tener:
 -  Un @ExceptionHandler que captura MethodArgumentNotValidException y devuelve 400 con los errores.
 -  Tests que verifican las validaciones.
 -  (Opcional) Un ExpedienteRequestDTO con SolicitanteDTO anidado.
+
 ## Resumen técnico del ejercicio
 
 El ejercicio ha demostrado:
@@ -2312,7 +2655,9 @@ public Map<String, String> infoPeticion(
 }
 ```
 
-@RequestHeader(value = "User-Agent", required = false) captura la cabecera User-Agent. Si no está, devuelve null. @RequestHeader(value = "Accept-Language", required = false) captura la cabecera Accept-Language. @RequestHeader(value = "Host", required = false) captura la cabecera Host. El método devuelve un Map con los valores. Si alguno es null, se sustituye por "desconocido". Reinicia y prueba:
+@RequestHeader(value = "User-Agent", required = false) captura la cabecera User-Agent. Si no está, devuelve null. @RequestHeader(value = "Accept-Language", required = false) captura la cabecera Accept-Language. @RequestHeader(value = "Host", required = false) captura la cabecera Host.
+
+El método devuelve un Map con los valores. Si alguno es null, se sustituye por "desconocido". Reinicia y prueba:
 
 ```bash
 curl http://localhost:8080/api/v1/alumnos/info-peticion
@@ -2336,7 +2681,7 @@ Expón un endpoint pedagógico que lea `User-Agent`, `Accept-Language` y una cab
 
 ### Verificación
 
-Comprueba **`@RequestHeader`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`@RequestHeader`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 2 - Probar con cabeceras personalizadas
 
@@ -2344,11 +2689,11 @@ Vamos a enviar cabeceras personalizadas con curl. El flag -H permite añadir cab
 
 ```bash
 curl http://localhost:8080/api/v1/alumnos/info-peticion \
+  -H "User-Agent: MiCliente/1.0" \
+  -H "Accept-Language: es-ES"
 ```
 
-```bash
--H "User-Agent: MiCliente/1.0" \ -H "Accept-Language: es-ES" Verás algo como:
-```
+Verás algo como:
 
 ```json
 {
@@ -2366,7 +2711,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 3 - Añadir un endpoint que lea cookies
 
@@ -2382,7 +2727,9 @@ public Map<String, String> infoCookies(
 }
 ```
 
-@CookieValue(value = "preferencias", required = false) captura la cookie preferencias. Si no existe, devuelve null. Reinicia y prueba sin cookies:
+@CookieValue(value = "preferencias", required = false) captura la cookie preferencias. Si no existe, devuelve null.
+
+Reinicia y prueba sin cookies:
 
 ```bash
 curl http://localhost:8080/api/v1/alumnos/info-cookies
@@ -2398,15 +2745,16 @@ Ahora prueba con una cookie:
 
 ```bash
 curl http://localhost:8080/api/v1/alumnos/info-cookies \
+  -b "preferencias=es-ES"
 ```
 
--b "preferencias=es-ES" Verás:
+Verás:
 
 ```json
 {"preferencias": "es-ES"}
 ```
 
--b "preferencias=es-ES" envía la cookie preferencias con valor es-ES.
+La opción `-b "preferencias=es-ES"` envía la cookie `preferencias` con valor `es-ES`.
 
 **Pregunta: ¿Qué diferencia hay entre una cookie y una cabecera?**
 
@@ -2416,7 +2764,7 @@ Lee una cookie de sesión opcional sin convertirla en requisito funcional.
 
 ### Verificación
 
-Comprueba **`@CookieValue`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`@CookieValue`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 4 - Añadir un endpoint que acepte varios valores en un parámetro
 
@@ -2429,8 +2777,9 @@ public List<AlumnoDTO> porCursos(@RequestParam List<String> cursos) {
             .filter(a -> cursos.contains(a.getCurso()))
             .toList();
 }
-@RequestParam List<String> cursos captura varios valores del parámetro cursos. Si el cliente envía ?cursos=5º&cursos=6º, la lista
 ```
+
+`@RequestParam List<String> cursos` captura varios valores del mismo parámetro. Si el cliente envía `?cursos=5º&cursos=6º`, Spring construye una lista con ambos valores.
 
 tendrá dos elementos. Reinicia y prueba:
 
@@ -2448,7 +2797,7 @@ Acepta el mismo query parameter varias veces mediante `List<String>`.
 
 ### Verificación
 
-Comprueba **`curso=4º&curso=5º`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`curso=4º&curso=5º`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 5 - Instalar Postman
 
@@ -2465,7 +2814,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 6 - Crear una colección en Postman
 
@@ -2479,7 +2828,7 @@ Agrupa GET/POST/PUT/PATCH/DELETE en una colección exportable dentro de `M3/post
 
 ### Verificación
 
-Comprueba **`M3.postman_collection.json`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`M3.postman_collection.json`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 7 - Crear un entorno en Postman
 
@@ -2493,7 +2842,7 @@ Define `baseUrl=http://localhost:8080` en un entorno exportable y usa `{{baseUrl
 
 ### Verificación
 
-Comprueba **`M3.local.postman_environment.json`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`M3.local.postman_environment.json`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 8 - Crear una petición GET en Postman
 
@@ -2507,7 +2856,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 9 - Crear una petición POST en Postman
 
@@ -2533,15 +2882,28 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 10 - Añadir un test en Postman
 
-Vamos a añadir un test a la petición POST. En la pestaña Tests de la petición, escribe: javascript pm.test("Status code is 201", function () { pm.response.to.have.status(201); });
+Vamos a añadir un test a la petición POST. En la pestaña **Tests** de la petición, escribe:
 
-pm.test("Response has id", function () { const jsonData = pm.response.json(); pm.expect(jsonData).to.have.property("id"); });
+```javascript
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
 
-pm.test("Location header exists", function () { pm.response.to.have.header("Location"); }); Guarda y pulsa Send. En la pestaña Test Results verás los tres tests en verde.
+pm.test("Response has id", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("id");
+});
+
+pm.test("Location header exists", function () {
+    pm.response.to.have.header("Location");
+});
+```
+
+Guarda y pulsa **Send**. En la pestaña **Test Results** verás los tres tests en verde.
 
 **Pregunta: ¿Qué ventaja tiene escribir tests en Postman en lugar de comprobar la respuesta manualmente?**
 
@@ -2551,11 +2913,20 @@ Añade un script que compruebe status y una propiedad JSON. Postman complementa,
 
 ### Verificación
 
-Comprueba **`pm.test(...)`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`pm.test(...)`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 11 - Errores comunes del ejercicio
 
-Error Causa Solución 400 Bad Request en @RequestParam obligatorio Falta el parámetro Añadir required = false o defaultValue 400 Bad Request en @RequestHeader obligatorio Falta la cabecera Añadir required = false @CookieValue no captura la cookie La cookie no se envía Verificar el nombre y el envío Error Causa Solución 400 Bad Request con ?cursos=5º El parámetro no es una lista Usar ?cursos=5º&cursos=6º Postman no envía el cuerpo Falta seleccionar JSON en Body Seleccionar raw > JSON Postman no envía las cabeceras No se han añadido Añadirlas en la pestaña Headers El test de Postman falla El código o el campo no coinciden Revisar el test 415 Unsupported Media Type en Postman Falta Content-Type Postman lo añade automáticamente al seleccionar JSON
+| Error | Causa | Solución |
+|---|---|---|
+| `400 Bad Request` en un `@RequestParam` | El parámetro quedó obligatorio | Usar `required = false` o `defaultValue` |
+| `400 Bad Request` en un `@RequestHeader` | Falta la cabecera obligatoria | Usar `required = false` cuando corresponda |
+| `@CookieValue` no captura la cookie | La cookie no se envía o el nombre no coincide | Verificar nombre y envío |
+| `400 Bad Request` con varios cursos | El cliente no repite correctamente el parámetro | Usar `?cursos=5º&cursos=6º` |
+| Postman no envía el cuerpo | Body no está configurado como JSON | Seleccionar `raw > JSON` |
+| Postman no envía cabeceras | No se añadieron en la petición | Configurarlas en `Headers` |
+| Falla un test de Postman | Código o campo esperado no coinciden | Revisar el script y la respuesta real |
+| `415 Unsupported Media Type` en Postman | Falta `Content-Type` | Seleccionar JSON para que Postman añada la cabecera |
 
 ### Adaptación al snapshot final M3
 
@@ -2563,7 +2934,7 @@ Conserva la intención del paso y aplícala sobre las clases del paquete funcion
 
 ### Verificación
 
-Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **comportamiento HTTP o de test coherente con el paso** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Paso 12 - Reto resuelto - Endpoint que devuelve información completa de la petición
 
@@ -2572,17 +2943,31 @@ Reto: Añadir un endpoint /api/v1/alumnos/debug que devuelva toda la informació
 ```java
 @GetMapping("/debug")
 public Map<String, Object> debug(
+        HttpServletRequest request,
+        @RequestHeader Map<String, String> cabeceras,
+        @CookieValue Map<String, String> cookies,
+        @RequestParam Map<String, String> parametros) {
+    return Map.of(
+            "metodo", request.getMethod(),
+            "url", request.getRequestURL().toString(),
+            "queryString", request.getQueryString() != null
+                    ? request.getQueryString() : "",
+            "cabeceras", cabeceras,
+            "cookies", cookies,
+            "parametros", parametros
+    );
+}
 ```
 
-HttpServletRequest request, @RequestHeader Map<String, String> cabeceras, @CookieValue Map<String, String> cookies, @RequestParam Map<String, String> parametros) { return Map.of( "metodo", request.getMethod(), "url", request.getRequestURL().toString(), "queryString", request.getQueryString() != null ? request.getQueryString() : "", "cabeceras", cabeceras, "cookies", cookies, "parametros", parametros ); } HttpServletRequest request es un objeto que Spring inyecta automáticamente. Contiene toda la información de la petición: método, URL, query string, etc. @RequestHeader Map<String, String> cabeceras captura todas las cabeceras. @CookieValue Map<String, String> cookies captura todas las cookies. @RequestParam Map<String, String> parametros captura todos los query parameters. El método devuelve un Map con toda la información. Paso 2: Reiniciar y probar:
+HttpServletRequest request es un objeto que Spring inyecta automáticamente. Contiene toda la información de la petición: método, URL, query string, etc. @RequestHeader Map<String, String> cabeceras captura todas las cabeceras. @CookieValue Map<String, String> cookies captura todas las cookies. @RequestParam Map<String, String> parametros captura todos los query parameters. El método devuelve un Map con toda la información. Paso 2: Reiniciar y probar:
 
 ```bash
 curl "http://localhost:8080/api/v1/alumnos/debug?curso=5º&dni=12345678A" \
+  -H "User-Agent: MiCliente/1.0" \
+  -b "preferencias=es-ES"
 ```
 
-```bash
--H "User-Agent: MiCliente/1.0" \ -b "preferencias=es-ES" Verás un JSON con toda la información de la petición:
-```
+Verás un JSON con toda la información de la petición:
 
 ```json
 {
@@ -2592,9 +2977,17 @@ curl "http://localhost:8080/api/v1/alumnos/debug?curso=5º&dni=12345678A" \
   "cabeceras": {
     "host": "localhost:8080",
     "user-agent": "MiCliente/1.0",
+    "...": "..."
+  },
+  "cookies": {
+    "preferencias": "es-ES"
+  },
+  "parametros": {
+    "curso": "5º",
+    "dni": "12345678A"
+  }
+}
 ```
-
-... }, "cookies": { "preferencias": "es-ES" }, "parametros": { "curso": "5º", "dni": "12345678A" } }
 
 **Pregunta: ¿Qué información de la petición te parece más útil para depurar?**
 
@@ -2604,7 +2997,7 @@ Devuelve método, path, query, cabeceras seleccionadas y cookie en un endpoint d
 
 ### Verificación
 
-Comprueba **`GET /api/v1/alumnos/request-info`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
+Comprueba **`GET /api/v1/alumnos/request-info`** y ejecuta `./mvnw test` (o `mvnw.cmd test` en Windows). Si el paso modifica HTTP, repite también la petición manual y compara status, cabeceras y cuerpo con lo explicado arriba.
 
 ## Resultado esperado de la práctica
 
@@ -2616,6 +3009,7 @@ Al final del ejercicio, deberías tener:
 -  Una colección en Postman con peticiones para la API.
 -  Un entorno con la variable baseUrl.
 -  Tests en Postman para verificar las respuestas.
+
 ## Resumen técnico del ejercicio
 
 El ejercicio ha demostrado:

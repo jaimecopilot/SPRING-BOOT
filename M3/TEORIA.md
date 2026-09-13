@@ -19,12 +19,14 @@ GET es el método HTTP que significa "quiero leer esto, no modificarlo". Es el m
 -  Es seguro. No modifica el estado del servidor. Puedes hacer un GET mil veces y el servidor no cambia.
 -  Es idempotente. Ejecutarlo N veces produce el mismo resultado que ejecutarlo una vez. Si haces cinco GET al mismo recurso, recibes lo mismo cinco veces.
 -  Es cacheable. Los proxies y los navegadores pueden guardar la respuesta y reutilizarla. Eso mejora el rendimiento. Estas propiedades no son un capricho: son un contrato. Si tu endpoint GET modifica algo, estás rompiendo el contrato. Los navegadores pueden pre-cargar URLs GET, los crawlers pueden rastrearlas, los proxies pueden cachearlas. Si un GET tuviera efectos secundarios, esas acciones podrían causar estragos. Por eso, en una API REST, GET solo se usa para consultar. Nunca para crear, actualizar o eliminar. Para esas operaciones hay otros métodos.
+
 ### T1.2 – GET de colección vs GET individual
 
 Hay dos tipos de GET en una API REST: GET de colección. Devuelve una lista de recursos. La URL apunta a la colección: /api/v1/alumnos. El cliente recibe un array JSON con todos los alumnos (o un subconjunto, si hay paginación). GET individual. Devuelve un recurso concreto. La URL apunta al recurso: /api/v1/alumnos/{id}. El cliente recibe un objeto JSON con el alumno. Los dos tienen códigos de estado distintos:
 
 -  GET de colección: siempre devuelve 200 OK, incluso si la colección está vacía (en ese caso, devuelve un array vacío []). No devuelve 404 porque la colección existe aunque no tenga elementos.
 -  GET individual: devuelve 200 OK si el recurso existe, y 404 Not Found si no existe. No devuelve 200 con null: eso confundiría al cliente. Esta distinción es importante. Un error común es devolver 404 en un GET de colección cuando no hay elementos. Eso es incorrecto: la colección existe, solo está vacía. El cliente debe recibir [] con un 200.
+
 ### T1.3 – Filtrado, ordenación y paginación
 
 Un GET de colección no siempre devuelve todos los recursos. Muchas veces el cliente quiere un subconjunto. Para eso están el filtrado, la ordenación y la paginación. Filtrado. El cliente indica criterios para seleccionar un subconjunto. Por ejemplo: /api/v1/alumnos?curso=5º Primaria devuelve solo los alumnos de 5º. Los filtros van en query parameters, no en la ruta. Ordenación. El cliente indica en qué orden quiere los resultados. Por ejemplo: /api/v1/alumnos?sort=nombre devuelve los alumnos ordenados por nombre. El orden puede ser ascendente (asc) o descendente (desc). Paginación. El cliente indica qué página quiere y cuántos elementos por página. Por ejemplo: /api/v1/alumnos?page=0&size=20 devuelve los primeros 20 alumnos. La paginación evita enviar colecciones gigantes que consumen ancho de banda y tardan en serializar. Los tres se combinan: /api/v1/alumnos?curso=5º Primaria&sort=nombre&page=0&size=10. En este punto implementaremos filtrado y ordenación de forma manual (con streams de Java). En el Módulo 4, cuando usemos Spring Data JPA, veremos cómo hacerlo de forma más eficiente con Pageable y Sort.
@@ -35,7 +37,7 @@ Un GET de colección no siempre devuelve todos los recursos. Muchas veces el cli
 
 GET representa lectura sin efectos laterales. Una colección y un elemento individual son recursos distintos aunque compartan raíz. El contrato debe separar recurso existente, ausencia, colección vacía y petición inválida.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -54,16 +56,20 @@ GET representa lectura sin efectos laterales. Una colección y un elemento indiv
 ```java
 @GetMapping("/{id}")
 public ResponseEntity<AlumnoDTO> consultar(@PathVariable String id) {
+    // ...
+}
 ```
 
-// ... } El {id} en la ruta se captura con @PathVariable String id. Si el cliente visita /api/v1/alumnos/12345, el parámetro id valdrá "12345". El nombre de la variable en la ruta y el nombre del parámetro deben coincidir. Si no coinciden, se puede especificar explícitamente:
+El {id} en la ruta se captura con @PathVariable String id. Si el cliente visita /api/v1/alumnos/12345, el parámetro id valdrá "12345". El nombre de la variable en la ruta y el nombre del parámetro deben coincidir. Si no coinciden, se puede especificar explícitamente:
 
 ```java
 @GetMapping("/{id}")
 public ResponseEntity<AlumnoDTO> consultar(@PathVariable("id") String identificador) {
+    // ...
+}
 ```
 
-// ... } Los @PathVariable son obligatorios por defecto. Si la ruta no incluye el valor, Spring MVC no mapea la petición a ese método. No se puede hacer un GET individual sin ID.
+Los @PathVariable son obligatorios por defecto. Si la ruta no incluye el valor, Spring MVC no mapea la petición a ese método. No se puede hacer un GET individual sin ID.
 
 ### T2.2 – @RequestParam
 
@@ -72,9 +78,11 @@ public ResponseEntity<AlumnoDTO> consultar(@PathVariable("id") String identifica
 ```java
 @GetMapping
 public List<AlumnoDTO> listar(@RequestParam(required = false) String curso) {
+    // ...
+}
 ```
 
-// ... } Si el cliente visita /api/v1/alumnos?curso=5º Primaria, el parámetro curso valdrá "5º Primaria". Si visita /api/v1/alumnos sin query, curso será null porque hemos puesto required = false. Por defecto, @RequestParam es obligatorio: si el cliente no envía el parámetro, Spring MVC devuelve un 400 Bad Request. Para hacerlo opcional, se usa required = false. Para darle un valor por defecto, se usa defaultValue:
+Si el cliente visita /api/v1/alumnos?curso=5º Primaria, el parámetro curso valdrá "5º Primaria". Si visita /api/v1/alumnos sin query, curso será null porque hemos puesto required = false. Por defecto, @RequestParam es obligatorio: si el cliente no envía el parámetro, Spring MVC devuelve un 400 Bad Request. Para hacerlo opcional, se usa required = false. Para darle un valor por defecto, se usa defaultValue:
 
 ```java
 @GetMapping
@@ -82,9 +90,11 @@ public List<AlumnoDTO> listar(
         @RequestParam(required = false) String curso,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size) {
+    // ...
+}
 ```
 
-// ... } Aquí curso es opcional (será null si no se envía), mientras que page y size tienen valores por defecto (0 y 20). Si el cliente no los envía, se usan esos valores.
+Aquí curso es opcional (será null si no se envía), mientras que page y size tienen valores por defecto (0 y 20). Si el cliente no los envía, se usan esos valores.
 
 ### T2.3 – Combinación de ambos
 
@@ -95,9 +105,11 @@ Un endpoint puede combinar @PathVariable y @RequestParam. Por ejemplo, un GET de
 public List<DocumentoDTO> listarDocumentos(
         @PathVariable String id,
         @RequestParam(required = false) String tipo) {
+    // ...
+}
 ```
 
-// ... } La URL /api/v1/alumnos/12345/documentos?tipo=PDF captura id de la ruta y tipo de la query. Cada uno tiene su función: el path identifica el recurso padre; la query filtra los sub-recursos. La regla es clara:
+La URL /api/v1/alumnos/12345/documentos?tipo=PDF captura id de la ruta y tipo de la query. Cada uno tiene su función: el path identifica el recurso padre; la query filtra los sub-recursos. La regla es clara:
 
 -  Path parameter: identifica un recurso. Va en la ruta. Es obligatorio.
 -  Query parameter: filtra, ordena o pagina. Va en la query. Es opcional.
@@ -107,7 +119,7 @@ public List<DocumentoDTO> listarDocumentos(
 
 @PathVariable identifica una instancia; @RequestParam modifica la vista de una colección. Los filtros deben ser opcionales, combinables y coherentes. Las fechas ISO se convierten con @DateTimeFormat.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -129,11 +141,15 @@ public List<AlumnoDTO> listarPorCurso(String curso) {
             .filter(a -> a.getCurso().equalsIgnoreCase(curso))
             .toList();
 }
-.stream() convierte la lista en un stream.
-.filter(a -> ...) mantiene solo los elementos que cumplen la condición.
 ```
 
-.toList() recoge el resultado en una lista. La lambda a -> a.getCurso().equalsIgnoreCase(curso) es un predicado: recibe un alumno y devuelve true si su curso coincide (ignorando mayúsculas). equalsIgnoreCase compara strings sin distinguir mayúsculas y minúsculas.
+- `.stream()` convierte la lista en un stream.
+- `.filter(a -> ...)` mantiene sólo los elementos que cumplen la condición.
+- `.toList()` recoge el resultado en una lista.
+
+La lambda a -> a.getCurso().equalsIgnoreCase(curso) es un predicado: recibe un alumno y devuelve true si su curso coincide
+
+(ignorando mayúsculas). equalsIgnoreCase compara strings sin distinguir mayúsculas y minúsculas.
 
 ### T3.2 – Filtrado con múltiples criterios
 
@@ -170,7 +186,9 @@ public List<AlumnoDTO> listarOrdenado(String sort) {
 }
 ```
 
-.sorted((a, b) -> ...) ordena el stream usando un comparador. El comparador recibe dos elementos y devuelve un entero negativo, cero o positivo según su orden. La lambda comprueba qué campo se quiere ordenar y aplica el comparador correspondiente. compareToIgnoreCase compara strings sin distinguir mayúsculas. Si no se reconoce el campo, se devuelve 0, lo que deja el orden original.
+.sorted((a, b) -> ...) ordena el stream usando un comparador. El comparador recibe dos elementos y devuelve un entero
+
+negativo, cero o positivo según su orden. La lambda comprueba qué campo se quiere ordenar y aplica el comparador correspondiente. compareToIgnoreCase compara strings sin distinguir mayúsculas. Si no se reconoce el campo, se devuelve 0, lo que deja el orden original.
 
 **Pregunta: ¿Qué diferencia hay entre compareTo y compareToIgnoreCase? ¿Cuándo usarías cada uno?**
 
@@ -178,7 +196,7 @@ public List<AlumnoDTO> listarOrdenado(String sort) {
 
 filter compone predicados sin duplicar rutas. La ordenación debe aceptar un vocabulario explícito y manejar nulos. El mismo conjunto filtrado debe alimentar contenido y conteo para evitar metadatos incoherentes.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -196,6 +214,7 @@ Paginar es dividir una colección grande en trozos más pequeños, llamados pág
 
 -  page: el número de página, empezando en 0.
 -  size: el número de elementos por página. Por ejemplo, si hay 47 alumnos y el cliente pide page=0&size=20, recibe los alumnos del 0 al 19. Si pide page=1&size=20, recibe los del 20 al 39. Si pide page=2&size=20, recibe los del 40 al 46 (solo 7). La paginación evita enviar colecciones gigantes que consumen ancho de banda y tardan en serializar. También permite al cliente construir controles de navegación (siguiente, anterior, ir a página).
+
 ### T4.2 – Implementación manual con skip y limit
 
 Con streams de Java, la paginación se implementa con .skip() y .limit():
@@ -209,7 +228,9 @@ public List<AlumnoDTO> listarPaginado(int page, int size) {
 }
 ```
 
-.skip(n) descarta los primeros n elementos. El número de elementos a descartar es page * size (si estamos en la página 2 con tamaño 20, descartamos los primeros 40). .limit(size) limita el resultado a size elementos. El cast (long) es necesario porque page * size puede desbordar un int si los valores son grandes. skip espera un long. Esta implementación es manual y sencilla. En el Módulo 4, con Spring Data JPA, veremos cómo hacerlo de forma más eficiente con Pageable, que además devuelve metadatos (total de elementos, total de páginas).
+.skip(n) descarta los primeros n elementos. El número de elementos a descartar es page * size (si estamos en la página 2 con
+
+tamaño 20, descartamos los primeros 40). .limit(size) limita el resultado a size elementos. El cast (long) es necesario porque page * size puede desbordar un int si los valores son grandes. skip espera un long. Esta implementación es manual y sencilla. En el Módulo 4, con Spring Data JPA, veremos cómo hacerlo de forma más eficiente con Pageable, que además devuelve metadatos (total de elementos, total de páginas).
 
 ### T4.3 – Metadatos de paginación
 
@@ -239,7 +260,7 @@ Una respuesta paginada no solo incluye los elementos de la página actual, sino 
 
 page es índice base cero y size limita el lote. skip(page*size) y limit(size) sirven en memoria; totalElements y totalPages forman parte del contrato. Se validan límites antes de operar.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -259,6 +280,7 @@ Los códigos de estado en GET son simples:
 -  GET individual existente: 200 OK con el recurso.
 -  GET individual inexistente: 404 Not Found.
 -  Parámetros inválidos: 400 Bad Request. Por ejemplo, si page es negativo o size es 0. Un error común es devolver 404 en un GET de colección cuando no hay elementos. Eso es incorrecto: la colección existe, solo está vacía. Otro error común es devolver 200 con null en un GET individual cuando el recurso no existe. Eso confunde al cliente: el código dice "éxito" pero el cuerpo está vacío. El código correcto es 404.
+
 ### T5.2 – Buenas prácticas en GET
 
 No modificar estado. GET debe ser seguro. No debe crear, actualizar ni eliminar nada. Devolver DTOs, no entidades. El controlador nunca ve entidades JPA. Solo DTOs. Usar Optional en el servicio. Cuando un recurso puede no existir, el servicio devuelve Optional<T>. El controlador decide qué hacer con el vacío (normalmente, 404). Paginación por defecto. Las colecciones grandes deben paginarse. Aunque no se implemente al principio, preverlo. Filtros por query, no por ruta. ?curso=5º es correcto; /curso/5º no lo es. No usar GET para operaciones con efectos. Los navegadores pueden pre-cargar URLs GET. Si tuvieran efectos, sería peligroso. Documentar los parámetros. En OpenAPI, documentar qué parámetros acepta cada endpoint.
@@ -280,7 +302,7 @@ Un buen test de GET cubre varios casos:
 
 GET de colección válido devuelve 200 incluso vacío; GET individual ausente devuelve 404. Parámetros inválidos producen 400. Los tests deben cubrir filtros, límites, fechas, orden, metadatos y ausencia.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -305,7 +327,7 @@ GET de colección válido devuelve 200 incluso vacío; GET individual ausente de
 
 ### Puente a la práctica
 
-En la práctica 3.1 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
+En la práctica 3.1 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar al siguiente punto se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
 
 # Punto 3.2 - POST: crear recursos
 
@@ -321,16 +343,16 @@ POST es el método HTTP que significa "quiero crear un recurso nuevo con estos d
 
 -  No es seguro. Modifica el estado del servidor: crea un recurso. No se puede pre-cargar ni cachear.
 -  No es idempotente. Ejecutarlo N veces crea N recursos. Si haces cinco POST con los mismos datos, se crean cinco recursos (o se detecta el duplicado, según las reglas de negocio). Esa falta de idempotencia es importante. Si un POST falla por timeout y el cliente lo reintenta, puede crear un recurso duplicado. Para evitarlo, hay dos estrategias: usar un identificador de idempotencia (Idempotency-Key en una cabecera) o validar en el servidor que no exista un recurso con los mismos datos únicos (por ejemplo, el DNI). En nuestro caso, aplicaremos la segunda: si ya existe un alumno con el mismo DNI, el servidor devuelve 409 Conflict y no crea nada.
+
 ### T1.2 – La URL y el cuerpo
 
 En un POST, la URL apunta a la colección donde se quiere crear el recurso, no al recurso individual. El recurso aún no existe, así que no tiene ID.
 
 ```text
 POST /api/v1/alumnos
-El cuerpo de la petición contiene los datos del recurso a crear. Los campos que el cliente envía son los que el servidor necesita para
 ```
 
-crear el recurso. Normalmente no se envía el ID: el servidor lo genera.
+El cuerpo de la petición contiene los datos del recurso a crear. Los campos que el cliente envía son los que el servidor necesita para crear el recurso. Normalmente no se envía el ID: el servidor lo genera.
 
 ```json
 {
@@ -352,7 +374,9 @@ La respuesta de un POST exitoso tiene tres partes: Código de estado 201 Created
 HTTP/1.1 201 Created
 Location: /api/v1/alumnos/3
 Content-Type: application/json
+```
 
+```json
 {
   "id": "3",
   "nombre": "María",
@@ -369,7 +393,7 @@ Content-Type: application/json
 
 POST sobre la colección solicita al servidor crear una nueva identidad. El cliente aporta datos de entrada, el servidor decide el identificador y devuelve la representación creada.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -388,9 +412,11 @@ POST sobre la colección solicita al servidor crear una nueva identidad. El clie
 ```java
 @PostMapping
 public ResponseEntity<AlumnoDTO> crear(@RequestBody AlumnoDTO dto) {
+    // ...
+}
 ```
 
-// ... } Cuando Spring MVC ve @RequestBody, hace lo siguiente: 1. Comprueba el Content-Type de la petición. Si es application/json, usa Jackson para deserializar. 2. Lee el cuerpo de la petición. 3. Deserializa el JSON a la clase indicada (AlumnoDTO). 4. Pasa el objeto al método. Si el cuerpo está vacío, Spring MVC lanza HttpMessageNotReadableException y devuelve un 400 Bad Request. Si el JSON está mal formado, también devuelve 400. Si el Content-Type no es application/json, devuelve 415 Unsupported Media Type.
+Cuando Spring MVC ve @RequestBody, hace lo siguiente: 1. Comprueba el Content-Type de la petición. Si es application/json, usa Jackson para deserializar. 2. Lee el cuerpo de la petición. 3. Deserializa el JSON a la clase indicada (AlumnoDTO). 4. Pasa el objeto al método. Si el cuerpo está vacío, Spring MVC lanza HttpMessageNotReadableException y devuelve un 400 Bad Request. Si el JSON está mal formado, también devuelve 400. Si el Content-Type no es application/json, devuelve 415 Unsupported Media Type.
 
 ### T2.2 – Cómo Jackson deserializa
 
@@ -401,6 +427,7 @@ Jackson usa las mismas anotaciones que ya conocemos para deserializar:
 -  @JsonIgnore: ignora un campo del JSON (no se deserializa). Para que Jackson pueda crear una instancia de la clase, esta necesita:
 -  Un constructor sin argumentos (público o accesible).
 -  Setters para los campos que se van a rellenar. Si falta el constructor sin argumentos, Jackson lanza InvalidDefinitionException: No default constructor found. Si falta un setter, el campo correspondiente no se rellena (se queda a null). Por defecto, Jackson ignora los campos desconocidos del JSON. Si el cliente envía un campo que no existe en el DTO, no falla: simplemente lo ignora. Esto es útil para evolucionar la API: si añades un campo al JSON en el futuro, los clientes antiguos no fallan.
+
 ### T2.3 – Validación manual en el servicio
 
 Aunque Spring MVC deserializa el JSON, no valida los datos. La validación de negocio (por ejemplo, "el DNI no puede estar duplicado") va en el servicio. La validación de formato (por ejemplo, "el DNI debe tener 9 caracteres") se puede hacer con Bean Validation, que veremos en el punto 3.5. En este punto, haremos validación manual en el servicio. Por ejemplo, comprobar que el DNI no esté duplicado:
@@ -410,9 +437,11 @@ public AlumnoDTO crear(AlumnoDTO dto) {
     if (repositorio.existePorDni(dto.getDni())) {
         throw new NegocioException("Ya existe un alumno con el DNI " + dto.getDni());
     }
+    // ...
+}
 ```
 
-// ... } El servicio comprueba la regla de negocio y, si se viola, lanza NegocioException. El controlador captura esa excepción (o un manejador global) y devuelve un 409 Conflict.
+El servicio comprueba la regla de negocio y, si se viola, lanza NegocioException. El controlador captura esa excepción (o un manejador global) y devuelve un 409 Conflict.
 
 **Pregunta: ¿Por qué la validación de negocio va en el servicio y no en el controlador?**
 
@@ -420,7 +449,7 @@ public AlumnoDTO crear(AlumnoDTO dto) {
 
 Jackson transforma JSON a un DTO antes de entrar al controlador. JSON mal formado, tipos incompatibles o cuerpo ausente fallan en el borde HTTP y no deben confundirse con una regla de negocio.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -439,16 +468,23 @@ El código 201 Created es el código de éxito para POST. Comunica específicame
 ```java
 URI location = URI.create("/api/v1/alumnos/" + creado.getIdentificador());
 return ResponseEntity.created(location).body(creado);
-ResponseEntity.created(location) crea una respuesta 201 con la cabecera Location apuntando a la URI
 ```
 
-indicada. .body(creado) añade el recurso creado en el cuerpo.
+`ResponseEntity.created(location)` crea una respuesta `201` con la cabecera `Location` apuntando a la URI indicada. `.body(creado)` añade el recurso creado al cuerpo.
 
 ### T3.2 – La cabecera Location
 
 La cabecera Location indica la URL del recurso creado. Es una buena práctica incluirla, porque permite al cliente saber dónde consultar el recurso sin tener que construir la URL por su cuenta. La URI se construye a partir de la URL de la petición más el ID del recurso creado. Spring ofrece ServletUriComponentsBuilder para construirla de forma robusta:
 
-URI location = ServletUriComponentsBuilder .fromCurrentRequest() .path("/{id}") .buildAndExpand(creado.getIdentificador()) .toUri(); fromCurrentRequest() toma la URL actual (/api/v1/alumnos). .path("/{id}") añade la ruta del recurso individual. .buildAndExpand(id) reemplaza {id} con el ID del recurso creado. .toUri() construye la URI final. Esta forma es más robusta que concatenar strings, porque maneja correctamente los casos en los que la URL base tiene parámetros o contextos.
+```java
+URI location = ServletUriComponentsBuilder
+        .fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(creado.getIdentificador())
+        .toUri();
+```
+
+fromCurrentRequest() toma la URL actual (/api/v1/alumnos). .path("/{id}") añade la ruta del recurso individual. .buildAndExpand(id) reemplaza {id} con el ID del recurso creado. .toUri() construye la URI final. Esta forma es más robusta que concatenar strings, porque maneja correctamente los casos en los que la URL base tiene parámetros o contextos.
 
 ### T3.3 – Conflictos y errores
 
@@ -464,7 +500,7 @@ Además del 201, un POST puede devolver otros códigos:
 
 Una creación correcta devuelve 201 y Location apuntando al recurso individual. ServletUriComponentsBuilder evita concatenar host, puerto o context path manualmente.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -506,9 +542,15 @@ El controlador captura la NegocioException con @ExceptionHandler y la convierte 
 @ExceptionHandler(NegocioException.class)
 public ResponseEntity<Map<String, Object>> handleNegocio(NegocioException ex) {
     Map<String, Object> error = Map.of(
+            "status", 409,
+            "error", "Conflict",
+            "message", ex.getMessage()
+    );
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+}
 ```
 
-"status", 409, "error", "Conflict", "message", ex.getMessage() ); return ResponseEntity.status(HttpStatus.CONFLICT).body(error); } El manejador construye una respuesta con el código 409 y un JSON que describe el error. El cliente recibe un mensaje claro: "Ya existe un alumno con el DNI X". En el Módulo 5, este manejador se centralizará en una clase con @RestControllerAdvice, para no repetirlo en cada controlador.
+El manejador construye una respuesta con el código 409 y un JSON que describe el error. El cliente recibe un mensaje claro: "Ya existe un alumno con el DNI X". En el Módulo 5, este manejador se centralizará en una clase con @RestControllerAdvice, para no repetirlo en cada controlador.
 
 **Pregunta de cierre del bloque: ¿Por qué es mejor lanzar una excepción de negocio que devolver directamente un 409 desde el**
 
@@ -518,7 +560,7 @@ servicio?
 
 La forma del dato pertenece a Bean Validation y produce 400; la unicidad de DNI depende del estado del sistema y produce 409. Distinguir ambas categorías hace la API predecible.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -542,6 +584,7 @@ Un buen test de POST cubre varios casos:
 -  POST con DNI duplicado: devuelve 409.
 -  POST con JSON mal formado: devuelve 400.
 -  POST sin Content-Type: devuelve 415. En el test del servicio, se mockea el repositorio y se verifica que el servicio crea el recurso y lanza excepción si hay duplicado. En el test del controlador, se usa MockMvc para simular la petición y verificar el código de estado, la cabecera Location y el cuerpo.
+
 ### T5.3 – La cabecera Location en los tests
 
 Verificar la cabecera Location en un test de POST es importante:
@@ -555,7 +598,9 @@ mockMvc.perform(post("/api/v1/alumnos")
         .andExpect(jsonPath("$.id").value("3"));
 ```
 
-header().string("Location", "/api/v1/alumnos/3") verifica que la cabecera Location tiene ese valor exacto. Si el controlador no la incluye, el test falla. Verificar la cabecera Location garantiza que el cliente puede usar la URL del recurso creado. Es una parte importante del contrato de POST.
+header().string("Location", "/api/v1/alumnos/3") verifica que la cabecera Location tiene ese valor exacto. Si el controlador no la
+
+incluye, el test falla. Verificar la cabecera Location garantiza que el cliente puede usar la URL del recurso creado. Es una parte importante del contrato de POST.
 
 **Pregunta de cierre del bloque: ¿Qué ventaja tiene que el test verifique la cabecera Location? ¿Qué error detecta?**
 
@@ -563,7 +608,7 @@ header().string("Location", "/api/v1/alumnos/3") verifica que la cabecera Locati
 
 El POST no es idempotente por definición general. Los tests verifican que un conflicto no escriba, que Location exista, que los errores de entrada sean 400 y que el recurso creado pueda consultarse.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -588,7 +633,7 @@ El POST no es idempotente por definición general. Los tests verifican que un co
 
 ### Puente a la práctica
 
-En la práctica 3.2 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
+En la práctica 3.2 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar al siguiente punto se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
 
 # Punto 3.3 - PUT y PATCH: actualizar recursos
 
@@ -623,7 +668,9 @@ El cuerpo contiene la representación completa del recurso:
 }
 ```
 
-El servidor recibe ese JSON, busca el recurso con ese ID, y lo reemplaza completamente. Si el recurso no existe, hay dos opciones: devolver 404 (lo más común) o crear el recurso con ese ID (upsert). En este curso usaremos 404.
+El servidor recibe ese JSON, busca el recurso con ese ID y lo reemplaza completamente. Si el recurso no existe, hay dos opciones:
+
+devolver 404 (lo más común) o crear el recurso con ese ID (upsert). En este curso usaremos 404.
 
 ### T1.3 – PATCH: actualización parcial
 
@@ -649,7 +696,7 @@ El servidor recibe ese JSON, busca el recurso, y actualiza solo los campos envia
 
 Actualizar exige preservar la identidad de la URL. PUT modela reemplazo completo y PATCH modificación parcial. El servicio comprueba existencia y reglas de negocio antes de persistir cambios.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -693,9 +740,10 @@ public ResponseEntity<AlumnoDTO> actualizar(
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
 }
-@PathVariable String id captura el ID de la URL.
-@RequestBody AlumnoDTO dto deserializa el cuerpo al DTO.
 ```
+
+- `@PathVariable String id` captura el ID de la URL.
+- `@RequestBody AlumnoDTO dto` deserializa el cuerpo al DTO.
 
 service.actualizar(id, dto) devuelve Optional<AlumnoDTO>. .map(ResponseEntity::ok) si el recurso existe, devuelve 200 con el recurso actualizado. .orElse(ResponseEntity.notFound().build()) si no existe, devuelve 404.
 
@@ -705,7 +753,7 @@ service.actualizar(id, dto) devuelve Optional<AlumnoDTO>. .map(ResponseEntity::o
 
 PUT debe ser idempotente para una misma representación. El id del cuerpo no gobierna la identidad: se impone el id de la ruta. Un recurso inexistente devuelve 404 en este contrato.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -727,6 +775,7 @@ PATCH modifica parcialmente el recurso. A diferencia de PUT, que reemplaza todo,
 -  Más complejo de implementar. El servidor tiene que decidir qué hacer con los campos no enviados.
 -  No es idempotente en general.
 -  Menos estandarizado. No hay un formato único para el cuerpo del PATCH. En la práctica, PATCH se usa para operaciones concretas: cambiar el estado de un expediente, actualizar un importe, marcar un recurso como eliminado.
+
 ### T3.2 – Implementación de PATCH en el servicio
 
 En el servicio, el método actualizarParcial recibe el ID y un Map<String, Object> con los campos a modificar:
@@ -746,8 +795,9 @@ public Optional<AlumnoDTO> actualizarParcial(String id, Map<String, Object> camb
         return repositorio.guardar(alumno);
     });
 }
-Map<String, Object> cambios es el cuerpo del PATCH deserializado. Las claves son los nombres de los campos; los valores, los
 ```
+
+`Map<String, Object> cambios` es el cuerpo del PATCH deserializado. Las claves son nombres de campos y los valores contienen los datos recibidos.
 
 nuevos valores. cambios.containsKey("nombre") comprueba si el campo nombre está en el mapa. Si lo está, se actualiza. Si no, se deja como estaba. (String) cambios.get("nombre") obtiene el valor y lo convierte al tipo correcto. Object es el tipo genérico; hay que hacer un cast. repositorio.guardar(alumno) guarda el recurso modificado. Si el recurso no existe, buscarPorId devuelve Optional.empty() y el map no se ejecuta.
 
@@ -764,9 +814,9 @@ public ResponseEntity<AlumnoDTO> actualizarParcial(
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
 }
-@PatchMapping("/{id}") mapea PATCH a /api/v1/alumnos/{id}.
-@RequestBody Map<String, Object> cambios deserializa el cuerpo a un mapa. Jackson convierte el JSON a Map automáticamente.
 ```
+
+`@PatchMapping("/{id}")` mapea `PATCH` a `/api/v1/alumnos/{id}`. `@RequestBody Map<String, Object> cambios` deserializa el cuerpo a un mapa; Jackson convierte el JSON automáticamente.
 
 service.actualizarParcial(id, cambios) devuelve Optional<AlumnoDTO>. .map(ResponseEntity::ok) si el recurso existe, devuelve 200 con el recurso actualizado. .orElse(ResponseEntity.notFound().build()) si no existe, devuelve 404.
 
@@ -776,7 +826,7 @@ service.actualizarParcial(id, cambios) devuelve Optional<AlumnoDTO>. .map(Respon
 
 PATCH conserva campos no enviados. Un Map es útil didácticamente pero pierde tipado; por ello se limita a campos conocidos, se convierten fechas explícitamente y se rechazan valores incompatibles.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -798,6 +848,7 @@ Los códigos de estado para PUT y PATCH son:
 -  400 Bad Request. Si los datos son inválidos o el cuerpo está mal formado.
 -  409 Conflict. Si hay un conflicto con el estado actual (por ejemplo, DNI duplicado).
 -  415 Unsupported Media Type. Si el Content-Type no es application/json. En la práctica, el 200 con el recurso actualizado es el más común. El 204 es más eficiente en ancho de banda, pero deja al cliente sin confirmación visual.
+
 ### T4.2 – Validación en actualizaciones
 
 La validación de negocio también se aplica en actualizaciones. Por ejemplo, si el cliente intenta cambiar el DNI a uno que ya existe en otro alumno, el servicio debe detectarlo y lanzar NegocioException.
@@ -834,9 +885,15 @@ El manejo de errores es el mismo que en POST: NegocioException se captura con @E
 @ExceptionHandler(NegocioException.class)
 public ResponseEntity<Map<String, Object>> handleNegocio(NegocioException ex) {
     Map<String, Object> error = Map.of(
+            "status", 409,
+            "error", "Conflict",
+            "message", ex.getMessage()
+    );
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+}
 ```
 
-"status", 409, "error", "Conflict", "message", ex.getMessage() ); return ResponseEntity.status(HttpStatus.CONFLICT).body(error); } En el Módulo 5, este manejador se centralizará en una clase con @RestControllerAdvice.
+En el Módulo 5, este manejador se centralizará en una clase con @RestControllerAdvice.
 
 **Pregunta de cierre del bloque: ¿Por qué es importante validar el DNI duplicado en una actualización? ¿Qué pasaría si no se**
 
@@ -846,7 +903,7 @@ validara?
 
 200 con cuerpo actualizado permite observar el resultado. 400 cubre formato/validación, 404 ausencia y 409 conflictos como DNI de otro alumno. Una fecha mal formateada no debe acabar en 500.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -872,6 +929,7 @@ PUT:
 -  Devolver el recurso actualizado o 204.
 -  Validar que el recurso existe.
 -  Documentar el formato del cuerpo. En OpenAPI, describir qué campos acepta el PATCH.
+
 ### T5.2 – Tests para PUT y PATCH
 
 Un buen test de PUT cubre:
@@ -884,19 +942,29 @@ Un buen test de PUT cubre:
 -  PATCH con varios campos: devuelve 200 con todos actualizados.
 -  PATCH sobre recurso inexistente: devuelve 404.
 -  PATCH con un campo desconocido: el campo se ignora. En los tests del servicio, se mockea el repositorio y se verifica que el servicio actualiza correctamente. En los tests del controlador, se usa MockMvc para simular peticiones y verificar códigos de estado y contenido.
+
 ### T5.3 – Verificar la inmutabilidad de campos no enviados en PATCH
 
 Un test importante de PATCH es verificar que los campos no enviados no se modifican:
 
 ```java
 @Test
+void actualizarParcial_debeMantenerCamposNoEnviados() {
+    AlumnoDTO existente = new AlumnoDTO("1", "Ana", "García", "12345678A",
+            LocalDate.of(2010, 5, 12), "5º Primaria");
+    when(repositorio.buscarPorId("1")).thenReturn(Optional.of(existente));
+    when(repositorio.guardar(any())).thenAnswer(inv -> inv.getArgument(0));
+
+    Map<String, Object> cambios = Map.of("curso", "6º Primaria");
+    Optional<AlumnoDTO> resultado = servicio.actualizarParcial("1", cambios);
+
+    assertTrue(resultado.isPresent());
+    assertEquals("Ana", resultado.get().getNombre()); // No cambia
+    assertEquals("6º Primaria", resultado.get().getCurso()); // Cambia
+}
 ```
 
-void actualizarParcial_debeMantenerCamposNoEnviados() { AlumnoDTO existente = new AlumnoDTO("1", "Ana", "García", "12345678A", LocalDate.of(2010, 5, 12), "5º Primaria"); when(repositorio.buscarPorId("1")).thenReturn(Optional.of(existente)); when(repositorio.guardar(any())).thenAnswer(inv -> inv.getArgument(0));
-
-Map<String, Object> cambios = Map.of("curso", "6º Primaria"); Optional<AlumnoDTO> resultado = servicio.actualizarParcial("1", cambios);
-
-assertTrue(resultado.isPresent()); assertEquals("Ana", resultado.get().getNombre()); // No cambia assertEquals("6º Primaria", resultado.get().getCurso()); // Cambia } El test verifica que nombre sigue siendo "Ana" (no se envió en el PATCH) y que curso ha cambiado a "6º Primaria" (sí se envió). Si el servicio modificara otros campos, el test fallaría.
+El test verifica que nombre sigue siendo "Ana" (no se envió en el PATCH) y que curso ha cambiado a "6º Primaria" (sí se envió). Si el servicio modificara otros campos, el test fallaría.
 
 **Pregunta de cierre del bloque: ¿Por qué es importante verificar que los campos no enviados no se modifican en un PATCH?**
 
@@ -904,7 +972,7 @@ assertTrue(resultado.isPresent()); assertEquals("Ana", resultado.get().getNombre
 
 Los tests de actualización deben demostrar idempotencia del PUT, preservación de campos en PATCH, unicidad excluyendo el propio recurso y ausencia de efectos laterales cuando falla la validación.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -928,7 +996,7 @@ Los tests de actualización deben demostrar idempotencia del PUT, preservación 
 
 ### Puente a la práctica
 
-En la práctica 3.3 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
+En la práctica 3.3 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar al siguiente punto se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
 
 # Punto 3.4 - DELETE: eliminar recursos
 
@@ -944,18 +1012,16 @@ DELETE es el método HTTP que significa "quiero eliminar este recurso". El clien
 
 -  No es seguro. Modifica el estado del servidor: elimina un recurso. No se puede pre-cargar ni cachear.
 -  Es idempotente. Ejecutarlo N veces produce el mismo resultado: el recurso deja de existir. Da igual cuántas veces lo llames; al final, el recurso no está. Esa idempotencia es importante. Si un DELETE falla por timeout y el cliente lo reintenta, el recurso se elimina (o ya estaba eliminado). No hay riesgo de duplicar efectos. Eso es distinto de POST, donde un reintento crea un recurso duplicado.
+
 ### T1.2 – La URL de un DELETE
 
 La URL de un DELETE apunta al recurso individual, no a la colección:
 
 ```text
 DELETE /api/v1/alumnos/12345
-No se puede hacer un DELETE a la colección entera (DELETE /api/v1/alumnos) en una API REST bien diseñada. Eliminar toda una
-colección es una operación peligrosa y poco común. Si se necesita, se hace con un endpoint específico (DELETE
-/api/v1/alumnos/todos o POST /api/v1/alumnos/purgar), no con un DELETE genérico.
 ```
 
-El cliente no envía cuerpo. La URL ya contiene toda la información necesaria: el ID del recurso a eliminar.
+No se puede hacer un DELETE a la colección entera (DELETE /api/v1/alumnos) en una API REST bien diseñada. Eliminar toda una colección es una operación peligrosa y poco común. Si se necesita, se hace con un endpoint específico (DELETE /api/v1/alumnos/todos o POST /api/v1/alumnos/purgar), no con un DELETE genérico. El cliente no envía cuerpo. La URL ya contiene toda la información necesaria: el ID del recurso a eliminar.
 
 ### T1.3 – Qué devuelve el servidor
 
@@ -965,10 +1031,9 @@ La respuesta de un DELETE exitoso es simple: Código de estado 204 No Content. C
 -  204 No Content. Algunos servidores devuelven 204 siempre, para no revelar si el recurso existía o no. Es una decisión de seguridad. En este curso usaremos 404 cuando el recurso no existe, porque es más informativo para el cliente. Y es idempotente: la segunda llamada devuelve 404, pero el estado final (recurso eliminado) es el mismo. Un ejemplo de respuesta:
 ```text
 HTTP/1.1 204 No Content
-Date: Wed, 15 Jan 2025 10:00:00 GMT
 ```
 
-Sin cuerpo, sin Content-Type, solo la línea de estado y las cabeceras.
+Date: Wed, 15 Jan 2025 10:00:00 GMT Sin cuerpo, sin Content-Type, solo la línea de estado y las cabeceras.
 
 **Pregunta: ¿Por qué DELETE devuelve 204 y no 200? ¿Qué diferencia hay entre ambos?**
 
@@ -976,7 +1041,7 @@ Sin cuerpo, sin Content-Type, solo la línea de estado y las cabeceras.
 
 DELETE actúa sobre la identidad del recurso y es idempotente en efecto final. 204 indica eliminación aceptada sin cuerpo; 404 puede indicar que el recurso ya no existe.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1041,7 +1106,7 @@ La elección entre hard delete y soft delete depende del dominio: Hard delete:
 
 Hard delete elimina físicamente; soft delete conserva el dato y lo excluye de consultas ordinarias. En sistemas administrativos, auditoría y conservación legal suelen favorecer borrado lógico.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1096,9 +1161,15 @@ El controlador delega en el servicio y construye la respuesta:
 @DeleteMapping("/{id}")
 public ResponseEntity<Void> eliminar(@PathVariable String id) {
     return service.eliminar(id)
+            ? ResponseEntity.noContent().build()
+            : ResponseEntity.notFound().build();
+}
 ```
 
-? ResponseEntity.noContent().build() : ResponseEntity.notFound().build(); } @DeleteMapping("/{id}") mapea DELETE a /api/v1/alumnos/{id}. @PathVariable String id captura el ID de la URL. service.eliminar(id) devuelve boolean. ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build() es un ternario: si se eliminó, devuelve 204; si no, 404. ResponseEntity<Void> indica que no hay cuerpo en la respuesta. Void es el tipo que se usa cuando no se devuelve nada.
+- `@DeleteMapping("/{id}")` mapea `DELETE` a `/api/v1/alumnos/{id}`.
+- `@PathVariable String id` captura el ID de la URL.
+
+service.eliminar(id) devuelve boolean. ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build() es un ternario: si se eliminó, devuelve 204; si no, 404. ResponseEntity<Void> indica que no hay cuerpo en la respuesta. Void es el tipo que se usa cuando no se devuelve nada.
 
 **Pregunta: ¿Por qué el controlador devuelve ResponseEntity<Void> y no ResponseEntity<AlumnoDTO>?**
 
@@ -1106,7 +1177,7 @@ public ResponseEntity<Void> eliminar(@PathVariable String id) {
 
 No siempre se puede borrar un recurso aislado. Si existen documentos asociados, el servicio debe decidir si bloquea, aplica cascada explícita o marca lógicamente. Esa coordinación no pertenece al repositorio.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1125,6 +1196,7 @@ En un sistema real, los recursos tienen relaciones. Un alumno puede tener docume
 -  Cascada: al eliminar el recurso padre, se eliminan también los hijos.
 -  Restricción: no se permite eliminar el recurso padre si tiene hijos. Se devuelve un 409 Conflict.
 -  Anulación: los hijos se quedan, pero se marca que su padre ha sido eliminado (soft delete en cascada). La elección depende del dominio. En un sistema de gestión documental, probablemente se use restricción o soft delete en cascada.
+
 ### T4.2 – Implementación de restricción
 
 Si optamos por restricción, el servicio comprueba si hay dependencias antes de eliminar:
@@ -1132,9 +1204,14 @@ Si optamos por restricción, el servicio comprueba si hay dependencias antes de 
 ```java
 public boolean eliminar(String id) {
     if (documentoRepository.existePorAlumnoId(id)) {
+        throw new NegocioException(
+                "No se puede eliminar el alumno: tiene documentos asociados");
+    }
+    return repositorio.eliminar(id);
+}
 ```
 
-throw new NegocioException( "No se puede eliminar el alumno: tiene documentos asociados"); } return repositorio.eliminar(id); } documentoRepository.existePorAlumnoId(id) comprueba si hay documentos asociados al alumno. throw new NegocioException(...) lanza la excepción si hay dependencias. El controlador captura la excepción con @ExceptionHandler y devuelve 409 Conflict.
+documentoRepository.existePorAlumnoId(id) comprueba si hay documentos asociados al alumno. throw new NegocioException(...) lanza la excepción si hay dependencias. El controlador captura la excepción con @ExceptionHandler y devuelve 409 Conflict.
 
 ### T4.3 – Implementación de cascada
 
@@ -1155,7 +1232,7 @@ documentoRepository.eliminarPorAlumnoId(id) elimina todos los documentos del alu
 
 La cascada debe ser deliberada y observable. Repetir DELETE no debe recrear efectos. Una primera llamada 204 y una segunda 404 siguen siendo compatibles con idempotencia de estado final.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1180,17 +1257,28 @@ Un buen test de DELETE cubre:
 -  DELETE dos veces: la segunda devuelve 404 (o 204, según la estrategia).
 -  DELETE con dependencias: devuelve 409 (si hay restricción).
 -  DELETE con soft delete: el recurso no aparece en las consultas posteriores. En los tests del servicio, se mockea el repositorio y se verifica que el servicio elimina correctamente. En los tests del controlador, se usa MockMvc para simular peticiones y verificar códigos de estado.
+
 ### T5.3 – La idempotencia en los tests
 
 Un test importante de DELETE es verificar la idempotencia:
 
 ```java
 @Test
+void eliminar_debeDevolver204_primeraVez() {
+    when(repositorio.eliminar("1")).thenReturn(true);
+    boolean resultado = servicio.eliminar("1");
+    assertTrue(resultado);
+}
+
+@Test
+void eliminar_debeDevolver404_segundaVez() {
+    when(repositorio.eliminar("1")).thenReturn(false);
+    boolean resultado = servicio.eliminar("1");
+    assertFalse(resultado);
+}
 ```
 
-void eliminar_debeDevolver204_primeraVez() { when(repositorio.eliminar("1")).thenReturn(true); boolean resultado = servicio.eliminar("1"); assertTrue(resultado); }
-
-@Test void eliminar_debeDevolver404_segundaVez() { when(repositorio.eliminar("1")).thenReturn(false); boolean resultado = servicio.eliminar("1"); assertFalse(resultado); } La primera llamada devuelve true (se eliminó). La segunda devuelve false (ya no existía). El estado final es el mismo: el recurso no existe. Eso es la idempotencia.
+La primera llamada devuelve true (se eliminó). La segunda devuelve false (ya no existía). El estado final es el mismo: el recurso no existe. Eso es la idempotencia.
 
 **Pregunta de cierre del bloque: ¿Por qué DELETE es idempotente aunque la segunda llamada devuelva 404? ¿Qué importa: el**
 
@@ -1200,7 +1288,7 @@ código o el estado final?
 
 Los tests cubren recurso con dependencias, sin dependencias, cascada, soft delete, ocultación en listados y consulta posterior. Debe distinguirse 409 de negocio de un 500 inesperado.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1223,7 +1311,7 @@ Los tests cubren recurso con dependencias, sin dependencias, cascada, soft delet
 
 ### Puente a la práctica
 
-En la práctica 3.4 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
+En la práctica 3.4 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar al siguiente punto se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
 
 # Punto 3.5 - DTOs avanzados y validaciones
 
@@ -1239,6 +1327,7 @@ Hasta ahora hemos usado un solo DTO para todo: el mismo AlumnoDTO sirve para rec
 
 -  DTO de entrada (AlumnoRequestDTO o CrearAlumnoDTO): los campos que el cliente envía. Lleva las validaciones.
 -  DTO de salida (AlumnoResponseDTO o AlumnoDTO): los campos que el servidor devuelve. Sin validaciones.
+
 ### T1.2 – DTO de entrada
 
 Un DTO de entrada contiene solo los campos que el cliente puede enviar. No incluye el ID (lo genera el servidor), ni campos de auditoría (fecha de creación, usuario que creó), ni campos calculados.
@@ -1254,15 +1343,21 @@ public class AlumnoRequestDTO {
     private String apellidos;
 
     @NotBlank(message = "El DNI es obligatorio")
+    @Size(min = 9, max = 9, message = "El DNI debe tener 9 caracteres")
+    private String dni;
+
+    @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaNacimiento;
+
+    @NotBlank(message = "El curso es obligatorio")
+    private String curso;
+
+    // constructores, getters y setters
+}
 ```
 
-@Size(min = 9, max = 9, message = "El DNI debe tener 9 caracteres") private String dni;
-
-@NotNull(message = "La fecha de nacimiento es obligatoria") @JsonFormat(pattern = "yyyy-MM-dd") private LocalDate fechaNacimiento;
-
-@NotBlank(message = "El curso es obligatorio") private String curso;
-
-// constructores, getters y setters } Cada campo tiene las anotaciones de validación que corresponden. El cliente no puede enviar un id porque no existe en el DTO. Si lo envía, Jackson lo ignora.
+Cada campo tiene las anotaciones de validación que corresponden. El cliente no puede enviar un id porque no existe en el DTO. Si lo envía, Jackson lo ignora.
 
 ### T1.3 – DTO de salida
 
@@ -1283,9 +1378,12 @@ public class AlumnoResponseDTO {
 
     private String curso;
     private Boolean activo;
+
+    // constructores, getters y setters
+}
 ```
 
-// constructores, getters y setters } El DTO de salida no tiene validaciones porque los datos ya están validados en el servidor. Y puede tener campos que el DTO de entrada no tiene (como id o activo).
+El DTO de salida no tiene validaciones porque los datos ya están validados en el servidor. Y puede tener campos que el DTO de entrada no tiene (como id o activo).
 
 **Pregunta: ¿Por qué el DTO de salida no necesita validaciones? ¿Qué valida el servidor antes de devolverlo?**
 
@@ -1293,7 +1391,7 @@ public class AlumnoResponseDTO {
 
 Separar request y response impide que el cliente controle campos del servidor. El request expresa datos aceptados; el response puede exponer id, estado derivado y campos de lectura sin mezclar constraints de entrada.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1324,9 +1422,12 @@ public class ExpedienteDTO {
     private LocalDate fechaSolicitud;
 
     private Double importe;
+
+    // getters y setters
+}
 ```
 
-// getters y setters } Y el SolicitanteDTO:
+Y el SolicitanteDTO:
 
 ```java
 public class SolicitanteDTO {
@@ -1336,9 +1437,12 @@ public class SolicitanteDTO {
 
     @JsonProperty("dni")
     private String documentoIdentidad;
+
+    // getters y setters
+}
 ```
 
-// getters y setters } Cuando Jackson serializa el ExpedienteDTO, incluye el SolicitanteDTO como un objeto JSON anidado:
+Cuando Jackson serializa el ExpedienteDTO, incluye el SolicitanteDTO como un objeto JSON anidado:
 
 ```json
 {
@@ -1362,6 +1466,7 @@ Los DTOs anidados se usan cuando:
 -  El recurso tiene sub-recursos. Un expediente tiene un solicitante, unos documentos, un historial.
 -  El recurso tiene relaciones. Un alumno pertenece a un curso, que pertenece a un centro.
 -  Quieres agrupar campos relacionados. En lugar de tener nombreSolicitante, apellidosSolicitante, dniSolicitante, se agrupan en un SolicitanteDTO. La ventaja es la claridad: el JSON refleja la estructura del dominio. El cliente ve que el expediente tiene un solicitante, y el solicitante tiene nombre, apellidos y DNI. El inconveniente es la complejidad: hay que crear más clases y gestionar las transformaciones entre entidades y DTOs. Pero para dominios con relaciones, merece la pena.
+
 ### T2.3 – DTOs anidados con listas
 
 Un DTO puede contener una lista de otros DTOs. Por ejemplo, un ExpedienteDTO con una lista de documentos:
@@ -1376,9 +1481,12 @@ public class ExpedienteDTO {
     private String tipo;
 
     private List<DocumentoDTO> documentos;
+
+    // getters y setters
+}
 ```
 
-// getters y setters } Y el DocumentoDTO:
+Y el DocumentoDTO:
 
 ```java
 public class DocumentoDTO {
@@ -1386,9 +1494,12 @@ public class DocumentoDTO {
     private String nombre;
     private String tipo;
     private Long tamano;
+
+    // getters y setters
+}
 ```
 
-// getters y setters } Jackson serializa la lista como un array JSON:
+Jackson serializa la lista como un array JSON:
 
 ```json
 {
@@ -1408,7 +1519,7 @@ public class DocumentoDTO {
 
 Los objetos anidados se validan con @Valid. Un ExpedienteRequestDTO puede contener SolicitanteDTO: no basta validar el contenedor; hay que propagar la validación al objeto hijo.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1464,9 +1575,13 @@ Para que Bean Validation se ejecute, hay que anotar el parámetro del controlado
 @PostMapping
 public ResponseEntity<AlumnoResponseDTO> crear(
         @Valid @RequestBody AlumnoRequestDTO dto) {
+    // ...
+}
 ```
 
-// ... } @Valid le dice a Spring MVC que, antes de ejecutar el método, valide el objeto dto. Si hay errores de validación, Spring MVC lanza MethodArgumentNotValidException y no ejecuta el método. El controlador (o un manejador global) captura esa excepción y devuelve un 400 con los detalles. Sin @Valid, la validación no se ejecuta. El objeto llega al método con los valores que el cliente haya enviado, sin comprobar.
+`@Valid` indica a Spring MVC que valide `dto` antes de ejecutar el método. Si hay errores de validación, Spring MVC construye la respuesta de error antes de entrar en la lógica de aplicación.
+
+lanza MethodArgumentNotValidException y no ejecuta el método. El controlador (o un manejador global) captura esa excepción y devuelve un 400 con los detalles. Sin @Valid, la validación no se ejecuta. El objeto llega al método con los valores que el cliente haya enviado, sin comprobar.
 
 **Pregunta: ¿Qué pasa si olvidas @Valid en un parámetro que debería validarse?**
 
@@ -1474,7 +1589,7 @@ public ResponseEntity<AlumnoResponseDTO> crear(
 
 @NotBlank, @Size, @NotNull y @Past convierten reglas de forma en un contrato declarativo. La dependencia spring-boot-starter-validation integra Jakarta Validation con Spring MVC.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1493,9 +1608,12 @@ Cuando @Valid detecta errores de validación, Spring MVC lanza MethodArgumentNot
 ```java
 @ExceptionHandler(MethodArgumentNotValidException.class)
 public ResponseEntity<Map<String, Object>> handleValidation(
+        MethodArgumentNotValidException ex) {
+    // ...
+}
 ```
 
-MethodArgumentNotValidException ex) { // ... } El método recibe la excepción y construye la respuesta.
+El método recibe la excepción y construye la respuesta.
 
 ### T4.2 – Extraer los errores
 
@@ -1506,16 +1624,19 @@ List<Map<String, String>> errores = ex.getBindingResult()
         .getFieldErrors()
         .stream()
         .map(e -> Map.of(
+                "field", e.getField(),
+                "message", e.getDefaultMessage()))
+        .toList();
 ```
 
-"field", e.getField(), "message", e.getDefaultMessage())) .toList(); getFieldErrors() devuelve la lista de errores por campo. e.getField() devuelve el nombre del campo que ha fallado. e.getDefaultMessage() devuelve el mensaje de error. El resultado es una lista de mapas, cada uno con el campo y el mensaje:
+getFieldErrors() devuelve la lista de errores por campo. e.getField() devuelve el nombre del campo que ha fallado. e.getDefaultMessage() devuelve el mensaje de error. El resultado es una lista de mapas, cada uno con el campo y el mensaje:
 
 ```json
 [
   {"field": "nombre", "message": "El nombre es obligatorio"},
+  {"field": "dni", "message": "El DNI debe tener 9 caracteres"}
+]
 ```
-
-{"field": "dni", "message": "El DNI debe tener 9 caracteres"} ]
 
 ### T4.3 – Construir la respuesta de error
 
@@ -1523,9 +1644,16 @@ Con la lista de errores, se construye la respuesta:
 
 ```java
 Map<String, Object> respuesta = Map.of(
+        "timestamp", Instant.now().toString(),
+        "status", 400,
+        "error", "Bad Request",
+        "message", "Errores de validación",
+        "errors", errores
+);
+return ResponseEntity.badRequest().body(respuesta);
 ```
 
-"timestamp", Instant.now().toString(), "status", 400, "error", "Bad Request", "message", "Errores de validación", "errors", errores ); return ResponseEntity.badRequest().body(respuesta); La respuesta incluye:
+La respuesta incluye:
 
 -  timestamp: el momento del error.
 -  status: 400.
@@ -1540,7 +1668,7 @@ genérico?
 
 MethodArgumentNotValidException contiene errores por campo. Una respuesta 400 estable debe exponer campo y mensaje sin filtrar detalles internos del framework. El orden de errores no debe asumirse si no se garantiza.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1565,6 +1693,7 @@ Un buen test de validación cubre:
 -  POST con un campo demasiado largo: devuelve 400.
 -  POST con un formato inválido: devuelve 400.
 -  POST con varios errores: devuelve 400 con todos los errores. En los tests del controlador, se usa MockMvc para enviar peticiones con datos inválidos y verificar que se devuelve 400 con los errores esperados. En los tests del servicio, la validación de Bean Validation no se ejecuta, porque el servicio no tiene @Valid. Los tests del servicio se centran en la validación de negocio.
+
 ### T5.3 – Verificar los mensajes de error en los tests
 
 Un test importante es verificar que el mensaje de error es el esperado:
@@ -1574,9 +1703,19 @@ mockMvc.perform(post("/api/v1/alumnos")
         .contentType(MediaType.APPLICATION_JSON)
         .content("""
                 {"nombre": "", "apellidos": "López",
+                 "dni": "123", "fechaNacimiento": "2011-03-20",
+                 "curso": "4º"}
+                """))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[?(@.field=='nombre')].message")
+                .value("El nombre es obligatorio"))
+        .andExpect(jsonPath("$.errors[?(@.field=='dni')].message")
+                .value("El DNI debe tener 9 caracteres"));
 ```
 
-"dni": "123", "fechaNacimiento": "2011-03-20", "curso": "4º"} """)) .andExpect(status().isBadRequest()) .andExpect(jsonPath("$.errors[?(@.field=='nombre')].message") .value("El nombre es obligatorio")) .andExpect(jsonPath("$.errors[?(@.field=='dni')].message") .value("El DNI debe tener 9 caracteres")); jsonPath("$.errors[?(@.field=='nombre')].message") navega por el array de errores, busca el que tiene field == "nombre" y extrae su message. Verificar los mensajes garantiza que el cliente recibe información útil para corregir los datos.
+`jsonPath("$.errors[?(@.field=='nombre')].message")` navega por el array de errores, selecciona el elemento cuyo `field` es `nombre` y extrae su mensaje.
+
+su message. Verificar los mensajes garantiza que el cliente recibe información útil para corregir los datos.
 
 **Pregunta de cierre del bloque: ¿Por qué es importante que los mensajes de error sean específicos y no genéricos?**
 
@@ -1584,7 +1723,7 @@ mockMvc.perform(post("/api/v1/alumnos")
 
 Las constraints deben probarse con casos límite y mensajes comprensibles. La validación de forma no sustituye reglas de negocio; DNI con nueve caracteres puede seguir ser duplicado y devolver 409.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1609,7 +1748,7 @@ Las constraints deben probarse con casos límite y mensajes comprensibles. La va
 
 ### Puente a la práctica
 
-En la práctica 3.5 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
+En la práctica 3.5 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar al siguiente punto se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
 
 # Punto 3.6 - Parámetros, cabeceras y Postman
 
@@ -1626,9 +1765,11 @@ Al finalizar esta sesión, el alumno será capaz de: 1. Usar @RequestParam con v
 ```java
 @GetMapping
 public List<AlumnoDTO> listar(@RequestParam String curso) {
+    // ...
+}
 ```
 
-// ... } Por defecto, @RequestParam es obligatorio: si el cliente no envía el parámetro, Spring MVC devuelve un 400 Bad Request. Para hacerlo opcional, se usa required = false:
+Por defecto, @RequestParam es obligatorio: si el cliente no envía el parámetro, Spring MVC devuelve un 400 Bad Request. Para hacerlo opcional, se usa required = false:
 
 ```java
 @RequestParam(required = false) String curso
@@ -1651,16 +1792,20 @@ Si el cliente no envía page, el parámetro valdrá 0. Si lo envía, valdrá lo 
 ```java
 @GetMapping
 public List<AlumnoDTO> listar(@RequestParam List<String> curso) {
+    // ...
+}
 ```
 
-// ... } Si el cliente envía /api/v1/alumnos?curso=5º&curso=6º, la lista curso contendrá ["5º", "6º"]. Si no envía el parámetro, la lista estará vacía (no será null). También se puede capturar todos los query parameters en un mapa:
+Si el cliente envía /api/v1/alumnos?curso=5º&curso=6º, la lista curso contendrá ["5º", "6º"]. Si no envía el parámetro, la lista estará vacía (no será null). También se puede capturar todos los query parameters en un mapa:
 
 ```java
 @GetMapping
 public List<AlumnoDTO> listar(@RequestParam Map<String, String> filtros) {
+    // ...
+}
 ```
 
-// ... } Si el cliente envía /api/v1/alumnos?curso=5º&dni=12345678A, el mapa contendrá {"curso": "5º", "dni": "12345678A"}. Es útil cuando no sabes de antemano qué filtros va a enviar el cliente.
+Si el cliente envía /api/v1/alumnos?curso=5º&dni=12345678A, el mapa contendrá {"curso": "5º", "dni": "12345678A"}. Es útil cuando no sabes de antemano qué filtros va a enviar el cliente.
 
 **Pregunta: ¿Qué ventaja tiene capturar todos los query parameters en un Map en lugar de declarar cada uno?**
 
@@ -1674,9 +1819,13 @@ public List<AlumnoDTO> listar(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(required = false)
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaDesde) {
+    // ...
+}
 ```
 
-// ... } @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) le dice a Spring que use el formato ISO 8601 para convertir el string a LocalDate. Sin esta anotación, Spring usaría el formato por defecto, que puede no coincidir. Si la conversión falla (por ejemplo, el cliente envía page=abc), Spring MVC devuelve un 400 Bad Request con un mensaje que describe el error.
+`@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)` indica a Spring que use ISO-8601 al convertir el parámetro recibido a `LocalDate`.
+
+Sin esta anotación, Spring usaría el formato por defecto, que puede no coincidir. Si la conversión falla (por ejemplo, el cliente envía page=abc), Spring MVC devuelve un 400 Bad Request con un mensaje que describe el error.
 
 **Pregunta de cierre del bloque: ¿Qué pasa si el cliente envía un page no numérico? ¿Y si envía una fecha con formato incorrecto?**
 
@@ -1684,7 +1833,7 @@ public List<AlumnoDTO> listar(
 
 Los query parameters permiten filtros opcionales y parámetros repetidos. MultiValueMap o List capturan múltiples valores. Deben documentarse valores por defecto, rango y semántica de ausencia.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1711,6 +1860,7 @@ Las cabeceras HTTP son pares clave-valor que acompañan a una petición o a una 
 -  Location: la URL del recurso creado (en POST).
 -  Cache-Control: directivas de caché.
 -  Set-Cookie: cookies que el cliente debe guardar.
+
 ### T2.2 – @RequestHeader
 
 @RequestHeader extrae una cabecera de la petición y la inyecta como parámetro del método:
@@ -1719,17 +1869,21 @@ Las cabeceras HTTP son pares clave-valor que acompañan a una petición o a una 
 @GetMapping
 public List<AlumnoDTO> listar(
         @RequestHeader(value = "User-Agent", required = false) String userAgent) {
+    // ...
+}
 ```
 
-// ... } Si el cliente envía la cabecera User-Agent, el parámetro la contendrá. Si no, será null (porque required = false). Al igual que @RequestParam, @RequestHeader puede capturar todas las cabeceras en un mapa:
+Si el cliente envía la cabecera User-Agent, el parámetro la contendrá. Si no, será null (porque required = false). Al igual que @RequestParam, @RequestHeader puede capturar todas las cabeceras en un mapa:
 
 ```java
 @GetMapping
 public List<AlumnoDTO> listar(
         @RequestHeader Map<String, String> cabeceras) {
+    // ...
+}
 ```
 
-// ... } El mapa contendrá todas las cabeceras de la petición: {"host": "localhost:8080", "user-agent": "...", ...}.
+El mapa contendrá todas las cabeceras de la petición: {"host": "localhost:8080", "user-agent": "...", ...}.
 
 **Pregunta: ¿Para qué sirve leer el User-Agent en un controlador? ¿Qué información aporta?**
 
@@ -1743,7 +1897,7 @@ Las cabeceras se usan para varias cosas: Autenticación. La cabecera Authorizati
 
 Las cabeceras transportan metadatos de la petición. User-Agent y Accept-Language sirven para observar el protocolo; cabeceras propias deben tener nombres estables y no sustituir datos de dominio del cuerpo.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1763,6 +1917,7 @@ Las cookies son pequeños fragmentos de información que el servidor envía al c
 -  Dominio y ruta. A qué dominio y ruta aplica.
 -  Fecha de expiración. Cuándo deja de ser válida.
 -  Flags de seguridad. Secure (solo HTTPS), HttpOnly (no accesible desde JavaScript), SameSite (controla envío entre sitios). En APIs REST, las cookies se usan menos que en aplicaciones web tradicionales. La autenticación suele hacerse con tokens en la cabecera Authorization, no con cookies. Pero conviene saber cómo leerlas.
+
 ### T3.2 – @CookieValue
 
 @CookieValue extrae una cookie de la petición y la inyecta como parámetro:
@@ -1771,17 +1926,19 @@ Las cookies son pequeños fragmentos de información que el servidor envía al c
 @GetMapping
 public List<AlumnoDTO> listar(
         @CookieValue(value = "sessionId", required = false) String sessionId) {
+    // ...
+}
 ```
 
-// ... } Si el cliente envía la cookie sessionId, el parámetro la contendrá. Si no, será null (porque required = false). Al igual que las otras anotaciones, @CookieValue puede capturar todas las cookies en un mapa:
+Si el cliente envía la cookie sessionId, el parámetro la contendrá. Si no, será null (porque required = false). Al igual que las otras anotaciones, @CookieValue puede capturar todas las cookies en un mapa:
 
 ```java
 @GetMapping
 public List<AlumnoDTO> listar(
         @CookieValue Map<String, String> cookies) {
+    // ...
+}
 ```
-
-// ... }
 
 **Pregunta: ¿Por qué en APIs REST se usan menos las cookies que en aplicaciones web tradicionales?**
 
@@ -1798,9 +1955,11 @@ Los parámetros separados por ; se llaman matrix variables. Se capturan con @Mat
 @GetMapping("/alumnos/{filtros}")
 public List<AlumnoDTO> listar(
         @MatrixVariable(pathVar = "filtros") Map<String, String> filtros) {
+    // ...
+}
 ```
 
-// ... } Las matrix variables son poco comunes en APIs REST. Se usan cuando se quiere combinar filtros en la ruta sin usar query parameters. En la práctica, la mayoría de las APIs usan query parameters. Pero conviene conocer que existen.
+Las matrix variables son poco comunes en APIs REST. Se usan cuando se quiere combinar filtros en la ruta sin usar query parameters. En la práctica, la mayoría de las APIs usan query parameters. Pero conviene conocer que existen.
 
 **Pregunta de cierre del bloque: ¿Qué diferencia hay entre ?curso=5º y ;curso=5º? ¿Cuándo usarías cada uno?**
 
@@ -1808,7 +1967,7 @@ public List<AlumnoDTO> listar(
 
 CookieValue extrae cookies concretas. Matrix variables existen pero son poco habituales en APIs REST modernas; los query parameters suelen ser más interoperables y previsibles.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1830,6 +1989,7 @@ Postman es una herramienta gráfica para probar APIs. Permite enviar peticiones 
 -  Tests automáticos. Se pueden escribir scripts que verifiquen la respuesta.
 -  Historial. Se guardan todas las peticiones enviadas.
 -  Compartición. Las colecciones se pueden exportar e importar. Postman se descarga desde postman.com/downloads/. Hay versión para Windows, Linux y macOS. La versión gratuita es suficiente para este curso.
+
 ### T4.2 – Colecciones y entornos
 
 Una colección es un grupo de peticiones organizadas. Por ejemplo, se puede crear una colección "Mi Proyecto" con subcarpetas para "Alumnos", "Expedientes", etc. Cada petición tiene:
@@ -1843,11 +2003,25 @@ Una colección es un grupo de peticiones organizadas. Por ejemplo, se puede crea
 
 ### T4.3 – Tests automáticos en Postman
 
-Postman permite escribir scripts de test que se ejecutan después de cada petición. Se escriben en JavaScript y verifican la respuesta: javascript pm.test("Status code is 200", function () { pm.response.to.have.status(200); });
+Postman permite escribir scripts de test que se ejecutan después de cada petición. Se escriben en JavaScript y verifican la respuesta:
 
-pm.test("Response has id", function () { const jsonData = pm.response.json(); pm.expect(jsonData).to.have.property("id"); });
+```javascript
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
 
-pm.test("Nombre es Ana", function () { const jsonData = pm.response.json(); pm.expect(jsonData.nombre).to.eql("Ana"); }); Los tests verifican:
+pm.test("Response has id", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("id");
+});
+
+pm.test("Nombre es Ana", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData.nombre).to.eql("Ana");
+});
+```
+
+Los tests verifican:
 
 -  pm.response.to.have.status(200) que el código es 200.
 -  pm.expect(jsonData).to.have.property("id") que la respuesta tiene el campo id.
@@ -1858,7 +2032,7 @@ pm.test("Nombre es Ana", function () { const jsonData = pm.response.json(); pm.e
 
 Una colección agrupa peticiones; un entorno aporta baseUrl y variables. Los scripts de test permiten comprobar status, headers y JSON, complementando curl y los tests Java.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1888,7 +2062,7 @@ Organizar las peticiones en colecciones. Agrupar por recurso o por funcionalidad
 
 La observación completa combina método, URL, query, headers, cookies, status y cuerpo. Herramientas gráficas no sustituyen un contrato automatizado; sirven para explorar, reproducir y comunicar peticiones.
 
-En el snapshot acumulativo de M3 esta idea se refleja en el controlador, el servicio, los DTO y los tests del punto. La comprobación se hace sobre el comportamiento HTTP observable, no sólo sobre las anotaciones.
+En el snapshot acumulativo de M3 esta idea no queda como teoría aislada: se refleja en el controlador, el servicio, los DTO y los tests que corresponden a este punto. La comprobación debe hacerse sobre el comportamiento HTTP observable y no sólo leyendo anotaciones.
 
 ### Pregunta
 
@@ -1913,4 +2087,4 @@ La observación completa combina método, URL, query, headers, cookies, status y
 
 ### Puente a la práctica
 
-En la práctica 3.6 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
+En la práctica 3.6 estas ideas se aplican sobre el mismo proyecto heredado de M2. Antes de continuar al siguiente punto se conserva la regresión anterior y se añade evidencia automatizada para el nuevo contrato.
