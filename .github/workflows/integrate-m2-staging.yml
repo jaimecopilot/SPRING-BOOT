@@ -35,6 +35,16 @@ jobs:
 
           rm -rf M2
           cp -a /tmp/m2bundle/unpacked/M2 ./M2
+
+          # El bundle contiene el proyecto final 2.6, pero el Wrapper es infraestructura
+          # heredada aprobada en M1. Restaurarlo explícitamente para que M2 siga siendo
+          # autocontenido y ejecutable sin depender de Maven instalado globalmente.
+          cp M1/proyecto/.gitignore M2/proyecto/.gitignore
+          cp -a M1/proyecto/.mvn M2/proyecto/.mvn
+          cp M1/proyecto/mvnw M2/proyecto/mvnw
+          cp M1/proyecto/mvnw.cmd M2/proyecto/mvnw.cmd
+          chmod +x M2/proyecto/mvnw
+
           mkdir -p .course/traceability/M2 .course/source-audit
           rm -rf .course/traceability/M2
           mkdir -p .course/traceability/M2
