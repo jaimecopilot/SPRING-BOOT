@@ -1,0 +1,80 @@
+name: Debug M2 Runtime
+
+on:
+  pull_request:
+    paths:
+      - 'M2/**'
+      - '.github/workflows/debug-m2-runtime.yml'
+      - '.github/workflows/validar-m2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  debug-m2-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Construir y diagnosticar runtime 2.1
+        working-directory: M2/proyecto
+        shell: bash
+        run: |
+          set -euxo pipefail
+          chmod +x mvnw
+          ./mvnw -B -DskipTests package
+          PID=''
+          cleanup() { if [[ -n "$PID" ]]; then kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; fi; }
+          trap cleanup EXIT
+          java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar >/tmp/m2-debug.log 2>&1 &
+          PID=$!
+          CODE=''
+          for i in {1..45}; do
+            CODE="$(curl -s -o /tmp/ready -w '%{http_code}' http://localhost:8080/hola || true)"
+            [[ "$CODE" == 200 ]] && break
+            sleep 1
+          done
+          echo '=== A baseline ==='
+          test "$CODE" = 200
+          cat /tmp/ready
+          curl -sS -i http://localhost:8080/adios | head -20
+          curl -sS -i http://localhost:8080/api/v1/expedientes/ejemplo | head -30
+          curl -sS -i http://localhost:8080/api/v1/alumnos | head -30
+
+          echo '=== B headers ==='
+          curl -sS -i http://localhost:8080/api/v1/alumnos/info-peticion -H 'User-Agent: MiCliente/1.0' -H 'Accept-Language: es-ES'
+          curl -sS -i http://localhost:8080/api/v1/alumnos/info-peticion -H 'User-Agent: MiCliente/2.0'
+
+          echo '=== C pagination/filter ==='
+          curl -sS 'http://localhost:8080/api/v1/alumnos?page=0&size=1'; echo
+          curl -sS 'http://localhost:8080/api/v1/alumnos?page=1&size=1'; echo
+          curl -sS --get http://localhost:8080/api/v1/alumnos --data-urlencode 'curso=5º Primaria' --data-urlencode 'sort=nombre' --data-urlencode 'page=0' --data-urlencode 'size=10'; echo
+
+          echo '=== D create/location ==='
+          curl -sS -i -X POST http://localhost:8080/api/v1/alumnos -H 'Content-Type: application/json' -d '{"nombre":"Carlos","apellidos":"Zeta","dni":"DNI-DEMO-03","fechaNacimiento":"2011-01-02","curso":"5º Primaria"}'
+
+          echo '=== E put/patch ==='
+          curl -sS -i -X PUT http://localhost:8080/api/v1/alumnos/3 -H 'Content-Type: application/json' -d '{"id":"999","nombre":"Aaron","apellidos":"Abarca","dni":"DNI-DEMO-03","fechaNacimiento":"2011-01-02","curso":"5º Primaria"}'
+          curl -sS -i -X PATCH http://localhost:8080/api/v1/alumnos/3 -H 'Content-Type: application/json' -d '{"curso":"6º Primaria B"}'
+
+          echo '=== F links ==='
+          curl -sS -i http://localhost:8080/api/v1/alumnos/1/con-enlaces
+          curl -sS -i http://localhost:8080/api/v1/alumnos/999/con-enlaces
+
+          echo '=== G bad input ==='
+          curl -sS -i -X POST http://localhost:8080/api/v1/alumnos -H 'Content-Type: application/json' -d '{"nombre":"Pedro", "apellidos":"Sánchez",}' | head -20
+          curl -sS -i -X POST http://localhost:8080/api/v1/alumnos -H 'Content-Type: text/plain' --data 'hola' | head -20
+
+          echo '=== H delete ==='
+          curl -sS -i -X DELETE http://localhost:8080/api/v1/alumnos/3
+          curl -sS -i -X DELETE http://localhost:8080/api/v1/alumnos/3
+
+          echo '=== I promote ==='
+          curl -sS -i -X POST http://localhost:8080/api/v1/alumnos/promocionar
+          curl -sS -i http://localhost:8080/api/v1/alumnos
+
+          echo '=== APP LOG TAIL ==='
+          tail -50 /tmp/m2-debug.log
