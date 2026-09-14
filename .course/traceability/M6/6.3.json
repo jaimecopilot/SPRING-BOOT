@@ -1,0 +1,886 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "section": "6.3",
+  "status": "COMPLETE",
+  "expected_steps": 14,
+  "source_range": [
+    1266,
+    1314
+  ],
+  "source_corrections": [
+    {
+      "issue": "El reto titula PUT /api/v1/perfil/password pero el snippet usa AuthController /api/v1/auth/password.",
+      "resolution": "La implementación usa /api/v1/perfil/password autenticado para evitar que el wildcard público de auth lo abra accidentalmente."
+    },
+    {
+      "issue": "La fuente usa NegocioException para password actual incorrecta.",
+      "resolution": "M5 marca NegocioException @Deprecated; se usa OperacionNoPermitidaException."
+    },
+    {
+      "issue": "El inicializador fuente corta con usuarioRepository.count() > 0.",
+      "resolution": "Se usa find-or-create idempotente por entidad para preservar evolución acumulativa."
+    }
+  ],
+  "steps": [
+    {
+      "id": "6.3.1",
+      "source_page": 1290,
+      "title": "Crear el paquete auth",
+      "theory": [
+        "TC-6.3-1"
+      ],
+      "action": "Consolidar la funcionalidad de seguridad en el paquete auth sin reiniciar el proyecto",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth"
+      ],
+      "command": "find src/main/java/es/mecd/demo/miproyecto/auth -maxdepth 1 -type f",
+      "observable": "auth agrupa la nueva capacidad y conserva GestorController heredado de 6.2",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.1 — Crear el paquete `auth`",
+      "source_anchor": "Paso 1: Crear el paquete auth",
+      "source_body_sha256": "fb0d6678ba27673ed6613536670193eca3397fa225dfba32964188aec0f100eb",
+      "guide_section_sha256": "dbef6c868d07b167be154bad84c4526df60a29d39763c81f684290687e754e73",
+      "source_words": 30,
+      "guide_words": 118,
+      "symbols": [
+        "GestorController",
+        "auth"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth",
+          "action": "CREATE",
+          "symbols": [
+            "GestorController",
+            "auth"
+          ],
+          "final_sha256": null,
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 9,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.1; partir del baseline M5 para 6.1.1.",
+        "operation": "Consolidar la funcionalidad de seguridad en el paquete auth sin reiniciar el proyecto",
+        "command": "find src/main/java/es/mecd/demo/miproyecto/auth -maxdepth 1 -type f",
+        "expected_observable": "auth agrupa la nueva capacidad y conserva GestorController heredado de 6.2",
+        "postcondition": "El estado documentado por 6.3.1 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.2",
+      "source_page": 1290,
+      "title": "Crear la entidad Rol",
+      "theory": [
+        "TC-6.3-1"
+      ],
+      "action": "Modelar Rol como entidad y lado inverso de la relación many-to-many",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Rol.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "roles tiene nombre único y relación inversa sin JoinTable duplicada",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.2 — Crear la entidad `Rol`",
+      "source_anchor": "Paso 2: Crear la entidad Rol",
+      "source_body_sha256": "1cec683c8160513d98209491f1a5e132f2fd3951ad25d6da6e723d44e7c5633e",
+      "guide_section_sha256": "a7740ca57cf77787476c43280b623575bdb2e839d2d594f8c0514593a47c4173",
+      "source_words": 164,
+      "guide_words": 290,
+      "symbols": [
+        "@JoinTable",
+        "Rol",
+        "Usuario.roles",
+        "getDescripcion",
+        "getId",
+        "getNombre",
+        "getUsuarios",
+        "setDescripcion",
+        "setId",
+        "setNombre",
+        "setUsuarios"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+          "action": "CREATE",
+          "symbols": [
+            "@JoinTable",
+            "Rol",
+            "Usuario.roles",
+            "getDescripcion",
+            "getId",
+            "getNombre",
+            "getUsuarios",
+            "setDescripcion"
+          ],
+          "final_sha256": "14bb7bc3af0f4b0c623ce520b0f0c5a376590db6d8e374b96b7a5f68c31abfc6",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 10,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.2; partir del baseline M5 para 6.1.1.",
+        "operation": "Modelar Rol como entidad y lado inverso de la relación many-to-many",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "roles tiene nombre único y relación inversa sin JoinTable duplicada",
+        "postcondition": "El estado documentado por 6.3.2 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.3",
+      "source_page": 1292,
+      "title": "Crear la entidad Usuario",
+      "theory": [
+        "TC-6.3-1"
+      ],
+      "action": "Modelar Usuario con credenciales, estado y Set<Rol> mediante usuarios_roles",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "usuarios define usuarios_roles y almacena sólo hash, email, estado y roles",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.3 — Crear la entidad `Usuario`",
+      "source_anchor": "Paso 3: Crear la entidad Usuario",
+      "source_body_sha256": "a2d32c455dc40f225dcdeebe5f39a0b2bc72f8027ebb8c468cee2749ca2a4d68",
+      "guide_section_sha256": "85871849d0a06864b95516b77154c3170b5c0caf110d1768289521d6a3450ebc",
+      "source_words": 148,
+      "guide_words": 263,
+      "symbols": [
+        "List",
+        "Set",
+        "Usuario",
+        "activo",
+        "email",
+        "fechaCreacion",
+        "id",
+        "password",
+        "roles",
+        "username",
+        "usuarios",
+        "usuarios_roles"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+          "action": "CREATE",
+          "symbols": [
+            "List",
+            "Set",
+            "Usuario",
+            "activo",
+            "email",
+            "fechaCreacion",
+            "id",
+            "password"
+          ],
+          "final_sha256": "750490b62707f8d533fa88ea0ff53044d46f2cfc0b8a9759d719f5231fda1824",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 11,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.3; partir del baseline M5 para 6.1.1.",
+        "operation": "Modelar Usuario con credenciales, estado y Set<Rol> mediante usuarios_roles",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "usuarios define usuarios_roles y almacena sólo hash, email, estado y roles",
+        "postcondition": "El estado documentado por 6.3.3 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.4",
+      "source_page": 1295,
+      "title": "Crear los repositorios",
+      "theory": [
+        "TC-6.3-1",
+        "TC-6.3-2"
+      ],
+      "action": "Crear repositorios Spring Data para usuarios y roles",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "repositorios resuelven búsqueda/duplicados mediante Spring Data",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.4 — Crear los repositorios",
+      "source_anchor": "Paso 4: Crear los repositorios",
+      "source_body_sha256": "d4659a20ae92b42d1e76f2721f710a73885d3bb9400f5996b0b3131d0d6e7699",
+      "guide_section_sha256": "956a3aecc395c5fbe4ebf0f1012ffccd018b98b14cc7ba5867ca2949b37ee967",
+      "source_words": 62,
+      "guide_words": 166,
+      "symbols": [
+        "RolRepository",
+        "UsuarioRepository",
+        "username"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+          "action": "CREATE",
+          "symbols": [
+            "RolRepository",
+            "UsuarioRepository",
+            "username"
+          ],
+          "final_sha256": "352def533eb987bf39096653ce947c10c529c6bf0bfc0d1b76a6bd99811a8207",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+          "action": "CREATE",
+          "symbols": [
+            "RolRepository",
+            "UsuarioRepository",
+            "username"
+          ],
+          "final_sha256": "541f992152f5c2792f1dad6f46972cf610c49b29bbaddc2451f505d410c2e35b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 13,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.4; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear repositorios Spring Data para usuarios y roles",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "repositorios resuelven búsqueda/duplicados mediante Spring Data",
+        "postcondition": "El estado documentado por 6.3.4 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.5",
+      "source_page": 1296,
+      "title": "Crear el UserDetailsService personalizado",
+      "theory": [
+        "TC-6.3-2"
+      ],
+      "action": "Sustituir la carga en memoria por UsuarioDetailsService respaldado por UsuarioRepository",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "roles persistidos se transforman a ROLE_* y una identidad inactiva queda bloqueada/deshabilitada",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.5 — Crear el `UserDetailsService` personalizado",
+      "source_anchor": "Paso 5: Crear el UserDetailsService personalizado",
+      "source_body_sha256": "74db391086366739ed4a111cfa305a065f0d49d173b56a6418759628337ad5ae",
+      "guide_section_sha256": "fc22ac995acef9c001f1738cd9e8fc4210ea0ce01e9fa83f52e99df3ed12e3e9",
+      "source_words": 131,
+      "guide_words": 256,
+      "symbols": [
+        "ADMIN",
+        "ROLE_",
+        "ROLE_ADMIN",
+        "UserDetailsService",
+        "UsuarioDetailsService",
+        "loadUserByUsername"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+          "action": "CREATE",
+          "symbols": [
+            "ADMIN",
+            "ROLE_",
+            "ROLE_ADMIN",
+            "UserDetailsService",
+            "UsuarioDetailsService",
+            "loadUserByUsername"
+          ],
+          "final_sha256": "1046ce88b32ccc010ced9e3aa683de09fa55e0b0c39770d70f318d16de8627ee",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 14,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.5; partir del baseline M5 para 6.1.1.",
+        "operation": "Sustituir la carga en memoria por UsuarioDetailsService respaldado por UsuarioRepository",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "roles persistidos se transforman a ROLE_* y una identidad inactiva queda bloqueada/deshabilitada",
+        "postcondition": "El estado documentado por 6.3.5 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.6",
+      "source_page": 1299,
+      "title": "Eliminar los usuarios en memoria",
+      "theory": [
+        "TC-6.3-3"
+      ],
+      "action": "Eliminar físicamente InMemoryUserConfig y cerrar T6.2-A",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java"
+      ],
+      "command": "grep -R \"InMemoryUserDetailsManager\" src/main/java || true",
+      "observable": "InMemoryUserDetailsManager desaparece del código de producción; T6.2-A queda cerrado",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.6 — Eliminar los usuarios en memoria",
+      "source_anchor": "Paso 6: Eliminar los usuarios en memoria",
+      "source_body_sha256": "6059e5bb26864127ae1f16b82ff0b40936afc15e5016f8b4c4a1de28578f5bda",
+      "guide_section_sha256": "90c0877afec162f148fd7f2032a2f67185125e237871314d041225a3a50f766f",
+      "source_words": 49,
+      "guide_words": 146,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+          "action": "DELETE",
+          "symbols": [],
+          "final_sha256": null,
+          "evidence_scope": "FINAL_ABSENCE"
+        }
+      ],
+      "replay": {
+        "order": 14,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.6; partir del baseline M5 para 6.1.1.",
+        "operation": "Eliminar físicamente InMemoryUserConfig y cerrar T6.2-A",
+        "command": "grep -R \"InMemoryUserDetailsManager\" src/main/java || true",
+        "expected_observable": "InMemoryUserDetailsManager desaparece del código de producción; T6.2-A queda cerrado",
+        "postcondition": "El estado documentado por 6.3.6 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.7",
+      "source_page": 1299,
+      "title": "Crear el inicializador de usuarios",
+      "theory": [
+        "TC-6.3-3"
+      ],
+      "action": "Sembrar roles/usuarios con algoritmo idempotente preservando el reto GESTOR de 6.2",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java"
+      ],
+      "command": "./mvnw spring-boot:run",
+      "observable": "reinicios no duplican identidades y GESTOR no se pierde al migrar a DB",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.7 — Crear el inicializador de usuarios",
+      "source_anchor": "Paso 7: Crear el inicializador de usuarios",
+      "source_body_sha256": "d00919e0360487e963adb5182285c80a26558927b401e67f9ce0ca2eca1c8d21",
+      "guide_section_sha256": "e8f7e486fe83b706b35b602d54a32eb5199069c7a9be8767414050d39bdcb9fe",
+      "source_words": 89,
+      "guide_words": 208,
+      "symbols": [
+        "GESTOR",
+        "UsuariosInicialesConfig",
+        "admin",
+        "ana",
+        "cargarUsuarios",
+        "count() > 0",
+        "gestor"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+          "action": "CREATE",
+          "symbols": [
+            "GESTOR",
+            "UsuariosInicialesConfig",
+            "admin",
+            "ana",
+            "cargarUsuarios",
+            "count() > 0",
+            "gestor"
+          ],
+          "final_sha256": "fa8bc2fd2b388864017730639d930d18b958fd52da6e9ba6a55f05575517f113",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 15,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.7; partir del baseline M5 para 6.1.1.",
+        "operation": "Sembrar roles/usuarios con algoritmo idempotente preservando el reto GESTOR de 6.2",
+        "command": "./mvnw spring-boot:run",
+        "expected_observable": "reinicios no duplican identidades y GESTOR no se pierde al migrar a DB",
+        "postcondition": "El estado documentado por 6.3.7 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.8",
+      "source_page": 1301,
+      "title": "Arrancar y verificar",
+      "theory": [
+        "TC-6.3-1",
+        "TC-6.3-3"
+      ],
+      "action": "Verificar tablas usuarios, roles y usuarios_roles y sus relaciones",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Rol.java"
+      ],
+      "command": "SELECT * FROM usuarios; SELECT * FROM roles; SELECT * FROM usuarios_roles;",
+      "observable": "existen usuarios, roles y pares de la tabla intermedia",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.8 — Arrancar y verificar",
+      "source_anchor": "Paso 8: Arrancar y verificar",
+      "source_body_sha256": "09fdea11a09b3495a3313d12b502423d7431e00743d37a8f94b7948bbfe64a19",
+      "guide_section_sha256": "f4177e5a6614bc2b7508323e02738865558c4b8a71af6e6259ecadc5504661d5",
+      "source_words": 58,
+      "guide_words": 141,
+      "symbols": [
+        "rol_id",
+        "roles",
+        "usuario_id",
+        "usuarios",
+        "usuarios_roles"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+          "action": "MODIFY",
+          "symbols": [
+            "rol_id",
+            "roles",
+            "usuario_id",
+            "usuarios",
+            "usuarios_roles"
+          ],
+          "final_sha256": "750490b62707f8d533fa88ea0ff53044d46f2cfc0b8a9759d719f5231fda1824",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+          "action": "MODIFY",
+          "symbols": [
+            "rol_id",
+            "roles",
+            "usuario_id",
+            "usuarios",
+            "usuarios_roles"
+          ],
+          "final_sha256": "14bb7bc3af0f4b0c623ce520b0f0c5a376590db6d8e374b96b7a5f68c31abfc6",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 15,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.8; partir del baseline M5 para 6.1.1.",
+        "operation": "Verificar tablas usuarios, roles y usuarios_roles y sus relaciones",
+        "command": "SELECT * FROM usuarios; SELECT * FROM roles; SELECT * FROM usuarios_roles;",
+        "expected_observable": "existen usuarios, roles y pares de la tabla intermedia",
+        "postcondition": "El estado documentado por 6.3.8 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.9",
+      "source_page": 1302,
+      "title": "Probar la autenticación",
+      "theory": [
+        "TC-6.3-2",
+        "TC-6.3-3"
+      ],
+      "action": "Autenticar ana/admin/gestor desde persistencia",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java"
+      ],
+      "command": "curl -i -u ana:ana123 http://localhost:8080/api/v1/perfil",
+      "observable": "ana/admin/gestor conservan sus comportamientos pero proceden de DB",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.9 — Probar la autenticación",
+      "source_anchor": "Paso 9: Probar la autenticación",
+      "source_body_sha256": "c0f746e2e024aaaa76ab5ed360aff6b0a4e5d01b6cdf77cc328bf7eda5597611",
+      "guide_section_sha256": "3f589f57209ec2792a8ac43758cd23a02c9585db325514f1e9c1ae4f58091094",
+      "source_words": 56,
+      "guide_words": 132,
+      "symbols": [
+        "InMemoryUserDetailsManager",
+        "ROLE_ADMIN",
+        "ROLE_USER"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+          "action": "VERIFY",
+          "symbols": [
+            "UsuarioDetailsService"
+          ],
+          "final_sha256": "1046ce88b32ccc010ced9e3aa683de09fa55e0b0c39770d70f318d16de8627ee",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "action": "VERIFY",
+          "symbols": [
+            "PerfilController"
+          ],
+          "final_sha256": "b20054ecc66a77e8bf4de6efada89bdf37e87b3b67299253dfee11245555f69b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 15,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.9; partir del baseline M5 para 6.1.1.",
+        "operation": "Autenticar ana/admin/gestor desde persistencia",
+        "command": "curl -i -u ana:ana123 http://localhost:8080/api/v1/perfil",
+        "expected_observable": "ana/admin/gestor conservan sus comportamientos pero proceden de DB",
+        "postcondition": "El estado documentado por 6.3.9 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.10",
+      "source_page": 1302,
+      "title": "Crear el endpoint de registro",
+      "theory": [
+        "TC-6.3-4"
+      ],
+      "action": "Crear DTOs de registro sin exponer password",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "la representación de salida carece de campo password",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.10 — Crear los DTOs de registro",
+      "source_anchor": "Paso 10: Crear el endpoint de registro",
+      "source_body_sha256": "37007d99771f224594efaf9db4c200d7935d12711f0411dc49d566c068fba16a",
+      "guide_section_sha256": "48f87a19040a0b9cf3da90d2b684784dc87ca7259ed7a32b1b837221be8f793f",
+      "source_words": 133,
+      "guide_words": 207,
+      "symbols": [
+        "RegistroRequestDTO",
+        "UsuarioResponseDTO"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+          "action": "CREATE",
+          "symbols": [
+            "RegistroRequestDTO",
+            "UsuarioResponseDTO"
+          ],
+          "final_sha256": "beb821624f4d2347afec51c9531a45eb0c946746fb3147cbf7a42c3910a726ba",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+          "action": "CREATE",
+          "symbols": [
+            "RegistroRequestDTO",
+            "UsuarioResponseDTO"
+          ],
+          "final_sha256": "13f33efd7cd6c91e5f59dcda499272ecd97d2628dc7ec6d8c49c8e1b5a561484",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 17,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.10; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear DTOs de registro sin exponer password",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "la representación de salida carece de campo password",
+        "postcondition": "El estado documentado por 6.3.10 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.11",
+      "source_page": 1304,
+      "title": "Crear el AuthService y el AuthController",
+      "theory": [
+        "TC-6.3-4"
+      ],
+      "action": "Crear registro transaccional y controlador POST /api/v1/auth/registro",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "registro cifra, asigna USER, aplica unicidad y responde DTO",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.11 — Crear `AuthService` y `AuthController`",
+      "source_anchor": "Paso 11: Crear el AuthService y el AuthController",
+      "source_body_sha256": "e90de42a663f1fecb556d67ac37e0432e22ca2f1170d2f7323544e3b70b45e3d",
+      "guide_section_sha256": "88df9496c12aaee632965034f7b95fdecc5ac55ba3878d020e5934fe556317b5",
+      "source_words": 186,
+      "guide_words": 288,
+      "symbols": [
+        "201 Created",
+        "@Deprecated",
+        "AuthController",
+        "AuthService",
+        "AuthService.registrar(...)",
+        "NegocioException",
+        "OperacionNoPermitidaException",
+        "RecursoDuplicadoException",
+        "RecursoNoEncontradoException",
+        "USER",
+        "registrar",
+        "toDTO"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+          "action": "CREATE",
+          "symbols": [
+            "201 Created",
+            "@Deprecated",
+            "AuthController",
+            "AuthService",
+            "AuthService.registrar(...)",
+            "NegocioException",
+            "OperacionNoPermitidaException",
+            "RecursoDuplicadoException"
+          ],
+          "final_sha256": "ea261552500fc9b49ada4bc86c4d9269f8169234bfec03565f912595ec6c1de5",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+          "action": "CREATE",
+          "symbols": [
+            "201 Created",
+            "@Deprecated",
+            "AuthController",
+            "AuthService",
+            "AuthService.registrar(...)",
+            "NegocioException",
+            "OperacionNoPermitidaException",
+            "RecursoDuplicadoException"
+          ],
+          "final_sha256": "1647099ec7f32b6732c202d27f21224f71514b5aa71625f96af6bbe212c863e8",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 19,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.11; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear registro transaccional y controlador POST /api/v1/auth/registro",
+        "command": "./mvnw -B test",
+        "expected_observable": "registro cifra, asigna USER, aplica unicidad y responde DTO",
+        "postcondition": "El estado documentado por 6.3.11 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.12",
+      "source_page": 1308,
+      "title": "Configurar el endpoint público y probar",
+      "theory": [
+        "TC-6.3-3",
+        "TC-6.3-4"
+      ],
+      "action": "Permitir sólo el POST de registro y verificar alta + autenticación de pedro",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "curl -i -X POST http://localhost:8080/api/v1/auth/registro -H \"Content-Type: application/json\" -d '{\"username\":\"pedro\",\"password\":\"pedro1234\",\"email\":\"pedro@educacion.gob.es\"}'",
+      "observable": "registro anónimo=201; pedro se autentica como USER; otras rutas auth aún no se abren",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.12 — Configurar el endpoint público y probar",
+      "source_anchor": "Paso 12: Configurar el endpoint público y probar",
+      "source_body_sha256": "cf2ea058020b3886776496a88b817f6fe9ddd3976d0e200037fb95a970a8fd99",
+      "guide_section_sha256": "8b15545441873061cf321dd4e116fbc61aa7cbd07b5668aa01f0db63f3b59989",
+      "source_words": 82,
+      "guide_words": 188,
+      "symbols": [
+        "201 Created",
+        "ROLE_USER",
+        "SecurityConfig"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "201 Created",
+            "ROLE_USER",
+            "SecurityConfig"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 19,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.12; partir del baseline M5 para 6.1.1.",
+        "operation": "Permitir sólo el POST de registro y verificar alta + autenticación de pedro",
+        "command": "curl -i -X POST http://localhost:8080/api/v1/auth/registro -H \"Content-Type: application/json\" -d '{\"username\":\"pedro\",\"password\":\"pedro1234\",\"email\":\"pedro@educacion.gob.es\"}'",
+        "expected_observable": "registro anónimo=201; pedro se autentica como USER; otras rutas auth aún no se abren",
+        "postcondition": "El estado documentado por 6.3.12 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.13",
+      "source_page": 1309,
+      "title": "Errores comunes del ejercicio",
+      "theory": [
+        "TC-6.3-5"
+      ],
+      "action": "Comprobar duplicados, encoding, roles, transacciones y ausencia de una segunda fuente de usuarios",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "fallos esperables conservan el contrato de seguridad y errores M5",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.13 — Errores comunes del ejercicio",
+      "source_anchor": "Paso 13: Errores comunes del ejercicio",
+      "source_body_sha256": "9264ca090d3fb8c5d942b1932a0b93284d66b7ce2a36080ea75de2de40a4b1a8",
+      "guide_section_sha256": "1df3a11f1f24259436877bfda4ec8ff3c4192e8beaf95516c07346aa4aff0920",
+      "source_words": 104,
+      "guide_words": 292,
+      "symbols": [
+        "@JoinTable",
+        "ADMIN",
+        "InMemoryUserConfig",
+        "LazyInitializationException",
+        "ROLE_",
+        "ROLE_ADMIN",
+        "Set",
+        "UserDetailsService",
+        "UsernameNotFoundException",
+        "Usuario",
+        "encode",
+        "hasRole"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [
+            "@JoinTable",
+            "ADMIN",
+            "InMemoryUserConfig",
+            "LazyInitializationException",
+            "ROLE_",
+            "ROLE_ADMIN",
+            "Set",
+            "UserDetailsService"
+          ],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 19,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.13; partir del baseline M5 para 6.1.1.",
+        "operation": "Comprobar duplicados, encoding, roles, transacciones y ausencia de una segunda fuente de usuarios",
+        "command": "./mvnw -B test",
+        "expected_observable": "fallos esperables conservan el contrato de seguridad y errores M5",
+        "postcondition": "El estado documentado por 6.3.13 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.3.14",
+      "source_page": 1311,
+      "title": "Reto resuelto — Endpoint para cambiar la contraseña",
+      "theory": [
+        "TC-6.3-5"
+      ],
+      "action": "Implementar cambio autenticado de contraseña en /api/v1/perfil/password",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java"
+      ],
+      "command": "curl -i -X PUT -u pedro:pedro1234 http://localhost:8080/api/v1/perfil/password -H \"Content-Type: application/json\" -d '{\"passwordActual\":\"pedro1234\",\"passwordNueva\":\"pedro5678\"}'",
+      "observable": "cambio correcto=204; nueva contraseña autentica; antigua deja de autenticar",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.3.14 — Reto resuelto: cambiar la contraseña",
+      "source_anchor": "Paso 14: Reto resuelto — Endpoint para cambiar la contraseña",
+      "source_body_sha256": "026e6310af86e4c86ee955ba19e4b27400e293ed8daeadb91b626f12004c6481",
+      "guide_section_sha256": "3698ab1a3272e11c80d48f5ce686fa2d74947e708d43ae57c21ce904f34681e1",
+      "source_words": 340,
+      "guide_words": 735,
+      "symbols": [
+        "204 No Content",
+        "401",
+        "@ManyToMany",
+        "CambioPasswordRequestDTO",
+        "PerfilController",
+        "Rol",
+        "Usuario",
+        "UsuarioDetailsService",
+        "cambiarPassword",
+        "save"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java",
+          "action": "CREATE",
+          "symbols": [
+            "204 No Content",
+            "401",
+            "@ManyToMany",
+            "CambioPasswordRequestDTO",
+            "PerfilController",
+            "Rol",
+            "Usuario",
+            "UsuarioDetailsService"
+          ],
+          "final_sha256": "e932c14b916ba3db901649eb9e6a1dcdd9cc2a60371aae403bae225f1d9a2ee4",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "204 No Content",
+            "401",
+            "@ManyToMany",
+            "CambioPasswordRequestDTO",
+            "PerfilController",
+            "Rol",
+            "Usuario",
+            "UsuarioDetailsService"
+          ],
+          "final_sha256": "ea261552500fc9b49ada4bc86c4d9269f8169234bfec03565f912595ec6c1de5",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "action": "MODIFY",
+          "symbols": [
+            "204 No Content",
+            "401",
+            "@ManyToMany",
+            "CambioPasswordRequestDTO",
+            "PerfilController",
+            "Rol",
+            "Usuario",
+            "UsuarioDetailsService"
+          ],
+          "final_sha256": "b20054ecc66a77e8bf4de6efada89bdf37e87b3b67299253dfee11245555f69b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 20,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.3.14; partir del baseline M5 para 6.1.1.",
+        "operation": "Implementar cambio autenticado de contraseña en /api/v1/perfil/password",
+        "command": "curl -i -X PUT -u pedro:pedro1234 http://localhost:8080/api/v1/perfil/password -H \"Content-Type: application/json\" -d '{\"passwordActual\":\"pedro1234\",\"passwordNueva\":\"pedro5678\"}'",
+        "expected_observable": "cambio correcto=204; nueva contraseña autentica; antigua deja de autenticar",
+        "postcondition": "El estado documentado por 6.3.14 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    }
+  ]
+}

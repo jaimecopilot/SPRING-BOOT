@@ -1,0 +1,327 @@
+{
+  "repository": "jaimecopilot/SPRING-BOOT",
+  "ref": "0f76aa08385605a48eccbcb3b1be6bf18b9bce1e",
+  "project_tree_sha": "e9194f0ec6b595d3dbc7dbf921eef8a815fe9ae1",
+  "source": "GitHub recursive git tree",
+  "blob_count": 79,
+  "entries": [
+    {
+      "path": ".gitignore",
+      "sha": "d1751292269b41725a2eb71f8a74b1e36ad53171"
+    },
+    {
+      "path": ".mvn/wrapper/maven-wrapper.properties",
+      "sha": "78b60c17d0fd9600098f1cf4ace2594325c25c23"
+    },
+    {
+      "path": "README.md",
+      "sha": "5d0e6ff49ca14b6be21c4719607a7c62cc1f6ee8"
+    },
+    {
+      "path": "config/checkstyle/checkstyle.xml",
+      "sha": "58b0dcb59ef4c148f5b0a5b479fed2278c79e0be"
+    },
+    {
+      "path": "mvnw",
+      "sha": "4ee2b546036be5dadf12be77f05cfc498209e75e"
+    },
+    {
+      "path": "mvnw.cmd",
+      "sha": "bd523a180c242cac396bfa38d0d2cf5715e1cadd"
+    },
+    {
+      "path": "pom.xml",
+      "sha": "67e9f2ffa1bb971fe59d99580b7bdfcd4f2c01b7"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "sha": "473376d39a60c32aa41e7ba0e51c55ec6b753536"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "sha": "40bc020904ee8703db29607be480d0706e4c99ab"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "sha": "64049d6c8f4773ed41f963f1318bb3f2c10f9fe5"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "sha": "42ed77413c4d63c5f3871ddca4b3c709fb046c68"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java",
+      "sha": "440aef01626521efcc29ec9e16bd6d0a0f26806e"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java",
+      "sha": "a6494b0d30b27b227a59e3fa5dac42f63f10ad24"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "sha": "bc350f90c437575cbf7dae54a744703123c4fdc0"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "sha": "91cc175c5cff060e1f29ca90fd1521a9670e5290"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "sha": "556881713f205ddb021e495d6bf41944cd4bcc49"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+      "sha": "d0833bfadcab097247669e3395774759c71e3e86"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "sha": "3ee66353ac8ed97d46867c7b2565114c04b3e25a"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "sha": "ea0574c17cdd3fa8ec7e4372e814cb047943da5b"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+      "sha": "fd8995acf8cc566ec535444e5f752d57fb19794d"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+      "sha": "af0e2b41fd2d956ca7cc20de8519462342003d42"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "sha": "b12a68cab28f542dbba522caa6ff4cd5cdd8c0a8"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+      "sha": "a419a6b447987c96c48a4fd43f32f4948fb74636"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+      "sha": "157fc045b1c4a995c8e8ea7bd2c2b5648d3bb662"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "sha": "7ca4873f129768dc360d5e17ac3d3fdcc64f05c3"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "sha": "e906e2d4fcd8009dc65d7e2acd0c70be1443171d"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+      "sha": "e3d185f307cdaa8bd3bd04e1f5af20a6fc873a40"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java",
+      "sha": "a3c85b0aa0344579191c75c6b1f4144a1e9130a1"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java",
+      "sha": "612a749d3ed2052fa718714255f41fa9f4880c05"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+      "sha": "7753e03122511e68b2988d3259e4aed5d3cecb7b"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+      "sha": "e0d21c5f3ad421e646cadaa88625e5f819493b21"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java",
+      "sha": "754f1b477f04f6796fd4587cfd35b857aac21b10"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+      "sha": "7dd35120415d5173277a0347df088769a24e389b"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "sha": "4034c387d4a4df8050bb8f7140984da568bad13a"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java",
+      "sha": "1163083273572056a98b6adfdbcda4199196a989"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java",
+      "sha": "20fb1d04a3c28e816c896b91507f8d1f69d54121"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java",
+      "sha": "a21587df02ed9d09a58863aabfefe3ee179e47fc"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java",
+      "sha": "fd6644f8541aa5f312fb2b825376581605cd6cf6"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+      "sha": "74b662916f626bbf312b8823679a1f51f182291b"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "sha": "563db294b3b88533e9da5545428fb0e0707f355d"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java",
+      "sha": "4ec21dca5e856902aba094cfe4b575921fae95be"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+      "sha": "3cc5f98f75ef4a625baeb12362a27f79905b5e04"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "sha": "795adb1463f4f2c6e4ca75c193ffa775e2062583"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "sha": "a3bf42cfcdb0a2ee447575dfdbef2d01a41668ca"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java",
+      "sha": "8055bcdaf641a48ca69f8493b44db33082d0d20f"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "sha": "8927826ad6ce19995423b84a0efadc5250519531"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "sha": "1df9aaf735d5e0cd6a81e70ceaa90bda192be98a"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "sha": "94c8aecd76ab447cea02b2acef81bbf8951f6800"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "sha": "aadbe79b428d9f83c99eaa5ec12b7bb44229b14e"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "sha": "96c23acfe918ef3ad392a7e1c6dc988d2c672c5a"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "sha": "d6b9c93a206f84aefeed1e21b5a6331094c764a9"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "sha": "3975ef6a60d4722d635d27ccdfd8bb630a3ee03f"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "sha": "a86409d318cf1bd53abedf77d5726dafa5988845"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "sha": "b346e117c25daaaf3fa17928038f8d8da0f6dc0e"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "sha": "b912515973cf573f1964e6aa3bbf8c58be599969"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "sha": "72c80d2abdab85036653f33914fbe2acb23e2cc2"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java",
+      "sha": "a29fc7818f0836f8c73ede8841d710f2e5b03fa9"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java",
+      "sha": "d0c95d203e6ec8e83c3f12e41c18c3c8beb76abd"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java",
+      "sha": "34632d4a2262439072fbd807270531d6c568acce"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "sha": "6e47c2a18d0b5d014dc555f43378aba9348eb221"
+    },
+    {
+      "path": "src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "sha": "53d69a4fa1d585bf4c5b5feda851fcea422056a2"
+    },
+    {
+      "path": "src/main/resources/application-dev.properties",
+      "sha": "2e5764b01d8d26567fd9cac00f95d9a1ca989a7e"
+    },
+    {
+      "path": "src/main/resources/application-prod.properties",
+      "sha": "34e020f374690415e435276476fa8b0d251ebc05"
+    },
+    {
+      "path": "src/main/resources/application-test.properties",
+      "sha": "9b8a50fffb29bd4c46dc6a2f69f8521e9977dc15"
+    },
+    {
+      "path": "src/main/resources/application.properties",
+      "sha": "53ab072c56041d770c40255f5f7ef1bfe39d58c2"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+      "sha": "71fa69a713db9d3a39f567382a6732bc32a53130"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "sha": "401771dffcb98defc09e2aba325263c00c5c40fe"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "sha": "379b53fdd1d2128837276fd7af1b143b677ce98e"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "sha": "544ae44ddcc81d0a334e7294e8d757cc9fba46c0"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/common/exception/AplicacionExceptionTest.java",
+      "sha": "1710370dc6851f9c4eb1e401f05137b0e36b781a"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+      "sha": "a6fffc79fe6664eccf168d3ac9ad62a4135e729e"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "sha": "734a1e59ce7ac930d8742a65274aac4216372bc0"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java",
+      "sha": "597de9823a94d5bd59e2e7a985a3fd2c5d6536da"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+      "sha": "317bfa770d1f32eef43359dbf88fcc70b1f97c28"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+      "sha": "40d192bc78fb72f302a14893ec185089021df155"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "sha": "537144a41e2275804e2292310346d1a17a64896b"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "sha": "d726444efcd88301ce492899b6a9a740f3d8c6f1"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+      "sha": "704a746497cc30cec8a4a22d9183c1910167b2fe"
+    },
+    {
+      "path": "src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "sha": "3917b87a745ed024b56aa3467c8aad53d31a0c84"
+    }
+  ],
+  "materialization_status": "TREE_VERIFIED_CONTENT_PARTIAL",
+  "note": "The canonical tree and blob identities are fixed. Not every blob is physically mounted in this sandbox yet; final continuity PASS is forbidden until full materialization/content verification."
+}

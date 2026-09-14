@@ -1,0 +1,711 @@
+{
+  "6.1": {
+    "title": "Introducción a Spring Security",
+    "start": 1203,
+    "end": 1233,
+    "blocks": [
+      [
+        "Qué es Spring Security",
+        1204
+      ],
+      [
+        "La cadena de filtros",
+        1206
+      ],
+      [
+        "Configuración moderna",
+        1208
+      ],
+      [
+        "Autenticación en detalle",
+        1213
+      ],
+      [
+        "Ecosistema de Spring Security",
+        1217
+      ]
+    ],
+    "steps": [
+      [
+        "Añadir la dependencia de Spring Security",
+        1220
+      ],
+      [
+        "Arrancar y ver el \"susto\"",
+        1220
+      ],
+      [
+        "Autenticarse con la contraseña generada",
+        1221
+      ],
+      [
+        "Ver los filtros en acción",
+        1222
+      ],
+      [
+        "Crear la clase SecurityConfig",
+        1223
+      ],
+      [
+        "Ver el comportamiento sin usuarios",
+        1224
+      ],
+      [
+        "Permitir todos los endpoints temporalmente",
+        1225
+      ],
+      [
+        "Configurar reglas específicas por endpoint",
+        1226
+      ],
+      [
+        "Ver la diferencia entre 401 y 403",
+        1228
+      ],
+      [
+        "Depurar con logs",
+        1228
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1229
+      ],
+      [
+        "Reto resuelto — Endpoint público sin autenticación",
+        1230
+      ]
+    ]
+  },
+  "6.2": {
+    "title": "Autenticación con usuarios en memoria",
+    "start": 1234,
+    "end": 1265,
+    "blocks": [
+      [
+        "El modelo de usuario en Spring Security",
+        1235
+      ],
+      [
+        "Usuarios en memoria",
+        1238
+      ],
+      [
+        "Cifrado de contraseñas",
+        1242
+      ],
+      [
+        "Integración con la cadena de filtros",
+        1245
+      ],
+      [
+        "Testing y buenas prácticas",
+        1248
+      ]
+    ],
+    "steps": [
+      [
+        "Repasar el estado actual",
+        1251
+      ],
+      [
+        "Añadir un endpoint que devuelva el perfil del usuario",
+        1252
+      ],
+      [
+        "Definir el PasswordEncoder",
+        1253
+      ],
+      [
+        "Definir el UserDetailsService",
+        1254
+      ],
+      [
+        "Cerrar los endpoints",
+        1256
+      ],
+      [
+        "Arrancar y probar sin autenticación",
+        1257
+      ],
+      [
+        "Autenticarse con el usuario ana",
+        1258
+      ],
+      [
+        "Autenticarse con el usuario admin",
+        1259
+      ],
+      [
+        "Probar la autorización por rol",
+        1259
+      ],
+      [
+        "Probar con credenciales incorrectas",
+        1260
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1261
+      ],
+      [
+        "Reto resuelto — Añadir un tercer usuario con roles combinados",
+        1262
+      ]
+    ]
+  },
+  "6.3": {
+    "title": "Usuarios en base de datos",
+    "start": 1266,
+    "end": 1314,
+    "blocks": [
+      [
+        "Por qué usuarios en base de datos",
+        1267
+      ],
+      [
+        "UserDetailsService personalizado",
+        1271
+      ],
+      [
+        "Integración con la configuración",
+        1275
+      ],
+      [
+        "Registro de usuarios",
+        1279
+      ],
+      [
+        "Buenas prácticas y tests",
+        1284
+      ]
+    ],
+    "steps": [
+      [
+        "Crear el paquete auth",
+        1290
+      ],
+      [
+        "Crear la entidad Rol",
+        1290
+      ],
+      [
+        "Crear la entidad Usuario",
+        1292
+      ],
+      [
+        "Crear los repositorios",
+        1295
+      ],
+      [
+        "Crear el UserDetailsService personalizado",
+        1296
+      ],
+      [
+        "Eliminar los usuarios en memoria",
+        1299
+      ],
+      [
+        "Crear el inicializador de usuarios",
+        1299
+      ],
+      [
+        "Arrancar y verificar",
+        1301
+      ],
+      [
+        "Probar la autenticación",
+        1302
+      ],
+      [
+        "Crear el endpoint de registro",
+        1302
+      ],
+      [
+        "Crear el AuthService y el AuthController",
+        1304
+      ],
+      [
+        "Configurar el endpoint público y probar",
+        1308
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1309
+      ],
+      [
+        "Reto resuelto — Endpoint para cambiar la contraseña",
+        1311
+      ]
+    ]
+  },
+  "6.4": {
+    "title": "Autorización por roles",
+    "start": 1315,
+    "end": 1354,
+    "blocks": [
+      [
+        "Autorización por URL vs por método",
+        1316
+      ],
+      [
+        "hasRole, hasAuthority, hasAnyRole",
+        1319
+      ],
+      [
+        "@PreAuthorize y @Secured",
+        1322
+      ],
+      [
+        "Acceder al usuario autenticado",
+        1326
+      ],
+      [
+        "Buenas prácticas y errores",
+        1330
+      ]
+    ],
+    "steps": [
+      [
+        "Repasar el estado actual",
+        1335
+      ],
+      [
+        "Activar la seguridad por método",
+        1336
+      ],
+      [
+        "Crear un UsuarioController de administración",
+        1336
+      ],
+      [
+        "Crear el UsuarioService",
+        1338
+      ],
+      [
+        "Añadir reglas de URL y de método combinadas",
+        1340
+      ],
+      [
+        "Probar la autorización con distintos usuarios",
+        1341
+      ],
+      [
+        "Crear un endpoint para consultar el propio perfil",
+        1342
+      ],
+      [
+        "Crear el UsuarioPrincipal (para el punto 6.7)",
+        1344
+      ],
+      [
+        "Probar la expresión de autorización",
+        1347
+      ],
+      [
+        "Escribir tests de autorización",
+        1347
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1349
+      ],
+      [
+        "Reto resuelto — Endpoint de cambio de rol",
+        1351
+      ]
+    ]
+  },
+  "6.5": {
+    "title": "Introducción a JWT",
+    "start": 1355,
+    "end": 1384,
+    "blocks": [
+      [
+        "Qué es un JWT",
+        1356
+      ],
+      [
+        "Estructura de un JWT",
+        1359
+      ],
+      [
+        "La firma",
+        1362
+      ],
+      [
+        "Cuándo usar JWT",
+        1365
+      ],
+      [
+        "Errores y buenas prácticas",
+        1367
+      ]
+    ],
+    "steps": [
+      [
+        "Entender la estructura con un ejemplo",
+        1371
+      ],
+      [
+        "Crear una clase para generar un JWT manualmente",
+        1373
+      ],
+      [
+        "Decodificar el token generado",
+        1375
+      ],
+      [
+        "Modificar el payload sin actualizar la firma",
+        1375
+      ],
+      [
+        "Verificar el token con Java",
+        1376
+      ],
+      [
+        "Probar con distintos payloads",
+        1378
+      ],
+      [
+        "Reflexionar sobre la seguridad",
+        1378
+      ],
+      [
+        "Comparar con un token real",
+        1379
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1379
+      ],
+      [
+        "Experimentar con la expiración",
+        1380
+      ],
+      [
+        "Verificar el token con una clave incorrecta",
+        1381
+      ],
+      [
+        "Reto resuelto — Decodificar un token sin verificar la firma",
+        1381
+      ]
+    ]
+  },
+  "6.6": {
+    "title": "Generación de tokens JWT",
+    "start": 1385,
+    "end": 1431,
+    "blocks": [
+      [
+        "La librería JJWT",
+        1386
+      ],
+      [
+        "La clave secreta",
+        1389
+      ],
+      [
+        "Generar un token",
+        1392
+      ],
+      [
+        "El endpoint de login",
+        1398
+      ],
+      [
+        "Refresh tokens y buenas prácticas",
+        1402
+      ]
+    ],
+    "steps": [
+      [
+        "Añadir las dependencias de JJWT",
+        1407
+      ],
+      [
+        "Configurar las propiedades de JWT",
+        1408
+      ],
+      [
+        "Crear la configuración de la clave",
+        1409
+      ],
+      [
+        "Crear el JwtService",
+        1410
+      ],
+      [
+        "Crear los DTOs de login",
+        1416
+      ],
+      [
+        "Ampliar el AuthService con login y refresh",
+        1419
+      ],
+      [
+        "Ampliar el AuthController",
+        1422
+      ],
+      [
+        "Configurar la seguridad para permitir login",
+        1423
+      ],
+      [
+        "Arrancar y probar el login",
+        1423
+      ],
+      [
+        "Decodificar el token",
+        1424
+      ],
+      [
+        "Probar el refresh",
+        1425
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1426
+      ],
+      [
+        "Reto resuelto — Endpoint para logout",
+        1427
+      ]
+    ]
+  },
+  "6.7": {
+    "title": "Filtro JWT",
+    "start": 1433,
+    "end": 1468,
+    "blocks": [
+      [
+        "Por qué un filtro personalizado",
+        1434
+      ],
+      [
+        "Extraer el token",
+        1436
+      ],
+      [
+        "Construir el Authentication",
+        1439
+      ],
+      [
+        "Registrar el filtro",
+        1442
+      ],
+      [
+        "Diagnóstico y buenas prácticas",
+        1445
+      ]
+    ],
+    "steps": [
+      [
+        "Verificar el JwtService y el UsuarioPrincipal",
+        1450
+      ],
+      [
+        "Crear el JwtAuthenticationFilter",
+        1450
+      ],
+      [
+        "Registrar el filtro en la cadena",
+        1455
+      ],
+      [
+        "Desactivar HTTP Basic",
+        1457
+      ],
+      [
+        "Arrancar y probar",
+        1457
+      ],
+      [
+        "Verificar el UsuarioPrincipal",
+        1459
+      ],
+      [
+        "Probar con rol ADMIN",
+        1460
+      ],
+      [
+        "Probar con un token inválido",
+        1461
+      ],
+      [
+        "Probar con la cabecera mal formada",
+        1462
+      ],
+      [
+        "Depurar el filtro",
+        1462
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1463
+      ],
+      [
+        "Reto resuelto — Expresión SpEL con el ID del usuario",
+        1464
+      ]
+    ]
+  },
+  "6.8": {
+    "title": "Protección de endpoints con JWT",
+    "start": 1469,
+    "end": 1505,
+    "blocks": [
+      [
+        "La configuración completa",
+        1470
+      ],
+      [
+        "Endpoints públicos y privados",
+        1475
+      ],
+      [
+        "Autorización con JWT",
+        1477
+      ],
+      [
+        "El flujo completo",
+        1480
+      ],
+      [
+        "Diagnóstico y buenas prácticas",
+        1483
+      ]
+    ],
+    "steps": [
+      [
+        "Crear el JwtAuthenticationEntryPoint",
+        1487
+      ],
+      [
+        "Crear el JwtAccessDeniedHandler",
+        1489
+      ],
+      [
+        "Actualizar el SecurityConfig",
+        1491
+      ],
+      [
+        "Añadir un endpoint de gestor",
+        1493
+      ],
+      [
+        "Añadir el rol GESTOR al inicializador",
+        1494
+      ],
+      [
+        "Probar el flujo completo",
+        1495
+      ],
+      [
+        "Probar sin token",
+        1497
+      ],
+      [
+        "Probar el refresh token",
+        1498
+      ],
+      [
+        "Probar el logout",
+        1498
+      ],
+      [
+        "Escribir tests de integración",
+        1499
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1501
+      ],
+      [
+        "Reto resuelto — Endpoint para consultar el propio usuario",
+        1502
+      ]
+    ]
+  },
+  "6.9": {
+    "title": "Testing de seguridad",
+    "start": 1506,
+    "end": 1550,
+    "blocks": [
+      [
+        "Por qué testear la seguridad",
+        1507
+      ],
+      [
+        "@WithMockUser y @WithUserDetails",
+        1510
+      ],
+      [
+        "SecurityMockMvcRequestPostProcessors",
+        1514
+      ],
+      [
+        "Tests de autenticación y autorización",
+        1518
+      ],
+      [
+        "Buenas prácticas y errores",
+        1523
+      ]
+    ],
+    "steps": [
+      [
+        "Añadir la dependencia spring-security-test",
+        1528
+      ],
+      [
+        "Crear el test del UsuarioController",
+        1529
+      ],
+      [
+        "Ejecutar los tests",
+        1532
+      ],
+      [
+        "Testear el endpoint de gestor",
+        1532
+      ],
+      [
+        "Testear el endpoint público",
+        1533
+      ],
+      [
+        "Testear el login",
+        1535
+      ],
+      [
+        "Testear el refresh",
+        1537
+      ],
+      [
+        "Testear el logout",
+        1539
+      ],
+      [
+        "Testear con post-processors",
+        1539
+      ],
+      [
+        "Testear con @WithUserDetails",
+        1540
+      ],
+      [
+        "Testear el filtro JWT",
+        1543
+      ],
+      [
+        "Errores comunes del ejercicio",
+        1544
+      ],
+      [
+        "Reto resuelto — Test completo de autorización",
+        1546
+      ]
+    ]
+  }
+}

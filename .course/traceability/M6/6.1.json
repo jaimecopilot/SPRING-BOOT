@@ -1,0 +1,590 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "section": "6.1",
+  "status": "COMPLETE",
+  "expected_steps": 12,
+  "steps": [
+    {
+      "id": "6.1.1",
+      "source_page": 1220,
+      "title": "Añadir la dependencia de Spring Security",
+      "theory": [
+        "TC-6.1-1"
+      ],
+      "action": "Añadir starter de Spring Security preservando todas las dependencias M5",
+      "artifacts": [
+        "M6/proyecto/pom.xml"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "Dependencia resuelta y compilación sin pérdida de dependencias heredadas",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.1 — Añadir la dependencia de Spring Security",
+      "source_anchor": "Paso 1: Añadir la dependencia de Spring Security",
+      "source_body_sha256": "175d628834d5facacabf2220fe0a8e69dadbefb42ef29548f90f0741fc582fd6",
+      "guide_section_sha256": "0940a40791e8fa17dce88635602977b204a4c06574ebb46f8bec475fa9199d79",
+      "source_words": 29,
+      "guide_words": 140,
+      "symbols": [
+        "pom.xml",
+        "spring-boot-starter-security"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/pom.xml",
+          "action": "MODIFY",
+          "symbols": [
+            "pom.xml",
+            "spring-boot-starter-security"
+          ],
+          "final_sha256": "8bd7765f74833b473436cfef6d43f3f5e55b4217cfc8b689a1f5340e6ac1dff4",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 1,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.1; partir del baseline M5 para 6.1.1.",
+        "operation": "Añadir starter de Spring Security preservando todas las dependencias M5",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "Dependencia resuelta y compilación sin pérdida de dependencias heredadas",
+        "postcondition": "El estado documentado por 6.1.1 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.2",
+      "source_page": 1220,
+      "title": "Arrancar y ver el \"susto\"",
+      "theory": [
+        "TC-6.1-1"
+      ],
+      "action": "Arrancar la aplicación y observar la protección por defecto",
+      "artifacts": [
+        "M6/proyecto/pom.xml"
+      ],
+      "command": "./mvnw spring-boot:run",
+      "observable": "Endpoint antes público queda protegido y aparece contraseña dev",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.2 — Arrancar y ver el “susto”",
+      "source_anchor": "Paso 2: Arrancar y ver el \"susto\"",
+      "source_body_sha256": "a12a2a2586a767aa3bca8e12555f652d7e69de9ba203097b810b03baec96121c",
+      "guide_section_sha256": "7a7416d42c76230f0450fbac7d877c7e6bb96ca26ebb286d9c273db1bb0bc3ab",
+      "source_words": 100,
+      "guide_words": 179,
+      "symbols": [
+        "SecurityConfig"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/pom.xml",
+          "action": "VERIFY",
+          "symbols": [
+            "spring-boot-starter-security"
+          ],
+          "final_sha256": "8bd7765f74833b473436cfef6d43f3f5e55b4217cfc8b689a1f5340e6ac1dff4",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 1,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.2; partir del baseline M5 para 6.1.1.",
+        "operation": "Arrancar la aplicación y observar la protección por defecto",
+        "command": "./mvnw spring-boot:run",
+        "expected_observable": "Endpoint antes público queda protegido y aparece contraseña dev",
+        "postcondition": "El estado documentado por 6.1.2 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.3",
+      "source_page": 1221,
+      "title": "Autenticarse con la contraseña generada",
+      "theory": [
+        "TC-6.1-4"
+      ],
+      "action": "Usar el usuario generado del arranque para autenticar una petición HTTP Basic",
+      "artifacts": [
+        "M6/proyecto/pom.xml"
+      ],
+      "command": "curl -i -u user:<PASSWORD_DEL_LOG> http://localhost:8080/hola",
+      "observable": "Credenciales válidas atraviesan la autenticación",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.3 — Autenticarse con la contraseña generada",
+      "source_anchor": "Paso 3: Autenticarse con la contraseña generada",
+      "source_body_sha256": "170d32d43bc30215257f38f27f352f6fc0353eb05aaf4928ed6be465226b4978",
+      "guide_section_sha256": "383294fc723da057d44ec6d0607bfb5dfbd1bb366b4468c23b4a2f49316296c1",
+      "source_words": 77,
+      "guide_words": 151,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/pom.xml",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "8bd7765f74833b473436cfef6d43f3f5e55b4217cfc8b689a1f5340e6ac1dff4",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 1,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.3; partir del baseline M5 para 6.1.1.",
+        "operation": "Usar el usuario generado del arranque para autenticar una petición HTTP Basic",
+        "command": "curl -i -u user:<PASSWORD_DEL_LOG> http://localhost:8080/hola",
+        "expected_observable": "Credenciales válidas atraviesan la autenticación",
+        "postcondition": "El estado documentado por 6.1.3 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.4",
+      "source_page": 1222,
+      "title": "Ver los filtros en acción",
+      "theory": [
+        "TC-6.1-2"
+      ],
+      "action": "Activar DEBUG temporal y relacionar la petición con la cadena de filtros",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "curl -i http://localhost:8080/hola",
+      "observable": "Logs muestran filtros/decisiones de Spring Security",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.4 — Ver los filtros en acción",
+      "source_anchor": "Paso 4: Ver los filtros en acción",
+      "source_body_sha256": "555551cec8ab85b2b2ec8a2286b33deb50848cd4ac7de7625a627ac879bfbf9e",
+      "guide_section_sha256": "f68aea1f97b25c40fac7e667ac0b47c3a82b10cee4188e2fcbeb8c267c0b5710",
+      "source_words": 63,
+      "guide_words": 134,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "VERIFY",
+          "symbols": [],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 2,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.4; partir del baseline M5 para 6.1.1.",
+        "operation": "Activar DEBUG temporal y relacionar la petición con la cadena de filtros",
+        "command": "curl -i http://localhost:8080/hola",
+        "expected_observable": "Logs muestran filtros/decisiones de Spring Security",
+        "postcondition": "El estado documentado por 6.1.4 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.5",
+      "source_page": 1223,
+      "title": "Crear la clase SecurityConfig",
+      "theory": [
+        "TC-6.1-3"
+      ],
+      "action": "Crear SecurityConfig con un bean SecurityFilterChain",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "Configuración moderna declarativa presente; no WebSecurityConfigurerAdapter",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.5 — Crear `SecurityConfig`",
+      "source_anchor": "Paso 5: Crear la clase SecurityConfig",
+      "source_body_sha256": "2904204bd7823a217d2f3508129e03c6dc9c0c1a81c08d620a6caec2c64443a2",
+      "guide_section_sha256": "bb203b1bbb12bb399cb444e1cb770dc2ff390ba3dea397f962bc1d9df5ee3739",
+      "source_words": 116,
+      "guide_words": 175,
+      "symbols": [
+        "SecurityConfig",
+        "SecurityFilterChain",
+        "WebSecurityConfigurerAdapter",
+        "filterChain"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "CREATE",
+          "symbols": [
+            "SecurityConfig",
+            "SecurityFilterChain",
+            "WebSecurityConfigurerAdapter",
+            "filterChain"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "USE",
+          "symbols": [
+            "SecurityConfig",
+            "SecurityFilterChain",
+            "WebSecurityConfigurerAdapter",
+            "filterChain"
+          ],
+          "final_sha256": "fd41d03836aa339baf525794d877ebbbe9dfdffbeceec11e449ad119060710cf",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 4,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.5; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear SecurityConfig con un bean SecurityFilterChain",
+        "command": "./mvnw -B test",
+        "expected_observable": "Configuración moderna declarativa presente; no WebSecurityConfigurerAdapter",
+        "postcondition": "El estado documentado por 6.1.5 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.6",
+      "source_page": 1224,
+      "title": "Ver el comportamiento sin usuarios",
+      "theory": [
+        "TC-6.1-4"
+      ],
+      "action": "Observar el estado sin UserDetailsService propio",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "curl -i -u user:<PASSWORD_DEL_LOG> http://localhost:8080/hola",
+      "observable": "Cadena y origen de usuarios quedan conceptualmente separados",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.6 — Ver el comportamiento sin usuarios definidos por nosotros",
+      "source_anchor": "Paso 6: Ver el comportamiento sin usuarios",
+      "source_body_sha256": "00f6807dc9f7adf4d02334d44a186a473530be98c68e17c2be12a8f997b8102d",
+      "guide_section_sha256": "6797c0f9869e2e46bd90ad5b148f1fb37f1a69415923ec8ff2e08dfc83eaf204",
+      "source_words": 62,
+      "guide_words": 127,
+      "symbols": [
+        "UserDetailsService"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "VERIFY",
+          "symbols": [
+            "SecurityConfig",
+            "SecurityFilterChain"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 4,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.6; partir del baseline M5 para 6.1.1.",
+        "operation": "Observar el estado sin UserDetailsService propio",
+        "command": "curl -i -u user:<PASSWORD_DEL_LOG> http://localhost:8080/hola",
+        "expected_observable": "Cadena y origen de usuarios quedan conceptualmente separados",
+        "postcondition": "El estado documentado por 6.1.6 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.7",
+      "source_page": 1225,
+      "title": "Permitir todos los endpoints temporalmente",
+      "theory": [
+        "TC-6.1-3"
+      ],
+      "action": "Introducir anyRequest().permitAll() como estado temporal controlado",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "curl -i http://localhost:8080/api/v1/alumnos",
+      "observable": "Endpoints accesibles anónimamente durante el experimento",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.7 — Permitir todos los endpoints temporalmente",
+      "source_anchor": "Paso 7: Permitir todos los endpoints temporalmente",
+      "source_body_sha256": "58293d2d2f355bbe77f5b6db90675665b9bf7c759ddf603f50b67ab9d67d9321",
+      "guide_section_sha256": "712d40735f5f539bec879724cde54449a34cac85e8cf001d903b2f04bb030661",
+      "source_words": 100,
+      "guide_words": 171,
+      "symbols": [
+        "filterChain"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "permitAll()"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "INTERMEDIATE"
+        }
+      ],
+      "replay": {
+        "order": 4,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.7; partir del baseline M5 para 6.1.1.",
+        "operation": "Introducir anyRequest().permitAll() como estado temporal controlado",
+        "command": "curl -i http://localhost:8080/api/v1/alumnos",
+        "expected_observable": "Endpoints accesibles anónimamente durante el experimento",
+        "postcondition": "El estado documentado por 6.1.7 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.8",
+      "source_page": 1226,
+      "title": "Configurar reglas específicas por endpoint",
+      "theory": [
+        "TC-6.1-3"
+      ],
+      "action": "Cerrar permitAll global y restaurar reglas públicas/específicas",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "curl -i http://localhost:8080/api/v1/alumnos",
+      "observable": "La protección reaparece; permitAll global ha sido eliminado",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.8 — Configurar reglas específicas por endpoint",
+      "source_anchor": "Paso 8: Configurar reglas específicas por endpoint",
+      "source_body_sha256": "3a49d798dcd5c8230adb64d93dddd8e4c0b613fb2fa0f56854c3922297f41404",
+      "guide_section_sha256": "02339b445f54b561bc0a641d723c1ae0af8253537bc0c74d5c8b16383f1f1af4",
+      "source_words": 125,
+      "guide_words": 188,
+      "symbols": [
+        "authenticated()",
+        "filterChain",
+        "permitAll()"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "authenticated()",
+            "filterChain",
+            "permitAll()"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 4,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.8; partir del baseline M5 para 6.1.1.",
+        "operation": "Cerrar permitAll global y restaurar reglas públicas/específicas",
+        "command": "curl -i http://localhost:8080/api/v1/alumnos",
+        "expected_observable": "La protección reaparece; permitAll global ha sido eliminado",
+        "postcondition": "El estado documentado por 6.1.8 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.9",
+      "source_page": 1228,
+      "title": "Ver la diferencia entre 401 y 403",
+      "theory": [
+        "TC-6.1-1",
+        "TC-6.1-4"
+      ],
+      "action": "Introducir y cerrar una regla de rol temporal para observar 401 y 403",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "curl -i http://localhost:8080/api/v1/alumnos && curl -i -u user:<PASSWORD_DEL_LOG> http://localhost:8080/api/v1/alumnos",
+      "observable": "401 sin identidad y 403 con identidad sin rol; luego regla temporal retirada",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.9 — Ver la diferencia entre 401 y 403",
+      "source_anchor": "Paso 9: Ver la diferencia entre 401 y 403",
+      "source_body_sha256": "564434e9943c99a726733976d6e73765c0dabb380a9df0a23873a1fea5523a7f",
+      "guide_section_sha256": "efd6bec758801453462e388d000649037e27047d408b45e6462e4d786842fcac",
+      "source_words": 78,
+      "guide_words": 173,
+      "symbols": [
+        "ADMIN",
+        "authenticated()"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "ADMIN",
+            "authenticated()"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 4,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.9; partir del baseline M5 para 6.1.1.",
+        "operation": "Introducir y cerrar una regla de rol temporal para observar 401 y 403",
+        "command": "curl -i http://localhost:8080/api/v1/alumnos && curl -i -u user:<PASSWORD_DEL_LOG> http://localhost:8080/api/v1/alumnos",
+        "expected_observable": "401 sin identidad y 403 con identidad sin rol; luego regla temporal retirada",
+        "postcondition": "El estado documentado por 6.1.9 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.10",
+      "source_page": 1228,
+      "title": "Depurar con logs",
+      "theory": [
+        "TC-6.1-2"
+      ],
+      "action": "Diagnosticar decisiones de la cadena mediante logs y restaurar logging",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "curl -i http://localhost:8080/api/v1/alumnos",
+      "observable": "Logs permiten localizar autenticación/autorización y DEBUG se restaura",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.10 — Depurar con logs",
+      "source_anchor": "Paso 10: Depurar con logs",
+      "source_body_sha256": "d6540c396979fdf93ca7806424731f6f5096bca592d13c97ed03ec3adb09760f",
+      "guide_section_sha256": "aa6a444e1cf14203aa8da86f1849d928fd82a3158fa476238a7252ae6d136fdf",
+      "source_words": 58,
+      "guide_words": 108,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 4,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.10; partir del baseline M5 para 6.1.1.",
+        "operation": "Diagnosticar decisiones de la cadena mediante logs y restaurar logging",
+        "command": "curl -i http://localhost:8080/api/v1/alumnos",
+        "expected_observable": "Logs permiten localizar autenticación/autorización y DEBUG se restaura",
+        "postcondition": "El estado documentado por 6.1.10 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.11",
+      "source_page": 1229,
+      "title": "Errores comunes del ejercicio",
+      "theory": [
+        "TC-6.1-3"
+      ],
+      "action": "Comprobar anti-patrones y restauraciones antes de cerrar el punto",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "No sobreviven estados pedagógicos inseguros",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.11 — Errores comunes del ejercicio",
+      "source_anchor": "Paso 11: Errores comunes del ejercicio",
+      "source_body_sha256": "7fa2abd908b91b38b38b6ed9150f50d7eaadcc85cff6292a79db933349f026b5",
+      "guide_section_sha256": "27d6e12cbbd612bd7c7376693ef027c8487eee0a42bc0b90bf3cd058bedd3d1a",
+      "source_words": 101,
+      "guide_words": 196,
+      "symbols": [
+        "WebSecurityConfigurerAdapter",
+        "anyRequest().permitAll()"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [
+            "WebSecurityConfigurerAdapter",
+            "anyRequest().permitAll()"
+          ],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 4,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.11; partir del baseline M5 para 6.1.1.",
+        "operation": "Comprobar anti-patrones y restauraciones antes de cerrar el punto",
+        "command": "./mvnw -B test",
+        "expected_observable": "No sobreviven estados pedagógicos inseguros",
+        "postcondition": "El estado documentado por 6.1.11 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.1.12",
+      "source_page": 1230,
+      "title": "Reto resuelto — Endpoint público sin autenticación",
+      "theory": [
+        "TC-6.1-3"
+      ],
+      "action": "Crear /api/v1/public/info y verificar público vs protegido",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "curl -i http://localhost:8080/api/v1/public/info && curl -i http://localhost:8080/api/v1/alumnos",
+      "observable": "200 en ruta pública; ruta protegida exige autenticación",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.1.12 — Reto resuelto: endpoint público sin autenticación",
+      "source_anchor": "Paso 12: Reto resuelto — Endpoint público sin autenticación",
+      "source_body_sha256": "50f77d84a26afc83f458645f737d3a19477ad567c54430fd86e8567f25557930",
+      "guide_section_sha256": "13a779b4426f4c7b3c9a800e3c20f6a9130b9a4956c8a171d5c36120b56cdf9a",
+      "source_words": 379,
+      "guide_words": 590,
+      "symbols": [
+        "InMemoryUserDetailsManager",
+        "PublicController",
+        "PublicInfoController",
+        "info",
+        "permitAll()"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java",
+          "action": "CREATE",
+          "symbols": [
+            "InMemoryUserDetailsManager",
+            "PublicController",
+            "PublicInfoController",
+            "info",
+            "permitAll()"
+          ],
+          "final_sha256": "2671a7b25a8184e1bc756b3b45ff8f2ecf4e0b84dd2e2b5a4fed631c3fa614a7",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "InMemoryUserDetailsManager",
+            "PublicController",
+            "PublicInfoController",
+            "info",
+            "permitAll()"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 5,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.1.12; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear /api/v1/public/info y verificar público vs protegido",
+        "command": "curl -i http://localhost:8080/api/v1/public/info && curl -i http://localhost:8080/api/v1/alumnos",
+        "expected_observable": "200 en ruta pública; ruta protegida exige autenticación",
+        "postcondition": "El estado documentado por 6.1.12 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    }
+  ]
+}

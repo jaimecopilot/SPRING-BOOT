@@ -1,0 +1,757 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "section": "6.4",
+  "status": "COMPLETE",
+  "expected_steps": 12,
+  "source_range": [
+    1315,
+    1354
+  ],
+  "temporary_states": [
+    {
+      "id": "T6.4-A",
+      "state": "UsuarioPrincipal preparado pero no activo",
+      "introduced_by": "6.4.8",
+      "verified_by": "6.4.8/6.4.9",
+      "closure": "6.7",
+      "status": "PREPARED_NOT_ACTIVE"
+    },
+    {
+      "id": "T6.4-B",
+      "state": "expresión principal.id negativa/temporal",
+      "introduced_by": "6.4.9",
+      "verified_by": "6.4.9",
+      "closure": "6.4.9",
+      "status": "CLOSED_RESTORED"
+    }
+  ],
+  "source_corrections": [
+    {
+      "issue": "La fuente usa @MockBean en el test 6.4.",
+      "resolution": "Se moderniza a @MockitoBean conforme al contrato técnico M6."
+    }
+  ],
+  "steps": [
+    {
+      "id": "6.4.1",
+      "source_page": 1335,
+      "title": "Repasar el estado actual",
+      "theory": [
+        "TC-6.4-1"
+      ],
+      "action": "Verificar el estado persistente de 6.3 y la regla administrativa vigente",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "grep -R \"InMemoryUserDetailsManager\" src/main/java || true",
+      "observable": "usuarios DB activos, in-memory cerrado y admin URL ya protegida",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.1 — Repasar el estado actual",
+      "source_anchor": "Paso 1: Repasar el estado actual",
+      "source_body_sha256": "6779b87d7cec3d5db245ba66842d79aaa226cf9d5bc60741703fc3196db906e1",
+      "guide_section_sha256": "08a9e10d0a8100ad38b3008bef63fefb1fa391f1e2dd2eaee25a10da7ca21052",
+      "source_words": 33,
+      "guide_words": 116,
+      "symbols": [
+        "ADMIN",
+        "GESTOR",
+        "USER",
+        "UsuarioDetailsService"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "ADMIN",
+            "GESTOR",
+            "USER",
+            "UsuarioDetailsService"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 20,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.1; partir del baseline M5 para 6.1.1.",
+        "operation": "Verificar el estado persistente de 6.3 y la regla administrativa vigente",
+        "command": "grep -R \"InMemoryUserDetailsManager\" src/main/java || true",
+        "expected_observable": "usuarios DB activos, in-memory cerrado y admin URL ya protegida",
+        "postcondition": "El estado documentado por 6.4.1 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.2",
+      "source_page": 1336,
+      "title": "Activar la seguridad por método",
+      "theory": [
+        "TC-6.4-1",
+        "TC-6.4-3"
+      ],
+      "action": "Activar @EnableMethodSecurity para que las anotaciones de autorización sean efectivas",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "@PreAuthorize pasa a ser una regla ejecutable mediante proxies Spring",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.2 — Activar la seguridad por método",
+      "source_anchor": "Paso 2: Activar la seguridad por método",
+      "source_body_sha256": "1b40df9960899a6822d920541ce978fc8a1274d17f17173866c5c5c7eab8d90a",
+      "guide_section_sha256": "8abe917ea1e9c626412a09b68fe6ca1f1bb15a4f1c088aeeef4f128216b2f25d",
+      "source_words": 32,
+      "guide_words": 96,
+      "symbols": [
+        "@EnableMethodSecurity",
+        "@PreAuthorize",
+        "SecurityConfig"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@EnableMethodSecurity",
+            "@PreAuthorize",
+            "SecurityConfig"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 20,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.2; partir del baseline M5 para 6.1.1.",
+        "operation": "Activar @EnableMethodSecurity para que las anotaciones de autorización sean efectivas",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "@PreAuthorize pasa a ser una regla ejecutable mediante proxies Spring",
+        "postcondition": "El estado documentado por 6.4.2 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.3",
+      "source_page": 1336,
+      "title": "Crear un UsuarioController de administración",
+      "theory": [
+        "TC-6.4-1",
+        "TC-6.4-3"
+      ],
+      "action": "Crear UsuarioController bajo /api/v1/admin/usuarios con @PreAuthorize ADMIN",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "administración exige ADMIN también a nivel de método",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.3 — Crear un `UsuarioController` de administración",
+      "source_anchor": "Paso 3: Crear un UsuarioController de administración",
+      "source_body_sha256": "d98ea227e1c1311ac5dcbb17a830249a672d26ee63ab4770c4489964d9a298fd",
+      "guide_section_sha256": "c61d2c5abc114baaa10dc2e7d910e77a4c4bc76b038d0c7d7972f02e98f99aa2",
+      "source_words": 90,
+      "guide_words": 193,
+      "symbols": [
+        "SecurityFilterChain",
+        "UsuarioController",
+        "consultar",
+        "listar"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+          "action": "CREATE",
+          "symbols": [
+            "SecurityFilterChain",
+            "UsuarioController",
+            "consultar",
+            "listar"
+          ],
+          "final_sha256": "0d5a5607d7deab858594186697b5feb86acd05a788c827bdbdab3c07037ed44e",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 21,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.3; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear UsuarioController bajo /api/v1/admin/usuarios con @PreAuthorize ADMIN",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "administración exige ADMIN también a nivel de método",
+        "postcondition": "El estado documentado por 6.4.3 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.4",
+      "source_page": 1338,
+      "title": "Crear el UsuarioService",
+      "theory": [
+        "TC-6.4-1"
+      ],
+      "action": "Crear UsuarioService para listar, consultar y proyectar usuarios",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "listado/consulta devuelven DTO sin password",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.4 — Crear el `UsuarioService`",
+      "source_anchor": "Paso 4: Crear el UsuarioService",
+      "source_body_sha256": "4e8f8766613d8d721e6b0f6fe8538a0a7c955aa97f789b4537c1b4c581ca8611",
+      "guide_section_sha256": "642931c2c0bf67c6d3d0e120417b5f291dd6f86509a05c320340e7d1a63bb473",
+      "source_words": 96,
+      "guide_words": 215,
+      "symbols": [
+        "@PreAuthorize",
+        "RolRepository",
+        "UsuarioRepository",
+        "UsuarioService",
+        "consultar",
+        "listarTodos",
+        "toDTO"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+          "action": "CREATE",
+          "symbols": [
+            "@PreAuthorize",
+            "RolRepository",
+            "UsuarioRepository",
+            "UsuarioService",
+            "consultar",
+            "listarTodos",
+            "toDTO"
+          ],
+          "final_sha256": "76d281965c2741cd38864c0efeea3b7fbbfd0d60e06ff7f6ace60b94d0d62ad4",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 22,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.4; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear UsuarioService para listar, consultar y proyectar usuarios",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "listado/consulta devuelven DTO sin password",
+        "postcondition": "El estado documentado por 6.4.4 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.5",
+      "source_page": 1340,
+      "title": "Añadir reglas de URL y de método combinadas",
+      "theory": [
+        "TC-6.4-1",
+        "TC-6.4-2",
+        "TC-6.4-3"
+      ],
+      "action": "Combinar hasRole ADMIN en URL con @PreAuthorize en métodos",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "USER queda bloqueado en URL y ADMIN atraviesa ambas capas",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.5 — Añadir reglas de URL y de método combinadas",
+      "source_anchor": "Paso 5: Añadir reglas de URL y de método combinadas",
+      "source_body_sha256": "28acf9629fcae8cd3d45ad70c555e3eb42943c3a9dce30c8a7ab322768db2fc8",
+      "guide_section_sha256": "fa42b14f84feaf2bb465a013ad50d2abdf4ebfcc326f18edf1d477724b6e88e2",
+      "source_words": 105,
+      "guide_words": 177,
+      "symbols": [
+        "@PreAuthorize",
+        "filterChain"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "/api/v1/admin/**",
+            "hasRole(\"ADMIN\")"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@PreAuthorize",
+            "UsuarioController"
+          ],
+          "final_sha256": "0d5a5607d7deab858594186697b5feb86acd05a788c827bdbdab3c07037ed44e",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 22,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.5; partir del baseline M5 para 6.1.1.",
+        "operation": "Combinar hasRole ADMIN en URL con @PreAuthorize en métodos",
+        "command": "./mvnw -B test",
+        "expected_observable": "USER queda bloqueado en URL y ADMIN atraviesa ambas capas",
+        "postcondition": "El estado documentado por 6.4.5 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.6",
+      "source_page": 1341,
+      "title": "Probar la autorización con distintos usuarios",
+      "theory": [
+        "TC-6.4-1",
+        "TC-6.4-5"
+      ],
+      "action": "Demostrar 401 anónimo, 403 USER y 200 ADMIN",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java"
+      ],
+      "command": "curl -i -u ana:ana123 http://localhost:8080/api/v1/admin/usuarios && curl -i -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios",
+      "observable": "anónimo=401, ana=403, admin=200",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.6 — Probar la autorización con distintos usuarios",
+      "source_anchor": "Paso 6: Probar la autorización con distintos usuarios",
+      "source_body_sha256": "87c4899b43347b95f637f603b5fcd20876f6eb0f9fd5b55af68dff69ced74dff",
+      "guide_section_sha256": "9065967745e99688bb23ed9ee9d27b19bde64251f5ce0064ec608d5ba077dab8",
+      "source_words": 55,
+      "guide_words": 128,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "0d5a5607d7deab858594186697b5feb86acd05a788c827bdbdab3c07037ed44e",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 22,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.6; partir del baseline M5 para 6.1.1.",
+        "operation": "Demostrar 401 anónimo, 403 USER y 200 ADMIN",
+        "command": "curl -i -u ana:ana123 http://localhost:8080/api/v1/admin/usuarios && curl -i -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios",
+        "expected_observable": "anónimo=401, ana=403, admin=200",
+        "postcondition": "El estado documentado por 6.4.6 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.7",
+      "source_page": 1342,
+      "title": "Crear un endpoint para consultar el propio perfil",
+      "theory": [
+        "TC-6.4-4"
+      ],
+      "action": "Evolucionar PerfilController para inyectar @AuthenticationPrincipal UserDetails",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java"
+      ],
+      "command": "curl -i -u ana:ana123 http://localhost:8080/api/v1/perfil",
+      "observable": "principal autenticado se obtiene sin consultar manualmente SecurityContextHolder",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.7 — Crear un endpoint para consultar el propio perfil",
+      "source_anchor": "Paso 7: Crear un endpoint para consultar el propio perfil",
+      "source_body_sha256": "111355b30e1e596fc1e81cc369404bacadcdf0fc2b900172ee74f906dcd462bf",
+      "guide_section_sha256": "62f4d4331fd1c227ec8d129f90afb1e777f8e4743ac2f7224ee724317bf3ba9c",
+      "source_words": 98,
+      "guide_words": 200,
+      "symbols": [
+        "@AuthenticationPrincipal",
+        "Authentication",
+        "PerfilController",
+        "UserDetails",
+        "getName()",
+        "perfil"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AuthenticationPrincipal",
+            "Authentication",
+            "PerfilController",
+            "UserDetails",
+            "getName()",
+            "perfil"
+          ],
+          "final_sha256": "b20054ecc66a77e8bf4de6efada89bdf37e87b3b67299253dfee11245555f69b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 22,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.7; partir del baseline M5 para 6.1.1.",
+        "operation": "Evolucionar PerfilController para inyectar @AuthenticationPrincipal UserDetails",
+        "command": "curl -i -u ana:ana123 http://localhost:8080/api/v1/perfil",
+        "expected_observable": "principal autenticado se obtiene sin consultar manualmente SecurityContextHolder",
+        "postcondition": "El estado documentado por 6.4.7 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.8",
+      "source_page": 1344,
+      "title": "Crear el UsuarioPrincipal (para el punto 6.7)",
+      "theory": [
+        "TC-6.4-4"
+      ],
+      "action": "Crear UsuarioPrincipal enriquecido como artefacto preparado para 6.7 sin activarlo todavía",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "clase con id/email/authorities existe pero UsuarioDetailsService aún devuelve User estándar",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.8 — Crear `UsuarioPrincipal` para 6.7",
+      "source_anchor": "Paso 8: Crear el UsuarioPrincipal (para el punto 6.7)",
+      "source_body_sha256": "be8a99ac5e72f99e6d483440a96f3880584ef2037f731c54e87a0689be4e4b95",
+      "guide_section_sha256": "822769673084438396223c5f1176c9fe722ef70740506c7e860898ebd8eb8845",
+      "source_words": 364,
+      "guide_words": 487,
+      "symbols": [
+        "User",
+        "UsuarioDetailsService",
+        "UsuarioPrincipal",
+        "getAuthorities",
+        "getEmail",
+        "getId",
+        "getPassword",
+        "getPassword()",
+        "getUsername",
+        "isAccountNonExpired",
+        "isAccountNonLocked",
+        "isCredentialsNonExpired",
+        "isEnabled",
+        "null"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+          "action": "CREATE",
+          "symbols": [
+            "User",
+            "UsuarioDetailsService",
+            "UsuarioPrincipal",
+            "getAuthorities",
+            "getEmail",
+            "getId",
+            "getPassword",
+            "getPassword()"
+          ],
+          "final_sha256": "a366e2720a411432d59913f1f0ece64b3f1da760a4eba1ab1474496ea4ba142e",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 23,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.8; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear UsuarioPrincipal enriquecido como artefacto preparado para 6.7 sin activarlo todavía",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "clase con id/email/authorities existe pero UsuarioDetailsService aún devuelve User estándar",
+        "postcondition": "El estado documentado por 6.4.8 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.9",
+      "source_page": 1347,
+      "title": "Probar la expresión de autorización",
+      "theory": [
+        "TC-6.4-3",
+        "TC-6.4-4"
+      ],
+      "action": "Documentar/probar negativamente que principal.id no existe aún y restaurar la expresión temporal",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "prueba negativa temporal de authentication.principal.id; restaurar después",
+      "observable": "principal.id falla en este estado y ninguna expresión rota sobrevive al paso",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.9 — Probar la expresión de autorización",
+      "source_anchor": "Paso 9: Probar la expresión de autorización",
+      "source_body_sha256": "246d5990f650a8fd4f5bc9e44fcc0bb1d16015c3870a8156a280b27b3bfbd116",
+      "guide_section_sha256": "e148b344090e3b9f873549dcf82c096878d1f65b610ac05a52901c2a69882183",
+      "source_words": 50,
+      "guide_words": 171,
+      "symbols": [
+        "SpelEvaluationException",
+        "User",
+        "UsuarioPrincipal",
+        "getId()",
+        "principal.id"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [
+            "SpelEvaluationException",
+            "User",
+            "UsuarioPrincipal",
+            "getId()",
+            "principal.id"
+          ],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 23,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.9; partir del baseline M5 para 6.1.1.",
+        "operation": "Documentar/probar negativamente que principal.id no existe aún y restaurar la expresión temporal",
+        "command": "prueba negativa temporal de authentication.principal.id; restaurar después",
+        "expected_observable": "principal.id falla en este estado y ninguna expresión rota sobrevive al paso",
+        "postcondition": "El estado documentado por 6.4.9 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.10",
+      "source_page": 1347,
+      "title": "Escribir tests de autorización",
+      "theory": [
+        "TC-6.4-5"
+      ],
+      "action": "Crear tests 401/403/200 modernizados con @MockitoBean",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=UsuarioControllerTest test",
+      "observable": "slice tests expresan tres resultados distintos usando API de mocks moderna",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.10 — Escribir tests de autorización",
+      "source_anchor": "Paso 10: Escribir tests de autorización",
+      "source_body_sha256": "d406e4b92597154aef677d206ffbc6156d78b986822038d1e20577d235c1aeb4",
+      "guide_section_sha256": "0211da8bf945d5b6720b28f6adf669878b430c43b3c051b103e08da4df4af11f",
+      "source_words": 91,
+      "guide_words": 316,
+      "symbols": [
+        "@MockBean",
+        "@MockitoBean",
+        "JwtAuthenticationFilter",
+        "JwtService",
+        "SecurityConfig",
+        "TokenRevocationService",
+        "UsuarioControllerTest"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java",
+          "action": "CREATE",
+          "symbols": [
+            "@MockBean",
+            "@MockitoBean",
+            "JwtService",
+            "SecurityConfig",
+            "TokenRevocationService",
+            "UsuarioControllerTest"
+          ],
+          "final_sha256": "368ae1d6185fe7bf84181773f5cd2751f70f7f45a99d3c6d2613835d3bf4a44e",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 24,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.10; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear tests 401/403/200 modernizados con @MockitoBean",
+        "command": "./mvnw -B -Dtest=UsuarioControllerTest test",
+        "expected_observable": "slice tests expresan tres resultados distintos usando API de mocks moderna",
+        "postcondition": "El estado documentado por 6.4.10 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.11",
+      "source_page": 1349,
+      "title": "Errores comunes del ejercicio",
+      "theory": [
+        "TC-6.4-5"
+      ],
+      "action": "Diagnosticar prefijos, proxies, self-invocation y diferencias 401/403",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "errores de prefijos/proxy/reglas quedan identificados y no se corrigen abriendo endpoints",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.11 — Errores comunes del ejercicio",
+      "source_anchor": "Paso 11: Errores comunes del ejercicio",
+      "source_body_sha256": "bf082f00bd128197cbc1612cb5e9bf106224f7b43177c787b134a85ae410c4fb",
+      "guide_section_sha256": "a7abaae365fb0ee6e0a76b73297d974b6d5f4d476c0be39565f4bc0d4cfad1b0",
+      "source_words": 122,
+      "guide_words": 289,
+      "symbols": [
+        "@EnableMethodSecurity",
+        "@MockBean",
+        "@MockitoBean",
+        "@PreAuthorize",
+        "ROLE_ADMIN",
+        "UsuarioDetailsService",
+        "UsuarioPrincipal",
+        "anyRequest().authenticated()",
+        "hasAuthority(\"ADMIN\")",
+        "hasRole",
+        "hasRole(\"ADMIN\")",
+        "hasRole(\"ROLE_ADMIN\")",
+        "id"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [
+            "@EnableMethodSecurity",
+            "@MockBean",
+            "@MockitoBean",
+            "@PreAuthorize",
+            "ROLE_ADMIN",
+            "UsuarioDetailsService",
+            "UsuarioPrincipal",
+            "anyRequest().authenticated()"
+          ],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 24,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.11; partir del baseline M5 para 6.1.1.",
+        "operation": "Diagnosticar prefijos, proxies, self-invocation y diferencias 401/403",
+        "command": "./mvnw -B test",
+        "expected_observable": "errores de prefijos/proxy/reglas quedan identificados y no se corrigen abriendo endpoints",
+        "postcondition": "El estado documentado por 6.4.11 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.4.12",
+      "source_page": 1351,
+      "title": "Reto resuelto — Endpoint de cambio de rol",
+      "theory": [
+        "TC-6.4-2",
+        "TC-6.4-3",
+        "TC-6.4-5"
+      ],
+      "action": "Permitir sólo a ADMIN sustituir el conjunto de roles de un usuario",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java"
+      ],
+      "command": "curl -i -X PUT -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios/2/roles -H \"Content-Type: application/json\" -d '{\"roles\":[\"USER\",\"GESTOR\"]}'",
+      "observable": "sólo ADMIN puede cambiar roles y todos los nombres deben existir",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.4.12 — Reto resuelto: endpoint de cambio de rol",
+      "source_anchor": "Paso 12: Reto resuelto — Endpoint de cambio de rol",
+      "source_body_sha256": "b891cfa68ed03f66a67fb2def6db7428d36938c18b7ac6636f320f0b16b227d4",
+      "guide_section_sha256": "e886df755db5972b89cafd651f5493a5cff20bcd8f31bde0d12f9f60896619b9",
+      "source_words": 464,
+      "guide_words": 832,
+      "symbols": [
+        "@AuthenticationPrincipal",
+        "@EnableMethodSecurity",
+        "@MockitoBean",
+        "CambioRolesRequestDTO",
+        "UsuarioPrincipal",
+        "UsuarioService",
+        "cambiarRoles",
+        "getRoles",
+        "save",
+        "setRoles"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java",
+          "action": "CREATE",
+          "symbols": [
+            "@AuthenticationPrincipal",
+            "@EnableMethodSecurity",
+            "@MockitoBean",
+            "CambioRolesRequestDTO",
+            "UsuarioPrincipal",
+            "UsuarioService",
+            "cambiarRoles",
+            "getRoles"
+          ],
+          "final_sha256": "71df3ed927816ffd01a4e4fae1273c2ebd8aa4901cc2220ac4bc39af6fa4ffd2",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AuthenticationPrincipal",
+            "@EnableMethodSecurity",
+            "@MockitoBean",
+            "CambioRolesRequestDTO",
+            "UsuarioPrincipal",
+            "UsuarioService",
+            "cambiarRoles",
+            "getRoles"
+          ],
+          "final_sha256": "76d281965c2741cd38864c0efeea3b7fbbfd0d60e06ff7f6ace60b94d0d62ad4",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AuthenticationPrincipal",
+            "@EnableMethodSecurity",
+            "@MockitoBean",
+            "CambioRolesRequestDTO",
+            "UsuarioPrincipal",
+            "UsuarioService",
+            "cambiarRoles",
+            "getRoles"
+          ],
+          "final_sha256": "0d5a5607d7deab858594186697b5feb86acd05a788c827bdbdab3c07037ed44e",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AuthenticationPrincipal",
+            "@EnableMethodSecurity",
+            "@MockitoBean",
+            "CambioRolesRequestDTO",
+            "UsuarioPrincipal",
+            "UsuarioService",
+            "cambiarRoles",
+            "getRoles"
+          ],
+          "final_sha256": "750490b62707f8d533fa88ea0ff53044d46f2cfc0b8a9759d719f5231fda1824",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 25,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.4.12; partir del baseline M5 para 6.1.1.",
+        "operation": "Permitir sólo a ADMIN sustituir el conjunto de roles de un usuario",
+        "command": "curl -i -X PUT -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios/2/roles -H \"Content-Type: application/json\" -d '{\"roles\":[\"USER\",\"GESTOR\"]}'",
+        "expected_observable": "sólo ADMIN puede cambiar roles y todos los nombres deben existir",
+        "postcondition": "El estado documentado por 6.4.12 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    }
+  ]
+}

@@ -1,0 +1,2121 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "status": "COMPLETE",
+  "predecessor": "M5",
+  "baseline_sha": "0f76aa08385605a48eccbcb3b1be6bf18b9bce1e",
+  "policy": {
+    "step_level_traceability_required": true,
+    "temporary_transitions_must_close": true,
+    "cumulative_project_continuity_required": true,
+    "reverse_traceability_required": true,
+    "negative_mutation_validation_required": true,
+    "source_is_floor_not_ceiling": true,
+    "bidirectional_code_trace_required": true,
+    "functional_file_origin_required": true,
+    "relation_hash_validation_required": true,
+    "transient_lifecycle_required": true
+  },
+  "source": {
+    "pdf": "SPRING BOOT PDF.pdf",
+    "page_start": 1203,
+    "page_end": 1550,
+    "pages": 348,
+    "next_module_page": 1551,
+    "source_metrics_status": "VERIFIED_EXACT_PDFTOTEXT_LAYOUT",
+    "characters_with_whitespace": 323414,
+    "characters_without_whitespace": 256304,
+    "words": 38245,
+    "lines": 9535,
+    "theory_main_blocks": 45,
+    "theory_subpoints": 135,
+    "practical_steps": 112,
+    "code_example_blocks": 239,
+    "code_markers": {
+      "bash": 45,
+      "http": 1,
+      "java": 160,
+      "json": 11,
+      "properties": 5,
+      "sql": 1,
+      "text": 12,
+      "xml": 4
+    },
+    "source_text_sha256": "3e5eda24a5313923bc52688b55bd391ee5197247d59035a843708d62009ea5c0",
+    "source_pdf_sha256": "47e493b99b6a718698c62d651cfee19aaef3d01701debf6d88644f5fbe597c6e",
+    "metrics_method": "pdftotext -f 1203 -l 1550 -layout + deterministic Unicode/Python counts",
+    "section_metrics": {
+      "6.1": {
+        "pages": "1203-1233",
+        "characters": 32960,
+        "words": 4205,
+        "subpoints": 15,
+        "steps": 12,
+        "code_blocks": 25
+      },
+      "6.2": {
+        "pages": "1234-1265",
+        "characters": 31068,
+        "words": 3749,
+        "subpoints": 15,
+        "steps": 12,
+        "code_blocks": 34
+      },
+      "6.3": {
+        "pages": "1266-1314",
+        "characters": 43418,
+        "words": 4722,
+        "subpoints": 15,
+        "steps": 14,
+        "code_blocks": 31
+      },
+      "6.4": {
+        "pages": "1315-1354",
+        "characters": 34700,
+        "words": 4044,
+        "subpoints": 15,
+        "steps": 12,
+        "code_blocks": 35
+      },
+      "6.5": {
+        "pages": "1355-1384",
+        "characters": 29493,
+        "words": 4302,
+        "subpoints": 15,
+        "steps": 12,
+        "code_blocks": 16
+      },
+      "6.6": {
+        "pages": "1385-1431",
+        "characters": 39568,
+        "words": 4504,
+        "subpoints": 15,
+        "steps": 13,
+        "code_blocks": 33
+      },
+      "INTERSTITIAL_1432": {
+        "pages": "1432-1432",
+        "characters": 482,
+        "words": 79,
+        "subpoints": 0,
+        "steps": 0,
+        "code_blocks": 0
+      },
+      "6.7": {
+        "pages": "1433-1468",
+        "characters": 36024,
+        "words": 4506,
+        "subpoints": 15,
+        "steps": 12,
+        "code_blocks": 23
+      },
+      "6.8": {
+        "pages": "1469-1505",
+        "characters": 35907,
+        "words": 4165,
+        "subpoints": 15,
+        "steps": 12,
+        "code_blocks": 20
+      },
+      "6.9": {
+        "pages": "1506-1550",
+        "characters": 39794,
+        "words": 3969,
+        "subpoints": 15,
+        "steps": 13,
+        "code_blocks": 22
+      }
+    },
+    "word_count_method": "non-whitespace tokens (regex \\S+) over exact pdftotext -layout extraction pages 1203-1550",
+    "code_block_count_note": "239 explicit language-labelled source examples recovered from PDF text; false positives such as Java variable http are excluded."
+  },
+  "theory_concepts": [
+    {
+      "id": "TC-6.1-1",
+      "section": "6.1",
+      "title": "Qué es Spring Security",
+      "source_page": 1204,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.1-2",
+      "section": "6.1",
+      "title": "La cadena de filtros",
+      "source_page": 1206,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.1-3",
+      "section": "6.1",
+      "title": "Configuración moderna",
+      "source_page": 1208,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.1-4",
+      "section": "6.1",
+      "title": "Autenticación en detalle",
+      "source_page": 1213,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.1-5",
+      "section": "6.1",
+      "title": "Ecosistema de Spring Security",
+      "source_page": 1217,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.2-1",
+      "section": "6.2",
+      "title": "El modelo de usuario en Spring Security",
+      "source_page": 1235,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.2-2",
+      "section": "6.2",
+      "title": "Usuarios en memoria",
+      "source_page": 1238,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.2-3",
+      "section": "6.2",
+      "title": "Cifrado de contraseñas",
+      "source_page": 1242,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.2-4",
+      "section": "6.2",
+      "title": "Integración con la cadena de filtros",
+      "source_page": 1245,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.2-5",
+      "section": "6.2",
+      "title": "Testing y buenas prácticas",
+      "source_page": 1248,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.3-1",
+      "section": "6.3",
+      "title": "Por qué usuarios en base de datos",
+      "source_page": 1267,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.3-2",
+      "section": "6.3",
+      "title": "UserDetailsService personalizado",
+      "source_page": 1271,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.3-3",
+      "section": "6.3",
+      "title": "Integración con la configuración",
+      "source_page": 1275,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.3-4",
+      "section": "6.3",
+      "title": "Registro de usuarios",
+      "source_page": 1279,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.3-5",
+      "section": "6.3",
+      "title": "Buenas prácticas y tests",
+      "source_page": 1284,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.4-1",
+      "section": "6.4",
+      "title": "Autorización por URL vs por método",
+      "source_page": 1316,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.4-2",
+      "section": "6.4",
+      "title": "hasRole, hasAuthority, hasAnyRole",
+      "source_page": 1319,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.4-3",
+      "section": "6.4",
+      "title": "@PreAuthorize y @Secured",
+      "source_page": 1322,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.4-4",
+      "section": "6.4",
+      "title": "Acceder al usuario autenticado",
+      "source_page": 1326,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.4-5",
+      "section": "6.4",
+      "title": "Buenas prácticas y errores",
+      "source_page": 1330,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.5-1",
+      "section": "6.5",
+      "title": "Qué es un JWT",
+      "source_page": 1356,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.5-2",
+      "section": "6.5",
+      "title": "Estructura de un JWT",
+      "source_page": 1359,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.5-3",
+      "section": "6.5",
+      "title": "La firma",
+      "source_page": 1362,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.5-4",
+      "section": "6.5",
+      "title": "Cuándo usar JWT",
+      "source_page": 1365,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.5-5",
+      "section": "6.5",
+      "title": "Errores y buenas prácticas",
+      "source_page": 1367,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.6-1",
+      "section": "6.6",
+      "title": "La librería JJWT",
+      "source_page": 1386,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.6-2",
+      "section": "6.6",
+      "title": "La clave secreta",
+      "source_page": 1389,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.6-3",
+      "section": "6.6",
+      "title": "Generar un token",
+      "source_page": 1392,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.6-4",
+      "section": "6.6",
+      "title": "El endpoint de login",
+      "source_page": 1398,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.6-5",
+      "section": "6.6",
+      "title": "Refresh tokens y buenas prácticas",
+      "source_page": 1402,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.7-1",
+      "section": "6.7",
+      "title": "Por qué un filtro personalizado",
+      "source_page": 1434,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.7-2",
+      "section": "6.7",
+      "title": "Extraer el token",
+      "source_page": 1436,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.7-3",
+      "section": "6.7",
+      "title": "Construir el Authentication",
+      "source_page": 1439,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.7-4",
+      "section": "6.7",
+      "title": "Registrar el filtro",
+      "source_page": 1442,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.7-5",
+      "section": "6.7",
+      "title": "Diagnóstico y buenas prácticas",
+      "source_page": 1445,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.8-1",
+      "section": "6.8",
+      "title": "La configuración completa",
+      "source_page": 1470,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.8-2",
+      "section": "6.8",
+      "title": "Endpoints públicos y privados",
+      "source_page": 1475,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.8-3",
+      "section": "6.8",
+      "title": "Autorización con JWT",
+      "source_page": 1477,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.8-4",
+      "section": "6.8",
+      "title": "El flujo completo",
+      "source_page": 1480,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.8-5",
+      "section": "6.8",
+      "title": "Diagnóstico y buenas prácticas",
+      "source_page": 1483,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.9-1",
+      "section": "6.9",
+      "title": "Por qué testear la seguridad",
+      "source_page": 1507,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.9-2",
+      "section": "6.9",
+      "title": "@WithMockUser y @WithUserDetails",
+      "source_page": 1510,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.9-3",
+      "section": "6.9",
+      "title": "SecurityMockMvcRequestPostProcessors",
+      "source_page": 1514,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.9-4",
+      "section": "6.9",
+      "title": "Tests de autenticación y autorización",
+      "source_page": 1518,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "TC-6.9-5",
+      "section": "6.9",
+      "title": "Buenas prácticas y errores",
+      "source_page": 1523,
+      "status": "COMPLETE"
+    }
+  ],
+  "environment_workflows": [
+    "console",
+    "intellij",
+    "eclipse",
+    "vscode"
+  ],
+  "step_manifests": {
+    "6.1": ".course/traceability/M6/6.1.json",
+    "6.2": ".course/traceability/M6/6.2.json",
+    "6.3": ".course/traceability/M6/6.3.json",
+    "6.4": ".course/traceability/M6/6.4.json",
+    "6.5": ".course/traceability/M6/6.5.json",
+    "6.6": ".course/traceability/M6/6.6.json",
+    "6.7": ".course/traceability/M6/6.7.json",
+    "6.8": ".course/traceability/M6/6.8.json",
+    "6.9": ".course/traceability/M6/6.9.json"
+  },
+  "current_traced_steps": 112,
+  "expected_total_steps_when_complete": 112,
+  "artifacts": [
+    {
+      "path": "M6/proyecto/.gitignore",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/.gitignore",
+      "origin_blob_sha": "d1751292269b41725a2eb71f8a74b1e36ad53171",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "origin_blob_sha": "78b60c17d0fd9600098f1cf4ace2594325c25c23",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/README.md",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/README.md",
+      "origin_blob_sha": "5d0e6ff49ca14b6be21c4719607a7c62cc1f6ee8",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/config/checkstyle/checkstyle.xml",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/config/checkstyle/checkstyle.xml",
+      "origin_blob_sha": "58b0dcb59ef4c148f5b0a5b479fed2278c79e0be",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/mvnw",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/mvnw",
+      "origin_blob_sha": "4ee2b546036be5dadf12be77f05cfc498209e75e",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/mvnw.cmd",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/mvnw.cmd",
+      "origin_blob_sha": "bd523a180c242cac396bfa38d0d2cf5715e1cadd",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/pom.xml",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/pom.xml",
+      "origin_blob_sha": "67e9f2ffa1bb971fe59d99580b7bdfcd4f2c01b7",
+      "evolution": "MODIFIED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "origin_blob_sha": "473376d39a60c32aa41e7ba0e51c55ec6b753536",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "origin_blob_sha": "40bc020904ee8703db29607be480d0706e4c99ab",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "origin_blob_sha": "64049d6c8f4773ed41f963f1318bb3f2c10f9fe5",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "origin_blob_sha": "42ed77413c4d63c5f3871ddca4b3c709fb046c68",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java",
+      "origin_blob_sha": "440aef01626521efcc29ec9e16bd6d0a0f26806e",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java",
+      "origin_blob_sha": "a6494b0d30b27b227a59e3fa5dac42f63f10ad24",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "origin_blob_sha": "bc350f90c437575cbf7dae54a744703123c4fdc0",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "origin_blob_sha": "91cc175c5cff060e1f29ca90fd1521a9670e5290",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "origin_blob_sha": "556881713f205ddb021e495d6bf41944cd4bcc49",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+      "origin_blob_sha": "d0833bfadcab097247669e3395774759c71e3e86",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "origin_blob_sha": "3ee66353ac8ed97d46867c7b2565114c04b3e25a",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "origin_blob_sha": "ea0574c17cdd3fa8ec7e4372e814cb047943da5b",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+      "origin_blob_sha": "fd8995acf8cc566ec535444e5f752d57fb19794d",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+      "origin_blob_sha": "af0e2b41fd2d956ca7cc20de8519462342003d42",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "origin_blob_sha": "b12a68cab28f542dbba522caa6ff4cd5cdd8c0a8",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+      "origin_blob_sha": "a419a6b447987c96c48a4fd43f32f4948fb74636",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+      "origin_blob_sha": "157fc045b1c4a995c8e8ea7bd2c2b5648d3bb662",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "origin_blob_sha": "7ca4873f129768dc360d5e17ac3d3fdcc64f05c3",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "origin_blob_sha": "e906e2d4fcd8009dc65d7e2acd0c70be1443171d",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+      "origin_blob_sha": "e3d185f307cdaa8bd3bd04e1f5af20a6fc873a40",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java",
+      "origin_blob_sha": "a3c85b0aa0344579191c75c6b1f4144a1e9130a1",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java",
+      "origin_blob_sha": "612a749d3ed2052fa718714255f41fa9f4880c05",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+      "origin_blob_sha": "7753e03122511e68b2988d3259e4aed5d3cecb7b",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+      "origin_blob_sha": "e0d21c5f3ad421e646cadaa88625e5f819493b21",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java",
+      "origin_blob_sha": "754f1b477f04f6796fd4587cfd35b857aac21b10",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+      "origin_blob_sha": "7dd35120415d5173277a0347df088769a24e389b",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "origin_blob_sha": "4034c387d4a4df8050bb8f7140984da568bad13a",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java",
+      "origin_blob_sha": "1163083273572056a98b6adfdbcda4199196a989",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java",
+      "origin_blob_sha": "20fb1d04a3c28e816c896b91507f8d1f69d54121",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java",
+      "origin_blob_sha": "a21587df02ed9d09a58863aabfefe3ee179e47fc",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java",
+      "origin_blob_sha": "fd6644f8541aa5f312fb2b825376581605cd6cf6",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+      "origin_blob_sha": "74b662916f626bbf312b8823679a1f51f182291b",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "origin_blob_sha": "563db294b3b88533e9da5545428fb0e0707f355d",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java",
+      "origin_blob_sha": "4ec21dca5e856902aba094cfe4b575921fae95be",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+      "origin_blob_sha": "3cc5f98f75ef4a625baeb12362a27f79905b5e04",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "origin_blob_sha": "795adb1463f4f2c6e4ca75c193ffa775e2062583",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "origin_blob_sha": "a3bf42cfcdb0a2ee447575dfdbef2d01a41668ca",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java",
+      "origin_blob_sha": "8055bcdaf641a48ca69f8493b44db33082d0d20f",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "origin_blob_sha": "8927826ad6ce19995423b84a0efadc5250519531",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "origin_blob_sha": "1df9aaf735d5e0cd6a81e70ceaa90bda192be98a",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "origin_blob_sha": "94c8aecd76ab447cea02b2acef81bbf8951f6800",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "origin_blob_sha": "aadbe79b428d9f83c99eaa5ec12b7bb44229b14e",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "origin_blob_sha": "96c23acfe918ef3ad392a7e1c6dc988d2c672c5a",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "origin_blob_sha": "d6b9c93a206f84aefeed1e21b5a6331094c764a9",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "origin_blob_sha": "3975ef6a60d4722d635d27ccdfd8bb630a3ee03f",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "origin_blob_sha": "a86409d318cf1bd53abedf77d5726dafa5988845",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "origin_blob_sha": "b346e117c25daaaf3fa17928038f8d8da0f6dc0e",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "origin_blob_sha": "b912515973cf573f1964e6aa3bbf8c58be599969",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "origin_blob_sha": "72c80d2abdab85036653f33914fbe2acb23e2cc2",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java",
+      "origin_blob_sha": "a29fc7818f0836f8c73ede8841d710f2e5b03fa9",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java",
+      "origin_blob_sha": "d0c95d203e6ec8e83c3f12e41c18c3c8beb76abd",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java",
+      "origin_blob_sha": "34632d4a2262439072fbd807270531d6c568acce",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "origin_blob_sha": "6e47c2a18d0b5d014dc555f43378aba9348eb221",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "origin_blob_sha": "53d69a4fa1d585bf4c5b5feda851fcea422056a2",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/main/resources/application-dev.properties",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/resources/application-dev.properties",
+      "origin_blob_sha": "2e5764b01d8d26567fd9cac00f95d9a1ca989a7e",
+      "evolution": "MODIFIED"
+    },
+    {
+      "path": "M6/proyecto/src/main/resources/application-prod.properties",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/resources/application-prod.properties",
+      "origin_blob_sha": "34e020f374690415e435276476fa8b0d251ebc05",
+      "evolution": "MODIFIED"
+    },
+    {
+      "path": "M6/proyecto/src/main/resources/application-test.properties",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/resources/application-test.properties",
+      "origin_blob_sha": "9b8a50fffb29bd4c46dc6a2f69f8521e9977dc15",
+      "evolution": "MODIFIED"
+    },
+    {
+      "path": "M6/proyecto/src/main/resources/application.properties",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/main/resources/application.properties",
+      "origin_blob_sha": "53ab072c56041d770c40255f5f7ef1bfe39d58c2",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+      "origin_blob_sha": "71fa69a713db9d3a39f567382a6732bc32a53130",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "origin_blob_sha": "401771dffcb98defc09e2aba325263c00c5c40fe",
+      "evolution": "EVOLVED_M6_SECURITY_SLICE_FILTERS_DISABLED",
+      "evolution_reason": "M5 MVC slice contract preserved; M6 security is tested by dedicated security/integration tests."
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "origin_blob_sha": "379b53fdd1d2128837276fd7af1b143b677ce98e",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "origin_blob_sha": "544ae44ddcc81d0a334e7294e8d757cc9fba46c0",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/AplicacionExceptionTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/AplicacionExceptionTest.java",
+      "origin_blob_sha": "1710370dc6851f9c4eb1e401f05137b0e36b781a",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+      "origin_blob_sha": "a6fffc79fe6664eccf168d3ac9ad62a4135e729e",
+      "evolution": "EVOLVED_M6_SECURITY_SLICE_FILTERS_DISABLED",
+      "evolution_reason": "M5 MVC slice contract preserved; M6 security is tested by dedicated security/integration tests."
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "origin_blob_sha": "734a1e59ce7ac930d8742a65274aac4216372bc0",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java",
+      "origin_blob_sha": "597de9823a94d5bd59e2e7a985a3fd2c5d6536da",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+      "origin_blob_sha": "317bfa770d1f32eef43359dbf88fcc70b1f97c28",
+      "evolution": "EVOLVED_M6_SECURITY_SLICE_FILTERS_DISABLED",
+      "evolution_reason": "M5 MVC slice contract preserved; M6 security is tested by dedicated security/integration tests."
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+      "origin_blob_sha": "40d192bc78fb72f302a14893ec185089021df155",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "origin_blob_sha": "537144a41e2275804e2292310346d1a17a64896b",
+      "evolution": "EVOLVED_M6_SECURITY_SLICE_FILTERS_DISABLED",
+      "evolution_reason": "M5 MVC slice contract preserved; M6 security is tested by dedicated security/integration tests."
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "origin_blob_sha": "d726444efcd88301ce492899b6a9a740f3d8c6f1",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+      "origin_blob_sha": "704a746497cc30cec8a4a22d9183c1910167b2fe",
+      "evolution": "EVOLVED_M6_SECURITY_SLICE_FILTERS_DISABLED",
+      "evolution_reason": "M5 MVC slice contract preserved; M6 security is tested by dedicated security/integration tests."
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "origin_blob_sha": "3917b87a745ed024b56aa3467c8aad53d31a0c84",
+      "evolution": "PRESERVED"
+    },
+    {
+      "path": "M6/proyecto/README_M6_OVERLAY.md",
+      "classification": "SUPPORT",
+      "origin": "M6 audit",
+      "evolution": "ADDED",
+      "used_by": [
+        "publication assembly",
+        "traceability audit"
+      ],
+      "missing_effect": "No afecta al runtime, pero se pierde la explicación del overlay M5→M6."
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CredencialesInvalidasException.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtConfig.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenInvalidoException.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/GestorSecurityTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtServiceIntegrationTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerIntegrationTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/controller/PublicControllerSecurityTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/README.md",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/TEORIA.md",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/PRACTICA.md",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/CODESPACES.md",
+      "classification": "GUIDE",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/M6_TEORIA.pdf",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/M6_PRACTICA.pdf",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/source-audit/M6.md",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/M6.json",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/TRAZABILIDAD_M6.md",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/validate_m6.py",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/validate_m6_core.py",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/validate_m6_human.py",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/validate_m6_mutation.py",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/validate_m6_runtime.py",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": ".course/traceability/validate_m6_tests.py",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/M6_SOURCE_INVENTORY.json",
+      "classification": "SUPPORT",
+      "origin": "M6 audit",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/M6_THEORY_SUBPOINTS.json",
+      "classification": "SUPPORT",
+      "origin": "M6 audit",
+      "evolution": "ADDED"
+    },
+    {
+      "path": "M6/proyecto/.baseline-m5-tree.json",
+      "classification": "SUPPORT",
+      "origin": "M6 audit",
+      "evolution": "ADDED",
+      "used_by": [
+        "continuity validator",
+        "publication assembly"
+      ],
+      "missing_effect": "No afecta al runtime, pero se pierde la identidad exhaustiva de los 79 blobs del baseline M5."
+    },
+    {
+      "path": "M6/M6_FIDELITY_METRICS.json",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED",
+      "used_by": [
+        "fidelity audit",
+        "local validators"
+      ],
+      "missing_effect": "Source-floor fidelity cannot be independently audited."
+    },
+    {
+      "path": "M6/M6_SOURCE_FIDELITY.json",
+      "classification": "SUPPORT",
+      "origin": "M6",
+      "evolution": "ADDED",
+      "used_by": [
+        "fidelity audit",
+        "local validators"
+      ],
+      "missing_effect": "Source-floor fidelity cannot be independently audited."
+    }
+  ],
+  "continuity_from_m5": {
+    "status": "FULL_79_ENTRY_CONTINUITY_MANIFEST_READY",
+    "baseline_commit": "0f76aa08385605a48eccbcb3b1be6bf18b9bce1e",
+    "baseline_project_tree_sha": "e9194f0ec6b595d3dbc7dbf921eef8a815fe9ae1",
+    "baseline_blobs": 79,
+    "baseline_main_java": 54,
+    "baseline_test_classes": 14,
+    "modified_allowlist": [
+      "pom.xml",
+      "src/main/resources/application-dev.properties",
+      "src/main/resources/application-prod.properties",
+      "src/main/resources/application-test.properties",
+      "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+      "src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+      "src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java"
+    ],
+    "preserved_required": 70,
+    "assembly": "copy canonical M5/proyecto then overlay M6/proyecto; verify canonical tree/index blobs and physical equality for 70 preserved files",
+    "evolved_required": 9,
+    "entries": [
+      {
+        "m5_path": "M5/proyecto/.gitignore",
+        "m6_path": "M6/proyecto/.gitignore",
+        "baseline_blob_sha": "d1751292269b41725a2eb71f8a74b1e36ad53171",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/.mvn/wrapper/maven-wrapper.properties",
+        "m6_path": "M6/proyecto/.mvn/wrapper/maven-wrapper.properties",
+        "baseline_blob_sha": "78b60c17d0fd9600098f1cf4ace2594325c25c23",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/README.md",
+        "m6_path": "M6/proyecto/README.md",
+        "baseline_blob_sha": "5d0e6ff49ca14b6be21c4719607a7c62cc1f6ee8",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/config/checkstyle/checkstyle.xml",
+        "m6_path": "M6/proyecto/config/checkstyle/checkstyle.xml",
+        "baseline_blob_sha": "58b0dcb59ef4c148f5b0a5b479fed2278c79e0be",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/mvnw",
+        "m6_path": "M6/proyecto/mvnw",
+        "baseline_blob_sha": "4ee2b546036be5dadf12be77f05cfc498209e75e",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/mvnw.cmd",
+        "m6_path": "M6/proyecto/mvnw.cmd",
+        "baseline_blob_sha": "bd523a180c242cac396bfa38d0d2cf5715e1cadd",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/pom.xml",
+        "m6_path": "M6/proyecto/pom.xml",
+        "baseline_blob_sha": "67e9f2ffa1bb971fe59d99580b7bdfcd4f2c01b7",
+        "overlay_blob_sha": "86d74527cf6ab2ac3d1d196a98d5235f7a6cf3d4",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+        "baseline_blob_sha": "473376d39a60c32aa41e7ba0e51c55ec6b753536",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+        "baseline_blob_sha": "40bc020904ee8703db29607be480d0706e4c99ab",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+        "baseline_blob_sha": "64049d6c8f4773ed41f963f1318bb3f2c10f9fe5",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+        "baseline_blob_sha": "42ed77413c4d63c5f3871ddca4b3c709fb046c68",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java",
+        "baseline_blob_sha": "440aef01626521efcc29ec9e16bd6d0a0f26806e",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java",
+        "baseline_blob_sha": "a6494b0d30b27b227a59e3fa5dac42f63f10ad24",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+        "baseline_blob_sha": "bc350f90c437575cbf7dae54a744703123c4fdc0",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+        "baseline_blob_sha": "91cc175c5cff060e1f29ca90fd1521a9670e5290",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+        "baseline_blob_sha": "556881713f205ddb021e495d6bf41944cd4bcc49",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+        "baseline_blob_sha": "d0833bfadcab097247669e3395774759c71e3e86",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+        "baseline_blob_sha": "3ee66353ac8ed97d46867c7b2565114c04b3e25a",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+        "baseline_blob_sha": "ea0574c17cdd3fa8ec7e4372e814cb047943da5b",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+        "baseline_blob_sha": "fd8995acf8cc566ec535444e5f752d57fb19794d",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+        "baseline_blob_sha": "af0e2b41fd2d956ca7cc20de8519462342003d42",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+        "baseline_blob_sha": "b12a68cab28f542dbba522caa6ff4cd5cdd8c0a8",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+        "baseline_blob_sha": "a419a6b447987c96c48a4fd43f32f4948fb74636",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+        "baseline_blob_sha": "157fc045b1c4a995c8e8ea7bd2c2b5648d3bb662",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+        "baseline_blob_sha": "7ca4873f129768dc360d5e17ac3d3fdcc64f05c3",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+        "baseline_blob_sha": "e906e2d4fcd8009dc65d7e2acd0c70be1443171d",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+        "baseline_blob_sha": "e3d185f307cdaa8bd3bd04e1f5af20a6fc873a40",
+        "overlay_blob_sha": "e3d185f307cdaa8bd3bd04e1f5af20a6fc873a40",
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java",
+        "baseline_blob_sha": "a3c85b0aa0344579191c75c6b1f4144a1e9130a1",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java",
+        "baseline_blob_sha": "612a749d3ed2052fa718714255f41fa9f4880c05",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+        "baseline_blob_sha": "7753e03122511e68b2988d3259e4aed5d3cecb7b",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+        "baseline_blob_sha": "e0d21c5f3ad421e646cadaa88625e5f819493b21",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java",
+        "baseline_blob_sha": "754f1b477f04f6796fd4587cfd35b857aac21b10",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+        "baseline_blob_sha": "7dd35120415d5173277a0347df088769a24e389b",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+        "baseline_blob_sha": "4034c387d4a4df8050bb8f7140984da568bad13a",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java",
+        "baseline_blob_sha": "1163083273572056a98b6adfdbcda4199196a989",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java",
+        "baseline_blob_sha": "20fb1d04a3c28e816c896b91507f8d1f69d54121",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java",
+        "baseline_blob_sha": "a21587df02ed9d09a58863aabfefe3ee179e47fc",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java",
+        "baseline_blob_sha": "fd6644f8541aa5f312fb2b825376581605cd6cf6",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+        "baseline_blob_sha": "74b662916f626bbf312b8823679a1f51f182291b",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+        "baseline_blob_sha": "563db294b3b88533e9da5545428fb0e0707f355d",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java",
+        "baseline_blob_sha": "4ec21dca5e856902aba094cfe4b575921fae95be",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+        "baseline_blob_sha": "3cc5f98f75ef4a625baeb12362a27f79905b5e04",
+        "overlay_blob_sha": "3cc5f98f75ef4a625baeb12362a27f79905b5e04",
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+        "baseline_blob_sha": "795adb1463f4f2c6e4ca75c193ffa775e2062583",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+        "baseline_blob_sha": "a3bf42cfcdb0a2ee447575dfdbef2d01a41668ca",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java",
+        "baseline_blob_sha": "8055bcdaf641a48ca69f8493b44db33082d0d20f",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+        "baseline_blob_sha": "8927826ad6ce19995423b84a0efadc5250519531",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+        "baseline_blob_sha": "1df9aaf735d5e0cd6a81e70ceaa90bda192be98a",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+        "baseline_blob_sha": "94c8aecd76ab447cea02b2acef81bbf8951f6800",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+        "baseline_blob_sha": "aadbe79b428d9f83c99eaa5ec12b7bb44229b14e",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+        "baseline_blob_sha": "96c23acfe918ef3ad392a7e1c6dc988d2c672c5a",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+        "baseline_blob_sha": "d6b9c93a206f84aefeed1e21b5a6331094c764a9",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+        "baseline_blob_sha": "3975ef6a60d4722d635d27ccdfd8bb630a3ee03f",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+        "baseline_blob_sha": "a86409d318cf1bd53abedf77d5726dafa5988845",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+        "baseline_blob_sha": "b346e117c25daaaf3fa17928038f8d8da0f6dc0e",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+        "baseline_blob_sha": "b912515973cf573f1964e6aa3bbf8c58be599969",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+        "baseline_blob_sha": "72c80d2abdab85036653f33914fbe2acb23e2cc2",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java",
+        "baseline_blob_sha": "a29fc7818f0836f8c73ede8841d710f2e5b03fa9",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java",
+        "baseline_blob_sha": "d0c95d203e6ec8e83c3f12e41c18c3c8beb76abd",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java",
+        "baseline_blob_sha": "34632d4a2262439072fbd807270531d6c568acce",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+        "baseline_blob_sha": "6e47c2a18d0b5d014dc555f43378aba9348eb221",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+        "m6_path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+        "baseline_blob_sha": "53d69a4fa1d585bf4c5b5feda851fcea422056a2",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/resources/application-dev.properties",
+        "m6_path": "M6/proyecto/src/main/resources/application-dev.properties",
+        "baseline_blob_sha": "2e5764b01d8d26567fd9cac00f95d9a1ca989a7e",
+        "overlay_blob_sha": "f673a28c08bad8fe7ceb2ea78deede4ba12e5205",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/resources/application-prod.properties",
+        "m6_path": "M6/proyecto/src/main/resources/application-prod.properties",
+        "baseline_blob_sha": "34e020f374690415e435276476fa8b0d251ebc05",
+        "overlay_blob_sha": "239c62afd051c5941687ae1f404671dba6253050",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/resources/application-test.properties",
+        "m6_path": "M6/proyecto/src/main/resources/application-test.properties",
+        "baseline_blob_sha": "9b8a50fffb29bd4c46dc6a2f69f8521e9977dc15",
+        "overlay_blob_sha": "1cfbca4059c23b3a76ab02e3ef215018ce229970",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/main/resources/application.properties",
+        "m6_path": "M6/proyecto/src/main/resources/application.properties",
+        "baseline_blob_sha": "53ab072c56041d770c40255f5f7ef1bfe39d58c2",
+        "overlay_blob_sha": "53ab072c56041d770c40255f5f7ef1bfe39d58c2",
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+        "baseline_blob_sha": "71fa69a713db9d3a39f567382a6732bc32a53130",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+        "baseline_blob_sha": "401771dffcb98defc09e2aba325263c00c5c40fe",
+        "overlay_blob_sha": "23730a6f48718df190b849d439c7cda8ff8aa9d0",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+        "baseline_blob_sha": "379b53fdd1d2128837276fd7af1b143b677ce98e",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+        "baseline_blob_sha": "544ae44ddcc81d0a334e7294e8d757cc9fba46c0",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/AplicacionExceptionTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/AplicacionExceptionTest.java",
+        "baseline_blob_sha": "1710370dc6851f9c4eb1e401f05137b0e36b781a",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+        "baseline_blob_sha": "a6fffc79fe6664eccf168d3ac9ad62a4135e729e",
+        "overlay_blob_sha": "4acf9be26d5603149920c5f750c9f01e0fc710fe",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+        "baseline_blob_sha": "734a1e59ce7ac930d8742a65274aac4216372bc0",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java",
+        "baseline_blob_sha": "597de9823a94d5bd59e2e7a985a3fd2c5d6536da",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+        "baseline_blob_sha": "317bfa770d1f32eef43359dbf88fcc70b1f97c28",
+        "overlay_blob_sha": "0679fc74ad26b8538b6a2daa2b1c615a871d9933",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+        "baseline_blob_sha": "40d192bc78fb72f302a14893ec185089021df155",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+        "baseline_blob_sha": "537144a41e2275804e2292310346d1a17a64896b",
+        "overlay_blob_sha": "ff11b9ce8081b410f0e99bea608ba1a6cf218766",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+        "baseline_blob_sha": "d726444efcd88301ce492899b6a9a740f3d8c6f1",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+        "baseline_blob_sha": "704a746497cc30cec8a4a22d9183c1910167b2fe",
+        "overlay_blob_sha": "d2aef902f369ccec120c4531bb3199fd6fba6d10",
+        "status": "MODIFIED"
+      },
+      {
+        "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+        "m6_path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+        "baseline_blob_sha": "3917b87a745ed024b56aa3467c8aad53d31a0c84",
+        "overlay_blob_sha": null,
+        "status": "PRESERVED"
+      }
+    ],
+    "accounted": 79
+  },
+  "temporary_states": [
+    {
+      "id": "T6.1-A",
+      "description": "anyRequest().permitAll() global pedagógico",
+      "introduced_by": "6.1.7",
+      "verified_by": "6.1.7",
+      "closed_by": "6.1.8",
+      "final_state": "specific public routes + authenticated default",
+      "status": "CLOSED_VERIFIED_AT_6.1.8"
+    },
+    {
+      "id": "T6.1-B",
+      "description": "regla hasRole(ADMIN) temporal para observar 401/403",
+      "introduced_by": "6.1.9",
+      "verified_by": "6.1.9",
+      "closed_by": "6.1.9",
+      "final_state": "alumnos vuelve a authenticated hasta introducir roles controlados",
+      "status": "CLOSED_VERIFIED_AT_6.1.9"
+    },
+    {
+      "id": "T6.2-A",
+      "description": "Usuarios en memoria ana/admin/gestor",
+      "introduced_by": "6.2.4",
+      "verified_by": "6.2.7/6.2.8/6.2.10/6.2.12",
+      "closed_by": "6.3.6",
+      "final_state": "UsuarioDetailsService backed by database",
+      "status": "CLOSED_AT_6.3.6"
+    },
+    {
+      "id": "T6.2-B",
+      "description": "HTTP Basic pedagógico",
+      "introduced_by": "6.1",
+      "verified_by": "6.2",
+      "closed_by": "6.7.4",
+      "final_state": "JWT Bearer only; HTTP Basic disabled",
+      "status": "CLOSED_AT_6.7.4"
+    },
+    {
+      "id": "T6.4-A",
+      "description": "UsuarioPrincipal preparado pero no activo",
+      "introduced_by": "6.4.8",
+      "verified_by": "6.4.8/6.4.9",
+      "closed_by": "6.7.6",
+      "final_state": "UsuarioPrincipal active in JwtAuthenticationFilter",
+      "status": "CLOSED_EVOLVED_AT_6.7.6"
+    },
+    {
+      "id": "T6.4-B",
+      "description": "expresión principal.id negativa/temporal",
+      "introduced_by": "6.4.9",
+      "verified_by": "6.4.9",
+      "closed_by": "6.4.9",
+      "final_state": "no broken SpEL expression in final 6.4",
+      "status": "CLOSED_RESTORED"
+    },
+    {
+      "id": "T6.5-A",
+      "description": "JWT manual didáctico con Java estándar",
+      "introduced_by": "6.5.2",
+      "verified_by": "6.5.4/6.5.5/6.5.11",
+      "closed_by": "6.6.4",
+      "final_state": "JJWT 0.13.0 operational; JwtManual remains support/test only",
+      "status": "CLOSED_OPERATIONAL_AT_6.6.4"
+    },
+    {
+      "id": "T6.6-REFRESH-ROTATION",
+      "description": "Refresh token single-use rotation",
+      "introduced_by": "6.6.6",
+      "verified_by": "6.6.11/6.9.7",
+      "closed_by": "6.9.7",
+      "final_state": "verified operational policy",
+      "status": "CLOSED_VERIFIED"
+    },
+    {
+      "id": "T6.6-LOGOUT-BLACKLIST",
+      "description": "In-memory JTI revocation for didactic single-process logout",
+      "introduced_by": "6.6.13",
+      "verified_by": "6.8.9/6.9.8",
+      "closed_by": "6.9.8",
+      "final_state": "verified; production limitation documented",
+      "status": "CLOSED_VERIFIED"
+    }
+  ],
+  "verifications": {
+    "source_inventory": "PASS_45_BLOCKS_135_SUBPOINTS_112_STEPS_252_CODE_BLOCKS",
+    "traceability": "COMPLETE_112_OF_112",
+    "human_traceability": "GENERATED_PENDING_ASSEMBLED_GATE",
+    "m5_continuity": "PENDING_ASSEMBLED_GATE",
+    "mutation_gate": "GENERATED_PENDING_ASSEMBLED_GATE",
+    "expected_tests": 58,
+    "inherited_tests": 32,
+    "new_m6_tests": 26,
+    "checkstyle": "PENDING_ASSEMBLED_MAVEN",
+    "javadoc": "PENDING_ASSEMBLED_MAVEN",
+    "jar": "PENDING_ASSEMBLED_MAVEN",
+    "runtime_security_jwt_cors_openapi": "PENDING_ASSEMBLED_RUNTIME_GATE",
+    "pdfs": "PASS_GENERATED_AND_RENDER_VERIFIED",
+    "publication": "NOT_STARTED"
+  },
+  "fidelity": {
+    "index": "M6/M6_SOURCE_FIDELITY.json",
+    "theory_subpoints": 135,
+    "practice_steps": 112,
+    "final_theory_words": 32437,
+    "final_practice_words": 25286,
+    "final_theory_chars": 240451,
+    "final_practice_chars": 224479,
+    "policy": "SOURCE_FLOOR_PLUS_MODERNIZATION",
+    "status": "VERIFIED_BY_HASHED_GUIDE_SECTIONS"
+  },
+  "code_trace": ".course/traceability/M6_CODE_TRACE.json"
+}

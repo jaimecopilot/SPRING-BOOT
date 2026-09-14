@@ -1,0 +1,677 @@
+[
+  [
+    1204,
+    "T1.1",
+    "Definición y propósito"
+  ],
+  [
+    1204,
+    "T1.2",
+    "El \"susto\" inicial"
+  ],
+  [
+    1205,
+    "T1.3",
+    "Autenticación vs autorización"
+  ],
+  [
+    1206,
+    "T2.1",
+    "Qué es un filtro HTTP"
+  ],
+  [
+    1207,
+    "T2.2",
+    "La cadena de filtros de Spring Security"
+  ],
+  [
+    1208,
+    "T2.3",
+    "Orden de los filtros principales"
+  ],
+  [
+    1208,
+    "T3.1",
+    "WebSecurityConfigurerAdapter (deprecado)"
+  ],
+  [
+    1210,
+    "T3.2",
+    "SecurityFilterChain como bean"
+  ],
+  [
+    1211,
+    "T3.3",
+    "Métodos principales de la configuración"
+  ],
+  [
+    1213,
+    "T4.1",
+    "AuthenticationManager"
+  ],
+  [
+    1214,
+    "T4.2",
+    "UserDetailsService"
+  ],
+  [
+    1216,
+    "T4.3",
+    "PasswordEncoder"
+  ],
+  [
+    1217,
+    "T5.1",
+    "Autenticación en memoria vs base de datos"
+  ],
+  [
+    1217,
+    "T5.2",
+    "OAuth2 y JWT"
+  ],
+  [
+    1218,
+    "T5.3",
+    "Testing de seguridad"
+  ],
+  [
+    1235,
+    "T1.1",
+    "Qué es un UserDetails"
+  ],
+  [
+    1236,
+    "T1.2",
+    "Qué es un UserDetailsService"
+  ],
+  [
+    1237,
+    "T1.3",
+    "Roles y authorities"
+  ],
+  [
+    1238,
+    "T2.1",
+    "InMemoryUserDetailsManager"
+  ],
+  [
+    1240,
+    "T2.2",
+    "Por qué usar usuarios en memoria"
+  ],
+  [
+    1240,
+    "T2.3",
+    "Definir roles vs authorities"
+  ],
+  [
+    1242,
+    "T3.1",
+    "Por qué no se guardan contraseñas en texto plano"
+  ],
+  [
+    1242,
+    "T3.2",
+    "BCryptPasswordEncoder"
+  ],
+  [
+    1243,
+    "T3.3",
+    "DelegatingPasswordEncoder"
+  ],
+  [
+    1245,
+    "T4.1",
+    "Cómo se conecta el UserDetailsService con la autenticación"
+  ],
+  [
+    1245,
+    "T4.2",
+    "HTTP Basic y el flujo de autenticación"
+  ],
+  [
+    1246,
+    "T4.3",
+    "Ver el SecurityContext en el controlador"
+  ],
+  [
+    1248,
+    "T5.1",
+    "Probar la autenticación con curl"
+  ],
+  [
+    1249,
+    "T5.2",
+    "Buenas prácticas con usuarios en memoria"
+  ],
+  [
+    1249,
+    "T5.3",
+    "Testing de usuarios en memoria"
+  ],
+  [
+    1267,
+    "T1.1",
+    "Las limitaciones de los usuarios en memoria"
+  ],
+  [
+    1268,
+    "T1.2",
+    "Modelo de datos: Usuario y Rol"
+  ],
+  [
+    1269,
+    "T1.3",
+    "@ManyToMany: la relación entre Usuario y Rol"
+  ],
+  [
+    1271,
+    "T2.1",
+    "Por qué un UserDetailsService personalizado"
+  ],
+  [
+    1272,
+    "T2.2",
+    "Estructura del UserDetailsService personalizado"
+  ],
+  [
+    1274,
+    "T2.3",
+    "Transformación de roles a authorities"
+  ],
+  [
+    1275,
+    "T3.1",
+    "Cómo detecta Spring Security el UserDetailsService"
+  ],
+  [
+    1276,
+    "T3.2",
+    "Configuración de la cadena de filtros"
+  ],
+  [
+    1277,
+    "T3.3",
+    "Inicialización de usuarios"
+  ],
+  [
+    1279,
+    "T4.1",
+    "Por qué un endpoint de registro"
+  ],
+  [
+    1280,
+    "T4.2",
+    "DTO de registro"
+  ],
+  [
+    1281,
+    "T4.3",
+    "Servicio de registro"
+  ],
+  [
+    1284,
+    "T5.1",
+    "Buenas prácticas con usuarios en base de datos"
+  ],
+  [
+    1285,
+    "T5.2",
+    "Errores comunes"
+  ],
+  [
+    1287,
+    "T5.3",
+    "Testing de usuarios en base de datos"
+  ],
+  [
+    1316,
+    "T1.1",
+    "Autorización por URL"
+  ],
+  [
+    1317,
+    "T1.2",
+    "Autorización por método"
+  ],
+  [
+    1318,
+    "T1.3",
+    "Cuándo usar cada una"
+  ],
+  [
+    1319,
+    "T2.1",
+    "hasRole vs hasAuthority"
+  ],
+  [
+    1320,
+    "T2.2",
+    "hasAnyRole y hasAnyAuthority"
+  ],
+  [
+    1321,
+    "T2.3",
+    "Expresiones complejas con SpEL"
+  ],
+  [
+    1322,
+    "T3.1",
+    "Activar la seguridad por método"
+  ],
+  [
+    1323,
+    "T3.2",
+    "@PreAuthorize en detalle"
+  ],
+  [
+    1325,
+    "T3.3",
+    "@Secured y @PostAuthorize"
+  ],
+  [
+    1326,
+    "T4.1",
+    "Desde el controlador"
+  ],
+  [
+    1328,
+    "T4.2",
+    "Desde el servicio"
+  ],
+  [
+    1329,
+    "T4.3",
+    "Diferencia entre principal y authorities"
+  ],
+  [
+    1330,
+    "T5.1",
+    "Buenas prácticas con autorización"
+  ],
+  [
+    1331,
+    "T5.2",
+    "Errores comunes"
+  ],
+  [
+    1333,
+    "T5.3",
+    "Testing de autorización"
+  ],
+  [
+    1356,
+    "T1.1",
+    "Definición y origen"
+  ],
+  [
+    1357,
+    "T1.2",
+    "El problema que resuelve"
+  ],
+  [
+    1358,
+    "T1.3",
+    "Stateless vs stateful"
+  ],
+  [
+    1359,
+    "T2.1",
+    "Tres partes separadas por puntos"
+  ],
+  [
+    1360,
+    "T2.2",
+    "El header"
+  ],
+  [
+    1361,
+    "T2.3",
+    "El payload"
+  ],
+  [
+    1362,
+    "T3.1",
+    "Cómo se calcula la firma"
+  ],
+  [
+    1363,
+    "T3.2",
+    "Firma simétrica vs asimétrica"
+  ],
+  [
+    1364,
+    "T3.3",
+    "Por qué la firma garantiza la integridad"
+  ],
+  [
+    1365,
+    "T4.1",
+    "Casos de uso ideales"
+  ],
+  [
+    1365,
+    "T4.2",
+    "Cuándo no usar JWT"
+  ],
+  [
+    1366,
+    "T4.3",
+    "El ciclo de vida de un token"
+  ],
+  [
+    1367,
+    "T5.1",
+    "Errores comunes con JWT"
+  ],
+  [
+    1368,
+    "T5.2",
+    "Buenas prácticas con JWT"
+  ],
+  [
+    1369,
+    "T5.3",
+    "Alternativas a JWT"
+  ],
+  [
+    1386,
+    "T1.1",
+    "Qué es JJWT y por qué usarla"
+  ],
+  [
+    1387,
+    "T1.2",
+    "Los módulos de JJWT"
+  ],
+  [
+    1388,
+    "T1.3",
+    "La API de JJWT"
+  ],
+  [
+    1390,
+    "T2.1",
+    "Cómo se representa una clave en JJWT"
+  ],
+  [
+    1390,
+    "T2.2",
+    "Generar una clave segura"
+  ],
+  [
+    1391,
+    "T2.3",
+    "Construir la clave en el código"
+  ],
+  [
+    1392,
+    "T3.1",
+    "La estructura del servicio"
+  ],
+  [
+    1394,
+    "T3.2",
+    "Generar el token de acceso"
+  ],
+  [
+    1396,
+    "T3.3",
+    "Generar el refresh token"
+  ],
+  [
+    1398,
+    "T4.1",
+    "El flujo de login"
+  ],
+  [
+    1398,
+    "T4.2",
+    "El AuthenticationManager en el login"
+  ],
+  [
+    1400,
+    "T4.3",
+    "El DTO de respuesta del login"
+  ],
+  [
+    1402,
+    "T5.1",
+    "El endpoint de refresh"
+  ],
+  [
+    1404,
+    "T5.2",
+    "Buenas prácticas con tokens"
+  ],
+  [
+    1404,
+    "T5.3",
+    "Errores comunes"
+  ],
+  [
+    1434,
+    "T1.1",
+    "El problema de la autenticación con JWT"
+  ],
+  [
+    1435,
+    "T1.2",
+    "Por qué OncePerRequestFilter"
+  ],
+  [
+    1436,
+    "T1.3",
+    "El flujo completo de una petición con JWT"
+  ],
+  [
+    1437,
+    "T2.1",
+    "La cabecera Authorization"
+  ],
+  [
+    1438,
+    "T2.2",
+    "Qué hacer si no hay token"
+  ],
+  [
+    1438,
+    "T2.3",
+    "No usar el filtro para autorizar"
+  ],
+  [
+    1439,
+    "T3.1",
+    "Qué es un Authentication"
+  ],
+  [
+    1440,
+    "T3.2",
+    "Usar UsuarioPrincipal como principal"
+  ],
+  [
+    1441,
+    "T3.3",
+    "El UsuarioDetailsService en el flujo"
+  ],
+  [
+    1442,
+    "T4.1",
+    "Añadir el filtro a la cadena"
+  ],
+  [
+    1443,
+    "T4.2",
+    "El filtro como bean"
+  ],
+  [
+    1444,
+    "T4.3",
+    "Orden de los filtros"
+  ],
+  [
+    1445,
+    "T5.1",
+    "Depurar el filtro"
+  ],
+  [
+    1446,
+    "T5.2",
+    "Errores comunes"
+  ],
+  [
+    1448,
+    "T5.3",
+    "Buenas prácticas"
+  ],
+  [
+    1470,
+    "T1.1",
+    "El SecurityFilterChain con JWT"
+  ],
+  [
+    1472,
+    "T1.2",
+    "Por qué personalizar los manejadores de error"
+  ],
+  [
+    1473,
+    "T1.3",
+    "Estructura del JwtAuthenticationEntryPoint"
+  ],
+  [
+    1475,
+    "T2.1",
+    "Clasificación de endpoints"
+  ],
+  [
+    1476,
+    "T2.2",
+    "Orden de las reglas"
+  ],
+  [
+    1476,
+    "T2.3",
+    "Endpoints con permisos específicos"
+  ],
+  [
+    1477,
+    "T3.1",
+    "Los roles vienen del token"
+  ],
+  [
+    1478,
+    "T3.2",
+    "hasRole y hasAuthority con JWT"
+  ],
+  [
+    1479,
+    "T3.3",
+    "Combinar filtro, URL y método"
+  ],
+  [
+    1480,
+    "T4.1",
+    "Diagrama del flujo"
+  ],
+  [
+    1481,
+    "T4.2",
+    "Manejo de la expiración en el cliente"
+  ],
+  [
+    1482,
+    "T4.3",
+    "Logout con JWT"
+  ],
+  [
+    1483,
+    "T5.1",
+    "Diagnóstico de problemas comunes"
+  ],
+  [
+    1484,
+    "T5.2",
+    "Errores comunes"
+  ],
+  [
+    1485,
+    "T5.3",
+    "Buenas prácticas"
+  ],
+  [
+    1507,
+    "T1.1",
+    "La seguridad es funcionalidad"
+  ],
+  [
+    1508,
+    "T1.2",
+    "Qué se puede testear"
+  ],
+  [
+    1510,
+    "T1.3",
+    "Herramientas de testing de seguridad"
+  ],
+  [
+    1510,
+    "T2.1",
+    "@WithMockUser"
+  ],
+  [
+    1512,
+    "T2.2",
+    "@WithUserDetails"
+  ],
+  [
+    1513,
+    "T2.3",
+    "@WithAnonymousUser"
+  ],
+  [
+    1514,
+    "T3.1",
+    "Post-processors para peticiones"
+  ],
+  [
+    1515,
+    "T3.2",
+    "El post-processor jwt()"
+  ],
+  [
+    1516,
+    "T3.3",
+    "Verificaciones con SecurityMockMvcResultMatchers"
+  ],
+  [
+    1518,
+    "T4.1",
+    "Tests de autenticación (login)"
+  ],
+  [
+    1519,
+    "T4.2",
+    "Tests de refresh y logout"
+  ],
+  [
+    1521,
+    "T4.3",
+    "Tests de autorización"
+  ],
+  [
+    1523,
+    "T5.1",
+    "Buenas prácticas con tests de seguridad"
+  ],
+  [
+    1523,
+    "T5.2",
+    "Errores comunes"
+  ],
+  [
+    1525,
+    "T5.3",
+    "Estructura de un test de seguridad completo"
+  ]
+]

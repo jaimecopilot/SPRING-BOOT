@@ -1,0 +1,648 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "section": "6.5",
+  "status": "COMPLETE",
+  "expected_steps": 12,
+  "source_range": [
+    1355,
+    1384
+  ],
+  "temporary_states": [
+    {
+      "id": "T6.5-A",
+      "state": "JWT manual con Java estándar, sólo didáctico",
+      "introduced_by": "6.5.2",
+      "verified_by": [
+        "6.5.4",
+        "6.5.5",
+        "6.5.11"
+      ],
+      "closure": "6.6.4",
+      "status": "ACTIVE_PEDAGOGICAL_ONLY"
+    }
+  ],
+  "source_corrections": [
+    {
+      "issue": "La fuente propone jwt.io como herramienta de inspección.",
+      "resolution": "Se conserva para tokens didácticos y se añade decoder local; se prohíbe pegar credenciales reales en servicios externos."
+    },
+    {
+      "issue": "La verificación manual de firma no valida exp.",
+      "resolution": "Se documenta explícitamente y la validación temporal se delega a JJWT desde 6.6."
+    }
+  ],
+  "steps": [
+    {
+      "id": "6.5.1",
+      "source_page": 1371,
+      "title": "Entender la estructura con un ejemplo",
+      "theory": [
+        "TC-6.5-1",
+        "TC-6.5-2"
+      ],
+      "action": "Inspeccionar header, payload y signature de un JWT didáctico sin confundir decodificación con confianza",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "inspección del token didáctico; jwt.io sólo con tokens de ejemplo",
+      "observable": "header/payload son legibles y signature es una tercera parte independiente",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.1 — Entender la estructura con un ejemplo",
+      "source_anchor": "Paso 1: Entender la estructura con un ejemplo",
+      "source_body_sha256": "3168f2f0095b3c7d1867a9a5197ab8fd04f0f4bb8cf9b629e1bf7b4e23068544",
+      "guide_section_sha256": "bb10e98b2ad6d8f2133b949f601c915ae8553b1ffe8a92cac17b71ee96e9009c",
+      "source_words": 86,
+      "guide_words": 196,
+      "symbols": [
+        "jwt.io"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "CREATE",
+          "symbols": [
+            "JwtManual",
+            "DIDACTIC_SECRET"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 26,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.1; partir del baseline M5 para 6.1.1.",
+        "operation": "Inspeccionar header, payload y signature de un JWT didáctico sin confundir decodificación con confianza",
+        "command": "inspección del token didáctico; jwt.io sólo con tokens de ejemplo",
+        "expected_observable": "header/payload son legibles y signature es una tercera parte independiente",
+        "postcondition": "El estado documentado por 6.5.1 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.2",
+      "source_page": 1373,
+      "title": "Crear una clase para generar un JWT manualmente",
+      "theory": [
+        "TC-6.5-2",
+        "TC-6.5-3"
+      ],
+      "action": "Crear JwtManual en código de pruebas usando Base64Url y HmacSHA256 de Java estándar",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "./mvnw -B -DskipTests test-compile",
+      "observable": "se genera un compacto header.payload.signature con Base64Url sin padding",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.2 — Crear una clase para generar un JWT manualmente",
+      "source_anchor": "Paso 2: Crear una clase para generar un JWT manualmente",
+      "source_body_sha256": "b0850911c0e78aa8a8636c0664d4edd93f7e3d1abe0f7565d63c14b52b0aa29a",
+      "guide_section_sha256": "e70856f2b1cf47cf7682da926321f0b18353c67375e3e7d941f11d26e4f1d2f8",
+      "source_words": 183,
+      "guide_words": 288,
+      "symbols": [
+        "DIDACTIC_SECRET",
+        "JwtManual",
+        "base64UrlEncode",
+        "firmarHMACSHA256",
+        "main"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [
+            "DIDACTIC_SECRET",
+            "JwtManual",
+            "base64UrlEncode",
+            "firmarHMACSHA256",
+            "main"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 26,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.2; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear JwtManual en código de pruebas usando Base64Url y HmacSHA256 de Java estándar",
+        "command": "./mvnw -B -DskipTests test-compile",
+        "expected_observable": "se genera un compacto header.payload.signature con Base64Url sin padding",
+        "postcondition": "El estado documentado por 6.5.2 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.3",
+      "source_page": 1375,
+      "title": "Decodificar el token generado",
+      "theory": [
+        "TC-6.5-2",
+        "TC-6.5-5"
+      ],
+      "action": "Decodificar localmente la segunda parte del token",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtManualTest test",
+      "observable": "payload JSON se obtiene sin conocer la clave",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.3 — Decodificar el token generado",
+      "source_anchor": "Paso 3: Decodificar el token generado",
+      "source_body_sha256": "de790767cc04d2d1554ad0d6605c58a5fe1b9642fd51a1aaddc96771f1c7e468",
+      "guide_section_sha256": "947f35288a807fed04905b385a3d040b5e57470d7b3826d71265b259e2062457",
+      "source_words": 35,
+      "guide_words": 127,
+      "symbols": [
+        "decodificarPayload",
+        "main"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [
+            "decodificarPayload",
+            "main"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 26,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.3; partir del baseline M5 para 6.1.1.",
+        "operation": "Decodificar localmente la segunda parte del token",
+        "command": "./mvnw -B -Dtest=JwtManualTest test",
+        "expected_observable": "payload JSON se obtiene sin conocer la clave",
+        "postcondition": "El estado documentado por 6.5.3 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.4",
+      "source_page": 1375,
+      "title": "Modificar el payload sin actualizar la firma",
+      "theory": [
+        "TC-6.5-3"
+      ],
+      "action": "Manipular el payload conservando la firma para demostrar pérdida de integridad",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtManualTest test",
+      "observable": "el token manipulado sigue decodificando pero falla verificación",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.4 — Modificar el payload sin actualizar la firma",
+      "source_anchor": "Paso 4: Modificar el payload sin actualizar la firma",
+      "source_body_sha256": "1a7f75252620919b18a147e6294074c7a1ef0a8fbd5ea7e5ded0abca5d9db261",
+      "guide_section_sha256": "12484e0b616346c038e934cd5e579863b3891f9e2dbf8d1b98296d7bce059019",
+      "source_words": 46,
+      "guide_words": 141,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 26,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.4; partir del baseline M5 para 6.1.1.",
+        "operation": "Manipular el payload conservando la firma para demostrar pérdida de integridad",
+        "command": "./mvnw -B -Dtest=JwtManualTest test",
+        "expected_observable": "el token manipulado sigue decodificando pero falla verificación",
+        "postcondition": "El estado documentado por 6.5.4 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.5",
+      "source_page": 1376,
+      "title": "Verificar el token con Java",
+      "theory": [
+        "TC-6.5-3"
+      ],
+      "action": "Recalcular HMAC y comparar firmas en Java",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtManualTest test",
+      "observable": "token intacto=true y manipulado=false",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.5 — Verificar el token con Java",
+      "source_anchor": "Paso 5: Verificar el token con Java",
+      "source_body_sha256": "521d236e94db276792c8bb7a00e659217b7e798e5bebebac77111cf64fb56052",
+      "guide_section_sha256": "9c9a3021c7192e87786b127713d0d63e0299e9bac53dc8faaf48945bfd3c77e6",
+      "source_words": 160,
+      "guide_words": 251,
+      "symbols": [
+        "JwtManual.verificar(jwt, secret)",
+        "MessageDigest.isEqual",
+        "exp",
+        "false",
+        "header.payload",
+        "main",
+        "true",
+        "verificar"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [
+            "JwtManual.verificar(jwt, secret)",
+            "MessageDigest.isEqual",
+            "exp",
+            "false",
+            "header.payload",
+            "main",
+            "true",
+            "verificar"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java",
+          "action": "CREATE",
+          "symbols": [
+            "JwtManual.verificar(jwt, secret)",
+            "MessageDigest.isEqual",
+            "exp",
+            "false",
+            "header.payload",
+            "main",
+            "true",
+            "verificar"
+          ],
+          "final_sha256": "04af43276068292438ef9b0011a6559bd898bf730729393400b78084fc19f654",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.5; partir del baseline M5 para 6.1.1.",
+        "operation": "Recalcular HMAC y comparar firmas en Java",
+        "command": "./mvnw -B -Dtest=JwtManualTest test",
+        "expected_observable": "token intacto=true y manipulado=false",
+        "postcondition": "El estado documentado por 6.5.5 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.6",
+      "source_page": 1378,
+      "title": "Probar con distintos payloads",
+      "theory": [
+        "TC-6.5-2"
+      ],
+      "action": "Añadir claims sub/email/roles/iat/exp y observar tamaño y legibilidad",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "ejecutar JwtManual.main o decoder local",
+      "observable": "claims adicionales aparecen en payload y aumentan el compacto",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.6 — Probar con distintos payloads",
+      "source_anchor": "Paso 6: Probar con distintos payloads",
+      "source_body_sha256": "eb9486cc14f1b973b671d1c7c2c7161d05ea313364fc2c0cc5aabedd4bb205fd",
+      "guide_section_sha256": "21e9e6ccf67966d36f84404dede36fdfdad3e547b89cba69ebea57e27e75a1e1",
+      "source_words": 30,
+      "guide_words": 131,
+      "symbols": [
+        "email",
+        "exp",
+        "iat",
+        "roles",
+        "sub"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [
+            "email",
+            "exp",
+            "iat",
+            "roles",
+            "sub"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.6; partir del baseline M5 para 6.1.1.",
+        "operation": "Añadir claims sub/email/roles/iat/exp y observar tamaño y legibilidad",
+        "command": "ejecutar JwtManual.main o decoder local",
+        "expected_observable": "claims adicionales aparecen en payload y aumentan el compacto",
+        "postcondition": "El estado documentado por 6.5.6 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.7",
+      "source_page": 1378,
+      "title": "Reflexionar sobre la seguridad",
+      "theory": [
+        "TC-6.5-3",
+        "TC-6.5-5"
+      ],
+      "action": "Documentar amenazas: lectura pública, robo de token, fuga de clave y datos sensibles",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "revisión de checklist de seguridad",
+      "observable": "queda explícito que firma no cifra y que TLS/gestión de claves siguen siendo obligatorios",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.7 — Reflexionar sobre la seguridad",
+      "source_anchor": "Paso 7: Reflexionar sobre la seguridad",
+      "source_body_sha256": "0b37acd2848012caf7f73741871d38559f8b012836b5857d64a976ae11fbb743",
+      "guide_section_sha256": "e8bd9223c2fcd50d817399bb9c05f5c91ce6a4eefa91f8088a0d33d2fd320c3a",
+      "source_words": 58,
+      "guide_words": 186,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.7; partir del baseline M5 para 6.1.1.",
+        "operation": "Documentar amenazas: lectura pública, robo de token, fuga de clave y datos sensibles",
+        "command": "revisión de checklist de seguridad",
+        "expected_observable": "queda explícito que firma no cifra y que TLS/gestión de claves siguen siendo obligatorios",
+        "postcondition": "El estado documentado por 6.5.7 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.8",
+      "source_page": 1379,
+      "title": "Comparar con un token real",
+      "theory": [
+        "TC-6.5-4",
+        "TC-6.5-5"
+      ],
+      "action": "Comparar el ejercicio manual con la futura implementación JJWT",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "comparación estructural con JJWT 6.6",
+      "observable": "JJWT se identifica como sustituto de la ruta manual de producción",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.8 — Comparar con un token real",
+      "source_anchor": "Paso 8: Comparar con un token real",
+      "source_body_sha256": "97da3ba69846e50939177105981c4763e93bd0eb9bf5bdf145c7fb9537463c5a",
+      "guide_section_sha256": "58454a2dd4ebb44730898537fc5952cf641a5957279ed58d261158b18ca32e1a",
+      "source_words": 75,
+      "guide_words": 160,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.8; partir del baseline M5 para 6.1.1.",
+        "operation": "Comparar el ejercicio manual con la futura implementación JJWT",
+        "command": "comparación estructural con JJWT 6.6",
+        "expected_observable": "JJWT se identifica como sustituto de la ruta manual de producción",
+        "postcondition": "El estado documentado por 6.5.8 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.9",
+      "source_page": 1379,
+      "title": "Errores comunes del ejercicio",
+      "theory": [
+        "TC-6.5-5"
+      ],
+      "action": "Diagnosticar Base64Url, formato, algoritmo, charset y errores de confianza",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtManualTest test",
+      "observable": "errores comunes tienen causa, observable y corrección",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.9 — Errores comunes del ejercicio",
+      "source_anchor": "Paso 9: Errores comunes del ejercicio",
+      "source_body_sha256": "1e0a5340c5c3986e13bf79c4053b16c5f3e171299c92c0eb79f9f5ebf8ab6bff",
+      "guide_section_sha256": "c6e6c0f5298f7dcd47a611689f99fc02dd4094973d0515da0de5f1aa013be1ba",
+      "source_words": 73,
+      "guide_words": 211,
+      "symbols": [
+        "HmacSHA256",
+        "IllegalArgumentException",
+        "NoSuchAlgorithmException",
+        "header.payload"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [
+            "HmacSHA256",
+            "IllegalArgumentException",
+            "NoSuchAlgorithmException",
+            "header.payload"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.9; partir del baseline M5 para 6.1.1.",
+        "operation": "Diagnosticar Base64Url, formato, algoritmo, charset y errores de confianza",
+        "command": "./mvnw -B -Dtest=JwtManualTest test",
+        "expected_observable": "errores comunes tienen causa, observable y corrección",
+        "postcondition": "El estado documentado por 6.5.9 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.10",
+      "source_page": 1380,
+      "title": "Experimentar con la expiración",
+      "theory": [
+        "TC-6.5-2",
+        "TC-6.5-5"
+      ],
+      "action": "Usar exp vencido para demostrar que firma válida no equivale a token temporalmente válido",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "generar/decodificar payload con exp=1; no confundir con verificación temporal",
+      "observable": "exp vencido es visible; la utilidad manual no lo valida y eso se documenta",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.10 — Experimentar con la expiración",
+      "source_anchor": "Paso 10: Experimentar con la expiración",
+      "source_body_sha256": "fb1c134ab1cd7c49b274a2cb95b708ae1b1556b8b840976423c5639f79b25c9d",
+      "guide_section_sha256": "6e9ab4ae119a4d2f25d8e67051e64e84854701fe6d547daaf482b91acd2bc75b",
+      "source_words": 53,
+      "guide_words": 150,
+      "symbols": [
+        "exp",
+        "true",
+        "verificar"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [
+            "exp",
+            "true",
+            "verificar"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.10; partir del baseline M5 para 6.1.1.",
+        "operation": "Usar exp vencido para demostrar que firma válida no equivale a token temporalmente válido",
+        "command": "generar/decodificar payload con exp=1; no confundir con verificación temporal",
+        "expected_observable": "exp vencido es visible; la utilidad manual no lo valida y eso se documenta",
+        "postcondition": "El estado documentado por 6.5.10 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.11",
+      "source_page": 1381,
+      "title": "Verificar el token con una clave incorrecta",
+      "theory": [
+        "TC-6.5-3"
+      ],
+      "action": "Comprobar que una clave distinta invalida la firma HS256",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtManualTest test",
+      "observable": "secret incorrecto=false",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.11 — Verificar el token con una clave incorrecta",
+      "source_anchor": "Paso 11: Verificar el token con una clave incorrecta",
+      "source_body_sha256": "f4d257dfbff8d368944608736097e080a158a5674de51a9f8dbf270f4c98308a",
+      "guide_section_sha256": "3d6c0dc69aba5c14d4d1a8fce0cdf09f751e91dc670e251340736a64867a0a1f",
+      "source_words": 47,
+      "guide_words": 114,
+      "symbols": [
+        "false"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "VERIFY",
+          "symbols": [
+            "verificar",
+            "DIDACTIC_SECRET"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "assertFalse",
+            "claveIncorrectaDebeInvalidarFirma"
+          ],
+          "final_sha256": "04af43276068292438ef9b0011a6559bd898bf730729393400b78084fc19f654",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.11; partir del baseline M5 para 6.1.1.",
+        "operation": "Comprobar que una clave distinta invalida la firma HS256",
+        "command": "./mvnw -B -Dtest=JwtManualTest test",
+        "expected_observable": "secret incorrecto=false",
+        "postcondition": "El estado documentado por 6.5.11 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    },
+    {
+      "id": "6.5.12",
+      "source_page": 1381,
+      "title": "Reto resuelto — Decodificar un token sin verificar la firma",
+      "theory": [
+        "TC-6.5-2",
+        "TC-6.5-5"
+      ],
+      "action": "Implementar decodificación local sin firma sólo para inspección",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "command": "ejecutar JwtManual.decodificarPayload(jwt)",
+      "observable": "payload puede inspeccionarse sin firma, pero no se usa para autorización",
+      "verification": "MANUAL+AUTOMATABLE",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.5.12 — Reto resuelto: decodificar un token sin verificar la firma",
+      "source_anchor": "Paso 12: Reto resuelto — Decodificar un token sin verificar la firma",
+      "source_body_sha256": "47a66ff8702ee4dbb7481d01bb922691cedb4e4f6bbca37ea5926fd40e419b63",
+      "guide_section_sha256": "1f5180aab586381cc7e44786c706a1b533f5140e8da193a7d26af606750abf9a",
+      "source_words": 426,
+      "guide_words": 668,
+      "symbols": [
+        "JwtManual",
+        "decodificarPayload",
+        "exp"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "action": "MODIFY",
+          "symbols": [
+            "JwtManual",
+            "decodificarPayload",
+            "exp"
+          ],
+          "final_sha256": "666b4f0df3567baf218e834ff511b1b846cd217810d659d5720b1e1c2b6566c7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.5.12; partir del baseline M5 para 6.1.1.",
+        "operation": "Implementar decodificación local sin firma sólo para inspección",
+        "command": "ejecutar JwtManual.decodificarPayload(jwt)",
+        "expected_observable": "payload puede inspeccionarse sin firma, pero no se usa para autorización",
+        "postcondition": "El estado documentado por 6.5.12 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "MANUAL+AUTOMATABLE"
+      }
+    }
+  ]
+}

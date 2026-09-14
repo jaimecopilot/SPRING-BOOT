@@ -1,0 +1,638 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "section": "6.7",
+  "status": "COMPLETE",
+  "expected_steps": 12,
+  "source_range": [
+    1433,
+    1468
+  ],
+  "steps": [
+    {
+      "id": "6.7.1",
+      "source_page": 1450,
+      "title": "Verificar el JwtService y el UsuarioPrincipal",
+      "theory": [
+        "TC-6.7-1",
+        "TC-6.7-3"
+      ],
+      "action": "Verificar el contrato de JwtService y el UsuarioPrincipal enriquecido antes de insertarlos en la cadena",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "servicio/principal exponen los datos necesarios para autenticación stateless",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.1 — Verificar `JwtService` y `UsuarioPrincipal`",
+      "source_anchor": "Paso 1: Verificar el JwtService y el UsuarioPrincipal",
+      "source_body_sha256": "856f209bbe021dbd4732f2187ebcd7e5ba29cd4464f85aa6940aee1889134cd2",
+      "guide_section_sha256": "63896c3a761b7b083484562f11297e575e43a283ddfdf125244332e1343b2c4c",
+      "source_words": 53,
+      "guide_words": 118,
+      "symbols": [
+        "(Long id, String username, String email, Collection<GrantedAuthority>)",
+        "JwtService",
+        "UsuarioPrincipal",
+        "extraerAuthorities",
+        "extraerClaims"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "(Long id, String username, String email, Collection<GrantedAuthority>)",
+            "JwtService",
+            "UsuarioPrincipal",
+            "extraerAuthorities",
+            "extraerClaims"
+          ],
+          "final_sha256": "de1c8e372ad7d488bf840645db42eef3db9f842ac9d2afb71162a3ee92f0521c",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+          "action": "MODIFY",
+          "symbols": [
+            "(Long id, String username, String email, Collection<GrantedAuthority>)",
+            "JwtService",
+            "UsuarioPrincipal",
+            "extraerAuthorities",
+            "extraerClaims"
+          ],
+          "final_sha256": "a366e2720a411432d59913f1f0ece64b3f1da760a4eba1ab1474496ea4ba142e",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 37,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.1; partir del baseline M5 para 6.1.1.",
+        "operation": "Verificar el contrato de JwtService y el UsuarioPrincipal enriquecido antes de insertarlos en la cadena",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "servicio/principal exponen los datos necesarios para autenticación stateless",
+        "postcondition": "El estado documentado por 6.7.1 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.2",
+      "source_page": 1450,
+      "title": "Crear el JwtAuthenticationFilter",
+      "theory": [
+        "TC-6.7-1",
+        "TC-6.7-2",
+        "TC-6.7-3"
+      ],
+      "action": "Crear OncePerRequestFilter tolerante a ausencia de token, validar sólo access tokens y construir Authentication desde claims",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtFilterIntegrationTest test",
+      "observable": "una petición con access válido crea Authentication; refresh/no válido no lo hace",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.2 — Crear `JwtAuthenticationFilter`",
+      "source_anchor": "Paso 2: Crear el JwtAuthenticationFilter",
+      "source_body_sha256": "de9587a24aa3940386bbd0930558fda948e012dc843b098ec66eac1c83823a76",
+      "guide_section_sha256": "3e400938352aa0d9e262a48a7b1b73a1c52e1905ee7a6d76e3039a7747d611d4",
+      "source_words": 434,
+      "guide_words": 517,
+      "symbols": [
+        "Authorization",
+        "Bearer ",
+        "JwtAuthenticationFilter",
+        "SecurityContextHolder",
+        "UsernamePasswordAuthenticationToken",
+        "UsuarioPrincipal",
+        "doFilterInternal",
+        "filterChain.doFilter",
+        "jti"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+          "action": "CREATE",
+          "symbols": [
+            "Authorization",
+            "Bearer ",
+            "JwtAuthenticationFilter",
+            "SecurityContextHolder",
+            "UsernamePasswordAuthenticationToken",
+            "UsuarioPrincipal",
+            "doFilterInternal",
+            "filterChain.doFilter"
+          ],
+          "final_sha256": "23c4dfd1852df320b0dfefb26268ff3190e746725eed3bf45f95b526440beb22",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 38,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.2; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear OncePerRequestFilter tolerante a ausencia de token, validar sólo access tokens y construir Authentication desde claims",
+        "command": "./mvnw -B -Dtest=JwtFilterIntegrationTest test",
+        "expected_observable": "una petición con access válido crea Authentication; refresh/no válido no lo hace",
+        "postcondition": "El estado documentado por 6.7.2 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.3",
+      "source_page": 1455,
+      "title": "Registrar el filtro en la cadena",
+      "theory": [
+        "TC-6.7-4"
+      ],
+      "action": "Registrar JwtAuthenticationFilter antes de UsernamePasswordAuthenticationFilter",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "grep -n \"addFilterBefore\" src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+      "observable": "filtro se ejecuta antes del filtro username/password",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.3 — Registrar el filtro en la cadena",
+      "source_anchor": "Paso 3: Registrar el filtro en la cadena",
+      "source_body_sha256": "af2596a42ef9188a388f0dfc36886f9975be37ca9094f5c9a399e98cf08b29fd",
+      "guide_section_sha256": "74802e3d1a5cefdb64f6632090e9728b5c398fad6fba0791841dcf47022b0532",
+      "source_words": 71,
+      "guide_words": 123,
+      "symbols": [
+        "filterChain"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            "addFilterBefore",
+            "UsernamePasswordAuthenticationFilter.class"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 38,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.3; partir del baseline M5 para 6.1.1.",
+        "operation": "Registrar JwtAuthenticationFilter antes de UsernamePasswordAuthenticationFilter",
+        "command": "grep -n \"addFilterBefore\" src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "expected_observable": "filtro se ejecuta antes del filtro username/password",
+        "postcondition": "El estado documentado por 6.7.3 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.4",
+      "source_page": 1457,
+      "title": "Desactivar HTTP Basic",
+      "theory": [
+        "TC-6.7-4"
+      ],
+      "action": "Eliminar HTTP Basic y cerrar definitivamente T6.2-B",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "grep -R \"httpBasic\" src/main/java || true",
+      "observable": "no existe httpBasic en SecurityConfig; HTTP Basic queda cerrado",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.4 — Desactivar HTTP Basic",
+      "source_anchor": "Paso 4: Desactivar HTTP Basic",
+      "source_body_sha256": "e268b78debae30448ef4215f7583dca01fe419f0a07fa738b49d75ee922a0a2d",
+      "guide_section_sha256": "a6b430861a875a31c68c2e4065fb629896ce5729541596cf5e6657ae63561f67",
+      "source_words": 59,
+      "guide_words": 113,
+      "symbols": [
+        ".httpBasic(",
+        "SecurityConfig"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [
+            ".httpBasic(",
+            "SecurityConfig"
+          ],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 38,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.4; partir del baseline M5 para 6.1.1.",
+        "operation": "Eliminar HTTP Basic y cerrar definitivamente T6.2-B",
+        "command": "grep -R \"httpBasic\" src/main/java || true",
+        "expected_observable": "no existe httpBasic en SecurityConfig; HTTP Basic queda cerrado",
+        "postcondition": "El estado documentado por 6.7.4 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.5",
+      "source_page": 1457,
+      "title": "Arrancar y probar",
+      "theory": [
+        "TC-6.7-1"
+      ],
+      "action": "Probar endpoint protegido con Bearer válido y sin token",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java"
+      ],
+      "command": "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil",
+      "observable": "Bearer válido=200 y anónimo=401 en recurso privado",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.5 — Arrancar y probar",
+      "source_anchor": "Paso 5: Arrancar y probar",
+      "source_body_sha256": "ad133fc4af1825c9811554cc48c7f78768f4ac15bb52d24a51050cc991c247de",
+      "guide_section_sha256": "0b35d4af88fd6374d4ceedd73d8778e67de29681cd8afb286182335e642d0eaa",
+      "source_words": 96,
+      "guide_words": 157,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+          "action": "CREATE",
+          "symbols": [],
+          "final_sha256": "881e14bc7210a2b4aea92902d126663e602d3d70134c374e8748020dbb80c2a0",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 39,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.5; partir del baseline M5 para 6.1.1.",
+        "operation": "Probar endpoint protegido con Bearer válido y sin token",
+        "command": "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil",
+        "expected_observable": "Bearer válido=200 y anónimo=401 en recurso privado",
+        "postcondition": "El estado documentado por 6.7.5 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.6",
+      "source_page": 1459,
+      "title": "Verificar el UsuarioPrincipal",
+      "theory": [
+        "TC-6.7-3"
+      ],
+      "action": "Activar UsuarioPrincipal como principal real con id, username, email y authorities; cerrar T6.4-A",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "command": "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil/usuario",
+      "observable": "@AuthenticationPrincipal recibe UsuarioPrincipal con id/email/roles",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.6 — Verificar `UsuarioPrincipal`",
+      "source_anchor": "Paso 6: Verificar el UsuarioPrincipal",
+      "source_body_sha256": "0c13bcd7127f2e598a49f67cb742d5d41f57e3dc58953b78d34e46ff9b7b3a07",
+      "guide_section_sha256": "00af019c4169244992923a8a316bd6e8312b40f34784218b7112124791bcca17",
+      "source_words": 95,
+      "guide_words": 151,
+      "symbols": [
+        "PerfilController",
+        "UsuarioPrincipal",
+        "perfil"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+          "action": "MODIFY",
+          "symbols": [
+            "PerfilController",
+            "UsuarioPrincipal",
+            "perfil"
+          ],
+          "final_sha256": "a366e2720a411432d59913f1f0ece64b3f1da760a4eba1ab1474496ea4ba142e",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+          "action": "MODIFY",
+          "symbols": [
+            "PerfilController",
+            "UsuarioPrincipal",
+            "perfil"
+          ],
+          "final_sha256": "23c4dfd1852df320b0dfefb26268ff3190e746725eed3bf45f95b526440beb22",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 39,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.6; partir del baseline M5 para 6.1.1.",
+        "operation": "Activar UsuarioPrincipal como principal real con id, username, email y authorities; cerrar T6.4-A",
+        "command": "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil/usuario",
+        "expected_observable": "@AuthenticationPrincipal recibe UsuarioPrincipal con id/email/roles",
+        "postcondition": "El estado documentado por 6.7.6 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.7",
+      "source_page": 1460,
+      "title": "Probar con rol ADMIN",
+      "theory": [
+        "TC-6.7-3",
+        "TC-6.7-4"
+      ],
+      "action": "Comprobar que ROLE_ADMIN del token gobierna las reglas administrativas sin consultar DB en cada petición",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java"
+      ],
+      "command": "curl -i -H \"Authorization: Bearer $ADMIN_TOKEN\" http://localhost:8080/api/v1/admin/usuarios",
+      "observable": "ADMIN accede; USER obtiene 403",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.7 — Probar con rol ADMIN",
+      "source_anchor": "Paso 7: Probar con rol ADMIN",
+      "source_body_sha256": "16e30532b395119a62264c43bab848a7f1f7425bcabff2c566633ef14a38cc2f",
+      "guide_section_sha256": "86d8c0fb2b7a022283bae3b2c93bd3a76a106baf1862aea717013e94b8885c94",
+      "source_words": 80,
+      "guide_words": 141,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java",
+          "action": "CREATE",
+          "symbols": [],
+          "final_sha256": "5c4c8a57bba4156aa247840cb609eb71f2502f4fd712b12f5b7bfa6750123163",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 40,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.7; partir del baseline M5 para 6.1.1.",
+        "operation": "Comprobar que ROLE_ADMIN del token gobierna las reglas administrativas sin consultar DB en cada petición",
+        "command": "curl -i -H \"Authorization: Bearer $ADMIN_TOKEN\" http://localhost:8080/api/v1/admin/usuarios",
+        "expected_observable": "ADMIN accede; USER obtiene 403",
+        "postcondition": "El estado documentado por 6.7.7 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.8",
+      "source_page": 1461,
+      "title": "Probar con un token inválido",
+      "theory": [
+        "TC-6.7-2",
+        "TC-6.7-5"
+      ],
+      "action": "Rechazar tokens mal firmados/expirados/no-access sin convertirlos en Authentication",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java"
+      ],
+      "command": "curl -i -H \"Authorization: Bearer tokenInvalido\" http://localhost:8080/api/v1/perfil",
+      "observable": "token inválido no autentica y termina en 401 uniforme",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.8 — Probar con un token inválido",
+      "source_anchor": "Paso 8: Probar con un token inválido",
+      "source_body_sha256": "99e750ba754f7ebd321a988530256a0c05a326880d140de0224d4afb9d6b4391",
+      "guide_section_sha256": "52f60bf9ef54bc14f74db29a7256257053b6da465864e609dd55ab6c62bae4fb",
+      "source_words": 46,
+      "guide_words": 103,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "881e14bc7210a2b4aea92902d126663e602d3d70134c374e8748020dbb80c2a0",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 40,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.8; partir del baseline M5 para 6.1.1.",
+        "operation": "Rechazar tokens mal firmados/expirados/no-access sin convertirlos en Authentication",
+        "command": "curl -i -H \"Authorization: Bearer tokenInvalido\" http://localhost:8080/api/v1/perfil",
+        "expected_observable": "token inválido no autentica y termina en 401 uniforme",
+        "postcondition": "El estado documentado por 6.7.8 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.9",
+      "source_page": 1462,
+      "title": "Probar con la cabecera mal formada",
+      "theory": [
+        "TC-6.7-2",
+        "TC-6.7-5"
+      ],
+      "action": "Dejar pasar cabeceras ausentes o mal formadas para que la autorización produzca el 401 uniforme",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java"
+      ],
+      "command": "curl -i -H \"Authorization: Token $TOKEN\" http://localhost:8080/api/v1/perfil",
+      "observable": "cabecera no Bearer no genera Authentication y la cadena decide el resultado",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.9 — Probar con cabecera mal formada",
+      "source_anchor": "Paso 9: Probar con la cabecera mal formada",
+      "source_body_sha256": "a76a9017c6cba76a28495043f091ce6d0d44cb1eccce5dc88b7a8efc94bee7b4",
+      "guide_section_sha256": "0d7f410942ca2643db09a3bf8e46f63b6a5fc3ce545c42450c437a0e762ecc79",
+      "source_words": 41,
+      "guide_words": 90,
+      "symbols": [
+        "Bearer "
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "Bearer "
+          ],
+          "final_sha256": "881e14bc7210a2b4aea92902d126663e602d3d70134c374e8748020dbb80c2a0",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 40,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.9; partir del baseline M5 para 6.1.1.",
+        "operation": "Dejar pasar cabeceras ausentes o mal formadas para que la autorización produzca el 401 uniforme",
+        "command": "curl -i -H \"Authorization: Token $TOKEN\" http://localhost:8080/api/v1/perfil",
+        "expected_observable": "cabecera no Bearer no genera Authentication y la cadena decide el resultado",
+        "postcondition": "El estado documentado por 6.7.9 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.10",
+      "source_page": 1462,
+      "title": "Depurar el filtro",
+      "theory": [
+        "TC-6.7-5"
+      ],
+      "action": "Usar logs DEBUG sin imprimir el token completo ni secretos",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "command": "activar logging de seguridad sólo en diagnóstico",
+      "observable": "logs muestran username/ruta/causa sin credencial completa",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.10 — Depurar el filtro",
+      "source_anchor": "Paso 10: Depurar el filtro",
+      "source_body_sha256": "6011d725d91f00c6512d3d281aa6825b6fed5f2424831062834dd9e0e1668b93",
+      "guide_section_sha256": "82d2054a9c71a8cbb2b4912300e0d3ef8d791a8d8c42bcbac083780ad4bfb47b",
+      "source_words": 61,
+      "guide_words": 121,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "23c4dfd1852df320b0dfefb26268ff3190e746725eed3bf45f95b526440beb22",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 40,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.10; partir del baseline M5 para 6.1.1.",
+        "operation": "Usar logs DEBUG sin imprimir el token completo ni secretos",
+        "command": "activar logging de seguridad sólo en diagnóstico",
+        "expected_observable": "logs muestran username/ruta/causa sin credencial completa",
+        "postcondition": "El estado documentado por 6.7.10 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.11",
+      "source_page": 1463,
+      "title": "Errores comunes del ejercicio",
+      "theory": [
+        "TC-6.7-5"
+      ],
+      "action": "Diagnosticar orden de filtro, contexto, roles y revocación sin introducir sesiones",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "no aparece sesión ni estado de autenticación persistido",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.11 — Errores comunes del ejercicio",
+      "source_anchor": "Paso 11: Errores comunes del ejercicio",
+      "source_body_sha256": "12b4a5748a2417e5e029ef8e42ea57fa4b5a9b32a12765eb7f1a08fc7eaf27aa",
+      "guide_section_sha256": "9e9e2081d60ebabf0c2a09ca7fd79dee041c3fdd1d4cfbd72fcf74b8b7fdc32c",
+      "source_words": 95,
+      "guide_words": 224,
+      "symbols": [
+        "addFilterBefore",
+        "doFilter",
+        "esAccessTokenValido",
+        "jti",
+        "tipo=access"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [
+            "addFilterBefore",
+            "doFilter",
+            "esAccessTokenValido",
+            "jti",
+            "tipo=access"
+          ],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 40,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.11; partir del baseline M5 para 6.1.1.",
+        "operation": "Diagnosticar orden de filtro, contexto, roles y revocación sin introducir sesiones",
+        "command": "./mvnw -B test",
+        "expected_observable": "no aparece sesión ni estado de autenticación persistido",
+        "postcondition": "El estado documentado por 6.7.11 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.7.12",
+      "source_page": 1464,
+      "title": "Reto resuelto — Expresión SpEL con el ID del usuario",
+      "theory": [
+        "TC-6.7-3",
+        "TC-6.7-4"
+      ],
+      "action": "Hacer ejecutable la expresión SpEL por id usando UsuarioPrincipal y proteger acceso propio o ADMIN",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "command": "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil/1",
+      "observable": "propietario o ADMIN puede consultar por id; otro USER=403",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.7.12 — Reto resuelto: SpEL con ID del usuario",
+      "source_anchor": "Paso 12: Reto resuelto — Expresión SpEL con el ID del usuario",
+      "source_body_sha256": "ec3611d262be36a9f2a456514eed2912ae84422f014cb18c55d206bd11f68cea",
+      "guide_section_sha256": "c73dd6de6d651f55d17fb280be5c45d279cfce1238d4949263eb4e76a4f6355b",
+      "source_words": 528,
+      "guide_words": 712,
+      "symbols": [
+        "STATELESS",
+        "UsuarioPrincipal",
+        "perfilPorId"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "action": "MODIFY",
+          "symbols": [
+            "STATELESS",
+            "UsuarioPrincipal",
+            "perfilPorId"
+          ],
+          "final_sha256": "b20054ecc66a77e8bf4de6efada89bdf37e87b3b67299253dfee11245555f69b",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+          "action": "MODIFY",
+          "symbols": [
+            "STATELESS",
+            "UsuarioPrincipal",
+            "perfilPorId"
+          ],
+          "final_sha256": "a366e2720a411432d59913f1f0ece64b3f1da760a4eba1ab1474496ea4ba142e",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 40,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.7.12; partir del baseline M5 para 6.1.1.",
+        "operation": "Hacer ejecutable la expresión SpEL por id usando UsuarioPrincipal y proteger acceso propio o ADMIN",
+        "command": "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil/1",
+        "expected_observable": "propietario o ADMIN puede consultar por id; otro USER=403",
+        "postcondition": "El estado documentado por 6.7.12 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    }
+  ],
+  "temporary_states": [
+    {
+      "id": "T6.2-B",
+      "state": "HTTP Basic pedagógico",
+      "closure": "6.7.4",
+      "status": "CLOSED"
+    },
+    {
+      "id": "T6.4-A",
+      "state": "UsuarioPrincipal preparado",
+      "closure": "6.7.6",
+      "status": "CLOSED_EVOLVED_TO_ACTIVE"
+    }
+  ]
+}

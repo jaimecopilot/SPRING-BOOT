@@ -1,0 +1,730 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "section": "6.9",
+  "status": "COMPLETE",
+  "expected_steps": 13,
+  "source_range": [
+    1506,
+    1550
+  ],
+  "steps": [
+    {
+      "id": "6.9.1",
+      "source_page": 1528,
+      "title": "Añadir la dependencia spring-security-test",
+      "theory": [
+        "TC-6.9-1"
+      ],
+      "action": "Añadir spring-security-test en test scope sin introducir dependencias OAuth2 innecesarias",
+      "artifacts": [
+        "M6/proyecto/pom.xml"
+      ],
+      "command": "./mvnw -B -DskipTests test-compile",
+      "observable": "security-test queda sólo en test y no cambia runtime",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.1 — Añadir `spring-security-test`",
+      "source_anchor": "Paso 1: Añadir la dependencia spring-security-test",
+      "source_body_sha256": "0cabcd4215a658674f5ddb7ab5c06e32df55271ea77a9875c9dd67fb3c45e389",
+      "guide_section_sha256": "97dc12d2f71ac44457a9f71b781d85d94913b8f862f7c0055fc49dfcec3c5cc6",
+      "source_words": 34,
+      "guide_words": 80,
+      "symbols": [
+        "@WithMockUser",
+        "@WithUserDetails",
+        "scope=test",
+        "spring-security-test"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/pom.xml",
+          "action": "MODIFY",
+          "symbols": [
+            "@WithMockUser",
+            "@WithUserDetails",
+            "scope=test",
+            "spring-security-test"
+          ],
+          "final_sha256": "8bd7765f74833b473436cfef6d43f3f5e55b4217cfc8b689a1f5340e6ac1dff4",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 45,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.1; partir del baseline M5 para 6.1.1.",
+        "operation": "Añadir spring-security-test en test scope sin introducir dependencias OAuth2 innecesarias",
+        "command": "./mvnw -B -DskipTests test-compile",
+        "expected_observable": "security-test queda sólo en test y no cambia runtime",
+        "postcondition": "El estado documentado por 6.9.1 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.2",
+      "source_page": 1529,
+      "title": "Crear el test del UsuarioController",
+      "theory": [
+        "TC-6.9-2"
+      ],
+      "action": "Crear tests 401/403/200 del UsuarioController con identidades simuladas y contrato JSON",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=UsuarioControllerSecurityTest test",
+      "observable": "escenarios anónimo/USER/ADMIN producen 401/403/200",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.2 — Crear test del `UsuarioController`",
+      "source_anchor": "Paso 2: Crear el test del UsuarioController",
+      "source_body_sha256": "dfa9a975e77bda3825c9741adee5b4bbff0d67012a2550f6ace8ff4242ccda6a",
+      "guide_section_sha256": "f93ea74f79c7b9d757c647f0a381674d206da6d7a75111594fa62ac803b68156",
+      "source_words": 123,
+      "guide_words": 191,
+      "symbols": [
+        "@MockBean",
+        "@MockitoBean",
+        "ACCESO_DENEGADO",
+        "NO_AUTENTICADO",
+        "UsuarioController",
+        "UsuarioControllerSecurityTest"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@MockBean",
+            "@MockitoBean",
+            "ACCESO_DENEGADO",
+            "NO_AUTENTICADO",
+            "UsuarioController",
+            "UsuarioControllerSecurityTest"
+          ],
+          "final_sha256": "64555187ddc66ee01f91199323bf2af810eacf6d3d70552b19bb2209f61f4439",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 45,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.2; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear tests 401/403/200 del UsuarioController con identidades simuladas y contrato JSON",
+        "command": "./mvnw -B -Dtest=UsuarioControllerSecurityTest test",
+        "expected_observable": "escenarios anónimo/USER/ADMIN producen 401/403/200",
+        "postcondition": "El estado documentado por 6.9.2 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.3",
+      "source_page": 1532,
+      "title": "Ejecutar los tests",
+      "theory": [
+        "TC-6.9-1"
+      ],
+      "action": "Ejecutar la suite acumulativa completa y Checkstyle",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java"
+      ],
+      "command": "./mvnw -B clean verify",
+      "observable": "suite heredada M5 + tests M6 = 58 tests esperados, Checkstyle 0",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.3 — Ejecutar los tests",
+      "source_anchor": "Paso 3: Ejecutar los tests",
+      "source_body_sha256": "35dde04a3b16b771ed91ebeb342e9348e5694a0dea85ed5ead8005d1df9c0d06",
+      "guide_section_sha256": "00660cccd4ab79141cfa577f957f822c87ee1d9973fa6c8f4de537e71f9d0bca",
+      "source_words": 35,
+      "guide_words": 285,
+      "symbols": [
+        "@AutoConfigureMockMvc(addFilters = false)",
+        "@MockitoBean",
+        "@WebMvcTest",
+        "JwtAuthenticationFilter",
+        "JwtService",
+        "TokenRevocationService",
+        "skipped"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java",
+          "action": "VERIFY",
+          "symbols": [
+            "UsuarioControllerSecurityTest"
+          ],
+          "final_sha256": "64555187ddc66ee01f91199323bf2af810eacf6d3d70552b19bb2209f61f4439",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AutoConfigureMockMvc(addFilters = false)",
+            "@MockitoBean",
+            "JwtService",
+            "TokenRevocationService"
+          ],
+          "final_sha256": "c75088a5b97817d3187a0c9b813a60f95cedebac948744facad4f3e96782e542",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AutoConfigureMockMvc(addFilters = false)",
+            "@MockitoBean",
+            "JwtService",
+            "TokenRevocationService"
+          ],
+          "final_sha256": "d5c6b2a0a2be8899abd497c371853ae53b8bafaa137223137f99bad1aa2c6ffc",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AutoConfigureMockMvc(addFilters = false)",
+            "@MockitoBean",
+            "JwtService",
+            "TokenRevocationService"
+          ],
+          "final_sha256": "3163bf33877870b4725d31fc590e593d980d2c82db22b0c8913e0fefa8ccd189",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AutoConfigureMockMvc(addFilters = false)",
+            "@MockitoBean",
+            "JwtService",
+            "TokenRevocationService"
+          ],
+          "final_sha256": "f7ba38ebae664f82c7a401853dd53f337f1ce3e77a5731270a64e8995b461b99",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@AutoConfigureMockMvc(addFilters = false)",
+            "@MockitoBean",
+            "JwtService",
+            "TokenRevocationService"
+          ],
+          "final_sha256": "4eba1476ea48e87415345bf228752f22dd52569f3556f876b0e7117d19e35b14",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 45,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.3; partir del baseline M5 para 6.1.1.",
+        "operation": "Ejecutar la suite acumulativa completa y Checkstyle",
+        "command": "./mvnw -B clean verify",
+        "expected_observable": "suite heredada M5 + tests M6 = 58 tests esperados, Checkstyle 0",
+        "postcondition": "El estado documentado por 6.9.3 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.4",
+      "source_page": 1532,
+      "title": "Testear el endpoint de gestor",
+      "theory": [
+        "TC-6.9-4"
+      ],
+      "action": "Testear gestor para USER/GESTOR/ADMIN",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/GestorSecurityTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=GestorSecurityTest test",
+      "observable": "USER=403, GESTOR=200, ADMIN=200",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.4 — Testear endpoint de gestor",
+      "source_anchor": "Paso 4: Testear el endpoint de gestor",
+      "source_body_sha256": "fd26315937b6daa2ecc749a4cbd1869f6f025498761b74806891518ced7214dd",
+      "guide_section_sha256": "933cae3f370aeba5349471d5da8d5bd5d968b3044107db8c2243b13a90ea8d5c",
+      "source_words": 71,
+      "guide_words": 123,
+      "symbols": [
+        "GestorSecurityTest"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/GestorSecurityTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "GestorSecurityTest"
+          ],
+          "final_sha256": "382628d86e0a7aa7bd91841e98dac09667841feb12539c44b045e2c1657e57bb",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 45,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.4; partir del baseline M5 para 6.1.1.",
+        "operation": "Testear gestor para USER/GESTOR/ADMIN",
+        "command": "./mvnw -B -Dtest=GestorSecurityTest test",
+        "expected_observable": "USER=403, GESTOR=200, ADMIN=200",
+        "postcondition": "El estado documentado por 6.9.4 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.5",
+      "source_page": 1533,
+      "title": "Testear el endpoint público",
+      "theory": [
+        "TC-6.9-4"
+      ],
+      "action": "Testear endpoint público sin identidad",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/controller/PublicControllerSecurityTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=PublicControllerSecurityTest test",
+      "observable": "público=200 sin autenticación",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.5 — Testear endpoint público",
+      "source_anchor": "Paso 5: Testear el endpoint público",
+      "source_body_sha256": "e77f1082e5c11c9d53504b0f0237f074980ad7fc6c6d0b4db6f256c23499acfb",
+      "guide_section_sha256": "d63994b37169d995f5a5a0bb6467ea394d2518824332521ffbf8e1d627ffd0f7",
+      "source_words": 66,
+      "guide_words": 118,
+      "symbols": [
+        "PublicControllerSecurityTest"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/common/controller/PublicControllerSecurityTest.java",
+          "action": "CREATE",
+          "symbols": [
+            "PublicControllerSecurityTest"
+          ],
+          "final_sha256": "c2e771fde8f43903a6cf6c81b916815655bb5f926f7398fd5e31109a30f138e7",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 46,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.5; partir del baseline M5 para 6.1.1.",
+        "operation": "Testear endpoint público sin identidad",
+        "command": "./mvnw -B -Dtest=PublicControllerSecurityTest test",
+        "expected_observable": "público=200 sin autenticación",
+        "postcondition": "El estado documentado por 6.9.5 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.6",
+      "source_page": 1535,
+      "title": "Testear el login",
+      "theory": [
+        "TC-6.9-4"
+      ],
+      "action": "Testear login real con AuthenticationManager y DB de test",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+      "observable": "login correcto=200; credenciales incorrectas=401",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.6 — Testear login",
+      "source_anchor": "Paso 6: Testear el login",
+      "source_body_sha256": "031a120317f33f9b91149c6ca752dc9822511560838540f0ead8a24e15c296b3",
+      "guide_section_sha256": "b4efe5e487724776439d2ae6ec1ca6c4464dca1bc05ad0b6e1a9238bfb0b263c",
+      "source_words": 93,
+      "guide_words": 163,
+      "symbols": [
+        "AuthControllerSecurityTest",
+        "AuthFlowIntegrationTest",
+        "CREDENCIALES_INVALIDAS",
+        "NegocioException",
+        "token_type=Bearer"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "AuthControllerSecurityTest",
+            "AuthFlowIntegrationTest",
+            "CREDENCIALES_INVALIDAS",
+            "NegocioException",
+            "token_type=Bearer"
+          ],
+          "final_sha256": "4629be571ecead718aba7586e1282d4fa425da7014d3bdc9e7f8cd6d37f9ab28",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 46,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.6; partir del baseline M5 para 6.1.1.",
+        "operation": "Testear login real con AuthenticationManager y DB de test",
+        "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+        "expected_observable": "login correcto=200; credenciales incorrectas=401",
+        "postcondition": "El estado documentado por 6.9.6 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.7",
+      "source_page": 1537,
+      "title": "Testear el refresh",
+      "theory": [
+        "TC-6.9-4"
+      ],
+      "action": "Testear refresh, rotación y replay",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+      "observable": "refresh first=200 y replay=401",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.7 — Testear refresh",
+      "source_anchor": "Paso 7: Testear el refresh",
+      "source_body_sha256": "fa9b15d4ce6908de8e07f4be7f325236ceabb8c43e0480fd4f4d226622eeb4d8",
+      "guide_section_sha256": "3f50e59bcbaa7426ad1ba12e3397c717021036de7556cd248d345b56d9262b65",
+      "source_words": 55,
+      "guide_words": 107,
+      "symbols": [
+        "TOKEN_INVALIDO"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "TOKEN_INVALIDO"
+          ],
+          "final_sha256": "4629be571ecead718aba7586e1282d4fa425da7014d3bdc9e7f8cd6d37f9ab28",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 46,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.7; partir del baseline M5 para 6.1.1.",
+        "operation": "Testear refresh, rotación y replay",
+        "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+        "expected_observable": "refresh first=200 y replay=401",
+        "postcondition": "El estado documentado por 6.9.7 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.8",
+      "source_page": 1539,
+      "title": "Testear el logout",
+      "theory": [
+        "TC-6.9-4"
+      ],
+      "action": "Testear logout y token revocado",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+      "observable": "logout=204 y access anterior=401",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.8 — Testear logout",
+      "source_anchor": "Paso 8: Testear el logout",
+      "source_body_sha256": "12506e0e66585aa11fc25cea6a4996d4336fe1c875a3810541df39d62a22eb08",
+      "guide_section_sha256": "2ec7e5396807bb0ca533376e552ad8270309c7b219c30f13a81324f30f141266",
+      "source_words": 28,
+      "guide_words": 81,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "4629be571ecead718aba7586e1282d4fa425da7014d3bdc9e7f8cd6d37f9ab28",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 46,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.8; partir del baseline M5 para 6.1.1.",
+        "operation": "Testear logout y token revocado",
+        "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+        "expected_observable": "logout=204 y access anterior=401",
+        "postcondition": "El estado documentado por 6.9.8 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.9",
+      "source_page": 1539,
+      "title": "Testear con post-processors",
+      "theory": [
+        "TC-6.9-3"
+      ],
+      "action": "Usar post-processors user() para autorización sin confundirlos con el filtro JWT",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=UsuarioControllerSecurityTest test",
+      "observable": "post-processors prueban autorización, no sustituyen test real del filtro",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.9 — Testear con post-processors",
+      "source_anchor": "Paso 9: Testear con post-processors",
+      "source_body_sha256": "a21b9743fd31c43e6b7f13fb62ed63179f670f6c589ca471b765ddaaa5a86bbc",
+      "guide_section_sha256": "896bc6c51d07af83a973799d94c09b22aa4ce695e90026d1baf31f408a7fe2ff",
+      "source_words": 51,
+      "guide_words": 104,
+      "symbols": [
+        "@WithMockUser",
+        "UsuarioControllerSecurityTest"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "@WithMockUser",
+            "UsuarioControllerSecurityTest"
+          ],
+          "final_sha256": "64555187ddc66ee01f91199323bf2af810eacf6d3d70552b19bb2209f61f4439",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 46,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.9; partir del baseline M5 para 6.1.1.",
+        "operation": "Usar post-processors user() para autorización sin confundirlos con el filtro JWT",
+        "command": "./mvnw -B -Dtest=UsuarioControllerSecurityTest test",
+        "expected_observable": "post-processors prueban autorización, no sustituyen test real del filtro",
+        "postcondition": "El estado documentado por 6.9.9 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.10",
+      "source_page": 1540,
+      "title": "Testear con @WithUserDetails",
+      "theory": [
+        "TC-6.9-2"
+      ],
+      "action": "Usar @WithUserDetails sobre el usuario real sembrado en base de datos",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerIntegrationTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=UsuarioControllerIntegrationTest test",
+      "observable": "@WithUserDetails carga admin desde UsuarioDetailsService/DB de test",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.10 — Testear con `@WithUserDetails`",
+      "source_anchor": "Paso 10: Testear con @WithUserDetails",
+      "source_body_sha256": "ffb6ca203efbc79e2380cceb17a5e3e1399e44f88eaa592b207acac7228a6dde",
+      "guide_section_sha256": "203e25122b23b10ed6dcd8879d1fed20cce75e8f393da60dfa302504e114886b",
+      "source_words": 136,
+      "guide_words": 192,
+      "symbols": [
+        "@SpringBootTest",
+        "@WithUserDetails",
+        "UserDetails",
+        "UsuarioControllerIntegrationTest",
+        "UsuarioDetailsService"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerIntegrationTest.java",
+          "action": "CREATE",
+          "symbols": [
+            "@SpringBootTest",
+            "@WithUserDetails",
+            "UserDetails",
+            "UsuarioControllerIntegrationTest",
+            "UsuarioDetailsService"
+          ],
+          "final_sha256": "68e4bd20b45e23c744a5332f717d57604b6244cd1ae9fc52bdab2ee36626fad8",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 47,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.10; partir del baseline M5 para 6.1.1.",
+        "operation": "Usar @WithUserDetails sobre el usuario real sembrado en base de datos",
+        "command": "./mvnw -B -Dtest=UsuarioControllerIntegrationTest test",
+        "expected_observable": "@WithUserDetails carga admin desde UsuarioDetailsService/DB de test",
+        "postcondition": "El estado documentado por 6.9.10 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.11",
+      "source_page": 1543,
+      "title": "Testear el filtro JWT",
+      "theory": [
+        "TC-6.9-3",
+        "TC-6.9-4"
+      ],
+      "action": "Testear filtro con tokens reales generados por JwtService para cubrir firma/claims/revocación",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtServiceIntegrationTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtFilterIntegrationTest test",
+      "observable": "Bearer real autentica y token inválido/revocado no lo hace",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.11 — Testear el filtro JWT",
+      "source_anchor": "Paso 11: Testear el filtro JWT",
+      "source_body_sha256": "8b2cae36f9c84e1e18fb28b9db2054334fba32927ec231988b3fe2bcb3b753c2",
+      "guide_section_sha256": "2e97839d3c7a3dce4a071cc61634302e129e27d3f651e0e64ca9aa596081e572",
+      "source_words": 108,
+      "guide_words": 225,
+      "symbols": [
+        "JwtFilterIntegrationTest",
+        "JwtService",
+        "jwt()"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "JwtFilterIntegrationTest",
+            "JwtService",
+            "jwt()"
+          ],
+          "final_sha256": "881e14bc7210a2b4aea92902d126663e602d3d70134c374e8748020dbb80c2a0",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/JwtServiceIntegrationTest.java",
+          "action": "CREATE",
+          "symbols": [
+            "JwtServiceIntegrationTest",
+            "esAccessTokenValido",
+            "esRefreshTokenValido"
+          ],
+          "final_sha256": "6fce6309fac2c028f2ec0cbf9135f20a3f185137d693553a8de71ead622fce8a",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 47,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.11; partir del baseline M5 para 6.1.1.",
+        "operation": "Testear filtro con tokens reales generados por JwtService para cubrir firma/claims/revocación",
+        "command": "./mvnw -B -Dtest=JwtFilterIntegrationTest test",
+        "expected_observable": "Bearer real autentica y token inválido/revocado no lo hace",
+        "postcondition": "El estado documentado por 6.9.11 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.12",
+      "source_page": 1544,
+      "title": "Errores comunes del ejercicio",
+      "theory": [
+        "TC-6.9-5"
+      ],
+      "action": "Evitar @MockBean, tests que sólo prueban mocks y confusión entre 401/403",
+      "artifacts": [
+        "M6/PRACTICA.md"
+      ],
+      "command": "grep -R \"@MockBean\" src/test || true",
+      "observable": "cero @MockBean y cada test expresa una propiedad observable",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.12 — Errores comunes del ejercicio",
+      "source_anchor": "Paso 12: Errores comunes del ejercicio",
+      "source_body_sha256": "b4aefbcb90aeaabfce20cfe48834e5d71659aa164eddb6cd30d0476575c85bf7",
+      "guide_section_sha256": "96d3b96e2e12d4bd5e99b1b7e35923a8dc81315ced6c68b43966ce870f960e2f",
+      "source_words": 95,
+      "guide_words": 240,
+      "symbols": [
+        "@SpringBootTest",
+        "@WithUserDetails",
+        "ROLE_",
+        "spring-security-test"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [
+            "@SpringBootTest",
+            "@WithUserDetails",
+            "ROLE_",
+            "spring-security-test"
+          ],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 47,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.12; partir del baseline M5 para 6.1.1.",
+        "operation": "Evitar @MockBean, tests que sólo prueban mocks y confusión entre 401/403",
+        "command": "grep -R \"@MockBean\" src/test || true",
+        "expected_observable": "cero @MockBean y cada test expresa una propiedad observable",
+        "postcondition": "El estado documentado por 6.9.12 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.9.13",
+      "source_page": 1546,
+      "title": "Reto resuelto — Test completo de autorización",
+      "theory": [
+        "TC-6.9-5"
+      ],
+      "action": "Construir test completo de autorización con cinco escenarios y observables de contrato",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java"
+      ],
+      "command": "./mvnw -B -Dtest=UsuarioControllerCompleteSecurityTest test",
+      "observable": "test reto cubre 401, USER 403, GESTOR 403, ADMIN 200 y contenido del listado",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.9.13 — Reto resuelto: test completo de autorización",
+      "source_anchor": "Paso 13: Reto resuelto — Test completo de autorización",
+      "source_body_sha256": "e3f10791f2f587aa839e80d5fceed615455e80bc5c2789d5497b99267fda3721",
+      "guide_section_sha256": "98a19f0c10a36bb11ffa321a3e0312a125e4f234744aeb1558bcdca8151f6ec6",
+      "source_words": 330,
+      "guide_words": 484,
+      "symbols": [
+        "ACCESO_DENEGADO",
+        "NO_AUTENTICADO",
+        "STATELESS",
+        "UsuarioControllerCompleteSecurityTest",
+        "jti"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "ACCESO_DENEGADO",
+            "NO_AUTENTICADO",
+            "STATELESS",
+            "UsuarioControllerCompleteSecurityTest",
+            "jti"
+          ],
+          "final_sha256": "5c4c8a57bba4156aa247840cb609eb71f2502f4fd712b12f5b7bfa6750123163",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 47,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.9.13; partir del baseline M5 para 6.1.1.",
+        "operation": "Construir test completo de autorización con cinco escenarios y observables de contrato",
+        "command": "./mvnw -B -Dtest=UsuarioControllerCompleteSecurityTest test",
+        "expected_observable": "test reto cubre 401, USER 403, GESTOR 403, ADMIN 200 y contenido del listado",
+        "postcondition": "El estado documentado por 6.9.13 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    }
+  ]
+}

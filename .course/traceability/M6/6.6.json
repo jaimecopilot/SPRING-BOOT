@@ -1,0 +1,888 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "section": "6.6",
+  "status": "COMPLETE",
+  "expected_steps": 13,
+  "source_range": [
+    1385,
+    1431
+  ],
+  "steps": [
+    {
+      "id": "6.6.1",
+      "source_page": 1407,
+      "title": "Añadir las dependencias de JJWT",
+      "theory": [
+        "TC-6.6-1"
+      ],
+      "action": "Añadir JJWT 0.13.0 con API en compile e impl/Jackson en runtime, preservando todas las dependencias heredadas",
+      "artifacts": [
+        "M6/proyecto/pom.xml"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "POM conserva M5 y resuelve jjwt-api/impl/jackson 0.13.0 con scopes correctos",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.1 — Añadir las dependencias de JJWT",
+      "source_anchor": "Paso 1: Añadir las dependencias de JJWT",
+      "source_body_sha256": "37b94b49c1f480f3f86d6f58d6d839d0c6422b1c6d79d7c01f975eb6f342f871",
+      "guide_section_sha256": "27bc77ccd2013290ff7eadb57545cffc3839a79a9a245abfa558e9a580c08591",
+      "source_words": 36,
+      "guide_words": 140,
+      "symbols": [
+        "Claims",
+        "Decoders",
+        "Jwts",
+        "Keys",
+        "jjwt-api",
+        "jjwt-impl",
+        "jjwt-jackson"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/pom.xml",
+          "action": "MODIFY",
+          "symbols": [
+            "Claims",
+            "Decoders",
+            "Jwts",
+            "Keys",
+            "jjwt-api",
+            "jjwt-impl",
+            "jjwt-jackson"
+          ],
+          "final_sha256": "8bd7765f74833b473436cfef6d43f3f5e55b4217cfc8b689a1f5340e6ac1dff4",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 27,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.1; partir del baseline M5 para 6.1.1.",
+        "operation": "Añadir JJWT 0.13.0 con API en compile e impl/Jackson en runtime, preservando todas las dependencias heredadas",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "POM conserva M5 y resuelve jjwt-api/impl/jackson 0.13.0 con scopes correctos",
+        "postcondition": "El estado documentado por 6.6.1 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.2",
+      "source_page": 1408,
+      "title": "Configurar las propiedades de JWT",
+      "theory": [
+        "TC-6.6-2"
+      ],
+      "action": "Externalizar secret y duraciones por perfil, sin secreto por defecto en producción",
+      "artifacts": [
+        "M6/proyecto/src/main/resources/application-dev.properties",
+        "M6/proyecto/src/main/resources/application-test.properties",
+        "M6/proyecto/src/main/resources/application-prod.properties"
+      ],
+      "command": "grep -R \"^jwt\\.\" src/main/resources/application-*.properties",
+      "observable": "dev/test usan secretos Base64 válidos; prod exige JWT_SECRET y no contiene fallback sensible",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.2 — Configurar las propiedades de JWT",
+      "source_anchor": "Paso 2: Configurar las propiedades de JWT",
+      "source_body_sha256": "f5b588c0c8667e751be1cb08cb9a2138a2d6873621782a17e53677dfa984d752",
+      "guide_section_sha256": "8d1aaf8913c5ece92fc50f1921ec8e22a3eb066cf170b8a0c6c59b0aed8575c3",
+      "source_words": 61,
+      "guide_words": 153,
+      "symbols": [
+        "${JWT_SECRET}",
+        "JWT_SECRET",
+        "JwtConfig",
+        "jwt.expiration",
+        "jwt.refresh-expiration",
+        "jwt.secret"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/resources/application-dev.properties",
+          "action": "MODIFY",
+          "symbols": [
+            "${JWT_SECRET}",
+            "JWT_SECRET",
+            "JwtConfig",
+            "jwt.expiration",
+            "jwt.refresh-expiration",
+            "jwt.secret"
+          ],
+          "final_sha256": "42afa56f88fa3bd61cc86bb2b021f7a74209a1a23cae8c5a7afadd585ac6718b",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/resources/application-test.properties",
+          "action": "MODIFY",
+          "symbols": [
+            "${JWT_SECRET}",
+            "JWT_SECRET",
+            "JwtConfig",
+            "jwt.expiration",
+            "jwt.refresh-expiration",
+            "jwt.secret"
+          ],
+          "final_sha256": "06459eda2ced45c5eb0303409b477dc7e747d130e6373a2fd85e4cbd580f5c46",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/resources/application-prod.properties",
+          "action": "MODIFY",
+          "symbols": [
+            "${JWT_SECRET}",
+            "JWT_SECRET",
+            "JwtConfig",
+            "jwt.expiration",
+            "jwt.refresh-expiration",
+            "jwt.secret"
+          ],
+          "final_sha256": "c350cdc319e4a135aa19ca54f775c3aa1318db01eeb31e623f9787f8dfa2d8ae",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 30,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.2; partir del baseline M5 para 6.1.1.",
+        "operation": "Externalizar secret y duraciones por perfil, sin secreto por defecto en producción",
+        "command": "grep -R \"^jwt\\.\" src/main/resources/application-*.properties",
+        "expected_observable": "dev/test usan secretos Base64 válidos; prod exige JWT_SECRET y no contiene fallback sensible",
+        "postcondition": "El estado documentado por 6.6.2 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.3",
+      "source_page": 1409,
+      "title": "Crear la configuración de la clave",
+      "theory": [
+        "TC-6.6-2"
+      ],
+      "action": "Construir SecretKey desde Base64 y fallar cerrado si la clave es inválida o débil",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtConfig.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "SecretKey HMAC se crea; configuración inválida impide arrancar",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.3 — Crear la configuración de la clave",
+      "source_anchor": "Paso 3: Crear la configuración de la clave",
+      "source_body_sha256": "59766095dfed6e11802653d535ad6ad97eb788b1407d69ea188aa7b1bc7047f0",
+      "guide_section_sha256": "11da2d5bc6b87d92eff6506ed2c5fc695d7968e9049edb33f9bc43f662fcd877",
+      "source_words": 78,
+      "guide_words": 149,
+      "symbols": [
+        "JwtConfig",
+        "jwtSecretKey"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtConfig.java",
+          "action": "CREATE",
+          "symbols": [
+            "JwtConfig",
+            "jwtSecretKey"
+          ],
+          "final_sha256": "085c7e79f26597493224a831811267aa17b98d0837979cc5cd57f8178e094294",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 31,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.3; partir del baseline M5 para 6.1.1.",
+        "operation": "Construir SecretKey desde Base64 y fallar cerrado si la clave es inválida o débil",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "SecretKey HMAC se crea; configuración inválida impide arrancar",
+        "postcondition": "El estado documentado por 6.6.3 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.4",
+      "source_page": 1410,
+      "title": "Crear el JwtService",
+      "theory": [
+        "TC-6.6-3"
+      ],
+      "action": "Sustituir la ruta manual por JwtService con access/refresh, firma, claims, jti y validación de tipo/expiración",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java"
+      ],
+      "command": "./mvnw -B -Dtest=JwtServiceIntegrationTest test",
+      "observable": "access contiene identidad/roles y refresh omite roles; ambos están firmados y expiran; T6.5-A queda cerrado funcionalmente",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.4 — Crear el `JwtService`",
+      "source_anchor": "Paso 4: Crear el JwtService",
+      "source_body_sha256": "e4b03aaae61cc320cf97216da80afcabd58b0f386616249c802062e27663c315",
+      "guide_section_sha256": "9324d3cb972f8812f3bbe0aeff437b62c459f39a3972beaab8daecf69cbeb89a",
+      "source_words": 385,
+      "guide_words": 491,
+      "symbols": [
+        "JwtManual",
+        "JwtService",
+        "Long",
+        "Number",
+        "esAccessTokenValido",
+        "esRefreshTokenValido",
+        "esValido",
+        "extraerAuthorities",
+        "extraerClaims",
+        "extraerId",
+        "extraerUsername",
+        "generarRefreshToken",
+        "generarRefreshToken(Usuario)",
+        "generarToken",
+        "generarToken(Usuario)",
+        "getExpirationMs",
+        "jti",
+        "longValue()",
+        "parsearClaims",
+        "tipo=access",
+        "tipo=refresh"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+          "action": "CREATE",
+          "symbols": [
+            "JwtManual",
+            "JwtService",
+            "Long",
+            "Number",
+            "esAccessTokenValido",
+            "esRefreshTokenValido",
+            "esValido",
+            "extraerAuthorities"
+          ],
+          "final_sha256": "de1c8e372ad7d488bf840645db42eef3db9f842ac9d2afb71162a3ee92f0521c",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 32,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.4; partir del baseline M5 para 6.1.1.",
+        "operation": "Sustituir la ruta manual por JwtService con access/refresh, firma, claims, jti y validación de tipo/expiración",
+        "command": "./mvnw -B -Dtest=JwtServiceIntegrationTest test",
+        "expected_observable": "access contiene identidad/roles y refresh omite roles; ambos están firmados y expiran; T6.5-A queda cerrado funcionalmente",
+        "postcondition": "El estado documentado por 6.6.4 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.5",
+      "source_page": 1416,
+      "title": "Crear los DTOs de login",
+      "theory": [
+        "TC-6.6-4"
+      ],
+      "action": "Crear LoginRequestDTO, LoginResponseDTO y RefreshRequestDTO con validación explícita",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "DTOs tienen campos y validaciones esperados; password no aparece en respuestas",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.5 — Crear los DTOs de login",
+      "source_anchor": "Paso 5: Crear los DTOs de login",
+      "source_body_sha256": "aeaec0bc18d97d6660a491af1bf409231f1692a4aac03d26281465f805456616",
+      "guide_section_sha256": "dc98e089c82e8e6b6ca573d8b9af1a8db39c54208a930f445454c308ca8d3d92",
+      "source_words": 188,
+      "guide_words": 248,
+      "symbols": [
+        "@JsonProperty",
+        "LoginRequestDTO",
+        "LoginResponseDTO",
+        "RefreshRequestDTO",
+        "expires_in",
+        "expires_in=3600000",
+        "getAccessToken",
+        "getExpiresIn",
+        "getPassword",
+        "getRefreshToken",
+        "getTokenType",
+        "getUsername",
+        "setPassword",
+        "setRefreshToken",
+        "setUsername"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+          "action": "CREATE",
+          "symbols": [
+            "@JsonProperty",
+            "LoginRequestDTO",
+            "LoginResponseDTO",
+            "RefreshRequestDTO",
+            "expires_in",
+            "expires_in=3600000",
+            "getAccessToken",
+            "getExpiresIn"
+          ],
+          "final_sha256": "f483b6cb93f46cb75502ce21a0dfa9fc4e8906826662829a48d15f731a5b9d9a",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+          "action": "CREATE",
+          "symbols": [
+            "@JsonProperty",
+            "LoginRequestDTO",
+            "LoginResponseDTO",
+            "RefreshRequestDTO",
+            "expires_in",
+            "expires_in=3600000",
+            "getAccessToken",
+            "getExpiresIn"
+          ],
+          "final_sha256": "9c1a9254b6d3d016c74e5266c57e9c1620dab30a3a4a2ba82f2fd761a2026834",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java",
+          "action": "CREATE",
+          "symbols": [
+            "@JsonProperty",
+            "LoginRequestDTO",
+            "LoginResponseDTO",
+            "RefreshRequestDTO",
+            "expires_in",
+            "expires_in=3600000",
+            "getAccessToken",
+            "getExpiresIn"
+          ],
+          "final_sha256": "f24990a6c0d7119423315ec73310a74f6259f563e7daa7071311f0d8ca04f8c9",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 35,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.5; partir del baseline M5 para 6.1.1.",
+        "operation": "Crear LoginRequestDTO, LoginResponseDTO y RefreshRequestDTO con validación explícita",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "DTOs tienen campos y validaciones esperados; password no aparece en respuestas",
+        "postcondition": "El estado documentado por 6.6.5 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.6",
+      "source_page": 1419,
+      "title": "Ampliar el AuthService con login y refresh",
+      "theory": [
+        "TC-6.6-4",
+        "TC-6.6-5"
+      ],
+      "action": "Integrar AuthenticationManager, generar pares de tokens y rotar refresh tokens de un solo uso",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java"
+      ],
+      "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+      "observable": "credenciales válidas generan par; refresh se rota y la reutilización se rechaza",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.6 — Ampliar `AuthService` con login y refresh",
+      "source_anchor": "Paso 6: Ampliar el AuthService con login y refresh",
+      "source_body_sha256": "08776142a53c2d0c11822360efa38d552456020391cc30ed2a69dc8c685ad7e6",
+      "guide_section_sha256": "d54e2bda69425f5c5b207c58d719644351ae693a1c4cb8b35f28a4f0a3f43c35",
+      "source_words": 207,
+      "guide_words": 311,
+      "symbols": [
+        "AuthService",
+        "AuthService.login",
+        "AuthenticationException",
+        "AuthenticationManager",
+        "TokenRevocationService.consumeRefresh",
+        "jti",
+        "jwtService.esValido()",
+        "login",
+        "refresh",
+        "tipo=refresh"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "AuthService",
+            "AuthService.login",
+            "AuthenticationException",
+            "AuthenticationManager",
+            "TokenRevocationService.consumeRefresh",
+            "jti",
+            "jwtService.esValido()",
+            "login"
+          ],
+          "final_sha256": "ea261552500fc9b49ada4bc86c4d9269f8169234bfec03565f912595ec6c1de5",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+          "action": "CREATE",
+          "symbols": [
+            "AuthService",
+            "AuthService.login",
+            "AuthenticationException",
+            "AuthenticationManager",
+            "TokenRevocationService.consumeRefresh",
+            "jti",
+            "jwtService.esValido()",
+            "login"
+          ],
+          "final_sha256": "aa5a23d5710d0938fa1d65938f0b03e7fa4988817539bbfbc2d886eed005e651",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 36,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.6; partir del baseline M5 para 6.1.1.",
+        "operation": "Integrar AuthenticationManager, generar pares de tokens y rotar refresh tokens de un solo uso",
+        "command": "./mvnw -B -Dtest=AuthFlowIntegrationTest test",
+        "expected_observable": "credenciales válidas generan par; refresh se rota y la reutilización se rechaza",
+        "postcondition": "El estado documentado por 6.6.6 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.7",
+      "source_page": 1422,
+      "title": "Ampliar el AuthController",
+      "theory": [
+        "TC-6.6-4",
+        "TC-6.6-5"
+      ],
+      "action": "Exponer registro, login, refresh y logout desde AuthController",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java"
+      ],
+      "command": "./mvnw -B -DskipTests compile",
+      "observable": "rutas REST quedan disponibles con contratos separados",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.7 — Ampliar `AuthController`",
+      "source_anchor": "Paso 7: Ampliar el AuthController",
+      "source_body_sha256": "0ecb1bf77fd9c2771422158b14ea64520acdad7b2bc57b2e4ecd8db741de6dfe",
+      "guide_section_sha256": "51351fd878d86bc21ec63064ddcf20c49848d63dbb018a8d5072ca4d80e082ce",
+      "source_words": 40,
+      "guide_words": 87,
+      "symbols": [
+        "AuthController",
+        "login",
+        "refresh"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+          "action": "MODIFY",
+          "symbols": [
+            "AuthController",
+            "login",
+            "refresh"
+          ],
+          "final_sha256": "1647099ec7f32b6732c202d27f21224f71514b5aa71625f96af6bbe212c863e8",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 36,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.7; partir del baseline M5 para 6.1.1.",
+        "operation": "Exponer registro, login, refresh y logout desde AuthController",
+        "command": "./mvnw -B -DskipTests compile",
+        "expected_observable": "rutas REST quedan disponibles con contratos separados",
+        "postcondition": "El estado documentado por 6.6.7 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.8",
+      "source_page": 1423,
+      "title": "Configurar la seguridad para permitir login",
+      "theory": [
+        "TC-6.6-4"
+      ],
+      "action": "Abrir sólo POST registro/login/refresh; mantener logout y el resto protegidos",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "login/refresh/registro son públicos por método; logout sigue autenticado",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.8 — Configurar la seguridad para permitir login",
+      "source_anchor": "Paso 8: Configurar la seguridad para permitir login",
+      "source_body_sha256": "953a2fe2eba2034a31339026a4335656fa001023816f3f9028b4dff73f340d03",
+      "guide_section_sha256": "7b665787a81957501bdd6f7faec5c5f25b16813a45526cdaf2502bced42bc4b4",
+      "source_words": 27,
+      "guide_words": 93,
+      "symbols": [],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "action": "MODIFY",
+          "symbols": [],
+          "final_sha256": "62442243b325defd032288a072c899b735c628b96440bb0ab66b68a12c9d3f5b",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 36,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.8; partir del baseline M5 para 6.1.1.",
+        "operation": "Abrir sólo POST registro/login/refresh; mantener logout y el resto protegidos",
+        "command": "./mvnw -B test",
+        "expected_observable": "login/refresh/registro son públicos por método; logout sigue autenticado",
+        "postcondition": "El estado documentado por 6.6.8 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.9",
+      "source_page": 1423,
+      "title": "Arrancar y probar el login",
+      "theory": [
+        "TC-6.6-4"
+      ],
+      "action": "Probar login real y observar access token, refresh token y expires_in en segundos",
+      "artifacts": [
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java"
+      ],
+      "command": "curl -i -X POST http://localhost:8080/api/v1/auth/login -H \"Content-Type: application/json\" -d @login.json",
+      "observable": "200 con access_token/refresh_token/expires_in; credenciales erróneas=401 uniforme",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.9 — Arrancar y probar el login",
+      "source_anchor": "Paso 9: Arrancar y probar el login",
+      "source_body_sha256": "c08d689d12ba5702538463c8f4c3030d59a20687e6f83633470add87e4d867c9",
+      "guide_section_sha256": "500c93819a2aea735c5a76f76cb2a24213510365b88311796ea11cd1c0b9cf99",
+      "source_words": 45,
+      "guide_words": 104,
+      "symbols": [
+        "CREDENCIALES_INVALIDAS"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java",
+          "action": "CREATE",
+          "symbols": [
+            "AuthFlowIntegrationTest",
+            "loginRefreshLogout_debeCerrarElCiclo"
+          ],
+          "final_sha256": "4629be571ecead718aba7586e1282d4fa425da7014d3bdc9e7f8cd6d37f9ab28",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 37,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.9; partir del baseline M5 para 6.1.1.",
+        "operation": "Probar login real y observar access token, refresh token y expires_in en segundos",
+        "command": "curl -i -X POST http://localhost:8080/api/v1/auth/login -H \"Content-Type: application/json\" -d @login.json",
+        "expected_observable": "200 con access_token/refresh_token/expires_in; credenciales erróneas=401 uniforme",
+        "postcondition": "El estado documentado por 6.6.9 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.10",
+      "source_page": 1424,
+      "title": "Decodificar el token",
+      "theory": [
+        "TC-6.6-3"
+      ],
+      "action": "Decodificar claims para distinguir sub/iat/exp/jti de claims privados sin confundir lectura con confianza",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java"
+      ],
+      "command": "decoder local/JwtService.extraerClaims sobre token de desarrollo",
+      "observable": "claims son legibles pero sólo se usan tras verificación JJWT",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.10 — Decodificar el token",
+      "source_anchor": "Paso 10: Decodificar el token",
+      "source_body_sha256": "a00ab62de87776b6ca48a1d0b57dcf9bd17d3ddfd3eb2a2332cb027210565b67",
+      "guide_section_sha256": "27222f14f124a0463fe9fa50805a15c5a92431827eaa48c16161354140c549b3",
+      "source_words": 63,
+      "guide_words": 135,
+      "symbols": [
+        "exp",
+        "iat",
+        "jti",
+        "sub",
+        "tipo",
+        "tipo=access"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "exp",
+            "iat",
+            "jti",
+            "sub",
+            "tipo",
+            "tipo=access"
+          ],
+          "final_sha256": "de1c8e372ad7d488bf840645db42eef3db9f842ac9d2afb71162a3ee92f0521c",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 37,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.10; partir del baseline M5 para 6.1.1.",
+        "operation": "Decodificar claims para distinguir sub/iat/exp/jti de claims privados sin confundir lectura con confianza",
+        "command": "decoder local/JwtService.extraerClaims sobre token de desarrollo",
+        "expected_observable": "claims son legibles pero sólo se usan tras verificación JJWT",
+        "postcondition": "El estado documentado por 6.6.10 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.11",
+      "source_page": 1425,
+      "title": "Probar el refresh",
+      "theory": [
+        "TC-6.6-5"
+      ],
+      "action": "Consumir un refresh una sola vez, emitir un par nuevo y rechazar la reutilización",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java"
+      ],
+      "command": "curl -i -X POST http://localhost:8080/api/v1/auth/refresh -H \"Content-Type: application/json\" -d @refresh.json",
+      "observable": "primer refresh=200; segundo uso del mismo refresh=401 TOKEN_INVALIDO",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.11 — Probar el refresh",
+      "source_anchor": "Paso 11: Probar el refresh",
+      "source_body_sha256": "c717042244ee4a428578c2e7fab51fb7bd77eb6992e1adf18ed1293a241ee2a3",
+      "guide_section_sha256": "5be4800d7d4d7367044c86218d11cd686556a1218305e3aaa4f6ab6ec07a4d44",
+      "source_words": 69,
+      "guide_words": 142,
+      "symbols": [
+        "TOKEN_INVALIDO"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "TokenInvalidoException",
+            "esRefreshTokenValido"
+          ],
+          "final_sha256": "ea261552500fc9b49ada4bc86c4d9269f8169234bfec03565f912595ec6c1de5",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/test/java/es/mecd/demo/miproyecto/auth/AuthFlowIntegrationTest.java",
+          "action": "MODIFY",
+          "symbols": [
+            "TOKEN_INVALIDO"
+          ],
+          "final_sha256": "4629be571ecead718aba7586e1282d4fa425da7014d3bdc9e7f8cd6d37f9ab28",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 37,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.11; partir del baseline M5 para 6.1.1.",
+        "operation": "Consumir un refresh una sola vez, emitir un par nuevo y rechazar la reutilización",
+        "command": "curl -i -X POST http://localhost:8080/api/v1/auth/refresh -H \"Content-Type: application/json\" -d @refresh.json",
+        "expected_observable": "primer refresh=200; segundo uso del mismo refresh=401 TOKEN_INVALIDO",
+        "postcondition": "El estado documentado por 6.6.11 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.12",
+      "source_page": 1426,
+      "title": "Errores comunes del ejercicio",
+      "theory": [
+        "TC-6.6-5"
+      ],
+      "action": "Diagnosticar claves débiles, credenciales, expiración, scopes públicos y errores de unidad temporal",
+      "artifacts": [
+        "M6/PRACTICA.md",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CredencialesInvalidasException.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenInvalidoException.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java"
+      ],
+      "command": "./mvnw -B test",
+      "observable": "errores comunes quedan cubiertos sin abrir rutas ni degradar claves",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.12 — Errores comunes del ejercicio",
+      "source_anchor": "Paso 12: Errores comunes del ejercicio",
+      "source_body_sha256": "8d15fec882a24a6fb3b7b7ab4915148a966ae95b24012a5079f31fc37c6e85df",
+      "guide_section_sha256": "98cf599805480f2cf616260bc61860e21edf5a78f3c32c79a4280f103cb3a34d",
+      "source_words": 106,
+      "guide_words": 363,
+      "symbols": [
+        "${JWT_SECRET}",
+        "CredencialesInvalidasException",
+        "esRefreshTokenValido",
+        "expires_in",
+        "jti",
+        "parseSignedClaims"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/PRACTICA.md",
+          "action": "USE",
+          "symbols": [
+            "${JWT_SECRET}",
+            "CredencialesInvalidasException",
+            "esRefreshTokenValido",
+            "expires_in",
+            "jti",
+            "parseSignedClaims"
+          ],
+          "final_sha256": "e698ced511f07f40bd556a80ed4f2e278871eb47a023a43ea504afb7110d1fa5",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/CredencialesInvalidasException.java",
+          "action": "CREATE",
+          "symbols": [
+            "CredencialesInvalidasException",
+            "CREDENCIALES_INVALIDAS"
+          ],
+          "final_sha256": "4963ca189c15af69d50dc6bf07bb705e3cef573735d0c4a44d8baad1a3afbe97",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenInvalidoException.java",
+          "action": "CREATE",
+          "symbols": [
+            "TokenInvalidoException",
+            "TOKEN_INVALIDO"
+          ],
+          "final_sha256": "3cddca0ec8b7bfd5a5812aee88d1d2f65355759a08009a20615062e725c6e4a9",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java",
+          "action": "CREATE",
+          "symbols": [
+            "AuthExceptionHandler",
+            "@RestControllerAdvice",
+            "HttpStatus.UNAUTHORIZED"
+          ],
+          "final_sha256": "56fccb69528141a59767020b4d124001fb397089308f7ee9788eab2d256142af",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 37,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.12; partir del baseline M5 para 6.1.1.",
+        "operation": "Diagnosticar claves débiles, credenciales, expiración, scopes públicos y errores de unidad temporal",
+        "command": "./mvnw -B test",
+        "expected_observable": "errores comunes quedan cubiertos sin abrir rutas ni degradar claves",
+        "postcondition": "El estado documentado por 6.6.12 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    },
+    {
+      "id": "6.6.13",
+      "source_page": 1427,
+      "title": "Reto resuelto — Endpoint para logout",
+      "theory": [
+        "TC-6.6-5"
+      ],
+      "action": "Implementar logout mediante revocación temporal por jti y comprobar que el access token deja de autenticar",
+      "artifacts": [
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java"
+      ],
+      "command": "curl -i -X POST http://localhost:8080/api/v1/auth/logout -H \"Authorization: Bearer $TOKEN\"",
+      "observable": "logout=204 y reutilizar el access token revocado en endpoint protegido=401",
+      "verification": "AUTOMATABLE+MANUAL",
+      "status": "COMPLETE",
+      "guide_heading": "## Paso 6.6.13 — Reto resuelto: endpoint para logout",
+      "source_anchor": "Paso 13: Reto resuelto — Endpoint para logout",
+      "source_body_sha256": "6585eddc75f836befc6a83b207c41cba3276d729694e70d9cd61ad9602d9807c",
+      "guide_section_sha256": "249f2b4a8fc7bfc05a4221f25453225263561b83b08d40c632a57536075b3932",
+      "source_words": 571,
+      "guide_words": 778,
+      "symbols": [
+        "204 No Content",
+        "TokenBlacklistService",
+        "TokenRevocationService",
+        "add",
+        "contains",
+        "jti → exp",
+        "logout"
+      ],
+      "artifact_relations": [
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "204 No Content",
+            "TokenBlacklistService",
+            "TokenRevocationService",
+            "add",
+            "contains",
+            "jti → exp",
+            "logout"
+          ],
+          "final_sha256": "aa5a23d5710d0938fa1d65938f0b03e7fa4988817539bbfbc2d886eed005e651",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+          "action": "MODIFY",
+          "symbols": [
+            "204 No Content",
+            "TokenBlacklistService",
+            "TokenRevocationService",
+            "add",
+            "contains",
+            "jti → exp",
+            "logout"
+          ],
+          "final_sha256": "1647099ec7f32b6732c202d27f21224f71514b5aa71625f96af6bbe212c863e8",
+          "evidence_scope": "FINAL"
+        },
+        {
+          "path": "M6/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+          "action": "MODIFY",
+          "symbols": [
+            "204 No Content",
+            "TokenBlacklistService",
+            "TokenRevocationService",
+            "add",
+            "contains",
+            "jti → exp",
+            "logout"
+          ],
+          "final_sha256": "ea261552500fc9b49ada4bc86c4d9269f8169234bfec03565f912595ec6c1de5",
+          "evidence_scope": "FINAL"
+        }
+      ],
+      "replay": {
+        "order": 37,
+        "precondition": "Proyecto en el estado resultante del paso anterior a 6.6.13; partir del baseline M5 para 6.1.1.",
+        "operation": "Implementar logout mediante revocación temporal por jti y comprobar que el access token deja de autenticar",
+        "command": "curl -i -X POST http://localhost:8080/api/v1/auth/logout -H \"Authorization: Bearer $TOKEN\"",
+        "expected_observable": "logout=204 y reutilizar el access token revocado en endpoint protegido=401",
+        "postcondition": "El estado documentado por 6.6.13 queda aplicado o, si es temporal, registrado para su cierre explícito.",
+        "verification": "AUTOMATABLE+MANUAL"
+      }
+    }
+  ],
+  "temporary_states": [
+    {
+      "id": "T6.5-A",
+      "state": "JWT manual didáctico",
+      "closure": "6.6.4",
+      "status": "CLOSED_OPERATIONAL_REPLACEMENT",
+      "final": "JJWT 0.13.0"
+    }
+  ]
+}
