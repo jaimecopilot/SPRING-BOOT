@@ -75,11 +75,31 @@ try:
     status, text, _ = request('/hola')
     assert status == 200 and text == 'Hola, Ministerio de Educación', (status, text)
 
-    status, text, _ = request('/api/v1/alumnos?page=0&size=20')
-    assert status == 200, (status, text)
-    alumnos = json.loads(text)
-    assert len(alumnos['content']) == 2, alumnos
-    assert alumnos['totalElements'] == 2 and alumnos['totalPages'] == 1, alumnos
+    # El servidor HTTP puede empezar a aceptar peticiones antes de que terminen
+    # los CommandLineRunner. DatosInicialesConfig carga los dos alumnos del
+    # perfil dev en uno de esos runners, por lo que una lectura inmediata puede
+    # observar temporalmente 0 filas en runners rápidos (por ejemplo GitHub
+    # Actions/Linux). Esperamos de forma acotada el estado funcional esperado.
+    alumnos = None
+    deadline = time.time() + 20
+    while time.time() < deadline:
+        status, text, _ = request('/api/v1/alumnos?page=0&size=20')
+        assert status == 200, (status, text)
+        candidate = json.loads(text)
+        if (
+            len(candidate.get('content', [])) == 2
+            and candidate.get('totalElements') == 2
+            and candidate.get('totalPages') == 1
+        ):
+            alumnos = candidate
+            break
+        if proc.poll() is not None:
+            break
+        time.sleep(0.25)
+    assert alumnos is not None, (
+        'Los datos iniciales del perfil dev no quedaron disponibles en 20 s',
+        candidate,
+    )
 
     status, text, _ = request('/api/v1/info')
     assert status == 200 and json.loads(text)['entorno'] == 'dev', (status, text)
