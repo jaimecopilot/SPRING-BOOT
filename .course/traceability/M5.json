@@ -1,0 +1,1409 @@
+{
+  "schema_version": 3,
+  "module": "M5",
+  "status": "COMPLETE",
+  "predecessor": "M4",
+  "policy": {
+    "step_level_traceability_required": true,
+    "temporary_transitions_must_close": true,
+    "cumulative_project_continuity_required": true,
+    "reverse_traceability_required": true,
+    "negative_mutation_validation_required": true
+  },
+  "theory_concepts": [
+    {
+      "id": "M5-5.1-T1",
+      "point": "5.1",
+      "title": "Por qué excepciones personalizadas",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - Por qué excepciones personalizadas"
+    },
+    {
+      "id": "M5-5.1-T2",
+      "point": "5.1",
+      "title": "Jerarquía de excepciones",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Jerarquía de excepciones"
+    },
+    {
+      "id": "M5-5.1-T3",
+      "point": "5.1",
+      "title": "Información en las excepciones",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - Información en las excepciones"
+    },
+    {
+      "id": "M5-5.1-T4",
+      "point": "5.1",
+      "title": "Lanzar excepciones desde el servicio",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Lanzar excepciones desde el servicio"
+    },
+    {
+      "id": "M5-5.1-T5",
+      "point": "5.1",
+      "title": "Buenas prácticas y tests",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Buenas prácticas y tests"
+    },
+    {
+      "id": "M5-5.2-T1",
+      "point": "5.2",
+      "title": "Por qué respuestas de error estándar",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - Por qué respuestas de error estándar"
+    },
+    {
+      "id": "M5-5.2-T2",
+      "point": "5.2",
+      "title": "Estructura de una respuesta de error",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Estructura de una respuesta de error"
+    },
+    {
+      "id": "M5-5.2-T3",
+      "point": "5.2",
+      "title": "Construcción de la respuesta",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - Construcción de la respuesta"
+    },
+    {
+      "id": "M5-5.2-T4",
+      "point": "5.2",
+      "title": "Errores de validación",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Errores de validación"
+    },
+    {
+      "id": "M5-5.2-T5",
+      "point": "5.2",
+      "title": "Buenas prácticas y tests",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Buenas prácticas y tests"
+    },
+    {
+      "id": "M5-5.3-T1",
+      "point": "5.3",
+      "title": "Qué es @RestControllerAdvice",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - Qué es @RestControllerAdvice"
+    },
+    {
+      "id": "M5-5.3-T2",
+      "point": "5.3",
+      "title": "Estructura del manejador global",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Estructura del manejador global"
+    },
+    {
+      "id": "M5-5.3-T3",
+      "point": "5.3",
+      "title": "Aplicación selectiva",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - Aplicación selectiva"
+    },
+    {
+      "id": "M5-5.3-T4",
+      "point": "5.3",
+      "title": "Casos especiales",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Casos especiales"
+    },
+    {
+      "id": "M5-5.3-T5",
+      "point": "5.3",
+      "title": "Buenas prácticas y tests",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Buenas prácticas y tests"
+    },
+    {
+      "id": "M5-5.4-T1",
+      "point": "5.4",
+      "title": "Configuración externalizada",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - Configuración externalizada"
+    },
+    {
+      "id": "M5-5.4-T2",
+      "point": "5.4",
+      "title": "Perfiles de Spring Boot",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Perfiles de Spring Boot"
+    },
+    {
+      "id": "M5-5.4-T3",
+      "point": "5.4",
+      "title": "@Profile y beans condicionales",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - @Profile y beans condicionales"
+    },
+    {
+      "id": "M5-5.4-T4",
+      "point": "5.4",
+      "title": "@ConfigurationProperties",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - @ConfigurationProperties"
+    },
+    {
+      "id": "M5-5.4-T5",
+      "point": "5.4",
+      "title": "Orden de prioridad y buenas prácticas",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Orden de prioridad y buenas prácticas"
+    },
+    {
+      "id": "M5-5.5-T1",
+      "point": "5.5",
+      "title": "La política de mismo origen",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 1 - La política de mismo origen"
+    },
+    {
+      "id": "M5-5.5-T2",
+      "point": "5.5",
+      "title": "Peticiones simples y preflight",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 2 - Peticiones simples y preflight"
+    },
+    {
+      "id": "M5-5.5-T3",
+      "point": "5.5",
+      "title": "Cómo configurar CORS en Spring Boot",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 3 - Cómo configurar CORS en Spring Boot"
+    },
+    {
+      "id": "M5-5.5-T4",
+      "point": "5.5",
+      "title": "Casos prácticos",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 4 - Casos prácticos"
+    },
+    {
+      "id": "M5-5.5-T5",
+      "point": "5.5",
+      "title": "Errores comunes y buenas prácticas",
+      "guide": "TEORIA.md",
+      "anchor": "Bloque 5 - Errores comunes y buenas prácticas"
+    }
+  ],
+  "environment_workflows": [
+    {
+      "id": "M5-W-CONSOLE",
+      "anchor": "### Consola M5"
+    },
+    {
+      "id": "M5-W-INTELLIJ",
+      "anchor": "### IntelliJ IDEA M5"
+    },
+    {
+      "id": "M5-W-ECLIPSE",
+      "anchor": "### Eclipse M5"
+    },
+    {
+      "id": "M5-W-VSCODE",
+      "anchor": "### VS Code M5"
+    }
+  ],
+  "step_manifests": [
+    ".course/traceability/M5/5.1.json",
+    ".course/traceability/M5/5.2.json",
+    ".course/traceability/M5/5.3.json",
+    ".course/traceability/M5/5.4.json",
+    ".course/traceability/M5/5.5.json"
+  ],
+  "current_traced_steps": 60,
+  "expected_total_steps_when_complete": 60,
+  "artifacts": [
+    {
+      "path": "M5/frontend-cors/index.html",
+      "classification": "GUIDE",
+      "origin": "M5-P-55-S11",
+      "evolution": [],
+      "symbols": [
+        "consultarAlumnos",
+        "crearAlumno",
+        "fetch"
+      ]
+    },
+    {
+      "path": "M5/proyecto/.gitignore",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/README.md",
+      "classification": "SUPPORT",
+      "origin": "M5-SUPPORT",
+      "evolution": [],
+      "symbols": [],
+      "used_by": [
+        "M5 project build/runtime"
+      ],
+      "missing_effect": "El proyecto, la documentación o la reproducción del módulo quedaría incompleta."
+    },
+    {
+      "path": "M5/proyecto/config/checkstyle/checkstyle.xml",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/mvnw",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/mvnw.cmd",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/pom.xml",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "/api/v1/alumnos"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S07",
+      "evolution": [],
+      "symbols": [
+        "AlumnoEspecificoException"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S07",
+      "evolution": [],
+      "symbols": [
+        "basePackages",
+        "Order(0)",
+        "AlumnoEspecificoException"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S01",
+      "evolution": [
+        "M5-P-51-S08",
+        "M5-P-51-S13"
+      ],
+      "symbols": [
+        "AlumnoService",
+        "RecursoDuplicadoException",
+        "RecursoNoEncontradoException",
+        "ValidacionNegocioException",
+        "validarNombre"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-52-S04",
+      "evolution": [
+        "M5-P-52-S12"
+      ],
+      "symbols": [
+        "ErrorResponse",
+        "timestamp",
+        "status",
+        "codigo",
+        "mensaje",
+        "path",
+        "errors",
+        "traceId",
+        "getTraceId"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-52-S03",
+      "evolution": [],
+      "symbols": [
+        "ValidationError",
+        "rejectedValue",
+        "message"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S03",
+      "evolution": [],
+      "symbols": [
+        "AplicacionException",
+        "codigo",
+        "getCodigo"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S03",
+      "evolution": [],
+      "symbols": [
+        "RestControllerAdvice",
+        "Order(2)",
+        "RecursoNoEncontradoException",
+        "RecursoDuplicadoException",
+        "BusinessExceptionHandler",
+        "ErrorResponse"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-52-S12",
+      "evolution": [
+        "M5-P-53-S04"
+      ],
+      "symbols": [
+        "newTraceId",
+        "setTraceId",
+        "build"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S07",
+      "evolution": [],
+      "symbols": [
+        "ErrorTecnicoException",
+        "ERROR_TECNICO",
+        "Throwable"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S04",
+      "evolution": [],
+      "symbols": [
+        "RestControllerAdvice",
+        "Order(3)",
+        "ERROR_INTERNO",
+        "traceId",
+        "GenericExceptionHandler"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S01",
+      "evolution": [
+        "M5-P-51-S05"
+      ],
+      "symbols": [
+        "NegocioException",
+        "AplicacionException"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S06",
+      "evolution": [],
+      "symbols": [
+        "OperacionNoPermitidaException",
+        "OPERACION_NO_PERMITIDA"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S05",
+      "evolution": [],
+      "symbols": [
+        "RecursoDuplicadoException",
+        "RECURSO_DUPLICADO",
+        "getCampo",
+        "getValor"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S04",
+      "evolution": [],
+      "symbols": [
+        "RecursoNoEncontradoException",
+        "RECURSO_NO_ENCONTRADO",
+        "getRecurso",
+        "getId"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S13",
+      "evolution": [],
+      "symbols": [
+        "ValidacionNegocioException",
+        "VALIDACION_NEGOCIO",
+        "getCampo",
+        "getMotivo"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S02",
+      "evolution": [
+        "M5-P-53-S10"
+      ],
+      "symbols": [
+        "RestControllerAdvice",
+        "Order(1)",
+        "MethodArgumentNotValidException",
+        "MethodArgumentTypeMismatchException",
+        "TIPO_INCORRECTO",
+        "ValidationExceptionHandler"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-54-S08",
+      "evolution": [],
+      "symbols": [
+        "ConfigurationProperties",
+        "prefix = \"app\"",
+        "Validated",
+        "nombreOficina",
+        "version",
+        "entorno"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-55-S03",
+      "evolution": [
+        "M5-P-55-S08"
+      ],
+      "symbols": [
+        "allowedOrigins",
+        "allowedMethods",
+        "allowCredentials",
+        "OPTIONS",
+        "maxAge",
+        "Value(\"${cors.allowed-origins}\")",
+        "addCorsMappings",
+        "exposedHeaders"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": [
+        "Profile(\"dev\")"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-54-S09",
+      "evolution": [],
+      "symbols": [
+        "Profile(\"dev\")",
+        "Profile(\"prod\")"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S09",
+      "evolution": [
+        "M5-P-51-S09"
+      ],
+      "symbols": [
+        "RecursoDuplicadoException",
+        "RecursoNoEncontradoException",
+        "OperacionNoPermitidaException"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S12",
+      "evolution": [],
+      "symbols": [
+        "FicheroController",
+        "/api/v1/ficheros"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S12",
+      "evolution": [],
+      "symbols": [
+        "basePackages",
+        "FICHERO_NO_ENCONTRADO"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S12",
+      "evolution": [],
+      "symbols": [
+        "FicheroNoEncontradoException"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/main/resources/application-dev.properties",
+      "classification": "GUIDE",
+      "origin": "M5-P-54-S01",
+      "evolution": [
+        "M5-P-54-S03",
+        "M5-P-55-S08",
+        "M5-P-55-S11",
+        "M5-P-55-S11"
+      ],
+      "symbols": [
+        "spring.datasource.url",
+        "jdbc:h2:mem:testdb",
+        "app.entorno=dev",
+        "cors.allowed-origins",
+        "cors.allowed-origins=http://localhost:3000,http://localhost:4200"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/resources/application-prod.properties",
+      "classification": "GUIDE",
+      "origin": "M5-P-54-S01",
+      "evolution": [
+        "M5-P-54-S05",
+        "M5-P-54-S07",
+        "M5-P-54-S07",
+        "M5-P-55-S08"
+      ],
+      "symbols": [
+        "spring.datasource.url",
+        "DB_HOST",
+        "DB_USER",
+        "DB_PASSWORD",
+        "app.entorno=prod",
+        "jdbc:postgresql://${DB_HOST:localhost}",
+        "cors.allowed-origins=${CORS_ALLOWED_ORIGINS:"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/resources/application-test.properties",
+      "classification": "GUIDE",
+      "origin": "M5-P-54-S04",
+      "evolution": [],
+      "symbols": [
+        "jdbc:h2:mem:m5test",
+        "app.entorno=test",
+        "cors.allowed-origins"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/main/resources/application.properties",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [
+        "M5-P-54-S02",
+        "M5-P-54-S06",
+        "M5-P-54-S07",
+        "M5-P-54-S07"
+      ],
+      "symbols": [
+        "spring.application.name",
+        "spring.profiles.active",
+        "spring.jpa.open-in-view",
+        "spring.profiles.active=dev"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S10",
+      "evolution": [
+        "M5-P-51-S10"
+      ],
+      "symbols": [
+        "RecursoDuplicadoException",
+        "assertThrows"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/AplicacionExceptionTest.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-51-S10",
+      "evolution": [],
+      "symbols": [
+        "AplicacionExceptionTest",
+        "RECURSO_DUPLICADO",
+        "ERROR_TECNICO"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-52-S10",
+      "evolution": [
+        "M5-P-53-S08"
+      ],
+      "symbols": [
+        "ErrorHandlingTest",
+        "VALIDACION",
+        "RECURSO_DUPLICADO",
+        "ERROR_INTERNO",
+        "isConflict",
+        "isInternalServerError"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-54-S12",
+      "evolution": [],
+      "symbols": [
+        "ActiveProfiles(\"test\")",
+        "AppPropertiesTest",
+        "cargaElPerfilTest"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-55-S10",
+      "evolution": [],
+      "symbols": [
+        "CorsConfigTest"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+      "classification": "GUIDE",
+      "origin": "M5-P-53-S12",
+      "evolution": [],
+      "symbols": [
+        "FicheroExceptionHandlerTest",
+        "FICHERO_NO_ENCONTRADO"
+      ]
+    },
+    {
+      "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "classification": "INHERITED",
+      "origin": "M4-R1-CUMULATIVE",
+      "evolution": [],
+      "symbols": []
+    }
+  ],
+  "continuity_from_m4": [
+    {
+      "m4_path": "M4/proyecto/.gitignore",
+      "m5_path": "M5/proyecto/.gitignore",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "m5_path": "M5/proyecto/.mvn/wrapper/maven-wrapper.properties",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/README.md",
+      "m5_path": "M5/proyecto/README.md",
+      "status": "MODIFIED",
+      "step_refs": [],
+      "reason": "Artefacto heredado evolucionado por los pasos de M5."
+    },
+    {
+      "m4_path": "M4/proyecto/config/checkstyle/checkstyle.xml",
+      "m5_path": "M5/proyecto/config/checkstyle/checkstyle.xml",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/mvnw",
+      "m5_path": "M5/proyecto/mvnw",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/mvnw.cmd",
+      "m5_path": "M5/proyecto/mvnw.cmd",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/pom.xml",
+      "m5_path": "M5/proyecto/pom.xml",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+      "status": "PRESERVED",
+      "step_refs": [
+        "M5-P-55-S01",
+        "M5-P-55-S02"
+      ],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+      "status": "MODIFIED",
+      "step_refs": [
+        "M5-P-51-S01",
+        "M5-P-51-S08",
+        "M5-P-51-S13"
+      ],
+      "reason": "Artefacto heredado evolucionado por los pasos de M5."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GlobalExceptionHandler.java",
+      "m5_path": null,
+      "status": "REMOVED",
+      "step_refs": [
+        "M5-P-52-S01",
+        "M5-P-52-S05",
+        "M5-P-52-S06",
+        "M5-P-53-S01",
+        "M5-P-53-S05"
+      ],
+      "reason": "Sustituido de forma explícita por la arquitectura M5 de handlers ordenados."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+      "status": "MODIFIED",
+      "step_refs": [
+        "M5-P-51-S01",
+        "M5-P-51-S05"
+      ],
+      "reason": "Artefacto heredado evolucionado por los pasos de M5."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+      "status": "PRESERVED",
+      "step_refs": [
+        "M5-P-54-S09"
+      ],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/Curso.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java",
+      "status": "MODIFIED",
+      "step_refs": [
+        "M5-P-51-S09"
+      ],
+      "reason": "Artefacto heredado evolucionado por los pasos de M5."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "m5_path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/resources/application-dev.properties",
+      "m5_path": "M5/proyecto/src/main/resources/application-dev.properties",
+      "status": "MODIFIED",
+      "step_refs": [
+        "M5-P-54-S01",
+        "M5-P-54-S03",
+        "M5-P-55-S08",
+        "M5-P-55-S11"
+      ],
+      "reason": "Artefacto heredado evolucionado por los pasos de M5."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/resources/application-prod.properties",
+      "m5_path": "M5/proyecto/src/main/resources/application-prod.properties",
+      "status": "MODIFIED",
+      "step_refs": [
+        "M5-P-54-S01",
+        "M5-P-54-S05",
+        "M5-P-54-S07",
+        "M5-P-54-S10",
+        "M5-P-54-S11",
+        "M5-P-55-S08"
+      ],
+      "reason": "Artefacto heredado evolucionado por los pasos de M5."
+    },
+    {
+      "m4_path": "M4/proyecto/src/main/resources/application.properties",
+      "m5_path": "M5/proyecto/src/main/resources/application.properties",
+      "status": "PRESERVED",
+      "step_refs": [
+        "M5-P-54-S01",
+        "M5-P-54-S02",
+        "M5-P-54-S06",
+        "M5-P-54-S07",
+        "M5-P-54-S10",
+        "M5-P-54-S11",
+        "M5-P-55-S01"
+      ],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java",
+      "status": "MODIFIED",
+      "step_refs": [
+        "M5-P-51-S10"
+      ],
+      "reason": "Artefacto heredado evolucionado por los pasos de M5."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    },
+    {
+      "m4_path": "M4/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "m5_path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java",
+      "status": "PRESERVED",
+      "step_refs": [],
+      "reason": "Artefacto heredado sin cambios desde M4-R1."
+    }
+  ],
+  "counts": {
+    "theory_concepts": 25,
+    "practice_steps": 60,
+    "artifact_inventory": 80,
+    "m4_project_files_accounted": 54
+  }
+}

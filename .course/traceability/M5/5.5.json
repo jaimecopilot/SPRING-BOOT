@@ -1,0 +1,448 @@
+{
+  "module": "M5",
+  "point": "5.5",
+  "steps": [
+    {
+      "id": "M5-P-55-S01",
+      "practice": "5.5",
+      "number": 1,
+      "summary": "Repasar el estado actual",
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "theory_refs": [
+        "M5-5.5-T1"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "/api/v1/alumnos"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.profiles.active=dev"
+          ]
+        }
+      ],
+      "commands": [
+        "curl http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "La API funciona sin que curl aplique la Same-Origin Policy."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.1 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S02",
+      "practice": "5.5",
+      "number": 2,
+      "summary": "Simular una petición desde otro origen",
+      "heading": "## Paso 2 - Simular una petición desde otro origen",
+      "theory_refs": [
+        "M5-5.5-T1"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "/api/v1/alumnos"
+          ]
+        }
+      ],
+      "commands": [
+        "curl -i http://localhost:8080/api/v1/alumnos -H \"Origin: http://localhost:3000\""
+      ],
+      "observables": [
+        "Antes de CORS, la respuesta no autoriza explícitamente el origen."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.2 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S03",
+      "practice": "5.5",
+      "number": 3,
+      "summary": "Crear la clase CorsConfig",
+      "heading": "## Paso 3 - Crear la clase CorsConfig",
+      "theory_refs": [
+        "M5-5.5-T3"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "CREATE",
+          "state": "TEMPORARY",
+          "symbols": [
+            "CorsConfig",
+            "WebMvcConfigurer",
+            "addCorsMappings"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Se introduce la configuración global de CORS."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.3 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S04",
+      "practice": "5.5",
+      "number": 4,
+      "summary": "Arrancar y probar con curl",
+      "heading": "## Paso 4 - Arrancar y probar con curl",
+      "theory_refs": [
+        "M5-5.5-T2",
+        "M5-5.5-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "allowedOrigins",
+            "allowedMethods",
+            "allowCredentials"
+          ]
+        }
+      ],
+      "commands": [
+        "curl -i http://localhost:8080/api/v1/alumnos -H \"Origin: http://localhost:3000\""
+      ],
+      "observables": [
+        "El origen permitido recibe Access-Control-Allow-Origin."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.4 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S05",
+      "practice": "5.5",
+      "number": 5,
+      "summary": "Probar con un origen no permitido",
+      "heading": "## Paso 5 - Probar con un origen no permitido",
+      "theory_refs": [
+        "M5-5.5-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "allowedOrigins"
+          ]
+        }
+      ],
+      "commands": [
+        "curl -i http://localhost:8080/api/v1/alumnos -H \"Origin: http://localhost:9999\""
+      ],
+      "observables": [
+        "Un origen no permitido no recibe autorización CORS."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.5 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S06",
+      "practice": "5.5",
+      "number": 6,
+      "summary": "Simular un preflight",
+      "heading": "## Paso 6 - Simular un preflight",
+      "theory_refs": [
+        "M5-5.5-T2"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "OPTIONS",
+            "maxAge"
+          ]
+        }
+      ],
+      "commands": [
+        "curl -i -X OPTIONS http://localhost:8080/api/v1/alumnos"
+      ],
+      "observables": [
+        "El preflight autorizado informa métodos, cabeceras y max-age."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.6 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S07",
+      "practice": "5.5",
+      "number": 7,
+      "summary": "Probar con un método no permitido",
+      "heading": "## Paso 7 - Probar con un método no permitido",
+      "theory_refs": [
+        "M5-5.5-T2",
+        "M5-5.5-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "allowedMethods"
+          ]
+        }
+      ],
+      "commands": [
+        "curl -i -X OPTIONS http://localhost:8080/api/v1/alumnos -H \"Access-Control-Request-Method: TRACE\""
+      ],
+      "observables": [
+        "TRACE no forma parte de los métodos autorizados."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.7 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S08",
+      "practice": "5.5",
+      "number": 8,
+      "summary": "Configurar CORS con perfiles",
+      "heading": "## Paso 8 - Configurar CORS con perfiles",
+      "theory_refs": [
+        "M5-5.5-T3",
+        "M5-5.5-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "Value(\"${cors.allowed-origins}\")",
+            "allowedOrigins"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-dev.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "cors.allowed-origins=http://localhost:3000,http://localhost:4200"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "cors.allowed-origins=${CORS_ALLOWED_ORIGINS:"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Los orígenes permitidos quedan externalizados por perfil."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.8 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S09",
+      "practice": "5.5",
+      "number": 9,
+      "summary": "Manejar CORS en errores",
+      "heading": "## Paso 9 - Manejar CORS en errores",
+      "theory_refs": [
+        "M5-5.5-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "addCorsMappings"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "ErrorResponse"
+          ]
+        }
+      ],
+      "commands": [
+        "curl -i http://localhost:8080/api/v1/alumnos/99999 -H \"Origin: http://localhost:3000\""
+      ],
+      "observables": [
+        "También una respuesta de error conserva las cabeceras CORS."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.9 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S10",
+      "practice": "5.5",
+      "number": 10,
+      "summary": "Errores comunes del ejercicio",
+      "heading": "## Paso 10 - Errores comunes del ejercicio",
+      "theory_refs": [
+        "M5-5.5-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "allowCredentials",
+            "exposedHeaders",
+            "maxAge"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "CorsConfigTest"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test -Dtest=CorsConfigTest"
+      ],
+      "observables": [
+        "La configuración evita combinaciones inseguras y está cubierta por tests."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.5.10 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-55-S11",
+      "practice": "5.5",
+      "number": 11,
+      "summary": "Reto resuelto — Probar CORS con un front-end real",
+      "heading": "## Paso 11 - Reto resuelto — Probar CORS con un front-end real",
+      "theory_refs": [
+        "M5-5.5-T4",
+        "M5-5.5-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "TEMPORARY",
+      "artifacts": [
+        {
+          "path": "M5/frontend-cors/index.html",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "consultarAlumnos",
+            "crearAlumno",
+            "fetch"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-dev.properties",
+          "action": "MODIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "cors.allowed-origins"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-dev.properties",
+          "action": "VERIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "cors.allowed-origins"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-dev.properties",
+          "action": "RESTORE",
+          "state": "PERMANENT",
+          "symbols": [
+            "cors.allowed-origins=http://localhost:3000,http://localhost:4200"
+          ]
+        }
+      ],
+      "commands": [
+        "python3 -m http.server 3000",
+        "./mvnw test"
+      ],
+      "observables": [
+        "El navegador consume la API desde localhost:3000 y la prueba de bloqueo se revierte."
+      ],
+      "verification": [
+        "Servir index.html; comprobar éxito; provocar bloqueo; restaurar allowed-origins; ejecutar tests."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,512 @@
+{
+  "module": "M5",
+  "point": "5.4",
+  "steps": [
+    {
+      "id": "M5-P-54-S01",
+      "practice": "5.4",
+      "number": 1,
+      "summary": "Repasar el estado actual",
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "theory_refs": [
+        "M5-5.4-T1"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.application.name"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-dev.properties",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.datasource.url"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.datasource.url"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Se inventaría la configuración heredada de M4 antes de reorganizarla."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.1 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S02",
+      "practice": "5.4",
+      "number": 2,
+      "summary": "Reorganizar application.properties",
+      "heading": "## Paso 2 - Reorganizar application.properties",
+      "theory_refs": [
+        "M5-5.4-T1"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.application.name",
+            "spring.profiles.active",
+            "spring.jpa.open-in-view"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "application.properties conserva sólo propiedades comunes y el perfil por defecto."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.2 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S03",
+      "practice": "5.4",
+      "number": 3,
+      "summary": "Crear application-dev.properties",
+      "heading": "## Paso 3 - Crear application-dev.properties",
+      "theory_refs": [
+        "M5-5.4-T2"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application-dev.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "jdbc:h2:mem:testdb",
+            "app.entorno=dev",
+            "cors.allowed-origins"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "El perfil dev usa H2, logging de desarrollo y propiedades funcionales."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.3 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S04",
+      "practice": "5.4",
+      "number": 4,
+      "summary": "Crear application-test.properties",
+      "heading": "## Paso 4 - Crear application-test.properties",
+      "theory_refs": [
+        "M5-5.4-T2"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application-test.properties",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "jdbc:h2:mem:m5test",
+            "app.entorno=test",
+            "cors.allowed-origins"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Existe un perfil test aislado y reproducible."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.4 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S05",
+      "practice": "5.4",
+      "number": 5,
+      "summary": "Crear application-prod.properties",
+      "heading": "## Paso 5 - Crear application-prod.properties",
+      "theory_refs": [
+        "M5-5.4-T2",
+        "M5-5.4-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "DB_HOST",
+            "DB_USER",
+            "DB_PASSWORD",
+            "app.entorno=prod"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Producción externaliza credenciales y evita show-sql."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.5 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S06",
+      "practice": "5.4",
+      "number": 6,
+      "summary": "Activar el perfil dev",
+      "heading": "## Paso 6 - Activar el perfil dev",
+      "theory_refs": [
+        "M5-5.4-T2"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.profiles.active=dev"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run"
+      ],
+      "observables": [
+        "El arranque normal activa dev de forma explícita."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.6 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S07",
+      "practice": "5.4",
+      "number": 7,
+      "summary": "Probar con el perfil prod",
+      "heading": "## Paso 7 - Probar con el perfil prod",
+      "theory_refs": [
+        "M5-5.4-T2",
+        "M5-5.4-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "TEMPORARY",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "MODIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "spring.profiles.active"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "VERIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "spring.profiles.active"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "MODIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "spring.datasource.url"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "VERIFY",
+          "state": "TEMPORARY",
+          "symbols": [
+            "spring.datasource.url"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "RESTORE",
+          "state": "PERMANENT",
+          "symbols": [
+            "jdbc:postgresql://${DB_HOST:localhost}"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "RESTORE",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.profiles.active=dev"
+          ]
+        }
+      ],
+      "commands": [
+        "java -jar target/mi-proyecto-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod",
+        "./mvnw test"
+      ],
+      "observables": [
+        "Se observa prod con H2 temporal y se restaura PostgreSQL y dev antes de cerrar el paso."
+      ],
+      "verification": [
+        "Probar prod; restaurar application-prod.properties a PostgreSQL y application.properties a dev; ejecutar tests."
+      ]
+    },
+    {
+      "id": "M5-P-54-S08",
+      "practice": "5.4",
+      "number": 8,
+      "summary": "Crear la clase AppProperties",
+      "heading": "## Paso 8 - Crear la clase AppProperties",
+      "theory_refs": [
+        "M5-5.4-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "ConfigurationProperties",
+            "prefix = \"app\"",
+            "Validated",
+            "nombreOficina",
+            "version",
+            "entorno"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Las propiedades app.* quedan tipadas y validadas."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.8 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S09",
+      "practice": "5.4",
+      "number": 9,
+      "summary": "Añadir un bean condicional por perfil",
+      "heading": "## Paso 9 - Añadir un bean condicional por perfil",
+      "theory_refs": [
+        "M5-5.4-T3"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "Profile(\"dev\")",
+            "Profile(\"prod\")"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "Profile(\"dev\")"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Los beans pueden existir sólo bajo perfiles determinados."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.9 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S10",
+      "practice": "5.4",
+      "number": 10,
+      "summary": "Arrancar con distintos perfiles",
+      "heading": "## Paso 10 - Arrancar con distintos perfiles",
+      "theory_refs": [
+        "M5-5.4-T2",
+        "M5-5.4-T3"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.profiles.active=dev"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-test.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.entorno=test"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "app.entorno=prod"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw spring-boot:run",
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=test"
+      ],
+      "observables": [
+        "dev/test/prod producen configuraciones observables diferentes sin recompilar."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.10 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S11",
+      "practice": "5.4",
+      "number": 11,
+      "summary": "Errores comunes del ejercicio",
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "theory_refs": [
+        "M5-5.4-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/resources/application.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "spring.profiles.active"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/resources/application-prod.properties",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "DB_PASSWORD"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Los errores comunes de perfil, placeholder y secreto quedan identificados."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.11 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-54-S12",
+      "practice": "5.4",
+      "number": 12,
+      "summary": "Reto resuelto — Test con perfil específico",
+      "heading": "## Paso 12 - Reto resuelto — Test con perfil específico",
+      "theory_refs": [
+        "M5-5.4-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "ActiveProfiles(\"test\")",
+            "AppPropertiesTest",
+            "cargaElPerfilTest"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test -Dtest=AppPropertiesTest"
+      ],
+      "observables": [
+        "El contexto arranca con el perfil test y carga AppProperties."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.4.12 con PRACTICA.md y el artefacto final."
+      ]
+    }
+  ]
+}

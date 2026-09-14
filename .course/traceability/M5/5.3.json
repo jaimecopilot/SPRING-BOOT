@@ -1,0 +1,510 @@
+{
+  "module": "M5",
+  "point": "5.3",
+  "steps": [
+    {
+      "id": "M5-P-53-S01",
+      "practice": "5.3",
+      "number": 1,
+      "summary": "Repasar el estado actual",
+      "heading": "## Paso 1 - Repasar el estado actual",
+      "theory_refs": [
+        "M5-5.3-T1"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GlobalExceptionHandler.java",
+          "action": "USE",
+          "state": "TEMPORARY",
+          "symbols": [
+            "GlobalExceptionHandler"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+          "action": "USE",
+          "state": "PERMANENT",
+          "symbols": [
+            "ErrorResponse"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Se parte del advice monolítico transitorio creado en 5.2."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.1 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S02",
+      "practice": "5.3",
+      "number": 2,
+      "summary": "Crear el ValidationExceptionHandler",
+      "heading": "## Paso 2 - Crear el ValidationExceptionHandler",
+      "theory_refs": [
+        "M5-5.3-T1",
+        "M5-5.3-T2"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "RestControllerAdvice",
+            "Order(1)",
+            "MethodArgumentNotValidException"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Los errores de entrada quedan aislados en un advice de prioridad 1."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.2 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S03",
+      "practice": "5.3",
+      "number": 3,
+      "summary": "Crear el BusinessExceptionHandler",
+      "heading": "## Paso 3 - Crear el BusinessExceptionHandler",
+      "theory_refs": [
+        "M5-5.3-T2"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "RestControllerAdvice",
+            "Order(2)",
+            "RecursoNoEncontradoException",
+            "RecursoDuplicadoException"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Las excepciones funcionales se traducen en un advice de prioridad 2."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.3 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S04",
+      "practice": "5.3",
+      "number": 4,
+      "summary": "Crear el GenericExceptionHandler",
+      "heading": "## Paso 4 - Crear el GenericExceptionHandler",
+      "theory_refs": [
+        "M5-5.3-T2",
+        "M5-5.3-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "RestControllerAdvice",
+            "Order(3)",
+            "ERROR_INTERNO"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "newTraceId",
+            "build"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "El último advice oculta detalles técnicos y registra traceId."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.4 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S05",
+      "practice": "5.3",
+      "number": 5,
+      "summary": "Eliminar el GlobalExceptionHandler antiguo",
+      "heading": "## Paso 5 - Eliminar el GlobalExceptionHandler antiguo",
+      "theory_refs": [
+        "M5-5.3-T2"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GlobalExceptionHandler.java",
+          "action": "DELETE",
+          "state": "PERMANENT",
+          "symbols": []
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "El GlobalExceptionHandler monolítico deja de existir y queda sustituido por tres handlers ordenados."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.5 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S06",
+      "practice": "5.3",
+      "number": 6,
+      "summary": "Arrancar y probar el orden",
+      "heading": "## Paso 6 - Arrancar y probar el orden",
+      "theory_refs": [
+        "M5-5.3-T2",
+        "M5-5.3-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "Order(1)"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "Order(2)"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "Order(3)"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test",
+        "curl -i http://localhost:8080/api/v1/alumnos/99999"
+      ],
+      "observables": [
+        "La selección de handler sigue prioridad y especificidad."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.6 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S07",
+      "practice": "5.3",
+      "number": 7,
+      "summary": "Aplicar un manejador a un paquete concreto",
+      "heading": "## Paso 7 - Aplicar un manejador a un paquete concreto",
+      "theory_refs": [
+        "M5-5.3-T3"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "basePackages",
+            "Order(0)",
+            "AlumnoEspecificoException"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "AlumnoEspecificoException"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Un advice puede restringirse al paquete alumno y tener prioridad 0."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.7 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S08",
+      "practice": "5.3",
+      "number": 8,
+      "summary": "Escribir tests para el orden",
+      "heading": "## Paso 8 - Escribir tests para el orden",
+      "theory_refs": [
+        "M5-5.3-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "ErrorHandlingTest",
+            "isConflict",
+            "isInternalServerError"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test -Dtest=ErrorHandlingTest"
+      ],
+      "observables": [
+        "MockMvc verifica validación, negocio y error genérico."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.8 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S09",
+      "practice": "5.3",
+      "number": 9,
+      "summary": "Verificar el traceId",
+      "heading": "## Paso 9 - Verificar el traceId",
+      "theory_refs": [
+        "M5-5.3-T4",
+        "M5-5.3-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "traceId"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "traceId"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "El mismo traceId se incluye en respuesta y log del error genérico."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.9 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S10",
+      "practice": "5.3",
+      "number": 10,
+      "summary": "Añadir un manejador para errores de tipo",
+      "heading": "## Paso 10 - Añadir un manejador para errores de tipo",
+      "theory_refs": [
+        "M5-5.3-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+          "action": "MODIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "MethodArgumentTypeMismatchException",
+            "TIPO_INCORRECTO"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Un tipo de parámetro incorrecto produce 400 con código TIPO_INCORRECTO."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.10 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S11",
+      "practice": "5.3",
+      "number": 11,
+      "summary": "Errores comunes del ejercicio",
+      "heading": "## Paso 11 - Errores comunes del ejercicio",
+      "theory_refs": [
+        "M5-5.3-T5"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "ValidationExceptionHandler"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "BusinessExceptionHandler"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+          "action": "VERIFY",
+          "state": "PERMANENT",
+          "symbols": [
+            "GenericExceptionHandler"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test"
+      ],
+      "observables": [
+        "Los errores comunes de prioridad o duplicidad de handlers quedan cubiertos."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.11 con PRACTICA.md y el artefacto final."
+      ]
+    },
+    {
+      "id": "M5-P-53-S12",
+      "practice": "5.3",
+      "number": 12,
+      "summary": "Reto resuelto — Manejador específico para ficheros",
+      "heading": "## Paso 12 - Reto resuelto — Manejador específico para ficheros",
+      "theory_refs": [
+        "M5-5.3-T3",
+        "M5-5.3-T4"
+      ],
+      "environment_refs": [
+        "M5-W-CONSOLE"
+      ],
+      "state": "PERMANENT",
+      "artifacts": [
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "FicheroController",
+            "/api/v1/ficheros"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "FicheroNoEncontradoException"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "basePackages",
+            "FICHERO_NO_ENCONTRADO"
+          ]
+        },
+        {
+          "path": "M5/proyecto/src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java",
+          "action": "CREATE",
+          "state": "PERMANENT",
+          "symbols": [
+            "FicheroExceptionHandlerTest",
+            "FICHERO_NO_ENCONTRADO"
+          ]
+        }
+      ],
+      "commands": [
+        "./mvnw test -Dtest=FicheroExceptionHandlerTest"
+      ],
+      "observables": [
+        "El subdominio fichero demuestra un advice selectivo completo."
+      ],
+      "verification": [
+        "Contrastar el observable del paso 5.3.12 con PRACTICA.md y el artefacto final."
+      ]
+    }
+  ]
+}
