@@ -1,6 +1,6 @@
-# M6 — Codespaces / Linux
+# M6 - Codespaces / Linux
 
-## Validación completa
+## Verificación
 
 ```bash
 cd M6/proyecto
@@ -9,11 +9,6 @@ chmod +x mvnw
 ./mvnw -B clean verify
 ./mvnw -B javadoc:javadoc
 ./mvnw -B -DskipTests package
-cd ../..
-python .course/traceability/validate_m6.py .
-python .course/traceability/validate_m6_human.py .
-python .course/traceability/validate_m6_mutation.py .
-python .course/traceability/validate_m6_runtime.py .
 ```
 
-El proyecto final exige Maven Wrapper 3.9.16 y Java 17. En producción configure `JWT_SECRET`; el perfil dev incluye sólo una clave didáctica local.
+El proyecto requiere Java 17 y el Maven Wrapper incluido. Para ejecución local utiliza el perfil `dev`. En producción configura `JWT_SECRET` mediante variable de entorno.
