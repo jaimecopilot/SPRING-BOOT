@@ -1,0 +1,386 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.5",
+  "parent": "M6/6.4/proyecto",
+  "destination": "M6/6.5/proyecto",
+  "expected_gates": [
+    "JWT conceptual/manual",
+    "sin JJWT de implementación"
+  ],
+  "step_count": 12,
+  "steps": [
+    {
+      "point": "6.5",
+      "step_number": 1,
+      "title": "Entender la estructura con un ejemplo",
+      "page": 1371,
+      "target_present": true,
+      "practice_heading": "Entender la estructura con un ejemplo",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "**Respuesta razonada:** La firma permite detectar modificaciones y comprobar que el token fue firmado con la clave esperada.",
+      "lifecycle": "CONCEPTUAL_ONLY_NO_JJWT_IMPLEMENTATION",
+      "practice_step_id": "M6-6.5-P01",
+      "source_page": 1371,
+      "symbols": [
+        "jwt.io"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "5521b2a19fb822881ff28bcc66e70ea90f76b9670765c198315bec788760716f",
+      "step_ref": "6.5.1",
+      "theory_refs": [
+        "TC-6.5-1",
+        "TC-6.5-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 2,
+      "title": "Crear una clase para generar un JWT manualmente",
+      "page": 1373,
+      "target_present": true,
+      "practice_heading": "Crear una clase para generar un JWT manualmente",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Crear una clase para generar un JWT manualmente",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P02",
+      "source_page": 1373,
+      "symbols": [
+        "DIDACTIC_SECRET"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d969e2c3b61f047778ca04476a359b58ff1f38e5afc10b77ca639a775067d446",
+      "step_ref": "6.5.2",
+      "theory_refs": [
+        "TC-6.5-2",
+        "TC-6.5-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 3,
+      "title": "Decodificar el token generado",
+      "page": 1375,
+      "target_present": true,
+      "practice_heading": "Decodificar el token generado",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Decodificar el token generado",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P03",
+      "source_page": 1375,
+      "symbols": [
+        "main"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "eba2e8712c96c6157bfcd9cbc887a65eac87e12d70d0389e1ecf420f045c6984",
+      "step_ref": "6.5.3",
+      "theory_refs": [
+        "TC-6.5-2",
+        "TC-6.5-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 4,
+      "title": "Modificar el payload sin actualizar la firma",
+      "page": 1375,
+      "target_present": true,
+      "practice_heading": "Modificar el payload sin actualizar la firma",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Ejemplo conceptual: La decodificación sigue funcionando, pero la verificación criptográfica falla.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P04",
+      "source_page": 1375,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6be4ad749cac29bd02e657b61fb979814c660ffeba15e934660e206d4e26fc78",
+      "step_ref": "6.5.4",
+      "theory_refs": [
+        "TC-6.5-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 5,
+      "title": "Verificar el token con Java",
+      "page": 1376,
+      "target_present": true,
+      "practice_heading": "Verificar el token con Java",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Verificar el token con Java",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P05",
+      "source_page": 1376,
+      "symbols": [
+        "JwtManual.verificar(jwt, secret)",
+        "header.payload",
+        "MessageDigest.isEqual",
+        "true",
+        "false",
+        "exp"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "196faa0fc8e6732a0b7d665da7aa69307adc7ed3717763b703581ab7ea905be6",
+      "step_ref": "6.5.5",
+      "theory_refs": [
+        "TC-6.5-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 6,
+      "title": "Probar con distintos payloads",
+      "page": 1378,
+      "target_present": true,
+      "practice_heading": "Probar con distintos payloads",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Probar con distintos payloads",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P06",
+      "source_page": 1378,
+      "symbols": [
+        "sub",
+        "iat",
+        "exp",
+        "email",
+        "roles"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e5e3e2011d8136ec98d7153ad92fed7984dbceea4c9b6634a245abcdd3e11f49",
+      "step_ref": "6.5.6",
+      "theory_refs": [
+        "TC-6.5-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 7,
+      "title": "Reflexionar sobre la seguridad",
+      "page": 1378,
+      "target_present": true,
+      "practice_heading": "Reflexionar sobre la seguridad",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "El modelo de amenaza queda explícito antes de introducir la librería.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P07",
+      "source_page": 1378,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "79d30aac97d63c94ef79c6f9c56f93544b2d7198e8b604b8eb9041b8c7183e4e",
+      "step_ref": "6.5.7",
+      "theory_refs": [
+        "TC-6.5-3",
+        "TC-6.5-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 8,
+      "title": "Comparar con un token real",
+      "page": 1379,
+      "target_present": true,
+      "practice_heading": "Comparar con un token real",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Comparar con un token real",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P08",
+      "source_page": 1379,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "657dabd93b28514ab5dd5df49902b1fe88221946f04c54a395e8b2d93599b2ce",
+      "step_ref": "6.5.8",
+      "theory_refs": [
+        "TC-6.5-4",
+        "TC-6.5-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 9,
+      "title": "Errores comunes del ejercicio",
+      "page": 1379,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P09",
+      "source_page": 1379,
+      "symbols": [
+        "IllegalArgumentException",
+        "header.payload",
+        "withoutPadding()",
+        "NoSuchAlgorithmException",
+        "HmacSHA256"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "7428410de6110c30a599327e334adad1367af2475a2090e6b6a3598b316261b4",
+      "step_ref": "6.5.9",
+      "theory_refs": [
+        "TC-6.5-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 10,
+      "title": "Experimentar con la expiración",
+      "page": 1380,
+      "target_present": true,
+      "practice_heading": "Experimentar con la expiración",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "La validación debe incluir firma, tiempos, tipo de token y los claims exigidos por el contrato.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P10",
+      "source_page": 1380,
+      "symbols": [
+        "exp",
+        "verificar",
+        "true"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "9a9c808e91a92be5f9e467a5935130df8c211139d718731f4f64527934cdddaa",
+      "step_ref": "6.5.10",
+      "theory_refs": [
+        "TC-6.5-2",
+        "TC-6.5-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 11,
+      "title": "Verificar el token con una clave incorrecta",
+      "page": 1381,
+      "target_present": true,
+      "practice_heading": "Verificar el token con una clave incorrecta",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Leer un payload expone datos, pero no permite por sí solo firmar un token nuevo.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P11",
+      "source_page": 1381,
+      "symbols": [
+        "false"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "36fc59a22ce8cbd38c3fab82d1ec95d572a17850c2cc886a4b1239116414ff4d",
+      "step_ref": "6.5.11",
+      "theory_refs": [
+        "TC-6.5-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    },
+    {
+      "point": "6.5",
+      "step_number": 12,
+      "title": "Reto resuelto — Decodificar un token sin verificar la firma",
+      "page": 1381,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Decodificar un token sin verificar la firma",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "## Resultado esperado global - Comprensión práctica de header, payload y signature.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P12",
+      "source_page": 1381,
+      "symbols": [
+        "JwtManual"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "2312b6e59ec1df58dcfe03f66c506fe0c78c4e4198b65139cbdcf2df67fb47a6",
+      "step_ref": "6.5.12",
+      "theory_refs": [
+        "TC-6.5-2",
+        "TC-6.5-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.4/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

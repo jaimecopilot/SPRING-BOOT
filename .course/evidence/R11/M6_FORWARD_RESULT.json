@@ -1,0 +1,953 @@
+{
+  "baseline": "0f76aa08385605a48eccbcb3b1be6bf18b9bce1e",
+  "baseline_path": "M5/proyecto",
+  "baseline_tree_expected": "e9194f0ec6b595d3dbc7dbf921eef8a815fe9ae1",
+  "baseline_tree_actual": "e9194f0ec6b595d3dbc7dbf921eef8a815fe9ae1",
+  "baseline_resolved_ref": "origin/main",
+  "baseline_resolution_observations": [
+    {
+      "ref": "origin/main",
+      "tree": "e9194f0ec6b595d3dbc7dbf921eef8a815fe9ae1"
+    }
+  ],
+  "forward_only": true,
+  "points": [
+    {
+      "point": "6.1",
+      "parent": "M5/proyecto",
+      "destination": "M6/6.1/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "pom.xml",
+          "practice_step": "6.1.1",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "PATCH_LEGACY_WEBMVC_TESTS_DISABLE_FILTERS",
+          "path": "src/test/java",
+          "practice_step": "6.1.1",
+          "reason": "El starter de seguridad cambia los slices MVC heredados. Se mantienen sus contratos funcionales desactivando filtros sólo en esos tests heredados; los tests de seguridad M6 usan filtros explícitamente.",
+          "status": "APPLIED",
+          "touched": [
+            "es\\mecd\\demo\\miproyecto\\alumno\\AlumnoControllerTest.java",
+            "es\\mecd\\demo\\miproyecto\\config\\CorsConfigTest.java",
+            "es\\mecd\\demo\\miproyecto\\expediente\\ExpedienteControllerTest.java",
+            "es\\mecd\\demo\\miproyecto\\fichero\\FicheroExceptionHandlerTest.java",
+            "es\\mecd\\demo\\miproyecto\\common\\exception\\ErrorHandlingTest.java"
+          ]
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "practice_step": "6.1.5",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java",
+          "practice_step": "6.1.12",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.1_maven.log",
+        "tests": {
+          "tests": 32,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 14
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 63625260,
+            "sha256": "523b944688c1d5b150e917b8a924e3d876089fbb06c95f7a026322122a34b2b4"
+          }
+        ],
+        "free_bytes_before": 14723403776,
+        "free_bytes_after": 14509035520
+      },
+      "file_count": 81,
+      "tree_fingerprint": "bb240a3a2e6249411f3247f16a7e465c63fb339079aa5717a1ed36eaa0f3cca1"
+    },
+    {
+      "point": "6.2",
+      "parent": "M6/6.1/proyecto",
+      "destination": "M6/6.2/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "practice_step": "6.2.2",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "practice_step": "6.2.3",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+          "practice_step": "6.2.4",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java",
+          "practice_step": "6.2.12",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.2_maven.log",
+        "tests": {
+          "tests": 32,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 14
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 63629241,
+            "sha256": "cf647262ccacf1cc53da36f7e005ce2667b7948ef6d125216d34d71de7500f3d"
+          }
+        ],
+        "free_bytes_before": 14573613056,
+        "free_bytes_after": 14506012672
+      },
+      "file_count": 84,
+      "tree_fingerprint": "53c98fcc166321d10dc927e552864139d174d0e9b00911d507f70389532e4487"
+    },
+    {
+      "point": "6.3",
+      "parent": "M6/6.2/proyecto",
+      "destination": "M6/6.3/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+          "practice_step": "6.3.2",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+          "practice_step": "6.3.3",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+          "practice_step": "6.3.4",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+          "practice_step": "6.3.4",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+          "practice_step": "6.3.5",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "DELETE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+          "practice_step": "6.3.6",
+          "reason": "Fin explícito del usuario temporal gestor y del UserDetailsService in-memory",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+          "practice_step": "6.3.7",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+          "practice_step": "6.3.10",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+          "practice_step": "6.3.10",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+          "practice_step": "6.3.11",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+          "practice_step": "6.3.11",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "practice_step": "6.3.12",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java",
+          "practice_step": "6.3.14",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "practice_step": "6.3.14",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "gestor_persistent_absent": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.3_maven.log",
+        "tests": {
+          "tests": 32,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 14
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 63642997,
+            "sha256": "ada0926b5aa1db03de848083855018a6c19c646c48b7cd75c1ebf4e28f74b8f4"
+          }
+        ],
+        "free_bytes_before": 14570049536,
+        "free_bytes_after": 14501822464
+      },
+      "file_count": 94,
+      "tree_fingerprint": "052cfdf821661de08309704a62761b6665777f740a8e34f5cc127f0266f573dd"
+    },
+    {
+      "point": "6.4",
+      "parent": "M6/6.3/proyecto",
+      "destination": "M6/6.4/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "pom.xml",
+          "practice_step": "6.4.10",
+          "reason": "spring-security-test entra en su primer uso real",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "practice_step": "6.4.2",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+          "practice_step": "6.4.3",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+          "practice_step": "6.4.4",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "practice_step": "6.4.7",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+          "practice_step": "6.4.8",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java",
+          "practice_step": "6.4.10",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java",
+          "practice_step": "6.4.12",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "gestor_persistent_absent": true,
+        "no_future_jwt_mocks": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.4_maven.log",
+        "tests": {
+          "tests": 34,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 15
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 63648831,
+            "sha256": "f8e24b40e7ec370b7333259b752eeda10ed0b446a07b706bb5356e298c8c7c52"
+          }
+        ],
+        "free_bytes_before": 14566453248,
+        "free_bytes_after": 14498013184
+      },
+      "file_count": 99,
+      "tree_fingerprint": "0850803c1ce846d394e3e33b15e8e1fd81b0da811d307896b9401ce2f487f44e"
+    },
+    {
+      "point": "6.5",
+      "parent": "M6/6.4/proyecto",
+      "destination": "M6/6.5/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+          "practice_step": "6.5.2",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java",
+          "practice_step": "6.5.5",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "gestor_persistent_absent": true,
+        "manual_jwt_no_jjwt_prod": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.5_maven.log",
+        "tests": {
+          "tests": 35,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 16
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 63648831,
+            "sha256": "2b95e8a496182afa6cdb9b7cef73c0d7d2900451663585fc86a4b3238b99657f"
+          }
+        ],
+        "free_bytes_before": 14562729984,
+        "free_bytes_after": 14493921280
+      },
+      "file_count": 101,
+      "tree_fingerprint": "cc16b4e2e1d10cf579a6615946de2184f8daee25e2ed5b681b3df3a007f66f51"
+    },
+    {
+      "point": "6.6",
+      "parent": "M6/6.5/proyecto",
+      "destination": "M6/6.6/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "pom.xml",
+          "practice_step": "6.6.1",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "UPSERT_PROPERTIES",
+          "path": "src/main/resources/application-dev.properties",
+          "practice_step": "6.6.2",
+          "properties": {
+            "jwt.secret": "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
+            "jwt.expiration": "900000",
+            "jwt.refresh-expiration": "604800000"
+          },
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "UPSERT_PROPERTIES",
+          "path": "src/main/resources/application-test.properties",
+          "practice_step": "6.6.2",
+          "properties": {
+            "jwt.secret": "YWJjZGVmMDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODk=",
+            "jwt.expiration": "900000",
+            "jwt.refresh-expiration": "604800000"
+          },
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "UPSERT_PROPERTIES",
+          "path": "src/main/resources/application-prod.properties",
+          "practice_step": "6.6.2",
+          "properties": {
+            "jwt.secret": "${JWT_SECRET}",
+            "jwt.expiration": "${JWT_EXPIRATION:900000}",
+            "jwt.refresh-expiration": "${JWT_REFRESH_EXPIRATION:604800000}"
+          },
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/JwtConfig.java",
+          "practice_step": "6.6.3",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+          "practice_step": "6.6.4",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+          "practice_step": "6.6.5",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+          "practice_step": "6.6.5",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java",
+          "practice_step": "6.6.5",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+          "practice_step": "6.6.6",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+          "practice_step": "6.6.7",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "practice_step": "6.6.8",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/CredencialesInvalidasException.java",
+          "practice_step": "6.6.12",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/TokenInvalidoException.java",
+          "practice_step": "6.6.12",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java",
+          "practice_step": "6.6.12",
+          "reason": "El handler de autenticación debe preceder al GenericExceptionHandler heredado (@Order(3)) para conservar el contrato 401; usa ErrorResponse y traceId de M5.",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+          "practice_step": "6.6.13",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "gestor_persistent_absent": true,
+        "no_future_filter": true,
+        "auth_exception_handler_priority": true,
+        "auth_exception_error_contract": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.6_maven.log",
+        "tests": {
+          "tests": 35,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 16
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 64294544,
+            "sha256": "d1880b5c1c8715cac71b9a8ff23d938db950e705396eb2e674e841145ef72c27"
+          }
+        ],
+        "free_bytes_before": 14558142464,
+        "free_bytes_after": 14491308032
+      },
+      "file_count": 110,
+      "tree_fingerprint": "1a0769c9224b522368c28164e195562f84d273ae692451a3d860188fbe67268c"
+    },
+    {
+      "point": "6.7",
+      "parent": "M6/6.6/proyecto",
+      "destination": "M6/6.7/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+          "practice_step": "6.7.1",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+          "practice_step": "6.7.2",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "practice_step": "6.7.3",
+          "reason": "STATELESS + filter; logout deja de ser permitAll",
+          "status": "APPLIED"
+        },
+        {
+          "op": "PATCH_WEBMVC_JWT_COLLABORATORS",
+          "path": "src/test/java",
+          "practice_step": "6.7.3",
+          "reason": "Al introducir JwtAuthenticationFilter, los @WebMvcTest existentes descubren el bean filtro pero no cargan sus colaboradores. Se añaden @MockitoBean de JwtService y TokenRevocationService sólo para mantener la suite heredada; no se crean tests nuevos.",
+          "status": "APPLIED",
+          "touched": [
+            "es\\mecd\\demo\\miproyecto\\alumno\\AlumnoControllerTest.java",
+            "es\\mecd\\demo\\miproyecto\\auth\\UsuarioControllerTest.java",
+            "es\\mecd\\demo\\miproyecto\\config\\CorsConfigTest.java",
+            "es\\mecd\\demo\\miproyecto\\expediente\\ExpedienteControllerTest.java",
+            "es\\mecd\\demo\\miproyecto\\fichero\\FicheroExceptionHandlerTest.java",
+            "es\\mecd\\demo\\miproyecto\\common\\exception\\ErrorHandlingTest.java"
+          ]
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "practice_step": "6.7.6",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "gestor_persistent_absent": true,
+        "webmvc_jwt_slice_isolation": true,
+        "auth_exception_handler_priority": true,
+        "auth_exception_error_contract": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.7_maven.log",
+        "tests": {
+          "tests": 35,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 16
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 64298095,
+            "sha256": "e566bba64137967465f7afd000057206a1a641cdc67f8572bff638c33335cada"
+          }
+        ],
+        "free_bytes_before": 14556770304,
+        "free_bytes_after": 14490456064
+      },
+      "file_count": 111,
+      "tree_fingerprint": "fea6cc7fac7eae42917ca2d736e65afe67b2584e493bbf7af9052e93a670f9c2"
+    },
+    {
+      "point": "6.8",
+      "parent": "M6/6.7/proyecto",
+      "destination": "M6/6.8/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java",
+          "practice_step": "6.8.1",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+          "practice_step": "6.8.1",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+          "practice_step": "6.8.2",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+          "practice_step": "6.8.3",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "PATCH_WEBMVC_SECURITY_HANDLERS_REAL",
+          "path": "src/test/java",
+          "practice_step": "6.8.3",
+          "reason": "Al introducir JwtAuthenticationEntryPoint y JwtAccessDeniedHandler en SecurityConfig, los @WebMvcTest que importan explícitamente SecurityConfig cargan esos handlers y SecurityErrorWriter como beans REALES. Sólo JwtService y TokenRevocationService permanecen mockeados; así el slice conserva y verifica los 401/403 reales.",
+          "status": "APPLIED",
+          "touched": [
+            "es\\mecd\\demo\\miproyecto\\auth\\UsuarioControllerTest.java"
+          ]
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java",
+          "practice_step": "6.8.4",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+          "practice_step": "6.8.5",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+          "practice_step": "6.8.12",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java",
+          "practice_step": "6.8.10",
+          "reason": "Test de controlador exigido por la fuente; @MockBean modernizado a @MockitoBean.",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "gestor_persistent_present": true,
+        "webmvc_jwt_slice_isolation": true,
+        "webmvc_security_handler_real": true,
+        "auth_exception_handler_priority": true,
+        "auth_exception_error_contract": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.8_maven.log",
+        "tests": {
+          "tests": 37,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 17
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 64301806,
+            "sha256": "ca618c0fbe6b34ee686a69eb9235faf0eebfcb35663a531924e1c9b5f6195555"
+          }
+        ],
+        "free_bytes_before": 14555394048,
+        "free_bytes_after": 14489214976
+      },
+      "file_count": 115,
+      "tree_fingerprint": "02a9b7c8966997931d305b181c4e0df4169848877862841d5f1d036f25f0ab96"
+    },
+    {
+      "point": "6.9",
+      "parent": "M6/6.8/proyecto",
+      "destination": "M6/6.9/proyecto",
+      "operations": [
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java",
+          "practice_step": "6.9.2",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/GestorSecurityTest.java",
+          "practice_step": "6.9.4",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/common/controller/PublicControllerSecurityTest.java",
+          "practice_step": "6.9.5",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "DELETE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java",
+          "practice_step": "6.9.6",
+          "reason": "Evoluciona el test fuente de 6.8 al AuthControllerSecurityTest ampliado de 6.9; evita duplicar el mismo contrato.",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java",
+          "practice_step": "6.9.6",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerIntegrationTest.java",
+          "practice_step": "6.9.10",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+          "practice_step": "6.9.11",
+          "reason": "",
+          "status": "APPLIED"
+        },
+        {
+          "op": "WRITE",
+          "path": "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java",
+          "practice_step": "6.9.13",
+          "reason": "",
+          "status": "APPLIED"
+        }
+      ],
+      "static_gates": {
+        "security_starter": true,
+        "no_parallel_final_marker": true,
+        "inmemory_lifecycle": true,
+        "spring_security_test_lifecycle": true,
+        "jjwt_dependency_lifecycle": true,
+        "jwt_filter_lifecycle": true,
+        "http_basic_lifecycle": true,
+        "handlers_lifecycle": true,
+        "gestor_persistent_present": true,
+        "webmvc_jwt_slice_isolation": true,
+        "webmvc_security_handler_real": true,
+        "auth_exception_handler_priority": true,
+        "auth_exception_error_contract": true,
+        "auth_controller_test_lifecycle": true,
+        "no_invented_early_integration_tests": true,
+        "required_tests": true,
+        "no_mockbean": true
+      },
+      "static_status": "PASS",
+      "build": {
+        "status": "PASS",
+        "returncode": 0,
+        "log": "M6_6.9_maven.log",
+        "tests": {
+          "tests": 58,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "xml_files": 23
+        },
+        "artifacts": [
+          {
+            "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+            "bytes": 64301806,
+            "sha256": "516b69529264796e0268ba3a99f2edb5b32d7a85eda4487a3f65537fe854e95e"
+          }
+        ],
+        "free_bytes_before": 14554730496,
+        "free_bytes_after": 14487134208
+      },
+      "file_count": 121,
+      "tree_fingerprint": "ed540ad43ae9003a887c2bad7199cfa68bd7c6778b74bc25bccdf8926be8f357"
+    }
+  ],
+  "overall_static": "PASS",
+  "overall_build": "PASS"
+}

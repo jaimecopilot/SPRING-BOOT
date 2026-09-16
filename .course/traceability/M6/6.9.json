@@ -1,0 +1,489 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.9",
+  "parent": "M6/6.8/proyecto",
+  "destination": "M6/6.9/proyecto",
+  "expected_gates": [
+    "spring-security-test reutilizado",
+    "tests fuente completos",
+    "AuthControllerSecurityTest",
+    "@WithUserDetails(test)",
+    "reto cinco casos",
+    "producción converge ce56"
+  ],
+  "step_count": 13,
+  "steps": [
+    {
+      "point": "6.9",
+      "step_number": 1,
+      "title": "Verificar la dependencia spring-security-test",
+      "page": 1528,
+      "target_present": true,
+      "practice_heading": "Verificar la dependencia spring-security-test",
+      "files": [
+        "pom.xml"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Añadir la dependencia spring-security-test",
+      "lifecycle": "SPRING_SECURITY_TEST_ALREADY_PRESENT_VERIFY_ONLY",
+      "practice_step_id": "M6-6.9-P01",
+      "source_page": 1528,
+      "symbols": [
+        "SecurityMockMvcRequestPostProcessors.user(...)",
+        "@WithMockUser",
+        "@WithUserDetails"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "f6c05e06e7395a118fec1aecdc38a7eb2afeb80ab0b7325423900561e96fa178",
+      "step_ref": "6.9.1",
+      "theory_refs": [
+        "TC-6.9-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 2,
+      "title": "Crear el test del UsuarioController",
+      "page": 1529,
+      "target_present": true,
+      "practice_heading": "Crear el test del UsuarioController",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Crear el test del UsuarioController",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P02",
+      "source_page": 1529,
+      "symbols": [
+        "UsuarioControllerSecurityTest",
+        "NO_AUTENTICADO",
+        "ACCESO_DENEGADO",
+        "@MockBean",
+        "@MockitoBean"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "f0b8c3a8adccce4cce9c62dbc861985d2a801d5da9c521959042b57e5f27c7f8",
+      "step_ref": "6.9.2",
+      "theory_refs": [
+        "TC-6.9-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 3,
+      "title": "Ejecutar los tests",
+      "page": 1532,
+      "target_present": true,
+      "practice_heading": "Ejecutar los tests",
+      "files": [
+        "AlumnoControllerTest.java",
+        "ErrorHandlingTest.java",
+        "CorsConfigTest.java",
+        "ExpedienteControllerTest.java",
+        "FicheroExceptionHandlerTest.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "commands": [
+        "./mvnw -B clean verify"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "En cada uno de esos cinco slices heredados, el patrón de aislamiento queda explícito: Si cambia una regla y abre `/admin`, los escenarios USER/anónimo de la suite M6 deben fallar inmediatamente.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P03",
+      "source_page": 1532,
+      "symbols": [
+        "skipped",
+        "@WebMvcTest",
+        "@AutoConfigureMockMvc(addFilters = false)",
+        "@MockitoBean",
+        "JwtAuthenticationFilter",
+        "JwtService",
+        "TokenRevocationService",
+        "MockMvc",
+        "AlumnoControllerTest.java",
+        "ErrorHandlingTest.java",
+        "CorsConfigTest.java",
+        "ExpedienteControllerTest.java",
+        "FicheroExceptionHandlerTest.java"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "a601438008248e6fe92a72a87a520cbdb692abe98a72916b0cef6076a75d0e4d",
+      "step_ref": "6.9.3",
+      "theory_refs": [
+        "TC-6.9-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 4,
+      "title": "Testear el endpoint de gestor",
+      "page": 1532,
+      "target_present": true,
+      "practice_heading": "Testear el endpoint de gestor",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/GestorSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Lo que falla es la autorización, ya que no posee GESTOR ni ADMIN; por eso corresponde `403 Forbidden`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P04",
+      "source_page": 1532,
+      "symbols": [
+        "GestorSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "8cddaf0bed52e706eaea9e28efb6864dcb5e573ab58671bb81571374e5de7f61",
+      "step_ref": "6.9.4",
+      "theory_refs": [
+        "TC-6.9-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 5,
+      "title": "Testear el endpoint público",
+      "page": 1533,
+      "target_present": true,
+      "practice_heading": "Testear el endpoint público",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/common/controller/PublicControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Testear el endpoint público",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P05",
+      "source_page": 1533,
+      "symbols": [
+        "PublicControllerSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "468b62a7ad654b88d9912355a33b6509bfb7d3826230e1582bcc306422927786",
+      "step_ref": "6.9.5",
+      "theory_refs": [
+        "TC-6.9-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 6,
+      "title": "Testear el login",
+      "page": 1535,
+      "target_present": true,
+      "practice_heading": "Testear el login",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "AuthControllerSecurityTest sustituye el AuthControllerTest de 6.8 y conserva login 200/401 antes de ampliar refresh/logout.",
+      "lifecycle": "AUTH_CONTROLLER_TEST_6_8_EVOLVES_TO_AUTH_CONTROLLER_SECURITY_TEST",
+      "practice_step_id": "M6-6.9-P06",
+      "source_page": 1535,
+      "symbols": [
+        "AuthControllerSecurityTest",
+        "@MockBean",
+        "@MockitoBean",
+        "NegocioException",
+        "CredencialesInvalidasException",
+        "CREDENCIALES_INVALIDAS",
+        "AuthService",
+        "@WithMockUser"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "dca0eff473c87eefae1ed833724f9e841edd1b7221d6e0ac76c884ceb727ea38",
+      "step_ref": "6.9.6",
+      "theory_refs": [
+        "TC-6.9-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 7,
+      "title": "Testear el refresh",
+      "page": 1537,
+      "target_present": true,
+      "practice_heading": "Testear el refresh",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "AuthControllerSecurityTest cubre refresh válido=200 e inválido=401 TOKEN_INVALIDO.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P07",
+      "source_page": 1537,
+      "symbols": [
+        "AuthControllerSecurityTest",
+        "TOKEN_INVALIDO",
+        "NegocioException"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "a81519412a6687fd0db1ce6dde6b8b045ed62c1a93c47c9c4e78da8ca8db7785",
+      "step_ref": "6.9.7",
+      "theory_refs": [
+        "TC-6.9-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 8,
+      "title": "Testear el logout",
+      "page": 1539,
+      "target_present": true,
+      "practice_heading": "Testear el logout",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Testear el logout",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P08",
+      "source_page": 1539,
+      "symbols": [
+        "AuthService",
+        "AuthControllerSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "9056057a8a6a661a6b8da08a10829557db1bcebe8e1af25de568262db6ab5273",
+      "step_ref": "6.9.8",
+      "theory_refs": [
+        "TC-6.9-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 9,
+      "title": "Testear con post-processors",
+      "page": 1539,
+      "target_present": true,
+      "practice_heading": "Testear con post-processors",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "**Respuesta razonada:** Permite cambiar la identidad por petición de forma explícita, incluso dentro de un mismo método; `@WithMockUser` configura el contexto del test completo.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P09",
+      "source_page": 1539,
+      "symbols": [
+        "SecurityMockMvcRequestPostProcessors.user(...)",
+        "user()",
+        "@WithMockUser",
+        "UsuarioControllerSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "54464f91f03fe54672952117683d39672b4b6e6845728fb9d1faf8e7e14e2c8d",
+      "step_ref": "6.9.9",
+      "theory_refs": [
+        "TC-6.9-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 10,
+      "title": "Testear con @WithUserDetails",
+      "page": 1540,
+      "target_present": true,
+      "practice_heading": "Testear con @WithUserDetails",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerIntegrationTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Testear con @WithUserDetails",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P10",
+      "source_page": 1540,
+      "symbols": [
+        "test",
+        "@BeforeEach",
+        "@WithUserDetails(\"test\")",
+        "admin",
+        "UserDetailsService",
+        "@WithUserDetails",
+        "@WithMockUser",
+        "UsuarioControllerIntegrationTest",
+        "PasswordEncoder"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "427617c49086e50a079767be101d99abb8a97ff6c9665a7cc79b031f9ba2e8ad",
+      "step_ref": "6.9.10",
+      "theory_refs": [
+        "TC-6.9-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 11,
+      "title": "Testear el filtro JWT",
+      "page": 1543,
+      "target_present": true,
+      "practice_heading": "Testear el filtro JWT",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "JwtFilterIntegrationTest usa un access token real generado por JwtService y cubre token válido, inválido y ausente.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P11",
+      "source_page": 1543,
+      "symbols": [
+        "roles",
+        "JwtFilterIntegrationTest",
+        "JwtService",
+        "jwt()",
+        "JwtAuthenticationFilter"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "06091e0735a7ce68fb1bc544fed6f11d920098da277ac51c40e11b4fc7374789",
+      "step_ref": "6.9.11",
+      "theory_refs": [
+        "TC-6.9-3",
+        "TC-6.9-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 12,
+      "title": "Errores comunes del ejercicio",
+      "page": 1544,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [
+        "grep -R \"@MockBean\" src/test || true"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P12",
+      "source_page": 1544,
+      "symbols": [
+        "ROLE_",
+        "@WithUserDetails",
+        "@SpringBootTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "12eb5cb65f3cbcf1cff3db16cf27b2357f2d916020a0deed875099e85d232968",
+      "step_ref": "6.9.12",
+      "theory_refs": [
+        "TC-6.9-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    },
+    {
+      "point": "6.9",
+      "step_number": 13,
+      "title": "Reto resuelto — Test completo de autorización",
+      "page": 1546,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Test completo de autorización",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "## Resultado esperado global - Dependencia `spring-security-test` disponible desde 6.4 y reutilizada sistemáticamente en 6.9.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P13",
+      "source_page": 1546,
+      "symbols": [
+        "@WithMockUser",
+        "@WithUserDetails",
+        "SecurityMockMvcRequestPostProcessors",
+        "MockMvc",
+        "UsuarioControllerCompleteSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "b94f66b27621ee6c8b052cd999d0eeea4b6ddae9c42ed5a195ac6a074c334067",
+      "step_ref": "6.9.13",
+      "theory_refs": [
+        "TC-6.9-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.8/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

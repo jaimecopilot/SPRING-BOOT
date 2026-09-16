@@ -1,0 +1,39 @@
+{
+  "schema_version": "M6_FINAL_CONVERGENCE_R13_1.0",
+  "status": "FUNCTIONAL_BASELINE_PRESERVED_WITH_R19_STRUCTURAL_EVOLUTION",
+  "historical_functional_reference": {
+    "commit": "ce56cabca048dc365841fe6d368cf9f9320c3c30",
+    "path": "M6/proyecto",
+    "note": "Referencia funcional histórica, no estructura editorial final R19."
+  },
+  "r19_final": {
+    "path": "M6/6.9/proyecto",
+    "tree_fingerprint": "ed540ad43ae9003a887c2bad7199cfa68bd7c6778b74bc25bccdf8926be8f357"
+  },
+  "byte_identity_to_historical_reference": "NOT_ASSERTED",
+  "reason": "R19 conserva la funcionalidad final mientras reconstruye el ciclo docente forward-only y moderniza/adapta tests; la estructura final elimina el paralelo M6/proyecto.",
+  "functional_evidence": {
+    "clean_verify": "PASS",
+    "tests": {
+      "tests": 58,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_files": 23
+    },
+    "static_gates": "PASS",
+    "runtime_smoke": "PASS_R13",
+    "javadoc": "PASS_R13",
+    "final_jar": {
+      "bytes": 64301806,
+      "sha256": "56779d4ac27401a07b9a12bc3db99aafd9c21c6e3e0413c161da79f89da3b08b"
+    },
+    "runtime_evidence": ".course/evidence/R13/M6_R13_FINAL_CLOSURE.log"
+  },
+  "known_r19_evolution": [
+    "M6/proyecto -> M6/6.9/proyecto",
+    "@MockBean -> @MockitoBean donde procede",
+    "trazabilidad física 6.1->6.9",
+    "adaptaciones de slices MVC necesarias por evolución de SecurityConfig"
+  ]
+}

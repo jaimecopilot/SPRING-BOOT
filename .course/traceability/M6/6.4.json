@@ -1,0 +1,460 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.4",
+  "parent": "M6/6.3/proyecto",
+  "destination": "M6/6.4/proyecto",
+  "expected_gates": [
+    "@EnableMethodSecurity",
+    "@PreAuthorize",
+    "spring-security-test presente",
+    "UsuarioControllerTest sin JWT futuro"
+  ],
+  "step_count": 12,
+  "steps": [
+    {
+      "point": "6.4",
+      "step_number": 1,
+      "title": "Repasar el estado actual",
+      "page": 1335,
+      "target_present": true,
+      "practice_heading": "Repasar el estado actual",
+      "files": [
+        "src/main/java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java"
+      ],
+      "commands": [
+        "grep -R \"InMemoryUserDetailsManager\" src/main/java || true"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "**Comprobación estructural:** No debe aparecer.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P01",
+      "source_page": 1335,
+      "symbols": [
+        "UsuarioDetailsService",
+        "USER",
+        "ADMIN",
+        "gestor",
+        "InMemoryUserDetailsManager"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6261ede0fe023784ed93944e9c93364f9038d01e6b3e535300cb7f1ab86c5cc5",
+      "step_ref": "6.4.1",
+      "theory_refs": [
+        "TC-6.4-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 2,
+      "title": "Activar la seguridad por método",
+      "page": 1336,
+      "target_present": true,
+      "practice_heading": "Activar la seguridad por método",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "**Error crítico.** Añadir `@PreAuthorize` sin `@EnableMethodSecurity`: la anotación queda sin el efecto esperado.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P02",
+      "source_page": 1336,
+      "symbols": [
+        "SecurityConfig",
+        "@PreAuthorize",
+        "@EnableMethodSecurity"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "fb650fd63813429fed658a220c9c47a7be0f04b506950a0db15ed1d2c9268116",
+      "step_ref": "6.4.2",
+      "theory_refs": [
+        "TC-6.4-1",
+        "TC-6.4-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 3,
+      "title": "Crear un UsuarioController de administración",
+      "page": 1336,
+      "target_present": true,
+      "practice_heading": "Crear un UsuarioController de administración",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "UsuarioController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Crear un UsuarioController de administración",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P03",
+      "source_page": 1336,
+      "symbols": [
+        "SecurityFilterChain",
+        "@PreAuthorize"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e2adaaac3fb21d38cc64478e8777c7e9869ef9d0505ef73bf010e8e382048243",
+      "step_ref": "6.4.3",
+      "theory_refs": [
+        "TC-6.4-1",
+        "TC-6.4-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 4,
+      "title": "Crear el UsuarioService",
+      "page": 1338,
+      "target_present": true,
+      "practice_heading": "Crear el UsuarioService",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Crear el UsuarioService",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P04",
+      "source_page": 1338,
+      "symbols": [
+        "UsuarioRepository",
+        "RolRepository",
+        "@PreAuthorize"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "62cae4fe03718021295184cd6be8406d2fd1d4fb3106427abc404148ce234cc7",
+      "step_ref": "6.4.4",
+      "theory_refs": [
+        "TC-6.4-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 5,
+      "title": "Añadir reglas de URL y de método combinadas",
+      "page": 1340,
+      "target_present": true,
+      "practice_heading": "Añadir reglas de URL y de método combinadas",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "**Respuesta razonada:** La regla de URL lo rechaza antes de que llegue al método, por lo que en esa petición concreta `@PreAuthorize` no necesita decidir nada.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P05",
+      "source_page": 1340,
+      "symbols": [
+        "@PreAuthorize",
+        "SecurityFilterChain"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c983830c955b9cd9c9c01248eb4d9db7b3debdd9ac65876ee2f05da066479d94",
+      "step_ref": "6.4.5",
+      "theory_refs": [
+        "TC-6.4-1",
+        "TC-6.4-2",
+        "TC-6.4-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 6,
+      "title": "Probar la autorización con distintos usuarios",
+      "page": 1341,
+      "target_present": true,
+      "practice_heading": "Probar la autorización con distintos usuarios",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 \\",
+        "curl -i -u admin:admin123 \\",
+        "curl -i \\",
+        "curl -i http://localhost:8080/api/v1/admin/usuarios",
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/admin/usuarios",
+        "curl -i -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Probar la autorización con distintos usuarios",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P06",
+      "source_page": 1341,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "66caa40977dbbf6f5fa033fea49d9f7ab11f18d28736c7bddef003959d724f23",
+      "step_ref": "6.4.6",
+      "theory_refs": [
+        "TC-6.4-1",
+        "TC-6.4-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 7,
+      "title": "Crear un endpoint para consultar el propio perfil",
+      "page": 1342,
+      "target_present": true,
+      "practice_heading": "Crear un endpoint para consultar el propio perfil",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Crear un endpoint para consultar el propio perfil",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P07",
+      "source_page": 1342,
+      "symbols": [
+        "Authentication",
+        "getName()",
+        "@AuthenticationPrincipal",
+        "UserDetails"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "fd6ea4dfecb1f01f327de9764ac963c4308d719d3ef10ecbe593fad7bc87a07f",
+      "step_ref": "6.4.7",
+      "theory_refs": [
+        "TC-6.4-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 8,
+      "title": "Crear el UsuarioPrincipal (para el punto 6.7)",
+      "page": 1344,
+      "target_present": true,
+      "practice_heading": "Crear el UsuarioPrincipal (para el punto 6.7)",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "## Paso 8 - Crear el UsuarioPrincipal (para el punto 6.7) Creamos ahora, sin integrarlo todavía: `getPassword()` devuelve `null`: este principal está diseñado para representar una identidad ya validada desde token en 6.7, no para almacenar credenciales.",
+      "lifecycle": "PREPARES_USUARIOPRINCIPAL_NOT_ACTIVE_UNTIL_6.7",
+      "practice_step_id": "M6-6.4-P08",
+      "source_page": 1344,
+      "symbols": [
+        "getPassword()",
+        "null",
+        "UsuarioDetailsService",
+        "User",
+        "UsuarioPrincipal"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "e1436a162abe6f6c3ef998d836c44f849807b698f081e50dcaecc706c3dfaa2a",
+      "step_ref": "6.4.8",
+      "theory_refs": [
+        "TC-6.4-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 9,
+      "title": "Probar la expresión de autorización",
+      "page": 1347,
+      "target_present": true,
+      "practice_heading": "Probar la expresión de autorización",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Por eso la expresión sólo debe quedar activa cuando el principal real sea un objeto que exponga `getId()`.",
+      "lifecycle": "TEMPORARY_NEGATIVE_SPEL_TEST_REMOVED_SAME_STEP",
+      "practice_step_id": "M6-6.4-P09",
+      "source_page": 1347,
+      "symbols": [
+        "User",
+        "getId()",
+        "SpelEvaluationException",
+        "principal.id",
+        "UsuarioPrincipal",
+        "String",
+        "id"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "b68ae16274ad1731f8c114d5ab0f82a31591544440560ed4f2aa8bb2a4fc0fbf",
+      "step_ref": "6.4.9",
+      "theory_refs": [
+        "TC-6.4-3",
+        "TC-6.4-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 10,
+      "title": "Escribir tests de autorización",
+      "page": 1347,
+      "target_present": true,
+      "practice_heading": "Escribir tests de autorización",
+      "files": [
+        "pom.xml",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Por tanto la dependencia debe incorporarse **ahora**, en 6.4, aunque la fuente la presente formalmente de nuevo en 6.9.",
+      "lifecycle": "SPRING_SECURITY_TEST_FIRST_INTRODUCED_PERSISTS",
+      "practice_step_id": "M6-6.4-P10",
+      "source_page": 1347,
+      "symbols": [
+        "SecurityMockMvcRequestPostProcessors.user(...)",
+        "pom.xml",
+        "@MockitoBean"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "89b477d2fd0e7c69df2515fcf80870b1bfaeb129f501de88d375d80cdc1ab0c9",
+      "step_ref": "6.4.10",
+      "theory_refs": [
+        "TC-6.4-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1349,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P11",
+      "source_page": 1349,
+      "symbols": [
+        "@PreAuthorize",
+        "@EnableMethodSecurity",
+        "hasRole(\"ROLE_ADMIN\")",
+        "hasRole",
+        "hasRole(\"ADMIN\")",
+        "hasAuthority(\"ADMIN\")",
+        "ROLE_ADMIN",
+        "id",
+        "UsuarioPrincipal",
+        "UsuarioDetailsService",
+        "anyRequest().authenticated()",
+        "@MockBean",
+        "@MockitoBean"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c9146bc84a7c14eaa7d070aa824cb648eec14f48b9955f30da7cde6602aa77d2",
+      "step_ref": "6.4.11",
+      "theory_refs": [
+        "TC-6.4-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    },
+    {
+      "point": "6.4",
+      "step_number": 12,
+      "title": "Reto resuelto — Endpoint de cambio de rol",
+      "page": 1351,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint de cambio de rol",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "## Conclusión y enlace al siguiente punto La autorización queda expresada en dos capas complementarias: reglas generales por URL y reglas contextuales por método.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P12",
+      "source_page": 1351,
+      "symbols": [
+        "save",
+        "@EnableMethodSecurity",
+        "@PreAuthorize",
+        "UsuarioPrincipal",
+        "@AuthenticationPrincipal",
+        "hasRole",
+        "hasAuthority",
+        "hasAnyRole"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "a78e4ba4db535566f90ef09b570a0b873fedbefde691f5fafb76126bcfb2d570",
+      "step_ref": "6.4.12",
+      "theory_refs": [
+        "TC-6.4-2",
+        "TC-6.4-3",
+        "TC-6.4-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.3/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

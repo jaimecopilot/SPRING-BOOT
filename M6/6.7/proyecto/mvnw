@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+BASE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+PROPS="$BASE_DIR/.mvn/wrapper/maven-wrapper.properties"
+DISTRIBUTION_URL=$(sed -n 's/^distributionUrl=//p' "$PROPS" | tr -d '\r')
+ARCHIVE_NAME=${DISTRIBUTION_URL##*/}
+MAVEN_DIR_NAME=${ARCHIVE_NAME%-bin.zip}
+WRAPPER_HOME=${MAVEN_USER_HOME:-"$HOME/.m2"}/wrapper/dists
+MAVEN_HOME="$WRAPPER_HOME/$MAVEN_DIR_NAME"
+MAVEN_CMD="$MAVEN_HOME/bin/mvn"
+if [ ! -x "$MAVEN_CMD" ]; then
+  mkdir -p "$WRAPPER_HOME"
+  TMP_DIR=$(mktemp -d)
+  trap 'rm -rf "$TMP_DIR"' EXIT HUP INT TERM
+  ARCHIVE="$TMP_DIR/$ARCHIVE_NAME"
+  if command -v curl >/dev/null 2>&1; then
+    curl --fail --location --silent --show-error "$DISTRIBUTION_URL" --output "$ARCHIVE"
+  elif command -v wget >/dev/null 2>&1; then
+    wget --quiet "$DISTRIBUTION_URL" --output-document="$ARCHIVE"
+  else
+    echo "Se necesita curl o wget para descargar Maven la primera vez." >&2
+    exit 1
+  fi
+  unzip -q "$ARCHIVE" -d "$TMP_DIR"
+  rm -rf "$MAVEN_HOME"
+  mv "$TMP_DIR/$MAVEN_DIR_NAME" "$MAVEN_HOME"
+fi
+exec "$MAVEN_CMD" "$@"

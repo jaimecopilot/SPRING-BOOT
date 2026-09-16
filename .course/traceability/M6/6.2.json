@@ -1,0 +1,455 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.2",
+  "parent": "M6/6.1/proyecto",
+  "destination": "M6/6.2/proyecto",
+  "expected_gates": [
+    "InMemoryUserDetailsManager",
+    "ana/admin/gestor temporal",
+    "PasswordEncoder",
+    "perfil",
+    "roles"
+  ],
+  "step_count": 12,
+  "steps": [
+    {
+      "point": "6.2",
+      "step_number": 1,
+      "title": "Repasar el estado actual",
+      "page": 1251,
+      "target_present": true,
+      "practice_heading": "Repasar el estado actual",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+        "pom.xml",
+        "SecurityConfig.java",
+        "CorsConfig.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Repasar el estado actual",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P01",
+      "source_page": 1251,
+      "symbols": [
+        "SecurityFilterChain",
+        "permitAll()",
+        "pom.xml",
+        "UserDetailsService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "4f8135810ce5c154d5a0d89839e578c5e788a90c50864719d4f13aca778cb39f",
+      "step_ref": "6.2.1",
+      "theory_refs": [
+        "TC-6.2-1",
+        "TC-6.2-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 2,
+      "title": "Añadir un endpoint que devuelva el perfil del usuario",
+      "page": 1252,
+      "target_present": true,
+      "practice_heading": "Añadir un endpoint que devuelva el perfil del usuario",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "PerfilController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Añadir un endpoint que devuelva el perfil del usuario",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P02",
+      "source_page": 1252,
+      "symbols": [
+        "Authentication",
+        "authentication",
+        "anyRequest().authenticated()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "0973243e18594618ccd528553b31de145d44844724128ae2c1c35e11303d5309",
+      "step_ref": "6.2.2",
+      "theory_refs": [
+        "TC-6.2-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 3,
+      "title": "Definir el PasswordEncoder",
+      "page": 1253,
+      "target_present": true,
+      "practice_heading": "Definir el PasswordEncoder",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "> **Pregunta de reflexión:** ¿Por qué `matches` funciona aunque dos llamadas a `encode` puedan producir hashes diferentes?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P03",
+      "source_page": 1253,
+      "symbols": [
+        "SecurityConfig",
+        "ana123",
+        "@Bean",
+        "matches",
+        "encode",
+        "PasswordEncoder"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "7db5c4415492ee5154af12049e82c9a06e954c5e75b1af023b26a37376174c87",
+      "step_ref": "6.2.3",
+      "theory_refs": [
+        "TC-6.2-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 4,
+      "title": "Definir el UserDetailsService",
+      "page": 1254,
+      "target_present": true,
+      "practice_heading": "Definir el UserDetailsService",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+        "InMemoryUserConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Definir el UserDetailsService",
+      "lifecycle": "TEMPORARY_IN_MEMORY_USERS_CREATED",
+      "practice_step_id": "M6-6.2-P04",
+      "source_page": 1254,
+      "symbols": [
+        "ana",
+        "ROLE_USER",
+        "admin",
+        "ROLE_ADMIN",
+        "roles(...)",
+        "ROLE_",
+        "ADMIN",
+        "InMemoryUserDetailsManager",
+        "UserDetailsService",
+        "PasswordEncoder"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "850102bb43b9cbe4a30923aeced83798c2da42bbfa0ecb30574800843c695a26",
+      "step_ref": "6.2.4",
+      "theory_refs": [
+        "TC-6.2-1",
+        "TC-6.2-2",
+        "TC-6.2-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 5,
+      "title": "Cerrar los endpoints",
+      "page": 1256,
+      "target_present": true,
+      "practice_heading": "Cerrar los endpoints",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "No debe extrapolarse sin más a producción.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P05",
+      "source_page": 1256,
+      "symbols": [
+        "SecurityFilterChain",
+        "cors(Customizer.withDefaults())",
+        "sameOrigin()",
+        "permitAll()",
+        "anyRequest()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "50452f1883edb3edb5236a1b055ef68bd556267c33320043a034089d46c84fe1",
+      "step_ref": "6.2.5",
+      "theory_refs": [
+        "TC-6.2-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 6,
+      "title": "Arrancar y probar sin autenticación",
+      "page": 1257,
+      "target_present": true,
+      "practice_heading": "Arrancar y probar sin autenticación",
+      "files": [],
+      "commands": [
+        "./mvnw spring-boot:run",
+        "curl -i http://localhost:8080/api/v1/alumnos",
+        "curl -i http://localhost:8080/api/v1/public/info"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Arrancar y probar sin autenticación",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P06",
+      "source_page": 1257,
+      "symbols": [
+        "SecurityFilterChain",
+        "permitAll",
+        "authenticated()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "8f8e50e9d4cca6ca61620919d4ae65cb07eb91f3601f9099bbb261997efb6239",
+      "step_ref": "6.2.6",
+      "theory_refs": [
+        "TC-6.2-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 7,
+      "title": "Autenticarse con el usuario ana",
+      "page": 1258,
+      "target_present": true,
+      "practice_heading": "Autenticarse con el usuario ana",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/alumnos",
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/perfil"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "## Paso 7 - Autenticarse con el usuario ana La consulta ordinaria debe estar autorizada y el perfil debe mostrar: El orden de una colección de authorities no debe usarse como contrato si hay varias; comprobaremos contenido, no una ordenación accidental.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P07",
+      "source_page": 1258,
+      "symbols": [
+        "ana",
+        "ROLE_",
+        "ROLE_USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "a4174489c421ea97e737d19473cd9329dba61daf0eb02356731fcb0fa9cf2626",
+      "step_ref": "6.2.7",
+      "theory_refs": [
+        "TC-6.2-1",
+        "TC-6.2-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 8,
+      "title": "Autenticarse con el usuario admin",
+      "page": 1259,
+      "target_present": true,
+      "practice_heading": "Autenticarse con el usuario admin",
+      "files": [],
+      "commands": [
+        "curl -i -u admin:admin123 http://localhost:8080/api/v1/perfil"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Si queremos que ADMIN herede permisos de USER podemos asignar ambos roles o configurar una jerarquía explícita, pero no debe suponerse.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P08",
+      "source_page": 1259,
+      "symbols": [
+        "ROLE_ADMIN",
+        "ROLE_USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "93002cb8013e081d0c0d5b3b08eb9489f3e3735b6520d66d63d917607bacae62",
+      "step_ref": "6.2.8",
+      "theory_refs": [
+        "TC-6.2-1",
+        "TC-6.2-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 9,
+      "title": "Probar la autorización por rol",
+      "page": 1259,
+      "target_present": true,
+      "practice_heading": "Probar la autorización por rol",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/admin/usuarios",
+        "curl -i -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "## Paso 9 - Probar la autorización por rol Primero con un usuario autenticado pero no autorizado: La petición debe devolver `403 Forbidden`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P09",
+      "source_page": 1259,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "70a2ee0add206bb483dbb78430c7513f21cb1f8413e3d9fd3244935671953f7a",
+      "step_ref": "6.2.9",
+      "theory_refs": [
+        "TC-6.2-1",
+        "TC-6.2-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 10,
+      "title": "Probar con credenciales incorrectas",
+      "page": 1260,
+      "target_present": true,
+      "practice_heading": "Probar con credenciales incorrectas",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:contraseñaIncorrecta \\",
+        "curl -i -u pedro:loQueSea \\",
+        "curl -i -u ana:incorrecta http://localhost:8080/api/v1/alumnos",
+        "curl -i -u nadie:incorrecta http://localhost:8080/api/v1/alumnos"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Por eso el login debe responder de forma uniforme a credenciales inválidas.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P10",
+      "source_page": 1260,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "58963452253a4e6e930334bee7ceedc43d3d6868c45a619f4849cb9ba5e63b4e",
+      "step_ref": "6.2.10",
+      "theory_refs": [
+        "TC-6.2-3",
+        "TC-6.2-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1261,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P11",
+      "source_page": 1261,
+      "symbols": [
+        "UserDetailsService",
+        "PasswordEncoder",
+        "passwordEncoder.encode(...)",
+        "@Bean",
+        "OPTIONS",
+        "NoOpPasswordEncoder"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "60edb2ca39f3fb979e8128071d3bb3fe48d1dfcabb2e86221d9fa1ab46a087f7",
+      "step_ref": "6.2.11",
+      "theory_refs": [
+        "TC-6.2-3",
+        "TC-6.2-4",
+        "TC-6.2-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    },
+    {
+      "point": "6.2",
+      "step_number": 12,
+      "title": "Reto resuelto — Añadir un tercer usuario con roles combinados",
+      "page": 1262,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Añadir un tercer usuario con roles combinados",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java",
+        "GestorController.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "- Un endpoint de perfil que permite observar la identidad autenticada.",
+      "lifecycle": "TEMPORARY_GESTOR_IN_MEMORY_CREATED_CLOSES_6.3",
+      "practice_step_id": "M6-6.2-P12",
+      "source_page": 1262,
+      "symbols": [
+        "gestor",
+        "GESTOR",
+        "USER",
+        "InMemoryUserConfig",
+        "hasRole(\"ADMIN\")",
+        "hasAnyRole(\"GESTOR\", \"ADMIN\")",
+        "ROLE_ADMIN",
+        "ROLE_GESTOR",
+        "UserDetailsService",
+        "PasswordEncoder",
+        "ana",
+        "admin",
+        "SecurityFilterChain",
+        "UserDetails",
+        "InMemoryUserDetailsManager",
+        "ROLE_"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "85773d018eff99f560384d25ba65574fe4f7693acaea0f432a4e84acea4bd26f",
+      "step_ref": "6.2.12",
+      "theory_refs": [
+        "TC-6.2-1",
+        "TC-6.2-2",
+        "TC-6.2-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.1/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

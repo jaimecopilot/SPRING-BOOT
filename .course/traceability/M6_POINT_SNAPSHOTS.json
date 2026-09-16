@@ -1,0 +1,279 @@
+{
+  "snapshots": [
+    {
+      "point": "6.1",
+      "parent": "M5/proyecto",
+      "destination": "M6/6.1/proyecto",
+      "expected_gates": [
+        "spring-security-starter",
+        "SecurityFilterChain",
+        "HTTP Basic provisional",
+        "public/protected"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 14,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 81,
+      "tree_fingerprint": "bb240a3a2e6249411f3247f16a7e465c63fb339079aa5717a1ed36eaa0f3cca1",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 63625260,
+        "sha256": "523b944688c1d5b150e917b8a924e3d876089fbb06c95f7a026322122a34b2b4"
+      }
+    },
+    {
+      "point": "6.2",
+      "parent": "M6/6.1/proyecto",
+      "destination": "M6/6.2/proyecto",
+      "expected_gates": [
+        "InMemoryUserDetailsManager",
+        "ana/admin/gestor temporal",
+        "PasswordEncoder",
+        "perfil",
+        "roles"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 14,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 84,
+      "tree_fingerprint": "53c98fcc166321d10dc927e552864139d174d0e9b00911d507f70389532e4487",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 63629241,
+        "sha256": "cf647262ccacf1cc53da36f7e005ce2667b7948ef6d125216d34d71de7500f3d"
+      }
+    },
+    {
+      "point": "6.3",
+      "parent": "M6/6.2/proyecto",
+      "destination": "M6/6.3/proyecto",
+      "expected_gates": [
+        "sin InMemoryUserDetailsManager",
+        "Usuario/Rol JPA",
+        "UsuarioDetailsService",
+        "registro",
+        "ana+admin persistentes",
+        "gestor ausente"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 14,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 94,
+      "tree_fingerprint": "052cfdf821661de08309704a62761b6665777f740a8e34f5cc127f0266f573dd",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 63642997,
+        "sha256": "ada0926b5aa1db03de848083855018a6c19c646c48b7cd75c1ebf4e28f74b8f4"
+      }
+    },
+    {
+      "point": "6.4",
+      "parent": "M6/6.3/proyecto",
+      "destination": "M6/6.4/proyecto",
+      "expected_gates": [
+        "@EnableMethodSecurity",
+        "@PreAuthorize",
+        "spring-security-test presente",
+        "UsuarioControllerTest sin JWT futuro"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 34,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 15,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 99,
+      "tree_fingerprint": "0850803c1ce846d394e3e33b15e8e1fd81b0da811d307896b9401ce2f487f44e",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 63648831,
+        "sha256": "f8e24b40e7ec370b7333259b752eeda10ed0b446a07b706bb5356e298c8c7c52"
+      }
+    },
+    {
+      "point": "6.5",
+      "parent": "M6/6.4/proyecto",
+      "destination": "M6/6.5/proyecto",
+      "expected_gates": [
+        "JWT conceptual/manual",
+        "sin JJWT de implementación"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 16,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 101,
+      "tree_fingerprint": "cc16b4e2e1d10cf579a6615946de2184f8daee25e2ed5b681b3df3a007f66f51",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 63648831,
+        "sha256": "2b95e8a496182afa6cdb9b7cef73c0d7d2900451663585fc86a4b3238b99657f"
+      }
+    },
+    {
+      "point": "6.6",
+      "parent": "M6/6.5/proyecto",
+      "destination": "M6/6.6/proyecto",
+      "expected_gates": [
+        "JJWT 0.13.0",
+        "JwtService v6.6 sin authorities futuras",
+        "login/access/refresh",
+        "logout temporal ejecutable",
+        "sin JwtAuthenticationFilter"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 16,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 110,
+      "tree_fingerprint": "1a0769c9224b522368c28164e195562f84d273ae692451a3d860188fbe67268c",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 64294544,
+        "sha256": "d1880b5c1c8715cac71b9a8ff23d938db950e705396eb2e674e841145ef72c27"
+      }
+    },
+    {
+      "point": "6.7",
+      "parent": "M6/6.6/proyecto",
+      "destination": "M6/6.7/proyecto",
+      "expected_gates": [
+        "JwtAuthenticationFilter",
+        "JwtService evoluciona authorities",
+        "UsuarioPrincipal",
+        "STATELESS",
+        "HTTP Basic retirado",
+        "revocación efectiva"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 16,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 111,
+      "tree_fingerprint": "fea6cc7fac7eae42917ca2d736e65afe67b2584e493bbf7af9052e93a670f9c2",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 64298095,
+        "sha256": "e566bba64137967465f7afd000057206a1a641cdc67f8572bff638c33335cada"
+      }
+    },
+    {
+      "point": "6.8",
+      "parent": "M6/6.7/proyecto",
+      "destination": "M6/6.8/proyecto",
+      "expected_gates": [
+        "handlers 401/403",
+        "reglas finales",
+        "GESTOR persistente",
+        "arquitectura completa"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 37,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 17,
+        "status": "PASS"
+      },
+      "runtime": "NOT_REQUIRED_PER_POINT_FINAL_ONLY",
+      "static": "PASS",
+      "file_count": 115,
+      "tree_fingerprint": "02a9b7c8966997931d305b181c4e0df4169848877862841d5f1d036f25f0ab96",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 64301806,
+        "sha256": "ca618c0fbe6b34ee686a69eb9235faf0eebfcb35663a531924e1c9b5f6195555"
+      }
+    },
+    {
+      "point": "6.9",
+      "parent": "M6/6.8/proyecto",
+      "destination": "M6/6.9/proyecto",
+      "expected_gates": [
+        "spring-security-test reutilizado",
+        "tests fuente completos",
+        "AuthControllerSecurityTest",
+        "@WithUserDetails(test)",
+        "reto cinco casos",
+        "producción converge ce56"
+      ],
+      "build": "PASS_R11_CLEAN_VERIFY",
+      "tests": {
+        "tests": 58,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml_files": 23,
+        "status": "PASS"
+      },
+      "runtime": "PASS_R13_FINAL_GATE",
+      "static": "PASS",
+      "file_count": 121,
+      "tree_fingerprint": "ed540ad43ae9003a887c2bad7199cfa68bd7c6778b74bc25bccdf8926be8f357",
+      "jar": {
+        "name": "mi-proyecto-0.0.1-SNAPSHOT.jar",
+        "bytes": 64301806,
+        "sha256": "516b69529264796e0268ba3a99f2edb5b32d7a85eda4487a3f65537fe854e95e"
+      }
+    }
+  ],
+  "evidence_version": "R11_EXECUTED_2026-09-16",
+  "overall_build": "PASS",
+  "final_runtime_evidence": {
+    "status": "PASS",
+    "version": "R13",
+    "evidence": ".course/evidence/R13/M6_R13_FINAL_CLOSURE.log",
+    "jar_sha256": "56779d4ac27401a07b9a12bc3db99aafd9c21c6e3e0413c161da79f89da3b08b"
+  }
+}

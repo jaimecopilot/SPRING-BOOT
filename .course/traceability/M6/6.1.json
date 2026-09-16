@@ -1,0 +1,400 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.1",
+  "parent": "M5/proyecto",
+  "destination": "M6/6.1/proyecto",
+  "expected_gates": [
+    "spring-security-starter",
+    "SecurityFilterChain",
+    "HTTP Basic provisional",
+    "public/protected"
+  ],
+  "step_count": 12,
+  "steps": [
+    {
+      "point": "6.1",
+      "step_number": 1,
+      "title": "Añadir la dependencia de Spring Security",
+      "page": 1220,
+      "target_present": true,
+      "practice_heading": "Añadir la dependencia de Spring Security",
+      "files": [
+        "pom.xml"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Añadir la dependencia de Spring Security",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P01",
+      "source_page": 1220,
+      "symbols": [
+        "pom.xml",
+        "mvnw.cmd",
+        "cmd.exe"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "16a1edfdfcaa48fdd9be19f59b1771b69ad227a816bbbe34be483cdb5bddec3a",
+      "step_ref": "6.1.1",
+      "theory_refs": [
+        "TC-6.1-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 2,
+      "title": "Arrancar y ver el \"susto\"",
+      "page": 1220,
+      "target_present": true,
+      "practice_heading": "Arrancar y ver el \"susto\"",
+      "files": [],
+      "commands": [
+        "./mvnw spring-boot:run",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "**Respuesta razonada:** Porque el fallo seguro es denegar el acceso hasta que el desarrollador declare qué debe ser público.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P02",
+      "source_page": 1220,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "920466a847e1cd09c32a90b4f73aef4f27ef551d6be40382a34c7e3e2104f744",
+      "step_ref": "6.1.2",
+      "theory_refs": [
+        "TC-6.1-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 3,
+      "title": "Autenticarse con la contraseña generada",
+      "page": 1221,
+      "target_present": true,
+      "practice_heading": "Autenticarse con la contraseña generada",
+      "files": [
+        "application.properties"
+      ],
+      "commands": [
+        "curl -i -u user:<PASSWORD_DEL_LOG> \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Autenticarse con la contraseña generada",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P03",
+      "source_page": 1221,
+      "symbols": [
+        "user",
+        "curl",
+        "application.properties",
+        "Authorization"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "98e2ae472c2e2bbed89e0bb7de2d21d05b48987a4150fad3e736b9336233344d",
+      "step_ref": "6.1.3",
+      "theory_refs": [
+        "TC-6.1-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 4,
+      "title": "Ver los filtros en acción",
+      "page": 1222,
+      "target_present": true,
+      "practice_heading": "Ver los filtros en acción",
+      "files": [
+        "application.properties"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Los logs permiten seguir el recorrido que llevó a ese resultado: si la petición fue tratada como anónima, qué parte de la cadena intervino y en qué etapa se produjo el rechazo.",
+      "lifecycle": "TEMPORARY_DEBUG_OPEN_CLOSE",
+      "practice_step_id": "M6-6.1-P04",
+      "source_page": 1222,
+      "symbols": [],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "706d069bd087dbe3fa988510d2c138316f21f72db0fe9d0be3804c5c998635a2",
+      "step_ref": "6.1.4",
+      "theory_refs": [
+        "TC-6.1-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 5,
+      "title": "Crear la clase SecurityConfig",
+      "page": 1223,
+      "target_present": true,
+      "practice_heading": "Crear la clase SecurityConfig",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Crear la clase SecurityConfig",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P05",
+      "source_page": 1223,
+      "symbols": [
+        "SecurityFilterChain",
+        "WebSecurityConfigurerAdapter"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "bb500192afddd65905a598364d3eba773ad18fa7c0642d5e28987df55f3488b9",
+      "step_ref": "6.1.5",
+      "theory_refs": [
+        "TC-6.1-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 6,
+      "title": "Ver el comportamiento sin usuarios",
+      "page": 1224,
+      "target_present": true,
+      "practice_heading": "Ver el comportamiento sin usuarios",
+      "files": [],
+      "commands": [
+        "curl -i -u usuario:password \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Si Spring Boot mantiene un usuario de desarrollo autoconfigurado en este estado, utiliza la contraseña que corresponda al arranque para contrastar el resultado.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P06",
+      "source_page": 1224,
+      "symbols": [
+        "UserDetailsService",
+        "SecurityFilterChain",
+        "InMemoryUserDetailsManager"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "3a37b8993a5129f6df43bdc8072a78d8ceeb58775730b42ff40674dd9e79441e",
+      "step_ref": "6.1.6",
+      "theory_refs": [
+        "TC-6.1-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 7,
+      "title": "Permitir todos los endpoints temporalmente",
+      "page": 1225,
+      "target_present": true,
+      "practice_heading": "Permitir todos los endpoints temporalmente",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Permitir todos los endpoints temporalmente",
+      "lifecycle": "TEMPORARY_PERMIT_ALL_CLOSED_IN_6.1",
+      "practice_step_id": "M6-6.1-P07",
+      "source_page": 1225,
+      "symbols": [
+        "SecurityConfig",
+        "anyRequest().permitAll()",
+        "SecurityFilterChain"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "5e6d0376ae59f52ad96a942c221063d2e392036b967f31091a1670418b65a8d7",
+      "step_ref": "6.1.7",
+      "theory_refs": [
+        "TC-6.1-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 8,
+      "title": "Configurar reglas específicas por endpoint",
+      "page": 1226,
+      "target_present": true,
+      "practice_heading": "Configurar reglas específicas por endpoint",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "> **Pregunta de reflexión:** ¿Por qué importa el orden de las reglas y por qué `anyRequest()` debe quedar al final?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P08",
+      "source_page": 1226,
+      "symbols": [
+        "permitAll()",
+        "anyRequest()",
+        "SecurityFilterChain"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b45f6f9d577e04fe72bfb7f4109e5738b8e26a8e636630acd64b3fd4198099bf",
+      "step_ref": "6.1.8",
+      "theory_refs": [
+        "TC-6.1-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 9,
+      "title": "Ver la diferencia entre 401 y 403",
+      "page": 1228,
+      "target_present": true,
+      "practice_heading": "Ver la diferencia entre 401 y 403",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "El estado final de 6.1 no debe contener una regla artificial creada únicamente para provocar el ejemplo.",
+      "lifecycle": "TEMPORARY_ROLE_DEMO_CLOSED_IN_6.1",
+      "practice_step_id": "M6-6.1-P09",
+      "source_page": 1228,
+      "symbols": [
+        "ADMIN"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "9f03ba97ff0a2ca4bf836cfecec4ec051bde8dd84e6868026abc860bad3460a0",
+      "step_ref": "6.1.9",
+      "theory_refs": [
+        "TC-6.1-1",
+        "TC-6.1-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 10,
+      "title": "Depurar con logs",
+      "page": 1228,
+      "target_present": true,
+      "practice_heading": "Depurar con logs",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Depurar con logs",
+      "lifecycle": "TEMPORARY_DEBUG_OPEN_CLOSE",
+      "practice_step_id": "M6-6.1-P10",
+      "source_page": 1228,
+      "symbols": [],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "4963ce6bda41fa6bea6943a981a53b3de8c7d138784c298ba53774fa1eb07ace",
+      "step_ref": "6.1.10",
+      "theory_refs": [
+        "TC-6.1-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1229,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P11",
+      "source_page": 1229,
+      "symbols": [
+        "permitAll()",
+        "@Configuration",
+        "SecurityFilterChain",
+        "WebSecurityConfigurerAdapter",
+        "anyRequest().permitAll()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "147ed0d0c988bfd5b3e7e1a84d782c8240b29f85d42f57d1176a1a65546e67b6",
+      "step_ref": "6.1.11",
+      "theory_refs": [
+        "TC-6.1-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    },
+    {
+      "point": "6.1",
+      "step_number": 12,
+      "title": "Reto resuelto — Endpoint público sin autenticación",
+      "page": 1230,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint público sin autenticación",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "La diferencia 401/403 queda preparada para profundizarla en 6.2, cuando ya tendremos usuarios y roles propios.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P12",
+      "source_page": 1230,
+      "symbols": [
+        "SecurityConfig",
+        "SecurityFilterChain",
+        "permitAll()",
+        "InMemoryUserDetailsManager",
+        "PasswordEncoder"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "dc317c7c062931af66c5a8a9f297e8c7101c694f16e98cdf286acd7e1293c40f",
+      "step_ref": "6.1.12",
+      "theory_refs": [
+        "TC-6.1-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M5/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

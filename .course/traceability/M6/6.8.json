@@ -1,0 +1,437 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.8",
+  "parent": "M6/6.7/proyecto",
+  "destination": "M6/6.8/proyecto",
+  "expected_gates": [
+    "handlers 401/403",
+    "reglas finales",
+    "GESTOR persistente",
+    "arquitectura completa"
+  ],
+  "step_count": 12,
+  "steps": [
+    {
+      "point": "6.8",
+      "step_number": 1,
+      "title": "Crear el JwtAuthenticationEntryPoint",
+      "page": 1487,
+      "target_present": true,
+      "practice_heading": "Crear el JwtAuthenticationEntryPoint",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "La respuesta 401 debe ser JSON `ErrorResponse` con `timestamp`, `status`, `codigo=NO_AUTENTICADO`, `mensaje`, `path` y `traceId`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P01",
+      "source_page": 1487,
+      "symbols": [
+        "AuthenticationEntryPoint",
+        "SecurityErrorWriter",
+        "ErrorResponse",
+        "timestamp",
+        "status",
+        "mensaje",
+        "path",
+        "traceId",
+        "@RestControllerAdvice",
+        "JwtAuthenticationEntryPoint"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "090e81212592763d075adafc139db84019b8e08a3983b25e1a2976c4f8649226",
+      "step_ref": "6.8.1",
+      "theory_refs": [
+        "TC-6.8-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 2,
+      "title": "Crear el JwtAccessDeniedHandler",
+      "page": 1489,
+      "target_present": true,
+      "practice_heading": "Crear el JwtAccessDeniedHandler",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "## Paso 2 - Crear el JwtAccessDeniedHandler Implementa `AccessDeniedHandler` y devuelve el mismo contrato con status 403 y `codigo=ACCESO_DENEGADO`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P02",
+      "source_page": 1489,
+      "symbols": [
+        "AccessDeniedHandler",
+        "JwtAccessDeniedHandler"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "ebcd4dde595b53565e393f41d663a089371d113f7b109b9c14608b606b05b3cb",
+      "step_ref": "6.8.2",
+      "theory_refs": [
+        "TC-6.8-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 3,
+      "title": "Actualizar el SecurityConfig",
+      "page": 1491,
+      "target_present": true,
+      "practice_heading": "Actualizar el SecurityConfig",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "La configuración completa debe conservar las piezas heredadas y ordenar las reglas específicas antes de la general: > **Pregunta de reflexión:** ¿Qué pasaría si `anyRequest().authenticated()` se declarase antes que los matchers públicos y por rol?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P03",
+      "source_page": 1491,
+      "symbols": [
+        "anyRequest().authenticated()",
+        "SecurityFilterChain",
+        "JwtAuthenticationFilter",
+        "JwtAuthenticationEntryPoint",
+        "JwtAccessDeniedHandler",
+        "@MockitoBean"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "279e06e4097cb50581c11fd2966c9acb32ce8493e082683905b2c9be1e137674",
+      "step_ref": "6.8.3",
+      "theory_refs": [
+        "TC-6.8-1",
+        "TC-6.8-2",
+        "TC-6.8-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 4,
+      "title": "Añadir un endpoint de gestor",
+      "page": 1493,
+      "target_present": true,
+      "practice_heading": "Añadir un endpoint de gestor",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Un USER autenticado queda fuera y recibe 403.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P04",
+      "source_page": 1493,
+      "symbols": [
+        "GestorController",
+        "SecurityConfig",
+        "ROLE_GESTOR",
+        "ROLE_ADMIN"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "0dbf51d5aa5cfd23dc296e6da2062f75a6911035f4d11ca8d0439d840e95aabc",
+      "step_ref": "6.8.4",
+      "theory_refs": [
+        "TC-6.8-2",
+        "TC-6.8-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 5,
+      "title": "Añadir el rol GESTOR al inicializador",
+      "page": 1494,
+      "target_present": true,
+      "practice_heading": "Añadir el rol GESTOR al inicializador",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "**Respuesta razonada:** Tiene `GESTOR` y `USER`: `GESTOR` le permite acceder a la zona de gestión y `USER` conserva las capacidades ordinarias definidas para un usuario del sistema.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P05",
+      "source_page": 1494,
+      "symbols": [
+        "UsuariosInicialesConfig",
+        "GESTOR",
+        "USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "3094b82e8ab9ff2a2f297288608dc696ea5f10fa174fed6bd6f9f0b8b2b49e81",
+      "step_ref": "6.8.5",
+      "theory_refs": [
+        "TC-6.8-2",
+        "TC-6.8-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 6,
+      "title": "Probar el flujo completo",
+      "page": 1495,
+      "target_present": true,
+      "practice_heading": "Probar el flujo completo",
+      "files": [],
+      "commands": [
+        "curl -i -H \"Authorization: Bearer $GESTOR_TOKEN\" http://localhost:8080/api/v1/perfil",
+        "curl -i -H \"Authorization: Bearer $GESTOR_TOKEN\" http://localhost:8080/api/v1/gestor/documentos",
+        "curl -i -H \"Authorization: Bearer $GESTOR_TOKEN\" http://localhost:8080/api/v1/admin/usuarios"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Comprobación verificable del paso: Probar el flujo completo",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P06",
+      "source_page": 1495,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b8cdba7f22fe793900f48904da301aa7c44ef1877ad348e4cdc76e535bd20694",
+      "step_ref": "6.8.6",
+      "theory_refs": [
+        "TC-6.8-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 7,
+      "title": "Probar sin token",
+      "page": 1497,
+      "target_present": true,
+      "practice_heading": "Probar sin token",
+      "files": [],
+      "commands": [
+        "curl -i http://localhost:8080/api/v1/perfil",
+        "curl -i http://localhost:8080/api/v1/public/info"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "**Respuesta razonada:** Debe ser JSON y respetar el contrato de errores del proyecto: status 401, código estable, mensaje, path, timestamp y `traceId`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P07",
+      "source_page": 1497,
+      "symbols": [
+        "traceId"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d155e0b642762bae79324ae6eb8d8d5ce77073c9f9666b1305b403435a6fd1d9",
+      "step_ref": "6.8.7",
+      "theory_refs": [
+        "TC-6.8-1",
+        "TC-6.8-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 8,
+      "title": "Probar el refresh token",
+      "page": 1498,
+      "target_present": true,
+      "practice_heading": "Probar el refresh token",
+      "files": [],
+      "commands": [
+        "curl -i -X POST http://localhost:8080/api/v1/auth/refresh \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "El segundo intento debe rechazarse porque ese `jti` ya fue consumido; así se limita el replay de una credencial robada.",
+      "lifecycle": "GESTOR_PERSISTENT_REINTRODUCED",
+      "practice_step_id": "M6-6.8-P08",
+      "source_page": 1498,
+      "symbols": [
+        "jti"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "23893345a08cd94555ab4d1db06ea86df62642649c6f426fecfa6143d5499075",
+      "step_ref": "6.8.8",
+      "theory_refs": [
+        "TC-6.8-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 9,
+      "title": "Probar el logout",
+      "page": 1498,
+      "target_present": true,
+      "practice_heading": "Probar el logout",
+      "files": [],
+      "commands": [
+        "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil",
+        "curl -i -X POST -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/auth/logout"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Prueba la revocación de access de extremo a extremo: La secuencia debe ser 200 → 204 → 401.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P09",
+      "source_page": 1498,
+      "symbols": [
+        "jti"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e9024ee6be5c193f82f34cf6138bd83f1dd5e1fe43650555223116b34612dfb2",
+      "step_ref": "6.8.9",
+      "theory_refs": [
+        "TC-6.8-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 10,
+      "title": "Escribir tests de integración",
+      "page": 1499,
+      "target_present": true,
+      "practice_heading": "Escribir tests de integración",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java"
+      ],
+      "commands": [
+        "./mvnw -B -Dtest=AuthControllerTest test",
+        "./mvnw -B test"
+      ],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "AuthControllerTest cubre login válido=200 y credenciales inválidas=401 CREDENCIALES_INVALIDAS; después pasa la suite acumulada.",
+      "lifecycle": "AUTH_CONTROLLER_TEST_SOURCE_CREATED",
+      "practice_step_id": "M6-6.8-P10",
+      "source_page": 1499,
+      "symbols": [
+        "AuthControllerTest",
+        "@WebMvcTest",
+        "@MockitoBean",
+        "AuthService",
+        "JwtService",
+        "TokenRevocationService",
+        "CREDENCIALES_INVALIDAS"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d7ea7f8a9aad9bff440f4e8f1dc091f7e6317c29fd77ad303b63d807803501b5",
+      "step_ref": "6.8.10",
+      "theory_refs": [
+        "TC-6.8-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1501,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P11",
+      "source_page": 1501,
+      "symbols": [
+        "JwtAccessDeniedHandler",
+        "anyRequest"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "34340f501ec2ff5e389318d9501579392f7d686276d930da020c32bdb6f2cd90",
+      "step_ref": "6.8.11",
+      "theory_refs": [
+        "TC-6.8-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    },
+    {
+      "point": "6.8",
+      "step_number": 12,
+      "title": "Reto resuelto — Endpoint para consultar el propio usuario",
+      "page": 1502,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint para consultar el propio usuario",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [
+        "curl -H \"Authorization: Bearer $TOKEN\" \\"
+      ],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "## Conclusión y enlace al siguiente punto La arquitectura JWT queda integrada de extremo a extremo.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P12",
+      "source_page": 1502,
+      "symbols": [
+        "UsuarioPrincipal",
+        "SecurityFilterChain",
+        "AuthenticationEntryPoint",
+        "AccessDeniedHandler"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "bff65364e45f19cd8d86741cc179d5c81be10e4a65ddaae5416e174ebaaa9eb4",
+      "step_ref": "6.8.12",
+      "theory_refs": [
+        "TC-6.8-3",
+        "TC-6.8-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.7/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

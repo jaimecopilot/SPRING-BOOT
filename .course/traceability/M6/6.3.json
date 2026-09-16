@@ -1,0 +1,532 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.3",
+  "parent": "M6/6.2/proyecto",
+  "destination": "M6/6.3/proyecto",
+  "expected_gates": [
+    "sin InMemoryUserDetailsManager",
+    "Usuario/Rol JPA",
+    "UsuarioDetailsService",
+    "registro",
+    "ana+admin persistentes",
+    "gestor ausente"
+  ],
+  "step_count": 14,
+  "steps": [
+    {
+      "point": "6.3",
+      "step_number": 1,
+      "title": "Crear el paquete auth",
+      "page": 1290,
+      "target_present": true,
+      "practice_heading": "Crear el paquete auth",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/",
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el paquete auth",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P01",
+      "source_page": 1290,
+      "symbols": [
+        "GestorController",
+        "auth"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "4d9f69eeaf1ca112ee1f43f193a22d735f5eeabed17236b6f3cba6dfc64394ba",
+      "step_ref": "6.3.1",
+      "theory_refs": [
+        "TC-6.3-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 2,
+      "title": "Crear la entidad Rol",
+      "page": 1290,
+      "target_present": true,
+      "practice_heading": "Crear la entidad Rol",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear la entidad Rol",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P02",
+      "source_page": 1290,
+      "symbols": [
+        "Rol",
+        "@JoinTable",
+        "Usuario.roles",
+        "@ManyToMany",
+        "mappedBy"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "40e2f86006b0c28f57a9e8c329ff6d825c254a9ef100bfe634a99a80a3a524f3",
+      "step_ref": "6.3.2",
+      "theory_refs": [
+        "TC-6.3-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 3,
+      "title": "Crear la entidad Usuario",
+      "page": 1292,
+      "target_present": true,
+      "practice_heading": "Crear la entidad Usuario",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear la entidad Usuario",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P03",
+      "source_page": 1292,
+      "symbols": [
+        "id",
+        "username",
+        "password",
+        "email",
+        "activo",
+        "fechaCreacion",
+        "roles",
+        "usuarios",
+        "usuarios_roles",
+        "Set",
+        "List"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c2fd15a12ceba57e6832a2f3bfad8f828c495b30582723208fd1855c41d053b4",
+      "step_ref": "6.3.3",
+      "theory_refs": [
+        "TC-6.3-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 4,
+      "title": "Crear los repositorios",
+      "page": 1295,
+      "target_present": true,
+      "practice_heading": "Crear los repositorios",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear los repositorios",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P04",
+      "source_page": 1295,
+      "symbols": [
+        "RolRepository",
+        "UsuarioRepository",
+        "username"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b6238e09691d1d7fc42c94fde180add6962b5f589504459a875cc167f8e6d331",
+      "step_ref": "6.3.4",
+      "theory_refs": [
+        "TC-6.3-1",
+        "TC-6.3-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 5,
+      "title": "Crear el UserDetailsService personalizado",
+      "page": 1296,
+      "target_present": true,
+      "practice_heading": "Crear el UserDetailsService personalizado",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el UserDetailsService personalizado",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P05",
+      "source_page": 1296,
+      "symbols": [
+        "UsuarioDetailsService",
+        "ADMIN",
+        "ROLE_ADMIN",
+        "ROLE_",
+        "UserDetailsService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c8ce0769982522acafd399ff1141f475b81a618af58611708e1b8f1715df44b2",
+      "step_ref": "6.3.5",
+      "theory_refs": [
+        "TC-6.3-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 6,
+      "title": "Eliminar los usuarios en memoria",
+      "page": 1299,
+      "target_present": true,
+      "practice_heading": "Eliminar los usuarios en memoria",
+      "files": [
+        "config/InMemoryUserConfig.java",
+        "InMemoryUserConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "## Paso 6 - Eliminar los usuarios en memoria Al terminar este paso, la transición queda cerrada: Eliminamos físicamente: No se elimina: porque la autenticación persistente y el registro siguen necesitando el encoder.",
+      "lifecycle": "CLOSES_IN_MEMORY_USER_SOURCE_AND_GESTOR_TEMPORARY",
+      "practice_step_id": "M6-6.3-P06",
+      "source_page": 1299,
+      "symbols": [
+        "PasswordEncoder",
+        "InMemoryUserDetailsManager"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "014c683263583c6f2a892a50b4728c6b770387b54949640c9ad258c5dc341de1",
+      "step_ref": "6.3.6",
+      "theory_refs": [
+        "TC-6.3-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 7,
+      "title": "Crear el inicializador de usuarios",
+      "page": 1299,
+      "target_present": true,
+      "practice_heading": "Crear el inicializador de usuarios",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el inicializador de usuarios",
+      "lifecycle": "PERSISTENT_USERS_ANA_ADMIN_ONLY",
+      "practice_step_id": "M6-6.3-P07",
+      "source_page": 1299,
+      "symbols": [
+        "UsuariosInicialesConfig",
+        "gestor",
+        "InMemoryUserConfig",
+        "admin",
+        "ana",
+        "ADMIN",
+        "USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "ed185645efc250573b7234838e6a7eaa815aa985fd8e8cafadb03058f93dba0e",
+      "step_ref": "6.3.7",
+      "theory_refs": [
+        "TC-6.3-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 8,
+      "title": "Arrancar y verificar",
+      "page": 1301,
+      "target_present": true,
+      "practice_heading": "Arrancar y verificar",
+      "files": [],
+      "commands": [
+        "./mvnw spring-boot:run"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "## Paso 8 - Arrancar y verificar Cuando el árbol M5 esté completamente materializado: En H2: La comprobación debe confirmar lo siguiente.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P08",
+      "source_page": 1301,
+      "symbols": [
+        "usuarios",
+        "roles",
+        "usuarios_roles",
+        "usuario_id",
+        "rol_id"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6293f581d9deccff84b346bbe62d88b9bfa79464f2f11188819696a973c76950",
+      "step_ref": "6.3.8",
+      "theory_refs": [
+        "TC-6.3-1",
+        "TC-6.3-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 9,
+      "title": "Probar la autenticación",
+      "page": 1302,
+      "target_present": true,
+      "practice_heading": "Probar la autenticación",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 \\",
+        "curl -i -u admin:admin123 \\",
+        "curl -i -u gestor:gestor123 \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Probar la autenticación",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P09",
+      "source_page": 1302,
+      "symbols": [
+        "ROLE_USER",
+        "ROLE_ADMIN",
+        "ana",
+        "admin",
+        "gestor"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "45d9ebd295f3bd577a380e68d00de4c5b06bd34b1f8ae510fde9f8ad17334834",
+      "step_ref": "6.3.9",
+      "theory_refs": [
+        "TC-6.3-2",
+        "TC-6.3-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 10,
+      "title": "Crear el endpoint de registro",
+      "page": 1302,
+      "target_present": true,
+      "practice_heading": "Crear el endpoint de registro",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el endpoint de registro",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P10",
+      "source_page": 1302,
+      "symbols": [
+        "RegistroRequestDTO",
+        "UsuarioResponseDTO"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "dc2e0a5bf9b84733195e6c4ede92add20194cae812dbd4424b43823596aadfe6",
+      "step_ref": "6.3.10",
+      "theory_refs": [
+        "TC-6.3-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 11,
+      "title": "Crear el AuthService y el AuthController",
+      "page": 1304,
+      "target_present": true,
+      "practice_heading": "Crear el AuthService y el AuthController",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "El controlador expone: y responde `201 Created`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P11",
+      "source_page": 1304,
+      "symbols": [
+        "AuthService.registrar(...)",
+        "USER",
+        "RecursoDuplicadoException",
+        "RecursoNoEncontradoException",
+        "OperacionNoPermitidaException",
+        "NegocioException",
+        "@Deprecated"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b89108f9d628d5026a76d066a22c4cbd843ea113c9d7ecb6f469a19e0c44953c",
+      "step_ref": "6.3.11",
+      "theory_refs": [
+        "TC-6.3-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 12,
+      "title": "Configurar el endpoint público y probar",
+      "page": 1308,
+      "target_present": true,
+      "practice_heading": "Configurar el endpoint público y probar",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "El duplicado debe resolverse mediante el contrato de errores de negocio heredado de M5.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P12",
+      "source_page": 1308,
+      "symbols": [
+        "SecurityConfig",
+        "ROLE_USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "abdd46107624966305bcd0852417dd746e7ad75e1deaa36b2d1215c2a381ef21",
+      "step_ref": "6.3.12",
+      "theory_refs": [
+        "TC-6.3-3",
+        "TC-6.3-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 13,
+      "title": "Errores comunes del ejercicio",
+      "page": 1309,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P13",
+      "source_page": 1309,
+      "symbols": [
+        "UserDetailsService",
+        "InMemoryUserConfig",
+        "LazyInitializationException",
+        "encode",
+        "hasRole",
+        "ROLE_",
+        "ADMIN",
+        "ROLE_ADMIN",
+        "@JoinTable",
+        "Set",
+        "Usuario",
+        "UsernameNotFoundException"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "9211bdb36802cdf6dc11b5bce3063e6dd843c59507cf3740eba08a6f7262df20",
+      "step_ref": "6.3.13",
+      "theory_refs": [
+        "TC-6.3-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    },
+    {
+      "point": "6.3",
+      "step_number": 14,
+      "title": "Reto resuelto — Endpoint para cambiar la contraseña",
+      "page": 1311,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint para cambiar la contraseña",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "## Resultado esperado global - Entidades `Usuario` y `Rol` con relación `@ManyToMany`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P14",
+      "source_page": 1311,
+      "symbols": [
+        "save",
+        "PerfilController",
+        "Usuario",
+        "Rol",
+        "@ManyToMany",
+        "UsuarioDetailsService",
+        "@JoinTable",
+        "UserDetailsService",
+        "@Transactional",
+        "CommandLineRunner"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "212fe575aeb4911584d9b3fa640bd710703eef38e70f91ec93a14ed645c1deee",
+      "step_ref": "6.3.14",
+      "theory_refs": [
+        "TC-6.3-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.2/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

@@ -1,0 +1,620 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< es.mecd.demo:mi-proyecto >----------------------
+[INFO] Building mi-proyecto 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ mi-proyecto ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mi-proyecto ---
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mi-proyecto ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 86 source files with javac [debug parameters release 17] to target\classes
+[INFO] /C:/Users/Administrador/Downloads/M6_R19_FORWARD_PACKAGE_R11/M6_R19_R11_WORK/_M6_FORWARD_OUTPUT/M6/6.9/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java: Some input files use or override a deprecated API.
+[INFO] /C:/Users/Administrador/Downloads/M6_R19_FORWARD_PACKAGE_R11/M6_R19_R11_WORK/_M6_FORWARD_OUTPUT/M6/6.9/proyecto/src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mi-proyecto ---
+[INFO] skip non existing resourceDirectory C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mi-proyecto ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 24 source files with javac [debug parameters release 17] to target\test-classes
+[INFO] /C:/Users/Administrador/Downloads/M6_R19_FORWARD_PACKAGE_R11/M6_R19_R11_WORK/_M6_FORWARD_OUTPUT/M6/6.9/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java: C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto\src\test\java\es\mecd\demo\miproyecto\alumno\AlumnoServiceTest.java uses unchecked or unsafe operations.
+[INFO] /C:/Users/Administrador/Downloads/M6_R19_FORWARD_PACKAGE_R11/M6_R19_R11_WORK/_M6_FORWARD_OUTPUT/M6/6.9/proyecto/src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ mi-proyecto ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running es.mecd.demo.miproyecto.alumno.AlumnoControllerTest
+09:28:04.749 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.alumno.AlumnoControllerTest]: AlumnoControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:28:05.035 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.alumno.AlumnoControllerTest
+09:28:05.156 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:05.753Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoControllerTest      : Starting AlumnoControllerTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:05.755Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoControllerTest      : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:05.755Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoControllerTest      : The following 1 profile is active: "dev"
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-09-16T09:28:09.342Z  WARN 12652 --- [mi-proyecto] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: d00e45a2-9a58-4330-bf2f-95d4895d6810
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-09-16T09:28:09.351Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-09-16T09:28:09.566Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-16T09:28:09.568Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-16T09:28:09.568Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-16T09:28:09.605Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoControllerTest      : Started AlumnoControllerTest in 4.464 seconds (process running for 6.086)
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.650 s -- in es.mecd.demo.miproyecto.alumno.AlumnoControllerTest
+[INFO] Running es.mecd.demo.miproyecto.alumno.AlumnoRepositoryTest
+2026-09-16T09:28:10.221Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.alumno.AlumnoRepositoryTest]: AlumnoRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:10.283Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.alumno.AlumnoRepositoryTest
+2026-09-16T09:28:10.316Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:10.407Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoRepositoryTest      : Starting AlumnoRepositoryTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:10.407Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoRepositoryTest      : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:10.407Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoRepositoryTest      : The following 1 profile is active: "dev"
+2026-09-16T09:28:10.757Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-16T09:28:10.884Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 110 ms. Found 5 JPA repository interfaces.
+2026-09-16T09:28:10.963Z  INFO 12652 --- [mi-proyecto] [           main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-09-16T09:28:11.047Z  INFO 12652 --- [mi-proyecto] [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:60317e76-3027-4793-809c-0400e9829956;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-09-16T09:28:11.388Z  INFO 12652 --- [mi-proyecto] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-16T09:28:11.482Z  INFO 12652 --- [mi-proyecto] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-16T09:28:11.535Z  INFO 12652 --- [mi-proyecto] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-16T09:28:11.724Z  INFO 12652 --- [mi-proyecto] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-16T09:28:11.836Z  INFO 12652 --- [mi-proyecto] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory$EmbeddedDataSourceProxy@79d8075c']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-16T09:28:13.015Z  INFO 12652 --- [mi-proyecto] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists alumnos cascade 
+Hibernate: drop table if exists auditorias cascade 
+Hibernate: drop table if exists cursos cascade 
+Hibernate: drop table if exists roles cascade 
+Hibernate: drop table if exists usuarios cascade 
+Hibernate: drop table if exists usuarios_roles cascade 
+Hibernate: create table alumnos (eliminado boolean not null, fecha_nacimiento date, curso_id bigint not null, id bigint generated by default as identity, version bigint, dni varchar(9) not null unique, nombre varchar(100) not null, apellidos varchar(150) not null, calle varchar(255), ciudad varchar(255), codigo_postal varchar(255), numero varchar(255), estado enum ('ACTIVO','GRADUADO','INACTIVO','SUSPENDIDO') not null, foto blob, observaciones clob, primary key (id))
+Hibernate: create table auditorias (fecha timestamp(6) not null, id bigint generated by default as identity, operacion varchar(80) not null, detalle varchar(500) not null, primary key (id))
+Hibernate: create table cursos (id bigint generated by default as identity, nombre varchar(80) not null unique, primary key (id))
+Hibernate: create table roles (id bigint generated by default as identity, nombre varchar(50) not null unique, descripcion varchar(200), primary key (id))
+Hibernate: create table usuarios (activo boolean not null, fecha_creacion timestamp(6) not null, id bigint generated by default as identity, username varchar(50) not null unique, email varchar(150) not null unique, password varchar(255) not null, primary key (id))
+Hibernate: create table usuarios_roles (rol_id bigint not null, usuario_id bigint not null, primary key (rol_id, usuario_id))
+Hibernate: alter table if exists alumnos add constraint FK1uqxmyjm41qee952wdd2y2ttw foreign key (curso_id) references cursos
+Hibernate: alter table if exists usuarios_roles add constraint FK5338ehgluufgc8bpj08nrq970 foreign key (rol_id) references roles
+Hibernate: alter table if exists usuarios_roles add constraint FKqcxu02bqipxpr7cjyj9dmhwec foreign key (usuario_id) references usuarios
+2026-09-16T09:28:13.107Z  INFO 12652 --- [mi-proyecto] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-16T09:28:13.774Z  INFO 12652 --- [mi-proyecto] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-16T09:28:14.805Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.alumno.AlumnoRepositoryTest      : Started AlumnoRepositoryTest in 4.491 seconds (process running for 11.286)
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select a1_0.id,a1_0.apellidos,a1_0.curso_id,a1_0.calle,a1_0.ciudad,a1_0.codigo_postal,a1_0.numero,a1_0.dni,a1_0.eliminado,a1_0.estado,a1_0.fecha_nacimiento,a1_0.foto,a1_0.nombre,a1_0.observaciones,a1_0.version from alumnos a1_0 join cursos c1_0 on c1_0.id=a1_0.curso_id where lower(c1_0.nombre)=lower(?) and a1_0.fecha_nacimiento>? and a1_0.eliminado=false
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select a1_0.id,a1_0.apellidos,a1_0.curso_id,a1_0.calle,a1_0.ciudad,a1_0.codigo_postal,a1_0.numero,a1_0.dni,a1_0.eliminado,a1_0.estado,a1_0.fecha_nacimiento,a1_0.foto,a1_0.nombre,a1_0.observaciones,a1_0.version from alumnos a1_0 join cursos c1_0 on c1_0.id=a1_0.curso_id where not(a1_0.eliminado) and lower(c1_0.nombre)=? and a1_0.estado=? and a1_0.fecha_nacimiento between ? and ?
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+2026-09-16T09:28:15.215Z  WARN 12652 --- [mi-proyecto] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23505, SQLState: 23505
+2026-09-16T09:28:15.215Z ERROR 12652 --- [mi-proyecto] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : Unique index or primary key violation: "PUBLIC.CONSTRAINT_INDEX_F ON PUBLIC.ALUMNOS(DNI NULLS FIRST) VALUES ( /* 5 */ '12345678A' )"; SQL statement:
+insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default) [23505-232]
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select a1_0.id,a1_0.apellidos,a1_0.curso_id,a1_0.calle,a1_0.ciudad,a1_0.codigo_postal,a1_0.numero,a1_0.dni,a1_0.eliminado,a1_0.estado,a1_0.fecha_nacimiento,a1_0.foto,a1_0.nombre,a1_0.observaciones,a1_0.version from alumnos a1_0 where a1_0.dni=?
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select a1_0.id,(a1_0.nombre||' '||a1_0.apellidos),c1_0.nombre from alumnos a1_0 join cursos c1_0 on c1_0.id=a1_0.curso_id where lower(c1_0.nombre)=lower(?) and a1_0.eliminado=false
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: select a1_0.id,a1_0.apellidos,a1_0.curso_id,a1_0.calle,a1_0.ciudad,a1_0.codigo_postal,a1_0.numero,a1_0.dni,a1_0.eliminado,a1_0.estado,a1_0.fecha_nacimiento,a1_0.foto,a1_0.nombre,a1_0.observaciones,a1_0.version from alumnos a1_0 where a1_0.dni=?
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select a1_0.id,a1_0.apellidos,a1_0.curso_id,a1_0.calle,a1_0.ciudad,a1_0.codigo_postal,a1_0.numero,a1_0.dni,a1_0.eliminado,a1_0.estado,a1_0.fecha_nacimiento,a1_0.foto,a1_0.nombre,a1_0.observaciones,a1_0.version from alumnos a1_0 join cursos c1_0 on c1_0.id=a1_0.curso_id where upper(c1_0.nombre)=upper(?) and not(a1_0.eliminado)
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where c1_0.id=?
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select a1_0.id,a1_0.apellidos,a1_0.curso_id,c1_0.id,c1_0.nombre,a1_0.calle,a1_0.ciudad,a1_0.codigo_postal,a1_0.numero,a1_0.dni,a1_0.eliminado,a1_0.estado,a1_0.fecha_nacimiento,a1_0.foto,a1_0.nombre,a1_0.observaciones,a1_0.version from alumnos a1_0 join cursos c1_0 on c1_0.id=a1_0.curso_id where a1_0.id=? and a1_0.eliminado=false
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.150 s -- in es.mecd.demo.miproyecto.alumno.AlumnoRepositoryTest
+[INFO] Running es.mecd.demo.miproyecto.alumno.AlumnoServiceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.364 s -- in es.mecd.demo.miproyecto.alumno.AlumnoServiceTest
+[INFO] Running es.mecd.demo.miproyecto.auth.AuthControllerSecurityTest
+2026-09-16T09:28:15.790Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.auth.AuthControllerSecurityTest]: AuthControllerSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:15.834Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.auth.AuthControllerSecurityTest
+2026-09-16T09:28:15.838Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:15.867Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.AuthControllerSecurityTest  : Starting AuthControllerSecurityTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:15.867Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.AuthControllerSecurityTest  : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:15.867Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.AuthControllerSecurityTest  : The following 1 profile is active: "dev"
+2026-09-16T09:28:16.257Z  WARN 12652 --- [mi-proyecto] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 75d83689-c50e-4e0b-b15a-9c05039258d9
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-09-16T09:28:16.257Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-09-16T09:28:16.273Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-16T09:28:16.273Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-16T09:28:16.275Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-09-16T09:28:16.282Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.AuthControllerSecurityTest  : Started AuthControllerSecurityTest in 0.444 seconds (process running for 12.762)
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.592 s -- in es.mecd.demo.miproyecto.auth.AuthControllerSecurityTest
+[INFO] Running es.mecd.demo.miproyecto.auth.GestorSecurityTest
+2026-09-16T09:28:16.369Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.auth.GestorSecurityTest]: GestorSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:16.386Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.auth.GestorSecurityTest
+2026-09-16T09:28:16.400Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:16.432Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.GestorSecurityTest          : Starting GestorSecurityTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:16.432Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.GestorSecurityTest          : The following 1 profile is active: "test"
+2026-09-16T09:28:16.938Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-16T09:28:16.972Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 31 ms. Found 5 JPA repository interfaces.
+2026-09-16T09:28:17.249Z  INFO 12652 --- [mi-proyecto] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-16T09:28:17.253Z  INFO 12652 --- [mi-proyecto] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-16T09:28:17.265Z  INFO 12652 --- [mi-proyecto] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-16T09:28:17.267Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-16T09:28:17.286Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn12: url=jdbc:h2:mem:m5test user=SA
+2026-09-16T09:28:17.286Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-16T09:28:17.296Z  INFO 12652 --- [mi-proyecto] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-16T09:28:17.396Z  INFO 12652 --- [mi-proyecto] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-16T09:28:17.417Z  INFO 12652 --- [mi-proyecto] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-16T09:28:17.693Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuarioDetailsService
+2026-09-16T09:28:18.694Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-16T09:28:18.694Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-16T09:28:18.694Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-16T09:28:18.710Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.GestorSecurityTest          : Started GestorSecurityTest in 2.312 seconds (process running for 15.191)
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.777 s -- in es.mecd.demo.miproyecto.auth.GestorSecurityTest
+[INFO] Running es.mecd.demo.miproyecto.auth.JwtFilterIntegrationTest
+2026-09-16T09:28:19.150Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.auth.JwtFilterIntegrationTest]: JwtFilterIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:19.155Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.auth.JwtFilterIntegrationTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.301 s -- in es.mecd.demo.miproyecto.auth.JwtFilterIntegrationTest
+[INFO] Running es.mecd.demo.miproyecto.auth.UsuarioControllerCompleteSecurityTest
+2026-09-16T09:28:19.460Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.auth.UsuarioControllerCompleteSecurityTest]: UsuarioControllerCompleteSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:19.465Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.auth.UsuarioControllerCompleteSecurityTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.112 s -- in es.mecd.demo.miproyecto.auth.UsuarioControllerCompleteSecurityTest
+[INFO] Running es.mecd.demo.miproyecto.auth.UsuarioControllerIntegrationTest
+2026-09-16T09:28:19.578Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.auth.UsuarioControllerIntegrationTest]: UsuarioControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:19.582Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.auth.UsuarioControllerIntegrationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.135 s -- in es.mecd.demo.miproyecto.auth.UsuarioControllerIntegrationTest
+[INFO] Running es.mecd.demo.miproyecto.auth.UsuarioControllerSecurityTest
+2026-09-16T09:28:19.718Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.auth.UsuarioControllerSecurityTest]: UsuarioControllerSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:19.727Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.auth.UsuarioControllerSecurityTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.073 s -- in es.mecd.demo.miproyecto.auth.UsuarioControllerSecurityTest
+[INFO] Running es.mecd.demo.miproyecto.auth.UsuarioControllerTest
+2026-09-16T09:28:19.802Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.auth.UsuarioControllerTest]: UsuarioControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:19.833Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.auth.UsuarioControllerTest
+2026-09-16T09:28:19.838Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:19.871Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.UsuarioControllerTest       : Starting UsuarioControllerTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:19.871Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.UsuarioControllerTest       : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:19.871Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.UsuarioControllerTest       : The following 1 profile is active: "dev"
+2026-09-16T09:28:20.290Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.JwtAuthenticationFilter     : Filter 'jwtAuthenticationFilter' configured for use
+2026-09-16T09:28:20.290Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-16T09:28:20.290Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-16T09:28:20.290Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-16T09:28:20.298Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.auth.UsuarioControllerTest       : Started UsuarioControllerTest in 0.458 seconds (process running for 16.778)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.539 s -- in es.mecd.demo.miproyecto.auth.UsuarioControllerTest
+[INFO] Running es.mecd.demo.miproyecto.common.controller.PublicControllerSecurityTest
+2026-09-16T09:28:20.335Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.common.controller.PublicControllerSecurityTest]: PublicControllerSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:20.367Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.common.controller.PublicControllerSecurityTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in es.mecd.demo.miproyecto.common.controller.PublicControllerSecurityTest
+[INFO] Running es.mecd.demo.miproyecto.common.exception.AplicacionExceptionTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in es.mecd.demo.miproyecto.common.exception.AplicacionExceptionTest
+[INFO] Running es.mecd.demo.miproyecto.common.exception.ErrorHandlingTest
+2026-09-16T09:28:20.404Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.common.exception.ErrorHandlingTest]: ErrorHandlingTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:20.492Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.common.exception.ErrorHandlingTest
+2026-09-16T09:28:20.536Z ERROR 12652 --- [mi-proyecto] [           main] e.m.d.m.c.e.GenericExceptionHandler      : Error inesperado en /api/v1/alumnos - traceId=a175235b-09ba-4f00-ac12-4daa3af23374
+
+java.lang.RuntimeException: secreto-tecnico
+	at es.mecd.demo.miproyecto.alumno.AlumnoService.listar(AlumnoService.java:50) ~[classes/:na]
+	at es.mecd.demo.miproyecto.alumno.AlumnoController.listar(AlumnoController.java:52) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.19.jar:6.2.19]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.55.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.19.jar:6.2.19]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72) ~[spring-test-6.2.19.jar:6.2.19]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.55.jar:6.0]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165) ~[spring-test-6.2.19.jar:6.2.19]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.19.jar:6.2.19]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201) ~[spring-test-6.2.19.jar:6.2.19]
+	at es.mecd.demo.miproyecto.common.exception.ErrorHandlingTest.inesperadoDevuelve500SinFiltrarDetalle(ErrorHandlingTest.java:69) ~[test-classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:775) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:479) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:161) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:152) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:91) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:112) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:94) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:93) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:87) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:216) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:212) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:137) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:201) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:170) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:94) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:59) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:142) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:39) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:38) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithoutCancellationToken(LauncherAdapter.java:60) ~[surefire-junit-platform-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:52) ~[surefire-junit-platform-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203) ~[surefire-junit-platform-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168) ~[surefire-junit-platform-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136) ~[surefire-junit-platform-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.5.6.jar:3.5.6]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.5.6.jar:3.5.6]
+
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.162 s -- in es.mecd.demo.miproyecto.common.exception.ErrorHandlingTest
+[INFO] Running es.mecd.demo.miproyecto.common.util.FechasUtilTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in es.mecd.demo.miproyecto.common.util.FechasUtilTest
+[INFO] Running es.mecd.demo.miproyecto.config.AppPropertiesTest
+2026-09-16T09:28:20.570Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.config.AppPropertiesTest]: AppPropertiesTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:20.585Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.config.AppPropertiesTest
+2026-09-16T09:28:20.587Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:20.628Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.config.AppPropertiesTest         : Starting AppPropertiesTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:20.628Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.config.AppPropertiesTest         : The following 1 profile is active: "test"
+2026-09-16T09:28:20.902Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-16T09:28:20.931Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 5 JPA repository interfaces.
+2026-09-16T09:28:21.015Z  INFO 12652 --- [mi-proyecto] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-16T09:28:21.017Z  INFO 12652 --- [mi-proyecto] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-16T09:28:21.027Z  INFO 12652 --- [mi-proyecto] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-16T09:28:21.027Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-09-16T09:28:21.029Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn22: url=jdbc:h2:mem:m5test user=SA
+2026-09-16T09:28:21.029Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-09-16T09:28:21.030Z  INFO 12652 --- [mi-proyecto] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-16T09:28:21.107Z  INFO 12652 --- [mi-proyecto] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-16T09:28:21.148Z  INFO 12652 --- [mi-proyecto] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-16T09:28:21.263Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuarioDetailsService
+2026-09-16T09:28:21.517Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.config.AppPropertiesTest         : Started AppPropertiesTest in 0.93 seconds (process running for 17.999)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.245 s -- in es.mecd.demo.miproyecto.config.AppPropertiesTest
+[INFO] Running es.mecd.demo.miproyecto.config.CorsConfigTest
+2026-09-16T09:28:21.821Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.config.CorsConfigTest]: CorsConfigTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:21.831Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.config.CorsConfigTest
+2026-09-16T09:28:21.841Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:21.880Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.miproyecto.config.CorsConfigTest   : Starting CorsConfigTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:21.880Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.miproyecto.config.CorsConfigTest   : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:21.880Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.miproyecto.config.CorsConfigTest   : The following 1 profile is active: "dev"
+2026-09-16T09:28:22.113Z  WARN 12652 --- [mi-proyecto] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 14fb6fd9-4ea9-43c1-85a5-05a736e77752
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-09-16T09:28:22.115Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-09-16T09:28:22.124Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-16T09:28:22.124Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-16T09:28:22.124Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-16T09:28:22.132Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.miproyecto.config.CorsConfigTest   : Started CorsConfigTest in 0.291 seconds (process running for 18.613)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.350 s -- in es.mecd.demo.miproyecto.config.CorsConfigTest
+[INFO] Running es.mecd.demo.miproyecto.curso.CursoRepositoryTest
+2026-09-16T09:28:22.179Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.curso.CursoRepositoryTest]: CursoRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:22.234Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.curso.CursoRepositoryTest
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: select c1_0.id,c1_0.nombre from cursos c1_0 where upper(c1_0.nombre)=upper(?)
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select distinct c1_0.id,a1_0.curso_id,a1_0.id,a1_0.apellidos,a1_0.calle,a1_0.ciudad,a1_0.codigo_postal,a1_0.numero,a1_0.dni,a1_0.eliminado,a1_0.estado,a1_0.fecha_nacimiento,a1_0.foto,a1_0.nombre,a1_0.observaciones,a1_0.version,c1_0.nombre from cursos c1_0 left join alumnos a1_0 on c1_0.id=a1_0.curso_id
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.098 s -- in es.mecd.demo.miproyecto.curso.CursoRepositoryTest
+[INFO] Running es.mecd.demo.miproyecto.expediente.ExpedienteControllerTest
+2026-09-16T09:28:22.279Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.expediente.ExpedienteControllerTest]: ExpedienteControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:22.315Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.expediente.ExpedienteControllerTest
+2026-09-16T09:28:22.319Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:22.346Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.e.ExpedienteControllerTest       : Starting ExpedienteControllerTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:22.346Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.e.ExpedienteControllerTest       : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:22.346Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.e.ExpedienteControllerTest       : The following 1 profile is active: "dev"
+2026-09-16T09:28:22.621Z  WARN 12652 --- [mi-proyecto] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: be86dd57-d504-43f5-b9f7-83f94c7fa77d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-09-16T09:28:22.621Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-09-16T09:28:22.632Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-16T09:28:22.632Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-16T09:28:22.632Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-16T09:28:22.636Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.e.ExpedienteControllerTest       : Started ExpedienteControllerTest in 0.317 seconds (process running for 19.116)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.396 s -- in es.mecd.demo.miproyecto.expediente.ExpedienteControllerTest
+[INFO] Running es.mecd.demo.miproyecto.expediente.ExpedienteServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in es.mecd.demo.miproyecto.expediente.ExpedienteServiceTest
+[INFO] Running es.mecd.demo.miproyecto.fichero.FicheroExceptionHandlerTest
+2026-09-16T09:28:22.681Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.fichero.FicheroExceptionHandlerTest]: FicheroExceptionHandlerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:22.733Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.fichero.FicheroExceptionHandlerTest
+2026-09-16T09:28:22.743Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:22.786Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.f.FicheroExceptionHandlerTest    : Starting FicheroExceptionHandlerTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:22.786Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.f.FicheroExceptionHandlerTest    : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:22.786Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.f.FicheroExceptionHandlerTest    : The following 1 profile is active: "dev"
+2026-09-16T09:28:23.023Z  WARN 12652 --- [mi-proyecto] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 61d7e00a-5ce6-420f-ab57-0adc7da0f600
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-09-16T09:28:23.023Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-09-16T09:28:23.034Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-16T09:28:23.034Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-16T09:28:23.034Z  INFO 12652 --- [mi-proyecto] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-16T09:28:23.038Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.f.FicheroExceptionHandlerTest    : Started FicheroExceptionHandlerTest in 0.295 seconds (process running for 19.518)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.398 s -- in es.mecd.demo.miproyecto.fichero.FicheroExceptionHandlerTest
+[INFO] Running es.mecd.demo.miproyecto.jwt.JwtManualTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in es.mecd.demo.miproyecto.jwt.JwtManualTest
+[INFO] Running es.mecd.demo.miproyecto.MiProyectoApplicationTest
+2026-09-16T09:28:23.091Z  INFO 12652 --- [mi-proyecto] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [es.mecd.demo.miproyecto.MiProyectoApplicationTest]: MiProyectoApplicationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-16T09:28:23.140Z  INFO 12652 --- [mi-proyecto] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration es.mecd.demo.miproyecto.MiProyectoApplication for test class es.mecd.demo.miproyecto.MiProyectoApplicationTest
+2026-09-16T09:28:23.163Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-16T09:28:23.221Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.MiProyectoApplicationTest        : Starting MiProyectoApplicationTest using Java 17.0.20.1 with PID 12652 (started by Administrador in C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto)
+2026-09-16T09:28:23.221Z DEBUG 12652 --- [mi-proyecto] [           main] e.m.d.m.MiProyectoApplicationTest        : Running with Spring Boot v3.5.16, Spring v6.2.19
+2026-09-16T09:28:23.221Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.MiProyectoApplicationTest        : The following 1 profile is active: "dev"
+2026-09-16T09:28:23.667Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-16T09:28:23.690Z  INFO 12652 --- [mi-proyecto] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 5 JPA repository interfaces.
+2026-09-16T09:28:23.806Z  INFO 12652 --- [mi-proyecto] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-16T09:28:23.810Z  INFO 12652 --- [mi-proyecto] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-16T09:28:23.823Z  INFO 12652 --- [mi-proyecto] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-16T09:28:23.825Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-09-16T09:28:23.827Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn34: url=jdbc:h2:mem:testdb user=SA
+2026-09-16T09:28:23.829Z  INFO 12652 --- [mi-proyecto] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-09-16T09:28:23.829Z  INFO 12652 --- [mi-proyecto] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-16T09:28:23.909Z  INFO 12652 --- [mi-proyecto] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists alumnos cascade 
+Hibernate: drop table if exists auditorias cascade 
+Hibernate: drop table if exists cursos cascade 
+Hibernate: drop table if exists roles cascade 
+Hibernate: drop table if exists usuarios cascade 
+Hibernate: drop table if exists usuarios_roles cascade 
+Hibernate: create table alumnos (eliminado boolean not null, fecha_nacimiento date, curso_id bigint not null, id bigint generated by default as identity, version bigint, dni varchar(9) not null unique, nombre varchar(100) not null, apellidos varchar(150) not null, calle varchar(255), ciudad varchar(255), codigo_postal varchar(255), numero varchar(255), estado enum ('ACTIVO','GRADUADO','INACTIVO','SUSPENDIDO') not null, foto blob, observaciones clob, primary key (id))
+Hibernate: create table auditorias (fecha timestamp(6) not null, id bigint generated by default as identity, operacion varchar(80) not null, detalle varchar(500) not null, primary key (id))
+Hibernate: create table cursos (id bigint generated by default as identity, nombre varchar(80) not null unique, primary key (id))
+Hibernate: create table roles (id bigint generated by default as identity, nombre varchar(50) not null unique, descripcion varchar(200), primary key (id))
+Hibernate: create table usuarios (activo boolean not null, fecha_creacion timestamp(6) not null, id bigint generated by default as identity, username varchar(50) not null unique, email varchar(150) not null unique, password varchar(255) not null, primary key (id))
+Hibernate: create table usuarios_roles (rol_id bigint not null, usuario_id bigint not null, primary key (rol_id, usuario_id))
+Hibernate: alter table if exists alumnos add constraint FK1uqxmyjm41qee952wdd2y2ttw foreign key (curso_id) references cursos
+Hibernate: alter table if exists usuarios_roles add constraint FK5338ehgluufgc8bpj08nrq970 foreign key (rol_id) references roles
+Hibernate: alter table if exists usuarios_roles add constraint FKqcxu02bqipxpr7cjyj9dmhwec foreign key (usuario_id) references usuarios
+2026-09-16T09:28:23.925Z  INFO 12652 --- [mi-proyecto] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-16T09:28:24.290Z  INFO 12652 --- [mi-proyecto] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuarioDetailsService
+2026-09-16T09:28:24.623Z  INFO 12652 --- [mi-proyecto] [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2026-09-16T09:28:24.667Z  INFO 12652 --- [mi-proyecto] [           main] e.m.d.m.MiProyectoApplicationTest        : Started MiProyectoApplicationTest in 1.504 seconds (process running for 21.148)
+Hibernate: select r1_0.id,r1_0.descripcion,r1_0.nombre from roles r1_0 where r1_0.nombre=?
+Hibernate: insert into roles (descripcion,nombre,id) values (?,?,default)
+Hibernate: select r1_0.id,r1_0.descripcion,r1_0.nombre from roles r1_0 where r1_0.nombre=?
+Hibernate: insert into roles (descripcion,nombre,id) values (?,?,default)
+Hibernate: select r1_0.id,r1_0.descripcion,r1_0.nombre from roles r1_0 where r1_0.nombre=?
+Hibernate: insert into roles (descripcion,nombre,id) values (?,?,default)
+Hibernate: select u1_0.id from usuarios u1_0 where u1_0.username=? fetch first ? rows only
+Hibernate: insert into usuarios (activo,email,fecha_creacion,password,username,id) values (?,?,?,?,?,default)
+Hibernate: insert into usuarios_roles (usuario_id,rol_id) values (?,?)
+Hibernate: select u1_0.id from usuarios u1_0 where u1_0.username=? fetch first ? rows only
+Hibernate: insert into usuarios (activo,email,fecha_creacion,password,username,id) values (?,?,?,?,?,default)
+Hibernate: insert into usuarios_roles (usuario_id,rol_id) values (?,?)
+Hibernate: insert into usuarios_roles (usuario_id,rol_id) values (?,?)
+Hibernate: select u1_0.id from usuarios u1_0 where u1_0.username=? fetch first ? rows only
+Hibernate: insert into usuarios (activo,email,fecha_creacion,password,username,id) values (?,?,?,?,?,default)
+Hibernate: insert into usuarios_roles (usuario_id,rol_id) values (?,?)
+Hibernate: insert into usuarios_roles (usuario_id,rol_id) values (?,?)
+Hibernate: select count(*) from alumnos a1_0
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: insert into cursos (nombre,id) values (?,default)
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into alumnos (apellidos,curso_id,calle,ciudad,codigo_postal,numero,dni,eliminado,estado,fecha_nacimiento,foto,nombre,observaciones,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.907 s -- in es.mecd.demo.miproyecto.MiProyectoApplicationTest
+[INFO] Running es.mecd.demo.miproyecto.saludo.SaludoControllerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in es.mecd.demo.miproyecto.saludo.SaludoControllerTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 58, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mi-proyecto ---
+[INFO] Building jar: C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto\target\mi-proyecto-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.16:repackage (repackage) @ mi-proyecto ---
+[INFO] Replacing main artifact C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto\target\mi-proyecto-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Administrador\Downloads\M6_R19_FORWARD_PACKAGE_R11\M6_R19_R11_WORK\_M6_FORWARD_OUTPUT\M6\6.9\proyecto\target\mi-proyecto-0.0.1-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- checkstyle:3.6.0:check (checkstyle) @ mi-proyecto ---
+[INFO] Starting audit...
+Audit done.
+[INFO] You have 0 Checkstyle violations.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  33.615 s
+[INFO] Finished at: 2026-09-16T09:28:29Z
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,3192 @@
+{
+  "schema_version": 3,
+  "module": "M6",
+  "canonical_steps": 112,
+  "all_target_present": true,
+  "steps": [
+    {
+      "point": "6.1",
+      "step_number": 1,
+      "title": "Añadir la dependencia de Spring Security",
+      "page": 1220,
+      "target_present": true,
+      "practice_heading": "Añadir la dependencia de Spring Security",
+      "files": [
+        "pom.xml"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Añadir la dependencia de Spring Security",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P01",
+      "source_page": 1220,
+      "symbols": [
+        "pom.xml",
+        "mvnw.cmd",
+        "cmd.exe"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "16a1edfdfcaa48fdd9be19f59b1771b69ad227a816bbbe34be483cdb5bddec3a"
+    },
+    {
+      "point": "6.1",
+      "step_number": 2,
+      "title": "Arrancar y ver el \"susto\"",
+      "page": 1220,
+      "target_present": true,
+      "practice_heading": "Arrancar y ver el \"susto\"",
+      "files": [],
+      "commands": [
+        "./mvnw spring-boot:run",
+        "curl -i http://localhost:8080/api/v1/alumnos"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "**Respuesta razonada:** Porque el fallo seguro es denegar el acceso hasta que el desarrollador declare qué debe ser público.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P02",
+      "source_page": 1220,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "920466a847e1cd09c32a90b4f73aef4f27ef551d6be40382a34c7e3e2104f744"
+    },
+    {
+      "point": "6.1",
+      "step_number": 3,
+      "title": "Autenticarse con la contraseña generada",
+      "page": 1221,
+      "target_present": true,
+      "practice_heading": "Autenticarse con la contraseña generada",
+      "files": [
+        "application.properties"
+      ],
+      "commands": [
+        "curl -i -u user:<PASSWORD_DEL_LOG> \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Autenticarse con la contraseña generada",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P03",
+      "source_page": 1221,
+      "symbols": [
+        "user",
+        "curl",
+        "application.properties",
+        "Authorization"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "98e2ae472c2e2bbed89e0bb7de2d21d05b48987a4150fad3e736b9336233344d"
+    },
+    {
+      "point": "6.1",
+      "step_number": 4,
+      "title": "Ver los filtros en acción",
+      "page": 1222,
+      "target_present": true,
+      "practice_heading": "Ver los filtros en acción",
+      "files": [
+        "application.properties"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Los logs permiten seguir el recorrido que llevó a ese resultado: si la petición fue tratada como anónima, qué parte de la cadena intervino y en qué etapa se produjo el rechazo.",
+      "lifecycle": "TEMPORARY_DEBUG_OPEN_CLOSE",
+      "practice_step_id": "M6-6.1-P04",
+      "source_page": 1222,
+      "symbols": [],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "706d069bd087dbe3fa988510d2c138316f21f72db0fe9d0be3804c5c998635a2"
+    },
+    {
+      "point": "6.1",
+      "step_number": 5,
+      "title": "Crear la clase SecurityConfig",
+      "page": 1223,
+      "target_present": true,
+      "practice_heading": "Crear la clase SecurityConfig",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Crear la clase SecurityConfig",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P05",
+      "source_page": 1223,
+      "symbols": [
+        "SecurityFilterChain",
+        "WebSecurityConfigurerAdapter"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "bb500192afddd65905a598364d3eba773ad18fa7c0642d5e28987df55f3488b9"
+    },
+    {
+      "point": "6.1",
+      "step_number": 6,
+      "title": "Ver el comportamiento sin usuarios",
+      "page": 1224,
+      "target_present": true,
+      "practice_heading": "Ver el comportamiento sin usuarios",
+      "files": [],
+      "commands": [
+        "curl -i -u usuario:password \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Si Spring Boot mantiene un usuario de desarrollo autoconfigurado en este estado, utiliza la contraseña que corresponda al arranque para contrastar el resultado.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P06",
+      "source_page": 1224,
+      "symbols": [
+        "UserDetailsService",
+        "SecurityFilterChain",
+        "InMemoryUserDetailsManager"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "3a37b8993a5129f6df43bdc8072a78d8ceeb58775730b42ff40674dd9e79441e"
+    },
+    {
+      "point": "6.1",
+      "step_number": 7,
+      "title": "Permitir todos los endpoints temporalmente",
+      "page": 1225,
+      "target_present": true,
+      "practice_heading": "Permitir todos los endpoints temporalmente",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Permitir todos los endpoints temporalmente",
+      "lifecycle": "TEMPORARY_PERMIT_ALL_CLOSED_IN_6.1",
+      "practice_step_id": "M6-6.1-P07",
+      "source_page": 1225,
+      "symbols": [
+        "SecurityConfig",
+        "anyRequest().permitAll()",
+        "SecurityFilterChain"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "5e6d0376ae59f52ad96a942c221063d2e392036b967f31091a1670418b65a8d7"
+    },
+    {
+      "point": "6.1",
+      "step_number": 8,
+      "title": "Configurar reglas específicas por endpoint",
+      "page": 1226,
+      "target_present": true,
+      "practice_heading": "Configurar reglas específicas por endpoint",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "> **Pregunta de reflexión:** ¿Por qué importa el orden de las reglas y por qué `anyRequest()` debe quedar al final?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P08",
+      "source_page": 1226,
+      "symbols": [
+        "permitAll()",
+        "anyRequest()",
+        "SecurityFilterChain"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b45f6f9d577e04fe72bfb7f4109e5738b8e26a8e636630acd64b3fd4198099bf"
+    },
+    {
+      "point": "6.1",
+      "step_number": 9,
+      "title": "Ver la diferencia entre 401 y 403",
+      "page": 1228,
+      "target_present": true,
+      "practice_heading": "Ver la diferencia entre 401 y 403",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "El estado final de 6.1 no debe contener una regla artificial creada únicamente para provocar el ejemplo.",
+      "lifecycle": "TEMPORARY_ROLE_DEMO_CLOSED_IN_6.1",
+      "practice_step_id": "M6-6.1-P09",
+      "source_page": 1228,
+      "symbols": [
+        "ADMIN"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "9f03ba97ff0a2ca4bf836cfecec4ec051bde8dd84e6868026abc860bad3460a0"
+    },
+    {
+      "point": "6.1",
+      "step_number": 10,
+      "title": "Depurar con logs",
+      "page": 1228,
+      "target_present": true,
+      "practice_heading": "Depurar con logs",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Depurar con logs",
+      "lifecycle": "TEMPORARY_DEBUG_OPEN_CLOSE",
+      "practice_step_id": "M6-6.1-P10",
+      "source_page": 1228,
+      "symbols": [],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "4963ce6bda41fa6bea6943a981a53b3de8c7d138784c298ba53774fa1eb07ace"
+    },
+    {
+      "point": "6.1",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1229,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P11",
+      "source_page": 1229,
+      "symbols": [
+        "permitAll()",
+        "@Configuration",
+        "SecurityFilterChain",
+        "WebSecurityConfigurerAdapter",
+        "anyRequest().permitAll()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "147ed0d0c988bfd5b3e7e1a84d782c8240b29f85d42f57d1176a1a65546e67b6"
+    },
+    {
+      "point": "6.1",
+      "step_number": 12,
+      "title": "Reto resuelto — Endpoint público sin autenticación",
+      "page": 1230,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint público sin autenticación",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.1/proyecto",
+      "prerequisites": "M5/proyecto",
+      "result": "La diferencia 401/403 queda preparada para profundizarla en 6.2, cuando ya tendremos usuarios y roles propios.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.1-P12",
+      "source_page": 1230,
+      "symbols": [
+        "SecurityConfig",
+        "SecurityFilterChain",
+        "permitAll()",
+        "InMemoryUserDetailsManager",
+        "PasswordEncoder"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "dc317c7c062931af66c5a8a9f297e8c7101c694f16e98cdf286acd7e1293c40f"
+    },
+    {
+      "point": "6.2",
+      "step_number": 1,
+      "title": "Repasar el estado actual",
+      "page": 1251,
+      "target_present": true,
+      "practice_heading": "Repasar el estado actual",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java",
+        "pom.xml",
+        "SecurityConfig.java",
+        "CorsConfig.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Repasar el estado actual",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P01",
+      "source_page": 1251,
+      "symbols": [
+        "SecurityFilterChain",
+        "permitAll()",
+        "pom.xml",
+        "UserDetailsService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "4f8135810ce5c154d5a0d89839e578c5e788a90c50864719d4f13aca778cb39f"
+    },
+    {
+      "point": "6.2",
+      "step_number": 2,
+      "title": "Añadir un endpoint que devuelva el perfil del usuario",
+      "page": 1252,
+      "target_present": true,
+      "practice_heading": "Añadir un endpoint que devuelva el perfil del usuario",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "PerfilController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Añadir un endpoint que devuelva el perfil del usuario",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P02",
+      "source_page": 1252,
+      "symbols": [
+        "Authentication",
+        "authentication",
+        "anyRequest().authenticated()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "0973243e18594618ccd528553b31de145d44844724128ae2c1c35e11303d5309"
+    },
+    {
+      "point": "6.2",
+      "step_number": 3,
+      "title": "Definir el PasswordEncoder",
+      "page": 1253,
+      "target_present": true,
+      "practice_heading": "Definir el PasswordEncoder",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "> **Pregunta de reflexión:** ¿Por qué `matches` funciona aunque dos llamadas a `encode` puedan producir hashes diferentes?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P03",
+      "source_page": 1253,
+      "symbols": [
+        "SecurityConfig",
+        "ana123",
+        "@Bean",
+        "matches",
+        "encode",
+        "PasswordEncoder"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "7db5c4415492ee5154af12049e82c9a06e954c5e75b1af023b26a37376174c87"
+    },
+    {
+      "point": "6.2",
+      "step_number": 4,
+      "title": "Definir el UserDetailsService",
+      "page": 1254,
+      "target_present": true,
+      "practice_heading": "Definir el UserDetailsService",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+        "InMemoryUserConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Definir el UserDetailsService",
+      "lifecycle": "TEMPORARY_IN_MEMORY_USERS_CREATED",
+      "practice_step_id": "M6-6.2-P04",
+      "source_page": 1254,
+      "symbols": [
+        "ana",
+        "ROLE_USER",
+        "admin",
+        "ROLE_ADMIN",
+        "roles(...)",
+        "ROLE_",
+        "ADMIN",
+        "InMemoryUserDetailsManager",
+        "UserDetailsService",
+        "PasswordEncoder"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "850102bb43b9cbe4a30923aeced83798c2da42bbfa0ecb30574800843c695a26"
+    },
+    {
+      "point": "6.2",
+      "step_number": 5,
+      "title": "Cerrar los endpoints",
+      "page": 1256,
+      "target_present": true,
+      "practice_heading": "Cerrar los endpoints",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "No debe extrapolarse sin más a producción.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P05",
+      "source_page": 1256,
+      "symbols": [
+        "SecurityFilterChain",
+        "cors(Customizer.withDefaults())",
+        "sameOrigin()",
+        "permitAll()",
+        "anyRequest()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "50452f1883edb3edb5236a1b055ef68bd556267c33320043a034089d46c84fe1"
+    },
+    {
+      "point": "6.2",
+      "step_number": 6,
+      "title": "Arrancar y probar sin autenticación",
+      "page": 1257,
+      "target_present": true,
+      "practice_heading": "Arrancar y probar sin autenticación",
+      "files": [],
+      "commands": [
+        "./mvnw spring-boot:run",
+        "curl -i http://localhost:8080/api/v1/alumnos",
+        "curl -i http://localhost:8080/api/v1/public/info"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Arrancar y probar sin autenticación",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P06",
+      "source_page": 1257,
+      "symbols": [
+        "SecurityFilterChain",
+        "permitAll",
+        "authenticated()"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "8f8e50e9d4cca6ca61620919d4ae65cb07eb91f3601f9099bbb261997efb6239"
+    },
+    {
+      "point": "6.2",
+      "step_number": 7,
+      "title": "Autenticarse con el usuario ana",
+      "page": 1258,
+      "target_present": true,
+      "practice_heading": "Autenticarse con el usuario ana",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/alumnos",
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/perfil"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "## Paso 7 - Autenticarse con el usuario ana La consulta ordinaria debe estar autorizada y el perfil debe mostrar: El orden de una colección de authorities no debe usarse como contrato si hay varias; comprobaremos contenido, no una ordenación accidental.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P07",
+      "source_page": 1258,
+      "symbols": [
+        "ana",
+        "ROLE_",
+        "ROLE_USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "a4174489c421ea97e737d19473cd9329dba61daf0eb02356731fcb0fa9cf2626"
+    },
+    {
+      "point": "6.2",
+      "step_number": 8,
+      "title": "Autenticarse con el usuario admin",
+      "page": 1259,
+      "target_present": true,
+      "practice_heading": "Autenticarse con el usuario admin",
+      "files": [],
+      "commands": [
+        "curl -i -u admin:admin123 http://localhost:8080/api/v1/perfil"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Si queremos que ADMIN herede permisos de USER podemos asignar ambos roles o configurar una jerarquía explícita, pero no debe suponerse.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P08",
+      "source_page": 1259,
+      "symbols": [
+        "ROLE_ADMIN",
+        "ROLE_USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "93002cb8013e081d0c0d5b3b08eb9489f3e3735b6520d66d63d917607bacae62"
+    },
+    {
+      "point": "6.2",
+      "step_number": 9,
+      "title": "Probar la autorización por rol",
+      "page": 1259,
+      "target_present": true,
+      "practice_heading": "Probar la autorización por rol",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/admin/usuarios",
+        "curl -i -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "## Paso 9 - Probar la autorización por rol Primero con un usuario autenticado pero no autorizado: La petición debe devolver `403 Forbidden`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P09",
+      "source_page": 1259,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "70a2ee0add206bb483dbb78430c7513f21cb1f8413e3d9fd3244935671953f7a"
+    },
+    {
+      "point": "6.2",
+      "step_number": 10,
+      "title": "Probar con credenciales incorrectas",
+      "page": 1260,
+      "target_present": true,
+      "practice_heading": "Probar con credenciales incorrectas",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:contraseñaIncorrecta \\",
+        "curl -i -u pedro:loQueSea \\",
+        "curl -i -u ana:incorrecta http://localhost:8080/api/v1/alumnos",
+        "curl -i -u nadie:incorrecta http://localhost:8080/api/v1/alumnos"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Por eso el login debe responder de forma uniforme a credenciales inválidas.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P10",
+      "source_page": 1260,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "58963452253a4e6e930334bee7ceedc43d3d6868c45a619f4849cb9ba5e63b4e"
+    },
+    {
+      "point": "6.2",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1261,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.2-P11",
+      "source_page": 1261,
+      "symbols": [
+        "UserDetailsService",
+        "PasswordEncoder",
+        "passwordEncoder.encode(...)",
+        "@Bean",
+        "OPTIONS",
+        "NoOpPasswordEncoder"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "60edb2ca39f3fb979e8128071d3bb3fe48d1dfcabb2e86221d9fa1ab46a087f7"
+    },
+    {
+      "point": "6.2",
+      "step_number": 12,
+      "title": "Reto resuelto — Añadir un tercer usuario con roles combinados",
+      "page": 1262,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Añadir un tercer usuario con roles combinados",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java",
+        "GestorController.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.2/proyecto",
+      "prerequisites": "M6/6.1/proyecto",
+      "result": "- Un endpoint de perfil que permite observar la identidad autenticada.",
+      "lifecycle": "TEMPORARY_GESTOR_IN_MEMORY_CREATED_CLOSES_6.3",
+      "practice_step_id": "M6-6.2-P12",
+      "source_page": 1262,
+      "symbols": [
+        "gestor",
+        "GESTOR",
+        "USER",
+        "InMemoryUserConfig",
+        "hasRole(\"ADMIN\")",
+        "hasAnyRole(\"GESTOR\", \"ADMIN\")",
+        "ROLE_ADMIN",
+        "ROLE_GESTOR",
+        "UserDetailsService",
+        "PasswordEncoder",
+        "ana",
+        "admin",
+        "SecurityFilterChain",
+        "UserDetails",
+        "InMemoryUserDetailsManager",
+        "ROLE_"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "85773d018eff99f560384d25ba65574fe4f7693acaea0f432a4e84acea4bd26f"
+    },
+    {
+      "point": "6.3",
+      "step_number": 1,
+      "title": "Crear el paquete auth",
+      "page": 1290,
+      "target_present": true,
+      "practice_heading": "Crear el paquete auth",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/",
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el paquete auth",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P01",
+      "source_page": 1290,
+      "symbols": [
+        "GestorController",
+        "auth"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "4d9f69eeaf1ca112ee1f43f193a22d735f5eeabed17236b6f3cba6dfc64394ba"
+    },
+    {
+      "point": "6.3",
+      "step_number": 2,
+      "title": "Crear la entidad Rol",
+      "page": 1290,
+      "target_present": true,
+      "practice_heading": "Crear la entidad Rol",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear la entidad Rol",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P02",
+      "source_page": 1290,
+      "symbols": [
+        "Rol",
+        "@JoinTable",
+        "Usuario.roles",
+        "@ManyToMany",
+        "mappedBy"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "40e2f86006b0c28f57a9e8c329ff6d825c254a9ef100bfe634a99a80a3a524f3"
+    },
+    {
+      "point": "6.3",
+      "step_number": 3,
+      "title": "Crear la entidad Usuario",
+      "page": 1292,
+      "target_present": true,
+      "practice_heading": "Crear la entidad Usuario",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear la entidad Usuario",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P03",
+      "source_page": 1292,
+      "symbols": [
+        "id",
+        "username",
+        "password",
+        "email",
+        "activo",
+        "fechaCreacion",
+        "roles",
+        "usuarios",
+        "usuarios_roles",
+        "Set",
+        "List"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c2fd15a12ceba57e6832a2f3bfad8f828c495b30582723208fd1855c41d053b4"
+    },
+    {
+      "point": "6.3",
+      "step_number": 4,
+      "title": "Crear los repositorios",
+      "page": 1295,
+      "target_present": true,
+      "practice_heading": "Crear los repositorios",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear los repositorios",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P04",
+      "source_page": 1295,
+      "symbols": [
+        "RolRepository",
+        "UsuarioRepository",
+        "username"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b6238e09691d1d7fc42c94fde180add6962b5f589504459a875cc167f8e6d331"
+    },
+    {
+      "point": "6.3",
+      "step_number": 5,
+      "title": "Crear el UserDetailsService personalizado",
+      "page": 1296,
+      "target_present": true,
+      "practice_heading": "Crear el UserDetailsService personalizado",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el UserDetailsService personalizado",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P05",
+      "source_page": 1296,
+      "symbols": [
+        "UsuarioDetailsService",
+        "ADMIN",
+        "ROLE_ADMIN",
+        "ROLE_",
+        "UserDetailsService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c8ce0769982522acafd399ff1141f475b81a618af58611708e1b8f1715df44b2"
+    },
+    {
+      "point": "6.3",
+      "step_number": 6,
+      "title": "Eliminar los usuarios en memoria",
+      "page": 1299,
+      "target_present": true,
+      "practice_heading": "Eliminar los usuarios en memoria",
+      "files": [
+        "config/InMemoryUserConfig.java",
+        "InMemoryUserConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "## Paso 6 - Eliminar los usuarios en memoria Al terminar este paso, la transición queda cerrada: Eliminamos físicamente: No se elimina: porque la autenticación persistente y el registro siguen necesitando el encoder.",
+      "lifecycle": "CLOSES_IN_MEMORY_USER_SOURCE_AND_GESTOR_TEMPORARY",
+      "practice_step_id": "M6-6.3-P06",
+      "source_page": 1299,
+      "symbols": [
+        "PasswordEncoder",
+        "InMemoryUserDetailsManager"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "014c683263583c6f2a892a50b4728c6b770387b54949640c9ad258c5dc341de1"
+    },
+    {
+      "point": "6.3",
+      "step_number": 7,
+      "title": "Crear el inicializador de usuarios",
+      "page": 1299,
+      "target_present": true,
+      "practice_heading": "Crear el inicializador de usuarios",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el inicializador de usuarios",
+      "lifecycle": "PERSISTENT_USERS_ANA_ADMIN_ONLY",
+      "practice_step_id": "M6-6.3-P07",
+      "source_page": 1299,
+      "symbols": [
+        "UsuariosInicialesConfig",
+        "gestor",
+        "InMemoryUserConfig",
+        "admin",
+        "ana",
+        "ADMIN",
+        "USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "ed185645efc250573b7234838e6a7eaa815aa985fd8e8cafadb03058f93dba0e"
+    },
+    {
+      "point": "6.3",
+      "step_number": 8,
+      "title": "Arrancar y verificar",
+      "page": 1301,
+      "target_present": true,
+      "practice_heading": "Arrancar y verificar",
+      "files": [],
+      "commands": [
+        "./mvnw spring-boot:run"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "## Paso 8 - Arrancar y verificar Cuando el árbol M5 esté completamente materializado: En H2: La comprobación debe confirmar lo siguiente.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P08",
+      "source_page": 1301,
+      "symbols": [
+        "usuarios",
+        "roles",
+        "usuarios_roles",
+        "usuario_id",
+        "rol_id"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6293f581d9deccff84b346bbe62d88b9bfa79464f2f11188819696a973c76950"
+    },
+    {
+      "point": "6.3",
+      "step_number": 9,
+      "title": "Probar la autenticación",
+      "page": 1302,
+      "target_present": true,
+      "practice_heading": "Probar la autenticación",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 \\",
+        "curl -i -u admin:admin123 \\",
+        "curl -i -u gestor:gestor123 \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Probar la autenticación",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P09",
+      "source_page": 1302,
+      "symbols": [
+        "ROLE_USER",
+        "ROLE_ADMIN",
+        "ana",
+        "admin",
+        "gestor"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "45d9ebd295f3bd577a380e68d00de4c5b06bd34b1f8ae510fde9f8ad17334834"
+    },
+    {
+      "point": "6.3",
+      "step_number": 10,
+      "title": "Crear el endpoint de registro",
+      "page": 1302,
+      "target_present": true,
+      "practice_heading": "Crear el endpoint de registro",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Crear el endpoint de registro",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P10",
+      "source_page": 1302,
+      "symbols": [
+        "RegistroRequestDTO",
+        "UsuarioResponseDTO"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "dc2e0a5bf9b84733195e6c4ede92add20194cae812dbd4424b43823596aadfe6"
+    },
+    {
+      "point": "6.3",
+      "step_number": 11,
+      "title": "Crear el AuthService y el AuthController",
+      "page": 1304,
+      "target_present": true,
+      "practice_heading": "Crear el AuthService y el AuthController",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "El controlador expone: y responde `201 Created`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P11",
+      "source_page": 1304,
+      "symbols": [
+        "AuthService.registrar(...)",
+        "USER",
+        "RecursoDuplicadoException",
+        "RecursoNoEncontradoException",
+        "OperacionNoPermitidaException",
+        "NegocioException",
+        "@Deprecated"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b89108f9d628d5026a76d066a22c4cbd843ea113c9d7ecb6f469a19e0c44953c"
+    },
+    {
+      "point": "6.3",
+      "step_number": 12,
+      "title": "Configurar el endpoint público y probar",
+      "page": 1308,
+      "target_present": true,
+      "practice_heading": "Configurar el endpoint público y probar",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "El duplicado debe resolverse mediante el contrato de errores de negocio heredado de M5.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P12",
+      "source_page": 1308,
+      "symbols": [
+        "SecurityConfig",
+        "ROLE_USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "abdd46107624966305bcd0852417dd746e7ad75e1deaa36b2d1215c2a381ef21"
+    },
+    {
+      "point": "6.3",
+      "step_number": 13,
+      "title": "Errores comunes del ejercicio",
+      "page": 1309,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P13",
+      "source_page": 1309,
+      "symbols": [
+        "UserDetailsService",
+        "InMemoryUserConfig",
+        "LazyInitializationException",
+        "encode",
+        "hasRole",
+        "ROLE_",
+        "ADMIN",
+        "ROLE_ADMIN",
+        "@JoinTable",
+        "Set",
+        "Usuario",
+        "UsernameNotFoundException"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "9211bdb36802cdf6dc11b5bce3063e6dd843c59507cf3740eba08a6f7262df20"
+    },
+    {
+      "point": "6.3",
+      "step_number": 14,
+      "title": "Reto resuelto — Endpoint para cambiar la contraseña",
+      "page": 1311,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint para cambiar la contraseña",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.3/proyecto",
+      "prerequisites": "M6/6.2/proyecto",
+      "result": "## Resultado esperado global - Entidades `Usuario` y `Rol` con relación `@ManyToMany`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.3-P14",
+      "source_page": 1311,
+      "symbols": [
+        "save",
+        "PerfilController",
+        "Usuario",
+        "Rol",
+        "@ManyToMany",
+        "UsuarioDetailsService",
+        "@JoinTable",
+        "UserDetailsService",
+        "@Transactional",
+        "CommandLineRunner"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "212fe575aeb4911584d9b3fa640bd710703eef38e70f91ec93a14ed645c1deee"
+    },
+    {
+      "point": "6.4",
+      "step_number": 1,
+      "title": "Repasar el estado actual",
+      "page": 1335,
+      "target_present": true,
+      "practice_heading": "Repasar el estado actual",
+      "files": [
+        "src/main/java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java"
+      ],
+      "commands": [
+        "grep -R \"InMemoryUserDetailsManager\" src/main/java || true"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "**Comprobación estructural:** No debe aparecer.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P01",
+      "source_page": 1335,
+      "symbols": [
+        "UsuarioDetailsService",
+        "USER",
+        "ADMIN",
+        "gestor",
+        "InMemoryUserDetailsManager"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6261ede0fe023784ed93944e9c93364f9038d01e6b3e535300cb7f1ab86c5cc5"
+    },
+    {
+      "point": "6.4",
+      "step_number": 2,
+      "title": "Activar la seguridad por método",
+      "page": 1336,
+      "target_present": true,
+      "practice_heading": "Activar la seguridad por método",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "**Error crítico.** Añadir `@PreAuthorize` sin `@EnableMethodSecurity`: la anotación queda sin el efecto esperado.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P02",
+      "source_page": 1336,
+      "symbols": [
+        "SecurityConfig",
+        "@PreAuthorize",
+        "@EnableMethodSecurity"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "fb650fd63813429fed658a220c9c47a7be0f04b506950a0db15ed1d2c9268116"
+    },
+    {
+      "point": "6.4",
+      "step_number": 3,
+      "title": "Crear un UsuarioController de administración",
+      "page": 1336,
+      "target_present": true,
+      "practice_heading": "Crear un UsuarioController de administración",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "UsuarioController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Crear un UsuarioController de administración",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P03",
+      "source_page": 1336,
+      "symbols": [
+        "SecurityFilterChain",
+        "@PreAuthorize"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e2adaaac3fb21d38cc64478e8777c7e9869ef9d0505ef73bf010e8e382048243"
+    },
+    {
+      "point": "6.4",
+      "step_number": 4,
+      "title": "Crear el UsuarioService",
+      "page": 1338,
+      "target_present": true,
+      "practice_heading": "Crear el UsuarioService",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Crear el UsuarioService",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P04",
+      "source_page": 1338,
+      "symbols": [
+        "UsuarioRepository",
+        "RolRepository",
+        "@PreAuthorize"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "62cae4fe03718021295184cd6be8406d2fd1d4fb3106427abc404148ce234cc7"
+    },
+    {
+      "point": "6.4",
+      "step_number": 5,
+      "title": "Añadir reglas de URL y de método combinadas",
+      "page": 1340,
+      "target_present": true,
+      "practice_heading": "Añadir reglas de URL y de método combinadas",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "**Respuesta razonada:** La regla de URL lo rechaza antes de que llegue al método, por lo que en esa petición concreta `@PreAuthorize` no necesita decidir nada.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P05",
+      "source_page": 1340,
+      "symbols": [
+        "@PreAuthorize",
+        "SecurityFilterChain"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c983830c955b9cd9c9c01248eb4d9db7b3debdd9ac65876ee2f05da066479d94"
+    },
+    {
+      "point": "6.4",
+      "step_number": 6,
+      "title": "Probar la autorización con distintos usuarios",
+      "page": 1341,
+      "target_present": true,
+      "practice_heading": "Probar la autorización con distintos usuarios",
+      "files": [],
+      "commands": [
+        "curl -i -u ana:ana123 \\",
+        "curl -i -u admin:admin123 \\",
+        "curl -i \\",
+        "curl -i http://localhost:8080/api/v1/admin/usuarios",
+        "curl -i -u ana:ana123 http://localhost:8080/api/v1/admin/usuarios",
+        "curl -i -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Probar la autorización con distintos usuarios",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P06",
+      "source_page": 1341,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "66caa40977dbbf6f5fa033fea49d9f7ab11f18d28736c7bddef003959d724f23"
+    },
+    {
+      "point": "6.4",
+      "step_number": 7,
+      "title": "Crear un endpoint para consultar el propio perfil",
+      "page": 1342,
+      "target_present": true,
+      "practice_heading": "Crear un endpoint para consultar el propio perfil",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Crear un endpoint para consultar el propio perfil",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P07",
+      "source_page": 1342,
+      "symbols": [
+        "Authentication",
+        "getName()",
+        "@AuthenticationPrincipal",
+        "UserDetails"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "fd6ea4dfecb1f01f327de9764ac963c4308d719d3ef10ecbe593fad7bc87a07f"
+    },
+    {
+      "point": "6.4",
+      "step_number": 8,
+      "title": "Crear el UsuarioPrincipal (para el punto 6.7)",
+      "page": 1344,
+      "target_present": true,
+      "practice_heading": "Crear el UsuarioPrincipal (para el punto 6.7)",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "## Paso 8 - Crear el UsuarioPrincipal (para el punto 6.7) Creamos ahora, sin integrarlo todavía: `getPassword()` devuelve `null`: este principal está diseñado para representar una identidad ya validada desde token en 6.7, no para almacenar credenciales.",
+      "lifecycle": "PREPARES_USUARIOPRINCIPAL_NOT_ACTIVE_UNTIL_6.7",
+      "practice_step_id": "M6-6.4-P08",
+      "source_page": 1344,
+      "symbols": [
+        "getPassword()",
+        "null",
+        "UsuarioDetailsService",
+        "User",
+        "UsuarioPrincipal"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "e1436a162abe6f6c3ef998d836c44f849807b698f081e50dcaecc706c3dfaa2a"
+    },
+    {
+      "point": "6.4",
+      "step_number": 9,
+      "title": "Probar la expresión de autorización",
+      "page": 1347,
+      "target_present": true,
+      "practice_heading": "Probar la expresión de autorización",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Por eso la expresión sólo debe quedar activa cuando el principal real sea un objeto que exponga `getId()`.",
+      "lifecycle": "TEMPORARY_NEGATIVE_SPEL_TEST_REMOVED_SAME_STEP",
+      "practice_step_id": "M6-6.4-P09",
+      "source_page": 1347,
+      "symbols": [
+        "User",
+        "getId()",
+        "SpelEvaluationException",
+        "principal.id",
+        "UsuarioPrincipal",
+        "String",
+        "id"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "b68ae16274ad1731f8c114d5ab0f82a31591544440560ed4f2aa8bb2a4fc0fbf"
+    },
+    {
+      "point": "6.4",
+      "step_number": 10,
+      "title": "Escribir tests de autorización",
+      "page": 1347,
+      "target_present": true,
+      "practice_heading": "Escribir tests de autorización",
+      "files": [
+        "pom.xml",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Por tanto la dependencia debe incorporarse **ahora**, en 6.4, aunque la fuente la presente formalmente de nuevo en 6.9.",
+      "lifecycle": "SPRING_SECURITY_TEST_FIRST_INTRODUCED_PERSISTS",
+      "practice_step_id": "M6-6.4-P10",
+      "source_page": 1347,
+      "symbols": [
+        "SecurityMockMvcRequestPostProcessors.user(...)",
+        "pom.xml",
+        "@MockitoBean"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "89b477d2fd0e7c69df2515fcf80870b1bfaeb129f501de88d375d80cdc1ab0c9"
+    },
+    {
+      "point": "6.4",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1349,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P11",
+      "source_page": 1349,
+      "symbols": [
+        "@PreAuthorize",
+        "@EnableMethodSecurity",
+        "hasRole(\"ROLE_ADMIN\")",
+        "hasRole",
+        "hasRole(\"ADMIN\")",
+        "hasAuthority(\"ADMIN\")",
+        "ROLE_ADMIN",
+        "id",
+        "UsuarioPrincipal",
+        "UsuarioDetailsService",
+        "anyRequest().authenticated()",
+        "@MockBean",
+        "@MockitoBean"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c9146bc84a7c14eaa7d070aa824cb648eec14f48b9955f30da7cde6602aa77d2"
+    },
+    {
+      "point": "6.4",
+      "step_number": 12,
+      "title": "Reto resuelto — Endpoint de cambio de rol",
+      "page": 1351,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint de cambio de rol",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.4/proyecto",
+      "prerequisites": "M6/6.3/proyecto",
+      "result": "## Conclusión y enlace al siguiente punto La autorización queda expresada en dos capas complementarias: reglas generales por URL y reglas contextuales por método.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.4-P12",
+      "source_page": 1351,
+      "symbols": [
+        "save",
+        "@EnableMethodSecurity",
+        "@PreAuthorize",
+        "UsuarioPrincipal",
+        "@AuthenticationPrincipal",
+        "hasRole",
+        "hasAuthority",
+        "hasAnyRole"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "a78e4ba4db535566f90ef09b570a0b873fedbefde691f5fafb76126bcfb2d570"
+    },
+    {
+      "point": "6.5",
+      "step_number": 1,
+      "title": "Entender la estructura con un ejemplo",
+      "page": 1371,
+      "target_present": true,
+      "practice_heading": "Entender la estructura con un ejemplo",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "**Respuesta razonada:** La firma permite detectar modificaciones y comprobar que el token fue firmado con la clave esperada.",
+      "lifecycle": "CONCEPTUAL_ONLY_NO_JJWT_IMPLEMENTATION",
+      "practice_step_id": "M6-6.5-P01",
+      "source_page": 1371,
+      "symbols": [
+        "jwt.io"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "5521b2a19fb822881ff28bcc66e70ea90f76b9670765c198315bec788760716f"
+    },
+    {
+      "point": "6.5",
+      "step_number": 2,
+      "title": "Crear una clase para generar un JWT manualmente",
+      "page": 1373,
+      "target_present": true,
+      "practice_heading": "Crear una clase para generar un JWT manualmente",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Crear una clase para generar un JWT manualmente",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P02",
+      "source_page": 1373,
+      "symbols": [
+        "DIDACTIC_SECRET"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d969e2c3b61f047778ca04476a359b58ff1f38e5afc10b77ca639a775067d446"
+    },
+    {
+      "point": "6.5",
+      "step_number": 3,
+      "title": "Decodificar el token generado",
+      "page": 1375,
+      "target_present": true,
+      "practice_heading": "Decodificar el token generado",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Decodificar el token generado",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P03",
+      "source_page": 1375,
+      "symbols": [
+        "main"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "eba2e8712c96c6157bfcd9cbc887a65eac87e12d70d0389e1ecf420f045c6984"
+    },
+    {
+      "point": "6.5",
+      "step_number": 4,
+      "title": "Modificar el payload sin actualizar la firma",
+      "page": 1375,
+      "target_present": true,
+      "practice_heading": "Modificar el payload sin actualizar la firma",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Ejemplo conceptual: La decodificación sigue funcionando, pero la verificación criptográfica falla.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P04",
+      "source_page": 1375,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6be4ad749cac29bd02e657b61fb979814c660ffeba15e934660e206d4e26fc78"
+    },
+    {
+      "point": "6.5",
+      "step_number": 5,
+      "title": "Verificar el token con Java",
+      "page": 1376,
+      "target_present": true,
+      "practice_heading": "Verificar el token con Java",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Verificar el token con Java",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P05",
+      "source_page": 1376,
+      "symbols": [
+        "JwtManual.verificar(jwt, secret)",
+        "header.payload",
+        "MessageDigest.isEqual",
+        "true",
+        "false",
+        "exp"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "196faa0fc8e6732a0b7d665da7aa69307adc7ed3717763b703581ab7ea905be6"
+    },
+    {
+      "point": "6.5",
+      "step_number": 6,
+      "title": "Probar con distintos payloads",
+      "page": 1378,
+      "target_present": true,
+      "practice_heading": "Probar con distintos payloads",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Probar con distintos payloads",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P06",
+      "source_page": 1378,
+      "symbols": [
+        "sub",
+        "iat",
+        "exp",
+        "email",
+        "roles"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e5e3e2011d8136ec98d7153ad92fed7984dbceea4c9b6634a245abcdd3e11f49"
+    },
+    {
+      "point": "6.5",
+      "step_number": 7,
+      "title": "Reflexionar sobre la seguridad",
+      "page": 1378,
+      "target_present": true,
+      "practice_heading": "Reflexionar sobre la seguridad",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "El modelo de amenaza queda explícito antes de introducir la librería.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P07",
+      "source_page": 1378,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "79d30aac97d63c94ef79c6f9c56f93544b2d7198e8b604b8eb9041b8c7183e4e"
+    },
+    {
+      "point": "6.5",
+      "step_number": 8,
+      "title": "Comparar con un token real",
+      "page": 1379,
+      "target_present": true,
+      "practice_heading": "Comparar con un token real",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Comparar con un token real",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P08",
+      "source_page": 1379,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "657dabd93b28514ab5dd5df49902b1fe88221946f04c54a395e8b2d93599b2ce"
+    },
+    {
+      "point": "6.5",
+      "step_number": 9,
+      "title": "Errores comunes del ejercicio",
+      "page": 1379,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P09",
+      "source_page": 1379,
+      "symbols": [
+        "IllegalArgumentException",
+        "header.payload",
+        "withoutPadding()",
+        "NoSuchAlgorithmException",
+        "HmacSHA256"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "7428410de6110c30a599327e334adad1367af2475a2090e6b6a3598b316261b4"
+    },
+    {
+      "point": "6.5",
+      "step_number": 10,
+      "title": "Experimentar con la expiración",
+      "page": 1380,
+      "target_present": true,
+      "practice_heading": "Experimentar con la expiración",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "La validación debe incluir firma, tiempos, tipo de token y los claims exigidos por el contrato.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P10",
+      "source_page": 1380,
+      "symbols": [
+        "exp",
+        "verificar",
+        "true"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "9a9c808e91a92be5f9e467a5935130df8c211139d718731f4f64527934cdddaa"
+    },
+    {
+      "point": "6.5",
+      "step_number": 11,
+      "title": "Verificar el token con una clave incorrecta",
+      "page": 1381,
+      "target_present": true,
+      "practice_heading": "Verificar el token con una clave incorrecta",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "Leer un payload expone datos, pero no permite por sí solo firmar un token nuevo.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P11",
+      "source_page": 1381,
+      "symbols": [
+        "false"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "36fc59a22ce8cbd38c3fab82d1ec95d572a17850c2cc886a4b1239116414ff4d"
+    },
+    {
+      "point": "6.5",
+      "step_number": 12,
+      "title": "Reto resuelto — Decodificar un token sin verificar la firma",
+      "page": 1381,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Decodificar un token sin verificar la firma",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.5/proyecto",
+      "prerequisites": "M6/6.4/proyecto",
+      "result": "## Resultado esperado global - Comprensión práctica de header, payload y signature.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.5-P12",
+      "source_page": 1381,
+      "symbols": [
+        "JwtManual"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "2312b6e59ec1df58dcfe03f66c506fe0c78c4e4198b65139cbdcf2df67fb47a6"
+    },
+    {
+      "point": "6.6",
+      "step_number": 1,
+      "title": "Añadir las dependencias de JJWT",
+      "page": 1407,
+      "target_present": true,
+      "practice_heading": "Añadir las dependencias de JJWT",
+      "files": [
+        "pom.xml"
+      ],
+      "commands": [
+        "./mvnw -B -DskipTests compile"
+      ],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Maven debe resolver los tres módulos y el código debe poder importar `Jwts`, `Claims`, `Decoders` y `Keys`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P01",
+      "source_page": 1407,
+      "symbols": [
+        "pom.xml",
+        "Jwts",
+        "Claims",
+        "Decoders",
+        "Keys"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "ac25353dbe83c122751124d5d7786c1d7f810b2e86e6d2549747d9d02b5e6217"
+    },
+    {
+      "point": "6.6",
+      "step_number": 2,
+      "title": "Configurar las propiedades de JWT",
+      "page": 1408,
+      "target_present": true,
+      "practice_heading": "Configurar las propiedades de JWT",
+      "files": [
+        "application-dev.properties",
+        "application-test.properties",
+        "application-prod.properties",
+        "src/main/resources/application-",
+        "src/main/java/es/mecd/demo/miproyecto/config/JwtConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "En producción el secreto debe proporcionarse desde una variable de entorno o un gestor de secretos; dejar un valor conocido en el código o en el repositorio haría predecible la clave de firma.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P02",
+      "source_page": 1408,
+      "symbols": [
+        "jwt.secret",
+        "jwt.expiration",
+        "JWT_SECRET",
+        "JwtConfig"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6e5f1a9ed42ce9edd3ad40b29095ffd3a7658c5acfcd0751b83170ff9e59560e"
+    },
+    {
+      "point": "6.6",
+      "step_number": 3,
+      "title": "Crear la configuración de la clave",
+      "page": 1409,
+      "target_present": true,
+      "practice_heading": "Crear la configuración de la clave",
+      "files": [
+        "auth/JwtConfig.java",
+        "JwtConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/JwtConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "**Respuesta razonada:** La decodificación falla al construir la `SecretKey` y la aplicación no debería arrancar con una clave inválida.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P03",
+      "source_page": 1409,
+      "symbols": [
+        "jwt.secret",
+        "SecretKey"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d65e9fe5c19aae3dc05ebf8398c13b036e6c03aaf35eabcccc50374a3f3a57ff"
+    },
+    {
+      "point": "6.6",
+      "step_number": 4,
+      "title": "Crear el JwtService",
+      "page": 1410,
+      "target_present": true,
+      "practice_heading": "Crear el JwtService",
+      "files": [
+        "auth/JwtService.java",
+        "JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [
+        "./mvnw -B -DskipTests compile"
+      ],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Un método destinado a JWT no firmados no ofrece esa garantía y no debe usarse para tomar decisiones de autenticación o autorización.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P04",
+      "source_page": 1410,
+      "symbols": [
+        "generarToken(Usuario)",
+        "generarRefreshToken(Usuario)",
+        "extraerUsername",
+        "extraerId",
+        "extraerClaims",
+        "extraerAuthorities",
+        "esValido",
+        "esAccessTokenValido",
+        "esRefreshTokenValido",
+        "jti",
+        "JwtManual",
+        "Number",
+        "longValue()",
+        "Long",
+        "parseSignedClaims",
+        "parseClaimsJwt",
+        "JwtService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "8e63662c9541fb2104392ab6ada0c7a07bf85be828672e4a1eaa6f04ddc9e40f"
+    },
+    {
+      "point": "6.6",
+      "step_number": 5,
+      "title": "Crear los DTOs de login",
+      "page": 1416,
+      "target_present": true,
+      "practice_heading": "Crear los DTOs de login",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "`@JsonProperty` permite mantener un JSON estable en snake_case sin degradar la legibilidad del código Java.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P05",
+      "source_page": 1416,
+      "symbols": [
+        "LoginRequestDTO",
+        "LoginResponseDTO",
+        "RefreshRequestDTO",
+        "@JsonProperty",
+        "expires_in",
+        "access_token",
+        "refresh_token"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d86913853a94d6b03335b90f02ed0d815cffb6a0f26d1d5d1a1caf0a891c0499"
+    },
+    {
+      "point": "6.6",
+      "step_number": 6,
+      "title": "Ampliar el AuthService con login y refresh",
+      "page": 1419,
+      "target_present": true,
+      "practice_heading": "Ampliar el AuthService con login y refresh",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "M6 separa tipos y lo rechaza.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P06",
+      "source_page": 1419,
+      "symbols": [
+        "AuthService.login",
+        "AuthenticationManager",
+        "AuthenticationException",
+        "refresh",
+        "jti",
+        "TokenRevocationService.consumeRefresh",
+        "jwtService.esValido()",
+        "TokenRevocationService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "cbd2496dba5f92c84ad52af68dac3a557dc4ae1588e63c96851a6029701dfb7c"
+    },
+    {
+      "point": "6.6",
+      "step_number": 7,
+      "title": "Ampliar el AuthController",
+      "page": 1422,
+      "target_present": true,
+      "practice_heading": "Ampliar el AuthController",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Los endpoints del controlador quedan explícitos: > **Pregunta de reflexión:** ¿Por qué el endpoint de login debe poder invocarse sin un Bearer token previo?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P07",
+      "source_page": 1422,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c6e7e8a3a36b1c8bf2a9e0ad288947f8b3a852402085c1b6cd4182a05a448b9c"
+    },
+    {
+      "point": "6.6",
+      "step_number": 8,
+      "title": "Configurar la seguridad para permitir login",
+      "page": 1423,
+      "target_present": true,
+      "practice_heading": "Configurar la seguridad para permitir login",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "**Respuesta razonada:** La cadena de seguridad rechaza la propia petición de login antes de que el controlador pueda validar las credenciales, de modo que ningún cliente puede obtener su primer token.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P08",
+      "source_page": 1423,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "2ae373937b28c00cc9ef4f1ab1d48f524ee176da876f2703a20d462f51ec65ae"
+    },
+    {
+      "point": "6.6",
+      "step_number": 9,
+      "title": "Arrancar y probar el login",
+      "page": 1423,
+      "target_present": true,
+      "practice_heading": "Arrancar y probar el login",
+      "files": [],
+      "commands": [
+        "curl -i -X POST http://localhost:8080/api/v1/auth/login \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "El refresh token contiene la información mínima para solicitar una renovación y dura más; no debe utilizarse para acceder directamente a recursos.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P09",
+      "source_page": 1423,
+      "symbols": [
+        "CREDENCIALES_INVALIDAS",
+        "access_token",
+        "refresh_token"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "bcaa87a71a0fb57133597b40f92d3db2af5908a9f83d13dcaa5a5e024323a6c0"
+    },
+    {
+      "point": "6.6",
+      "step_number": 10,
+      "title": "Decodificar el token",
+      "page": 1424,
+      "target_present": true,
+      "practice_heading": "Decodificar el token",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "El access debe mostrar `sub`, `jti`, `tipo=access`, id, email, roles, iat y exp.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P10",
+      "source_page": 1424,
+      "symbols": [
+        "sub",
+        "jti",
+        "iat",
+        "exp",
+        "tipo",
+        "id",
+        "email",
+        "roles"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "1acc6af5f58843681f8a6ab8f97065ab669733966c5d219e4beaad2a5af176a1"
+    },
+    {
+      "point": "6.6",
+      "step_number": 11,
+      "title": "Probar el refresh",
+      "page": 1425,
+      "target_present": true,
+      "practice_heading": "Probar el refresh",
+      "files": [],
+      "commands": [
+        "curl -i -X POST http://localhost:8080/api/v1/auth/refresh \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "En nuestra implementación también se rechaza un refresh ya consumido, para impedir su reutilización.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P11",
+      "source_page": 1425,
+      "symbols": [
+        "TOKEN_INVALIDO"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e28e2bb3834c8691be183f287f6f95025444dcde046f8afa9e2c9e9c15280cf7"
+    },
+    {
+      "point": "6.6",
+      "step_number": 12,
+      "title": "Errores comunes del ejercicio",
+      "page": 1426,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "CredencialesInvalidasException.java",
+        "TokenInvalidoException.java",
+        "AuthExceptionHandler.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P12",
+      "source_page": 1426,
+      "symbols": [
+        "CredencialesInvalidasException",
+        "expires_in",
+        "esRefreshTokenValido",
+        "jti",
+        "parseSignedClaims",
+        "CredencialesInvalidasException.java",
+        "CREDENCIALES_INVALIDAS",
+        "TokenInvalidoException.java",
+        "TOKEN_INVALIDO",
+        "AuthExceptionHandler.java",
+        "ErrorResponse",
+        "traceId"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d6dbd7b0c6ee9ab23c7bc376317ab85f6293ef2b8eb72b509dac8e91ddbc7ecb"
+    },
+    {
+      "point": "6.6",
+      "step_number": 13,
+      "title": "Reto resuelto — Endpoint para logout",
+      "page": 1427,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint para logout",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "6.6 registra el jti y devuelve 204; la revocación efectiva por petición se verifica desde 6.7.",
+      "lifecycle": "TEMPORARY_LOGOUT_EXECUTABLE_WITHOUT_JWT_FILTER_CLOSES_6.7",
+      "practice_step_id": "M6-6.6-P13",
+      "source_page": 1427,
+      "symbols": [
+        "TokenRevocationService",
+        "POST",
+        "AuthService.logout(...)",
+        "jti",
+        "JwtService",
+        "SecretKey",
+        "Jwts.builder()",
+        "AuthenticationManager"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "40bab0861b8d97079b02b6a59defdb5e266386d3a0e898aa00ace43a02acfe79"
+    },
+    {
+      "point": "6.7",
+      "step_number": 1,
+      "title": "Verificar el JwtService y el UsuarioPrincipal",
+      "page": 1450,
+      "target_present": true,
+      "practice_heading": "Verificar el JwtService y el UsuarioPrincipal",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java"
+      ],
+      "commands": [
+        "grep -R \"class JwtService\\|class UsuarioPrincipal\" src/main/java/es/mecd/demo/miproyecto/auth"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "## Paso 1 - Verificar el JwtService y el UsuarioPrincipal Comprueba que `JwtService` expone `extraerClaims`, `extraerAuthorities` y validación de access; `UsuarioPrincipal` debe aceptar `(Long id, String username, String email, Collection<GrantedAuthority>)`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P01",
+      "source_page": 1450,
+      "symbols": [
+        "JwtService",
+        "extraerClaims",
+        "extraerAuthorities",
+        "UsuarioPrincipal"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "5f87cc4501c4b98be09233ee3599ab6ad0f1e621c3d404707717f54025da4f61"
+    },
+    {
+      "point": "6.7",
+      "step_number": 2,
+      "title": "Crear el JwtAuthenticationFilter",
+      "page": 1450,
+      "target_present": true,
+      "practice_heading": "Crear el JwtAuthenticationFilter",
+      "files": [
+        "auth/JwtAuthenticationFilter.java",
+        "JwtAuthenticationFilter.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "commands": [
+        "./mvnw -B -DskipTests compile"
+      ],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "JwtAuthenticationFilter compila y queda listo para registrarse en la cadena; su test de integración formal se crea en 6.9.",
+      "lifecycle": "JWT_FILTER_CREATED",
+      "practice_step_id": "M6-6.7-P02",
+      "source_page": 1450,
+      "symbols": [
+        "Authorization",
+        "jti",
+        "UsuarioPrincipal",
+        "UsernamePasswordAuthenticationToken",
+        "SecurityContextHolder",
+        "filterChain.doFilter",
+        "filterChain.doFilter(...)",
+        "JwtAuthenticationFilter",
+        "JwtService",
+        "TokenRevocationService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "00bfa05951e396dee89605dbe02d0a3988ba677c6627b0f1c14738297f902568"
+    },
+    {
+      "point": "6.7",
+      "step_number": 3,
+      "title": "Registrar el filtro en la cadena",
+      "page": 1455,
+      "target_present": true,
+      "practice_heading": "Registrar el filtro en la cadena",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "**Respuesta razonada:** Porque la identidad debe estar disponible antes de que las etapas posteriores evalúen autorización.",
+      "lifecycle": "SESSION_STATELESS_ACTIVE",
+      "practice_step_id": "M6-6.7-P03",
+      "source_page": 1455,
+      "symbols": [
+        "permitAll()",
+        "UsuarioPrincipal",
+        "JwtAuthenticationFilter",
+        "TokenRevocationService",
+        "jti"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c2fe1fb0ed4fcf31a872e92962c39c71d030b0ac8076b461c95ac6c882acb293"
+    },
+    {
+      "point": "6.7",
+      "step_number": 4,
+      "title": "Desactivar HTTP Basic",
+      "page": 1457,
+      "target_present": true,
+      "practice_heading": "Desactivar HTTP Basic",
+      "files": [
+        "src/main/java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "Comprobación verificable del paso: Desactivar HTTP Basic",
+      "lifecycle": "HTTP_BASIC_CLOSED",
+      "practice_step_id": "M6-6.7-P04",
+      "source_page": 1457,
+      "symbols": [
+        "SecurityConfig"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "1f6bb5b703eeffb5bc8dd552a281aa91b699579efeec031f7a95db17b0066aa9"
+    },
+    {
+      "point": "6.7",
+      "step_number": 5,
+      "title": "Arrancar y probar",
+      "page": 1457,
+      "target_present": true,
+      "practice_heading": "Arrancar y probar",
+      "files": [],
+      "commands": [
+        "curl -i http://localhost:8080/api/v1/perfil",
+        "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil",
+        "curl -i http://localhost:8080/api/v1/public/info",
+        "curl -i -X POST \\",
+        "curl -i -H \"Authorization: Bearer $TOKEN\" \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "El logout debe responder `204 No Content` y la reutilización posterior debe responder `401 Unauthorized`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P05",
+      "source_page": 1457,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "0c13851fea52d813680b2dc53d3d7af969352da6a065d3a4f8abe5db000b669d"
+    },
+    {
+      "point": "6.7",
+      "step_number": 6,
+      "title": "Verificar el UsuarioPrincipal",
+      "page": 1459,
+      "target_present": true,
+      "practice_heading": "Verificar el UsuarioPrincipal",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "Un principal tipado conserva esos datos verificados y permite expresiones como `authentication.principal.id`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P06",
+      "source_page": 1459,
+      "symbols": [
+        "PerfilController",
+        "String",
+        "authentication.principal.id",
+        "UsuarioPrincipal"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "7918c4d544df64be5ae0a0436d24f883c6c4ca2445fdf9dc6acbf3f0bfade4c6"
+    },
+    {
+      "point": "6.7",
+      "step_number": 7,
+      "title": "Probar con rol ADMIN",
+      "page": 1460,
+      "target_present": true,
+      "practice_heading": "Probar con rol ADMIN",
+      "files": [],
+      "commands": [
+        "curl -i -H \"Authorization: Bearer $TOKEN_ADMIN\" \\",
+        "curl -i -H \"Authorization: Bearer $ADMIN_TOKEN\" \\",
+        "curl -i -H \"Authorization: Bearer $USER_TOKEN\" \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "Si el filtro no hubiera autenticado, el resultado sería 401.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P07",
+      "source_page": 1460,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "0e5271d5f95f8ced1af64b0bff16dbcf5ab7edb74f308b1c7258830134c3bc2e"
+    },
+    {
+      "point": "6.7",
+      "step_number": 8,
+      "title": "Probar con un token inválido",
+      "page": 1461,
+      "target_present": true,
+      "practice_heading": "Probar con un token inválido",
+      "files": [],
+      "commands": [
+        "curl -i -H \"Authorization: Bearer tokenInvalido\" \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "El filtro debe dejar la petición sin identidad y la cadena responder 401 si la ruta está protegida.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P08",
+      "source_page": 1461,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "8476d169207e3b0b694c001d959f2af928eb56da081e68ffb2849efc2ad57ca1"
+    },
+    {
+      "point": "6.7",
+      "step_number": 9,
+      "title": "Probar con la cabecera mal formada",
+      "page": 1462,
+      "target_present": true,
+      "practice_heading": "Probar con la cabecera mal formada",
+      "files": [],
+      "commands": [
+        "curl -i -H \"Authorization: $TOKEN\" http://localhost:8080/api/v1/perfil",
+        "curl -i -H \"Authorization: Token $TOKEN\" \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "**Respuesta razonada:** Porque HTTP permite distintos esquemas de autenticación.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P09",
+      "source_page": 1462,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "ef3efb68e0da5eaafcbc959889334238a9462cf1a6b40196e0f9a09e7e6ac2f2"
+    },
+    {
+      "point": "6.7",
+      "step_number": 10,
+      "title": "Depurar el filtro",
+      "page": 1462,
+      "target_present": true,
+      "practice_heading": "Depurar el filtro",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java"
+      ],
+      "commands": [],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "**Respuesta razonada:** Conviene registrar ruta, resultado y, con cautela, el username.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P10",
+      "source_page": 1462,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "bcf19bcb15d2c71f770a808f1b7b424ddb94255999749f4743946257bddb0327"
+    },
+    {
+      "point": "6.7",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1463,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P11",
+      "source_page": 1463,
+      "symbols": [
+        "addFilterBefore",
+        "doFilter",
+        "esAccessTokenValido",
+        "jti"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "fcc558a2173fc2c75d81b279013cfa207d0018aa4143e449b0dcebb8aef56c3f"
+    },
+    {
+      "point": "6.7",
+      "step_number": 12,
+      "title": "Reto resuelto — Expresión SpEL con el ID del usuario",
+      "page": 1464,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Expresión SpEL con el ID del usuario",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.7/proyecto",
+      "prerequisites": "M6/6.6/proyecto",
+      "result": "## Resultado esperado global - Un `JwtAuthenticationFilter` registrado en la cadena.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.7-P12",
+      "source_page": 1464,
+      "symbols": [
+        "authentication.principal.id",
+        "String",
+        "id",
+        "UsuarioPrincipal",
+        "Authentication",
+        "JwtAuthenticationFilter",
+        "OncePerRequestFilter",
+        "SecurityContextHolder",
+        "addFilterBefore",
+        "STATELESS"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "91bbc04d48d369ff1af48351ff98e244993bb0dadcfa0f484f5bbaa4a94225c6"
+    },
+    {
+      "point": "6.8",
+      "step_number": 1,
+      "title": "Crear el JwtAuthenticationEntryPoint",
+      "page": 1487,
+      "target_present": true,
+      "practice_heading": "Crear el JwtAuthenticationEntryPoint",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "La respuesta 401 debe ser JSON `ErrorResponse` con `timestamp`, `status`, `codigo=NO_AUTENTICADO`, `mensaje`, `path` y `traceId`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P01",
+      "source_page": 1487,
+      "symbols": [
+        "AuthenticationEntryPoint",
+        "SecurityErrorWriter",
+        "ErrorResponse",
+        "timestamp",
+        "status",
+        "mensaje",
+        "path",
+        "traceId",
+        "@RestControllerAdvice",
+        "JwtAuthenticationEntryPoint"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "090e81212592763d075adafc139db84019b8e08a3983b25e1a2976c4f8649226"
+    },
+    {
+      "point": "6.8",
+      "step_number": 2,
+      "title": "Crear el JwtAccessDeniedHandler",
+      "page": 1489,
+      "target_present": true,
+      "practice_heading": "Crear el JwtAccessDeniedHandler",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "## Paso 2 - Crear el JwtAccessDeniedHandler Implementa `AccessDeniedHandler` y devuelve el mismo contrato con status 403 y `codigo=ACCESO_DENEGADO`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P02",
+      "source_page": 1489,
+      "symbols": [
+        "AccessDeniedHandler",
+        "JwtAccessDeniedHandler"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "ebcd4dde595b53565e393f41d663a089371d113f7b109b9c14608b606b05b3cb"
+    },
+    {
+      "point": "6.8",
+      "step_number": 3,
+      "title": "Actualizar el SecurityConfig",
+      "page": 1491,
+      "target_present": true,
+      "practice_heading": "Actualizar el SecurityConfig",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "La configuración completa debe conservar las piezas heredadas y ordenar las reglas específicas antes de la general: > **Pregunta de reflexión:** ¿Qué pasaría si `anyRequest().authenticated()` se declarase antes que los matchers públicos y por rol?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P03",
+      "source_page": 1491,
+      "symbols": [
+        "anyRequest().authenticated()",
+        "SecurityFilterChain",
+        "JwtAuthenticationFilter",
+        "JwtAuthenticationEntryPoint",
+        "JwtAccessDeniedHandler",
+        "@MockitoBean"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "279e06e4097cb50581c11fd2966c9acb32ce8493e082683905b2c9be1e137674"
+    },
+    {
+      "point": "6.8",
+      "step_number": 4,
+      "title": "Añadir un endpoint de gestor",
+      "page": 1493,
+      "target_present": true,
+      "practice_heading": "Añadir un endpoint de gestor",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Un USER autenticado queda fuera y recibe 403.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P04",
+      "source_page": 1493,
+      "symbols": [
+        "GestorController",
+        "SecurityConfig",
+        "ROLE_GESTOR",
+        "ROLE_ADMIN"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "0dbf51d5aa5cfd23dc296e6da2062f75a6911035f4d11ca8d0439d840e95aabc"
+    },
+    {
+      "point": "6.8",
+      "step_number": 5,
+      "title": "Añadir el rol GESTOR al inicializador",
+      "page": 1494,
+      "target_present": true,
+      "practice_heading": "Añadir el rol GESTOR al inicializador",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "**Respuesta razonada:** Tiene `GESTOR` y `USER`: `GESTOR` le permite acceder a la zona de gestión y `USER` conserva las capacidades ordinarias definidas para un usuario del sistema.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P05",
+      "source_page": 1494,
+      "symbols": [
+        "UsuariosInicialesConfig",
+        "GESTOR",
+        "USER"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "3094b82e8ab9ff2a2f297288608dc696ea5f10fa174fed6bd6f9f0b8b2b49e81"
+    },
+    {
+      "point": "6.8",
+      "step_number": 6,
+      "title": "Probar el flujo completo",
+      "page": 1495,
+      "target_present": true,
+      "practice_heading": "Probar el flujo completo",
+      "files": [],
+      "commands": [
+        "curl -i -H \"Authorization: Bearer $GESTOR_TOKEN\" http://localhost:8080/api/v1/perfil",
+        "curl -i -H \"Authorization: Bearer $GESTOR_TOKEN\" http://localhost:8080/api/v1/gestor/documentos",
+        "curl -i -H \"Authorization: Bearer $GESTOR_TOKEN\" http://localhost:8080/api/v1/admin/usuarios"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Comprobación verificable del paso: Probar el flujo completo",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P06",
+      "source_page": 1495,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "b8cdba7f22fe793900f48904da301aa7c44ef1877ad348e4cdc76e535bd20694"
+    },
+    {
+      "point": "6.8",
+      "step_number": 7,
+      "title": "Probar sin token",
+      "page": 1497,
+      "target_present": true,
+      "practice_heading": "Probar sin token",
+      "files": [],
+      "commands": [
+        "curl -i http://localhost:8080/api/v1/perfil",
+        "curl -i http://localhost:8080/api/v1/public/info"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "**Respuesta razonada:** Debe ser JSON y respetar el contrato de errores del proyecto: status 401, código estable, mensaje, path, timestamp y `traceId`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P07",
+      "source_page": 1497,
+      "symbols": [
+        "traceId"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d155e0b642762bae79324ae6eb8d8d5ce77073c9f9666b1305b403435a6fd1d9"
+    },
+    {
+      "point": "6.8",
+      "step_number": 8,
+      "title": "Probar el refresh token",
+      "page": 1498,
+      "target_present": true,
+      "practice_heading": "Probar el refresh token",
+      "files": [],
+      "commands": [
+        "curl -i -X POST http://localhost:8080/api/v1/auth/refresh \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "El segundo intento debe rechazarse porque ese `jti` ya fue consumido; así se limita el replay de una credencial robada.",
+      "lifecycle": "GESTOR_PERSISTENT_REINTRODUCED",
+      "practice_step_id": "M6-6.8-P08",
+      "source_page": 1498,
+      "symbols": [
+        "jti"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "23893345a08cd94555ab4d1db06ea86df62642649c6f426fecfa6143d5499075"
+    },
+    {
+      "point": "6.8",
+      "step_number": 9,
+      "title": "Probar el logout",
+      "page": 1498,
+      "target_present": true,
+      "practice_heading": "Probar el logout",
+      "files": [],
+      "commands": [
+        "curl -i -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/perfil",
+        "curl -i -X POST -H \"Authorization: Bearer $TOKEN\" http://localhost:8080/api/v1/auth/logout"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Prueba la revocación de access de extremo a extremo: La secuencia debe ser 200 → 204 → 401.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P09",
+      "source_page": 1498,
+      "symbols": [
+        "jti"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e9024ee6be5c193f82f34cf6138bd83f1dd5e1fe43650555223116b34612dfb2"
+    },
+    {
+      "point": "6.8",
+      "step_number": 10,
+      "title": "Escribir tests de integración",
+      "page": 1499,
+      "target_present": true,
+      "practice_heading": "Escribir tests de integración",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java"
+      ],
+      "commands": [
+        "./mvnw -B -Dtest=AuthControllerTest test",
+        "./mvnw -B test"
+      ],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "AuthControllerTest cubre login válido=200 y credenciales inválidas=401 CREDENCIALES_INVALIDAS; después pasa la suite acumulada.",
+      "lifecycle": "AUTH_CONTROLLER_TEST_SOURCE_CREATED",
+      "practice_step_id": "M6-6.8-P10",
+      "source_page": 1499,
+      "symbols": [
+        "AuthControllerTest",
+        "@WebMvcTest",
+        "@MockitoBean",
+        "AuthService",
+        "JwtService",
+        "TokenRevocationService",
+        "CREDENCIALES_INVALIDAS"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d7ea7f8a9aad9bff440f4e8f1dc091f7e6317c29fd77ad303b63d807803501b5"
+    },
+    {
+      "point": "6.8",
+      "step_number": 11,
+      "title": "Errores comunes del ejercicio",
+      "page": 1501,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P11",
+      "source_page": 1501,
+      "symbols": [
+        "JwtAccessDeniedHandler",
+        "anyRequest"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "34340f501ec2ff5e389318d9501579392f7d686276d930da020c32bdb6f2cd90"
+    },
+    {
+      "point": "6.8",
+      "step_number": 12,
+      "title": "Reto resuelto — Endpoint para consultar el propio usuario",
+      "page": 1502,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint para consultar el propio usuario",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java"
+      ],
+      "commands": [
+        "curl -H \"Authorization: Bearer $TOKEN\" \\"
+      ],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.8/proyecto",
+      "prerequisites": "M6/6.7/proyecto",
+      "result": "## Conclusión y enlace al siguiente punto La arquitectura JWT queda integrada de extremo a extremo.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.8-P12",
+      "source_page": 1502,
+      "symbols": [
+        "UsuarioPrincipal",
+        "SecurityFilterChain",
+        "AuthenticationEntryPoint",
+        "AccessDeniedHandler"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "bff65364e45f19cd8d86741cc179d5c81be10e4a65ddaae5416e174ebaaa9eb4"
+    },
+    {
+      "point": "6.9",
+      "step_number": 1,
+      "title": "Verificar la dependencia spring-security-test",
+      "page": 1528,
+      "target_present": true,
+      "practice_heading": "Verificar la dependencia spring-security-test",
+      "files": [
+        "pom.xml"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Añadir la dependencia spring-security-test",
+      "lifecycle": "SPRING_SECURITY_TEST_ALREADY_PRESENT_VERIFY_ONLY",
+      "practice_step_id": "M6-6.9-P01",
+      "source_page": 1528,
+      "symbols": [
+        "SecurityMockMvcRequestPostProcessors.user(...)",
+        "@WithMockUser",
+        "@WithUserDetails"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "f6c05e06e7395a118fec1aecdc38a7eb2afeb80ab0b7325423900561e96fa178"
+    },
+    {
+      "point": "6.9",
+      "step_number": 2,
+      "title": "Crear el test del UsuarioController",
+      "page": 1529,
+      "target_present": true,
+      "practice_heading": "Crear el test del UsuarioController",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Crear el test del UsuarioController",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P02",
+      "source_page": 1529,
+      "symbols": [
+        "UsuarioControllerSecurityTest",
+        "NO_AUTENTICADO",
+        "ACCESO_DENEGADO",
+        "@MockBean",
+        "@MockitoBean"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "f0b8c3a8adccce4cce9c62dbc861985d2a801d5da9c521959042b57e5f27c7f8"
+    },
+    {
+      "point": "6.9",
+      "step_number": 3,
+      "title": "Ejecutar los tests",
+      "page": 1532,
+      "target_present": true,
+      "practice_heading": "Ejecutar los tests",
+      "files": [
+        "AlumnoControllerTest.java",
+        "ErrorHandlingTest.java",
+        "CorsConfigTest.java",
+        "ExpedienteControllerTest.java",
+        "FicheroExceptionHandlerTest.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "commands": [
+        "./mvnw -B clean verify"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "En cada uno de esos cinco slices heredados, el patrón de aislamiento queda explícito: Si cambia una regla y abre `/admin`, los escenarios USER/anónimo de la suite M6 deben fallar inmediatamente.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P03",
+      "source_page": 1532,
+      "symbols": [
+        "skipped",
+        "@WebMvcTest",
+        "@AutoConfigureMockMvc(addFilters = false)",
+        "@MockitoBean",
+        "JwtAuthenticationFilter",
+        "JwtService",
+        "TokenRevocationService",
+        "MockMvc",
+        "AlumnoControllerTest.java",
+        "ErrorHandlingTest.java",
+        "CorsConfigTest.java",
+        "ExpedienteControllerTest.java",
+        "FicheroExceptionHandlerTest.java"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "a601438008248e6fe92a72a87a520cbdb692abe98a72916b0cef6076a75d0e4d"
+    },
+    {
+      "point": "6.9",
+      "step_number": 4,
+      "title": "Testear el endpoint de gestor",
+      "page": 1532,
+      "target_present": true,
+      "practice_heading": "Testear el endpoint de gestor",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/GestorSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Lo que falla es la autorización, ya que no posee GESTOR ni ADMIN; por eso corresponde `403 Forbidden`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P04",
+      "source_page": 1532,
+      "symbols": [
+        "GestorSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "8cddaf0bed52e706eaea9e28efb6864dcb5e573ab58671bb81571374e5de7f61"
+    },
+    {
+      "point": "6.9",
+      "step_number": 5,
+      "title": "Testear el endpoint público",
+      "page": 1533,
+      "target_present": true,
+      "practice_heading": "Testear el endpoint público",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/common/controller/PublicControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Testear el endpoint público",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P05",
+      "source_page": 1533,
+      "symbols": [
+        "PublicControllerSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "468b62a7ad654b88d9912355a33b6509bfb7d3826230e1582bcc306422927786"
+    },
+    {
+      "point": "6.9",
+      "step_number": 6,
+      "title": "Testear el login",
+      "page": 1535,
+      "target_present": true,
+      "practice_heading": "Testear el login",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "AuthControllerSecurityTest sustituye el AuthControllerTest de 6.8 y conserva login 200/401 antes de ampliar refresh/logout.",
+      "lifecycle": "AUTH_CONTROLLER_TEST_6_8_EVOLVES_TO_AUTH_CONTROLLER_SECURITY_TEST",
+      "practice_step_id": "M6-6.9-P06",
+      "source_page": 1535,
+      "symbols": [
+        "AuthControllerSecurityTest",
+        "@MockBean",
+        "@MockitoBean",
+        "NegocioException",
+        "CredencialesInvalidasException",
+        "CREDENCIALES_INVALIDAS",
+        "AuthService",
+        "@WithMockUser"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "dca0eff473c87eefae1ed833724f9e841edd1b7221d6e0ac76c884ceb727ea38"
+    },
+    {
+      "point": "6.9",
+      "step_number": 7,
+      "title": "Testear el refresh",
+      "page": 1537,
+      "target_present": true,
+      "practice_heading": "Testear el refresh",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "AuthControllerSecurityTest cubre refresh válido=200 e inválido=401 TOKEN_INVALIDO.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P07",
+      "source_page": 1537,
+      "symbols": [
+        "AuthControllerSecurityTest",
+        "TOKEN_INVALIDO",
+        "NegocioException"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "a81519412a6687fd0db1ce6dde6b8b045ed62c1a93c47c9c4e78da8ca8db7785"
+    },
+    {
+      "point": "6.9",
+      "step_number": 8,
+      "title": "Testear el logout",
+      "page": 1539,
+      "target_present": true,
+      "practice_heading": "Testear el logout",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Testear el logout",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P08",
+      "source_page": 1539,
+      "symbols": [
+        "AuthService",
+        "AuthControllerSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "9056057a8a6a661a6b8da08a10829557db1bcebe8e1af25de568262db6ab5273"
+    },
+    {
+      "point": "6.9",
+      "step_number": 9,
+      "title": "Testear con post-processors",
+      "page": 1539,
+      "target_present": true,
+      "practice_heading": "Testear con post-processors",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "**Respuesta razonada:** Permite cambiar la identidad por petición de forma explícita, incluso dentro de un mismo método; `@WithMockUser` configura el contexto del test completo.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P09",
+      "source_page": 1539,
+      "symbols": [
+        "SecurityMockMvcRequestPostProcessors.user(...)",
+        "user()",
+        "@WithMockUser",
+        "UsuarioControllerSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "54464f91f03fe54672952117683d39672b4b6e6845728fb9d1faf8e7e14e2c8d"
+    },
+    {
+      "point": "6.9",
+      "step_number": 10,
+      "title": "Testear con @WithUserDetails",
+      "page": 1540,
+      "target_present": true,
+      "practice_heading": "Testear con @WithUserDetails",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerIntegrationTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Testear con @WithUserDetails",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P10",
+      "source_page": 1540,
+      "symbols": [
+        "test",
+        "@BeforeEach",
+        "@WithUserDetails(\"test\")",
+        "admin",
+        "UserDetailsService",
+        "@WithUserDetails",
+        "@WithMockUser",
+        "UsuarioControllerIntegrationTest",
+        "PasswordEncoder"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "427617c49086e50a079767be101d99abb8a97ff6c9665a7cc79b031f9ba2e8ad"
+    },
+    {
+      "point": "6.9",
+      "step_number": 11,
+      "title": "Testear el filtro JWT",
+      "page": 1543,
+      "target_present": true,
+      "practice_heading": "Testear el filtro JWT",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "JwtFilterIntegrationTest usa un access token real generado por JwtService y cubre token válido, inválido y ausente.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P11",
+      "source_page": 1543,
+      "symbols": [
+        "roles",
+        "JwtFilterIntegrationTest",
+        "JwtService",
+        "jwt()",
+        "JwtAuthenticationFilter"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "06091e0735a7ce68fb1bc544fed6f11d920098da277ac51c40e11b4fc7374789"
+    },
+    {
+      "point": "6.9",
+      "step_number": 12,
+      "title": "Errores comunes del ejercicio",
+      "page": 1544,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [],
+      "commands": [
+        "grep -R \"@MockBean\" src/test || true"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P12",
+      "source_page": 1544,
+      "symbols": [
+        "ROLE_",
+        "@WithUserDetails",
+        "@SpringBootTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "12eb5cb65f3cbcf1cff3db16cf27b2357f2d916020a0deed875099e85d232968"
+    },
+    {
+      "point": "6.9",
+      "step_number": 13,
+      "title": "Reto resuelto — Test completo de autorización",
+      "page": 1546,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Test completo de autorización",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.9/proyecto",
+      "prerequisites": "M6/6.8/proyecto",
+      "result": "## Resultado esperado global - Dependencia `spring-security-test` disponible desde 6.4 y reutilizada sistemáticamente en 6.9.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.9-P13",
+      "source_page": 1546,
+      "symbols": [
+        "@WithMockUser",
+        "@WithUserDetails",
+        "SecurityMockMvcRequestPostProcessors",
+        "MockMvc",
+        "UsuarioControllerCompleteSecurityTest"
+      ],
+      "final_relation": "FINAL_TEST_COVERAGE",
+      "body_sha256": "b94f66b27621ee6c8b052cd999d0eeea4b6ddae9c42ed5a195ac6a074c334067"
+    }
+  ]
+}

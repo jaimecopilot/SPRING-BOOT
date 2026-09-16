@@ -1,0 +1,220 @@
+{
+  "schema_version": "M6_POINT_DIFFS_R12_1.0",
+  "baseline": {
+    "commit": "0f76aa08385605a48eccbcb3b1be6bf18b9bce1e",
+    "path": "M5/proyecto",
+    "tree": "e9194f0ec6b595d3dbc7dbf921eef8a815fe9ae1"
+  },
+  "points": [
+    {
+      "point": "6.1",
+      "parent": "M5/proyecto",
+      "destination": "M6/6.1/proyecto",
+      "tree_fingerprint": "bb240a3a2e6249411f3247f16a7e465c63fb339079aa5717a1ed36eaa0f3cca1",
+      "mode": "BASELINE_TREE_PLUS_REPLAY_OPERATIONS",
+      "baseline_tree_exact": true,
+      "operation_paths": [
+        "pom.xml",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java",
+        "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java"
+      ],
+      "no_magic_files": "VERIFIED_BY_R11_FORWARD_REPLAY_AND_STATIC_GATE"
+    },
+    {
+      "point": "6.2",
+      "parent": "M6/6.1/proyecto",
+      "destination": "M6/6.2/proyecto",
+      "tree_fingerprint": "53c98fcc166321d10dc927e552864139d174d0e9b00911d507f70389532e4487",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java"
+      ],
+      "removed": [],
+      "modified": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "changed_count": 4,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    },
+    {
+      "point": "6.3",
+      "parent": "M6/6.2/proyecto",
+      "destination": "M6/6.3/proyecto",
+      "tree_fingerprint": "052cfdf821661de08309704a62761b6665777f740a8e34f5cc127f0266f573dd",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java"
+      ],
+      "removed": [
+        "src/main/java/es/mecd/demo/miproyecto/config/InMemoryUserConfig.java"
+      ],
+      "modified": [
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "changed_count": 14,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    },
+    {
+      "point": "6.4",
+      "parent": "M6/6.3/proyecto",
+      "destination": "M6/6.4/proyecto",
+      "tree_fingerprint": "0850803c1ce846d394e3e33b15e8e1fd81b0da811d307896b9401ce2f487f44e",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java"
+      ],
+      "removed": [],
+      "modified": [
+        "pom.xml",
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "changed_count": 8,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    },
+    {
+      "point": "6.5",
+      "parent": "M6/6.4/proyecto",
+      "destination": "M6/6.5/proyecto",
+      "tree_fingerprint": "cc16b4e2e1d10cf579a6615946de2184f8daee25e2ed5b681b3df3a007f66f51",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java",
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java"
+      ],
+      "removed": [],
+      "modified": [],
+      "changed_count": 2,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    },
+    {
+      "point": "6.6",
+      "parent": "M6/6.5/proyecto",
+      "destination": "M6/6.6/proyecto",
+      "tree_fingerprint": "1a0769c9224b522368c28164e195562f84d273ae692451a3d860188fbe67268c",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CredencialesInvalidasException.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenInvalidoException.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java"
+      ],
+      "removed": [],
+      "modified": [
+        "pom.xml",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/main/resources/application-dev.properties",
+        "src/main/resources/application-prod.properties",
+        "src/main/resources/application-test.properties"
+      ],
+      "changed_count": 16,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    },
+    {
+      "point": "6.7",
+      "parent": "M6/6.6/proyecto",
+      "destination": "M6/6.7/proyecto",
+      "tree_fingerprint": "fea6cc7fac7eae42917ca2d736e65afe67b2584e493bbf7af9052e93a670f9c2",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java"
+      ],
+      "removed": [],
+      "modified": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java"
+      ],
+      "changed_count": 10,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    },
+    {
+      "point": "6.8",
+      "parent": "M6/6.7/proyecto",
+      "destination": "M6/6.8/proyecto",
+      "tree_fingerprint": "02a9b7c8966997931d305b181c4e0df4169848877862841d5f1d036f25f0ab96",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java"
+      ],
+      "removed": [],
+      "modified": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java"
+      ],
+      "changed_count": 9,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    },
+    {
+      "point": "6.9",
+      "parent": "M6/6.8/proyecto",
+      "destination": "M6/6.9/proyecto",
+      "tree_fingerprint": "ed540ad43ae9003a887c2bad7199cfa68bd7c6778b74bc25bccdf8926be8f357",
+      "mode": "EXACT_MANIFEST_DIFF",
+      "added": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerSecurityTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/GestorSecurityTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/JwtFilterIntegrationTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerCompleteSecurityTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerIntegrationTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerSecurityTest.java",
+        "src/test/java/es/mecd/demo/miproyecto/common/controller/PublicControllerSecurityTest.java"
+      ],
+      "removed": [
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthControllerTest.java"
+      ],
+      "modified": [],
+      "changed_count": 8,
+      "unexplained_changes": [],
+      "no_magic_files": true
+    }
+  ]
+}

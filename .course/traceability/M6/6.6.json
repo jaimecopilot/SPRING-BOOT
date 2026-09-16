@@ -1,0 +1,509 @@
+{
+  "schema_version": "M6_TRACEABILITY_V3_R19_POINT_1.0",
+  "module": "M6",
+  "point": "6.6",
+  "parent": "M6/6.5/proyecto",
+  "destination": "M6/6.6/proyecto",
+  "expected_gates": [
+    "JJWT 0.13.0",
+    "JwtService v6.6 sin authorities futuras",
+    "login/access/refresh",
+    "logout temporal ejecutable",
+    "sin JwtAuthenticationFilter"
+  ],
+  "step_count": 13,
+  "steps": [
+    {
+      "point": "6.6",
+      "step_number": 1,
+      "title": "Añadir las dependencias de JJWT",
+      "page": 1407,
+      "target_present": true,
+      "practice_heading": "Añadir las dependencias de JJWT",
+      "files": [
+        "pom.xml"
+      ],
+      "commands": [
+        "./mvnw -B -DskipTests compile"
+      ],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Maven debe resolver los tres módulos y el código debe poder importar `Jwts`, `Claims`, `Decoders` y `Keys`.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P01",
+      "source_page": 1407,
+      "symbols": [
+        "pom.xml",
+        "Jwts",
+        "Claims",
+        "Decoders",
+        "Keys"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "ac25353dbe83c122751124d5d7786c1d7f810b2e86e6d2549747d9d02b5e6217",
+      "step_ref": "6.6.1",
+      "theory_refs": [
+        "TC-6.6-1"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 2,
+      "title": "Configurar las propiedades de JWT",
+      "page": 1408,
+      "target_present": true,
+      "practice_heading": "Configurar las propiedades de JWT",
+      "files": [
+        "application-dev.properties",
+        "application-test.properties",
+        "application-prod.properties",
+        "src/main/resources/application-",
+        "src/main/java/es/mecd/demo/miproyecto/config/JwtConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "En producción el secreto debe proporcionarse desde una variable de entorno o un gestor de secretos; dejar un valor conocido en el código o en el repositorio haría predecible la clave de firma.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P02",
+      "source_page": 1408,
+      "symbols": [
+        "jwt.secret",
+        "jwt.expiration",
+        "JWT_SECRET",
+        "JwtConfig"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "6e5f1a9ed42ce9edd3ad40b29095ffd3a7658c5acfcd0751b83170ff9e59560e",
+      "step_ref": "6.6.2",
+      "theory_refs": [
+        "TC-6.6-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 3,
+      "title": "Crear la configuración de la clave",
+      "page": 1409,
+      "target_present": true,
+      "practice_heading": "Crear la configuración de la clave",
+      "files": [
+        "auth/JwtConfig.java",
+        "JwtConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/JwtConfig.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "**Respuesta razonada:** La decodificación falla al construir la `SecretKey` y la aplicación no debería arrancar con una clave inválida.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P03",
+      "source_page": 1409,
+      "symbols": [
+        "jwt.secret",
+        "SecretKey"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d65e9fe5c19aae3dc05ebf8398c13b036e6c03aaf35eabcccc50374a3f3a57ff",
+      "step_ref": "6.6.3",
+      "theory_refs": [
+        "TC-6.6-2"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 4,
+      "title": "Crear el JwtService",
+      "page": 1410,
+      "target_present": true,
+      "practice_heading": "Crear el JwtService",
+      "files": [
+        "auth/JwtService.java",
+        "JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [
+        "./mvnw -B -DskipTests compile"
+      ],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Un método destinado a JWT no firmados no ofrece esa garantía y no debe usarse para tomar decisiones de autenticación o autorización.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P04",
+      "source_page": 1410,
+      "symbols": [
+        "generarToken(Usuario)",
+        "generarRefreshToken(Usuario)",
+        "extraerUsername",
+        "extraerId",
+        "extraerClaims",
+        "extraerAuthorities",
+        "esValido",
+        "esAccessTokenValido",
+        "esRefreshTokenValido",
+        "jti",
+        "JwtManual",
+        "Number",
+        "longValue()",
+        "Long",
+        "parseSignedClaims",
+        "parseClaimsJwt",
+        "JwtService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "8e63662c9541fb2104392ab6ada0c7a07bf85be828672e4a1eaa6f04ddc9e40f",
+      "step_ref": "6.6.4",
+      "theory_refs": [
+        "TC-6.6-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 5,
+      "title": "Crear los DTOs de login",
+      "page": 1416,
+      "target_present": true,
+      "practice_heading": "Crear los DTOs de login",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "`@JsonProperty` permite mantener un JSON estable en snake_case sin degradar la legibilidad del código Java.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P05",
+      "source_page": 1416,
+      "symbols": [
+        "LoginRequestDTO",
+        "LoginResponseDTO",
+        "RefreshRequestDTO",
+        "@JsonProperty",
+        "expires_in",
+        "access_token",
+        "refresh_token"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d86913853a94d6b03335b90f02ed0d815cffb6a0f26d1d5d1a1caf0a891c0499",
+      "step_ref": "6.6.5",
+      "theory_refs": [
+        "TC-6.6-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 6,
+      "title": "Ampliar el AuthService con login y refresh",
+      "page": 1419,
+      "target_present": true,
+      "practice_heading": "Ampliar el AuthService con login y refresh",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "M6 separa tipos y lo rechaza.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P06",
+      "source_page": 1419,
+      "symbols": [
+        "AuthService.login",
+        "AuthenticationManager",
+        "AuthenticationException",
+        "refresh",
+        "jti",
+        "TokenRevocationService.consumeRefresh",
+        "jwtService.esValido()",
+        "TokenRevocationService"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "cbd2496dba5f92c84ad52af68dac3a557dc4ae1588e63c96851a6029701dfb7c",
+      "step_ref": "6.6.6",
+      "theory_refs": [
+        "TC-6.6-4",
+        "TC-6.6-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 7,
+      "title": "Ampliar el AuthController",
+      "page": 1422,
+      "target_present": true,
+      "practice_heading": "Ampliar el AuthController",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Los endpoints del controlador quedan explícitos: > **Pregunta de reflexión:** ¿Por qué el endpoint de login debe poder invocarse sin un Bearer token previo?",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P07",
+      "source_page": 1422,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "c6e7e8a3a36b1c8bf2a9e0ad288947f8b3a852402085c1b6cd4182a05a448b9c",
+      "step_ref": "6.6.7",
+      "theory_refs": [
+        "TC-6.6-4",
+        "TC-6.6-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 8,
+      "title": "Configurar la seguridad para permitir login",
+      "page": 1423,
+      "target_present": true,
+      "practice_heading": "Configurar la seguridad para permitir login",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "commands": [],
+      "action": "MODIFY_OR_DELETE",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "**Respuesta razonada:** La cadena de seguridad rechaza la propia petición de login antes de que el controlador pueda validar las credenciales, de modo que ningún cliente puede obtener su primer token.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P08",
+      "source_page": 1423,
+      "symbols": [],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "2ae373937b28c00cc9ef4f1ab1d48f524ee176da876f2703a20d462f51ec65ae",
+      "step_ref": "6.6.8",
+      "theory_refs": [
+        "TC-6.6-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 9,
+      "title": "Arrancar y probar el login",
+      "page": 1423,
+      "target_present": true,
+      "practice_heading": "Arrancar y probar el login",
+      "files": [],
+      "commands": [
+        "curl -i -X POST http://localhost:8080/api/v1/auth/login \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "El refresh token contiene la información mínima para solicitar una renovación y dura más; no debe utilizarse para acceder directamente a recursos.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P09",
+      "source_page": 1423,
+      "symbols": [
+        "CREDENCIALES_INVALIDAS",
+        "access_token",
+        "refresh_token"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "bcaa87a71a0fb57133597b40f92d3db2af5908a9f83d13dcaa5a5e024323a6c0",
+      "step_ref": "6.6.9",
+      "theory_refs": [
+        "TC-6.6-4"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 10,
+      "title": "Decodificar el token",
+      "page": 1424,
+      "target_present": true,
+      "practice_heading": "Decodificar el token",
+      "files": [
+        "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java"
+      ],
+      "commands": [],
+      "action": "APPLY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "El access debe mostrar `sub`, `jti`, `tipo=access`, id, email, roles, iat y exp.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P10",
+      "source_page": 1424,
+      "symbols": [
+        "sub",
+        "jti",
+        "iat",
+        "exp",
+        "tipo",
+        "id",
+        "email",
+        "roles"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "1acc6af5f58843681f8a6ab8f97065ab669733966c5d219e4beaad2a5af176a1",
+      "step_ref": "6.6.10",
+      "theory_refs": [
+        "TC-6.6-3"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 11,
+      "title": "Probar el refresh",
+      "page": 1425,
+      "target_present": true,
+      "practice_heading": "Probar el refresh",
+      "files": [],
+      "commands": [
+        "curl -i -X POST http://localhost:8080/api/v1/auth/refresh \\"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "En nuestra implementación también se rechaza un refresh ya consumido, para impedir su reutilización.",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P11",
+      "source_page": 1425,
+      "symbols": [
+        "TOKEN_INVALIDO"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "e28e2bb3834c8691be183f287f6f95025444dcde046f8afa9e2c9e9c15280cf7",
+      "step_ref": "6.6.11",
+      "theory_refs": [
+        "TC-6.6-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 12,
+      "title": "Errores comunes del ejercicio",
+      "page": 1426,
+      "target_present": true,
+      "practice_heading": "Errores comunes del ejercicio",
+      "files": [
+        "CredencialesInvalidasException.java",
+        "TokenInvalidoException.java",
+        "AuthExceptionHandler.java"
+      ],
+      "commands": [
+        "./mvnw -B test"
+      ],
+      "action": "VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "Comprobación verificable del paso: Errores comunes del ejercicio",
+      "lifecycle": "NONE",
+      "practice_step_id": "M6-6.6-P12",
+      "source_page": 1426,
+      "symbols": [
+        "CredencialesInvalidasException",
+        "expires_in",
+        "esRefreshTokenValido",
+        "jti",
+        "parseSignedClaims",
+        "CredencialesInvalidasException.java",
+        "CREDENCIALES_INVALIDAS",
+        "TokenInvalidoException.java",
+        "TOKEN_INVALIDO",
+        "AuthExceptionHandler.java",
+        "ErrorResponse",
+        "traceId"
+      ],
+      "final_relation": "CUMULATIVE_TO_FINAL_OR_EVOLVES_LATER",
+      "body_sha256": "d6dbd7b0c6ee9ab23c7bc376317ab85f6293ef2b8eb72b509dac8e91ddbc7ecb",
+      "step_ref": "6.6.12",
+      "theory_refs": [
+        "TC-6.6-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    },
+    {
+      "point": "6.6",
+      "step_number": 13,
+      "title": "Reto resuelto — Endpoint para logout",
+      "page": 1427,
+      "target_present": true,
+      "practice_heading": "Reto resuelto — Endpoint para logout",
+      "files": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenRevocationService.java"
+      ],
+      "commands": [],
+      "action": "CREATE_OR_MODIFY_AND_VERIFY",
+      "snapshot_destination": "M6/6.6/proyecto",
+      "prerequisites": "M6/6.5/proyecto",
+      "result": "6.6 registra el jti y devuelve 204; la revocación efectiva por petición se verifica desde 6.7.",
+      "lifecycle": "TEMPORARY_LOGOUT_EXECUTABLE_WITHOUT_JWT_FILTER_CLOSES_6.7",
+      "practice_step_id": "M6-6.6-P13",
+      "source_page": 1427,
+      "symbols": [
+        "TokenRevocationService",
+        "POST",
+        "AuthService.logout(...)",
+        "jti",
+        "JwtService",
+        "SecretKey",
+        "Jwts.builder()",
+        "AuthenticationManager"
+      ],
+      "final_relation": "TRANSIENT_OR_EVOLUTION_STEP",
+      "body_sha256": "40bab0861b8d97079b02b6a59defdb5e266386d3a0e898aa00ace43a02acfe79",
+      "step_ref": "6.6.13",
+      "theory_refs": [
+        "TC-6.6-5"
+      ],
+      "trace_status": "SPECIFIED_AWAITING_PHYSICAL_SNAPSHOT_HASH",
+      "snapshot_parent": "M6/6.5/proyecto"
+    }
+  ],
+  "physical_snapshot": {
+    "status": "PENDING_MATERIALIZATION",
+    "tree_hash": null,
+    "build": null,
+    "tests": null
+  }
+}

@@ -1,0 +1,406 @@
+{
+  ".gitignore": {
+    "sha256": "a2f4bca1fbd8ed0e7e2b7e5fe52900f6f8d52b849cab7a0f892be8ad06dc8d94",
+    "bytes": 34
+  },
+  ".mvn/wrapper/maven-wrapper.properties": {
+    "sha256": "2aad7ca66de71b3c0b31d61f0b5a6d24ccb8fd69c9cfb5bb3bf6f864b16f2d6e",
+    "bytes": 119
+  },
+  "config/checkstyle/checkstyle.xml": {
+    "sha256": "ec29be7a5f64c065d6b0da6c753e3512133936ecbb2c16442c68d2421335a54c",
+    "bytes": 408
+  },
+  "mvnw": {
+    "sha256": "c8989d8821fdb6114d983a19367dd56f0bb782327ab377ef12a4bc1c3fa2ca0a",
+    "bytes": 1075
+  },
+  "mvnw.cmd": {
+    "sha256": "079c199a29b674deb5134aff652091afff304381faa4f756d15a936acfca80a8",
+    "bytes": 1329
+  },
+  "pom.xml": {
+    "sha256": "00d07b3b985fc9d57d388d3134d0c72375a26233684787ed45b62fc896ed79b1",
+    "bytes": 3140
+  },
+  "README.md": {
+    "sha256": "d56aa365737bb1b43250d4d724f8c44ace860b74c6871af21e1ed2561c7a42c1",
+    "bytes": 385
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java": {
+    "sha256": "9071fbca4473355c396f8101e5e5948b5aec3f329d7682f7d302d8640557d2ea",
+    "bytes": 3786
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java": {
+    "sha256": "d9728374db606bb8fb49e4a28d588bcc66454bf067463d376031ac641ebc5408",
+    "bytes": 9698
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoDTO.java": {
+    "sha256": "71fc43ee247aedb441623cbae7465036fbafc011f23bf2c030ab8e909c219578",
+    "bytes": 2000
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoEspecificoException.java": {
+    "sha256": "8d50c1d4905ad0b5d5e12a4051245ceee0986a3efcbb351ee9d879f40e91bd80",
+    "bytes": 279
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoExceptionHandler.java": {
+    "sha256": "6a582f8f1b55a7716750953874c3afe4a07851f70348d282f83604de8a656b49",
+    "bytes": 1323
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java": {
+    "sha256": "9a008133a1ae2aef2ef1aaa317a8cb3ead9e32759aafba6a60c41a0125fbc673",
+    "bytes": 4398
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java": {
+    "sha256": "ddcfbca0984be68dbff688891893cc407209625b8f5633d118c83a488a283402",
+    "bytes": 2382
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java": {
+    "sha256": "63be3316c814173a5067f46787831608f04fee963c0ddc4c574aa0f68c00f809",
+    "bytes": 2389
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResumenDTO.java": {
+    "sha256": "a13baa081ef901798ea36c9c1d95a115e0580397063c49309623fa5592b25192",
+    "bytes": 184
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java": {
+    "sha256": "a7f60e024983b445981d66b92f0e8e1c63d2b16821c7ed0589d5b1dd1e4d6d85",
+    "bytes": 12627
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoSpecifications.java": {
+    "sha256": "10f761d41f1aff43cf45cf3b7afdc41e1951e3e98b1b3026ca7206d69ab46e86",
+    "bytes": 2095
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/Direccion.java": {
+    "sha256": "37047872f660386b0ea44dbc46b68d94a908ff1ad4cacf1b6963f255369c2eea",
+    "bytes": 926
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/DireccionDTO.java": {
+    "sha256": "fa0d463c3b5e55d05aec5d966808a5c78b3774ec214e98d8bab6a3f1b75ca397",
+    "bytes": 874
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/DocumentoRepository.java": {
+    "sha256": "4b4aedd02f43ce423d574bcf2eafbaf3828031355b8bc13beda5b80d751e7da1",
+    "bytes": 526
+  },
+  "src/main/java/es/mecd/demo/miproyecto/alumno/EstadoAlumno.java": {
+    "sha256": "10c8acf50c626f4792b3a6dac9c03326ab19bb06e8d9e7a1360f23bf001a0250",
+    "bytes": 155
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auditoria/Auditoria.java": {
+    "sha256": "6b50002b53e57851227e8274017acecb39b1b1812161d54ed1c6a0c71ae57ce0",
+    "bytes": 1190
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaRepository.java": {
+    "sha256": "e6ab60f846d9f52fd989f0f77ae8e73a5880d1fefa14892df0eb863a33404929",
+    "bytes": 246
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auditoria/AuditoriaService.java": {
+    "sha256": "00afd8bddc1d651bc0b35dd10bfe20c734a99892152113ab443734763622cd8c",
+    "bytes": 708
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java": {
+    "sha256": "ba3c8f5018d2c968674bcbd04d7049c26183056402767297534c816ac82be824",
+    "bytes": 613
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java": {
+    "sha256": "4807e658299bb592d63094fe948572b3fecd96e705396c9b946b4f542b07389f",
+    "bytes": 2420
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/CambioPasswordRequestDTO.java": {
+    "sha256": "29f79bd4542d9bed5aaf156f903e5f62bdd7305ee1ccfe144cafa16b58adc161",
+    "bytes": 512
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java": {
+    "sha256": "c0566446a7ece38f2f88876bc591b68fc9b626ed87be976fb386bae58e4372d1",
+    "bytes": 333
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/GestorController.java": {
+    "sha256": "524b173da3802d0461455bc60c6458bb807a560127f0889345f11615b15eb342",
+    "bytes": 471
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java": {
+    "sha256": "5987f46abc70850071dd27d1db6e4c6528c91a10e46c0f004fe896e00592b172",
+    "bytes": 644
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java": {
+    "sha256": "f98bbec86a76bc3a585f5dba84446e2b1ac92021549491031269a01060e405bd",
+    "bytes": 1205
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java": {
+    "sha256": "bbfb33b543c730510962a1313cad847dd8f471378c70ff615ccd6e70af7e7f48",
+    "bytes": 285
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java": {
+    "sha256": "c1c5d9bb065ab3b6c1502c8bff840ad5b9464fd1ac3ca5a6c25de40590eefb9a",
+    "bytes": 2036
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java": {
+    "sha256": "6a14d9cfc673c097be1dcc5902a652ab4407c82a2d4303c1ba9eb97bd53d3331",
+    "bytes": 931
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java": {
+    "sha256": "6626eccf585ae9cc3d31e0b7e14bbff526ad093cf43d2e1f0822c5152c39c33c",
+    "bytes": 1581
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioPrincipal.java": {
+    "sha256": "be12e4332aa1c3d3187f42ff639f7ace3d4855ecc4800a859b12763d51065add",
+    "bytes": 1157
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java": {
+    "sha256": "a209ab57d07823e5229f9d9ef51ed321590199aa9cfb222222f6b380bb2e38ba",
+    "bytes": 346
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java": {
+    "sha256": "bf2e48a394554241030be6dcd582be1149242edadcd2c21b784b7f89d5ec2a96",
+    "bytes": 602
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java": {
+    "sha256": "4f5b1f04f4841f0571f440b5205be34815266bf79a87f87fcb66002777c8254c",
+    "bytes": 1590
+  },
+  "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java": {
+    "sha256": "70d89216d7985476371dcebe960cf4d591d4a445382475c70a65606c3a323494",
+    "bytes": 1329
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/controller/PerfilController.java": {
+    "sha256": "dcb86d88e50edd994fe9a79f24db55640e02bab73860a18c272ac9885fffdfca",
+    "bytes": 1747
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java": {
+    "sha256": "3d29d87123da7adca8c66bc1388d49ec55b6bd3b35f6f6d41c4057c475a81411",
+    "bytes": 1819
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java": {
+    "sha256": "8780a8ea5e58c5d6c383978c897cce8df1157690d9f84cf7e96f06c28e5fc32a",
+    "bytes": 1111
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java": {
+    "sha256": "ced03c42628163521cb094f768f3d1ef85d185bb68479ceff551da4573518358",
+    "bytes": 629
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java": {
+    "sha256": "b35915156c5269cab05e4cb537da7a3c2d52dc5dac3fba41b5eebe08b220cf82",
+    "bytes": 2952
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java": {
+    "sha256": "0f764725e7b3f48dfe56ede339046f212665b82fb5ef248f055d670e00cc7d91",
+    "bytes": 1642
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java": {
+    "sha256": "b8ca69792f0fd6fac42816114c2397774e89f8cf98a79df26e01940667980da0",
+    "bytes": 325
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java": {
+    "sha256": "19d68c756cb36a3c2854deeb6951a9f9b6c1d5aaab9db428709450e2c56c2bb5",
+    "bytes": 2083
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java": {
+    "sha256": "03d67d2e4074fd3b0bbbb616dc4c0322c0c5caeb6591acda3a2062240dab4a21",
+    "bytes": 473
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java": {
+    "sha256": "5100ede94486621f346c0caf6b31bbe1c3310c265dcc03edf6da05ad2912461b",
+    "bytes": 330
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java": {
+    "sha256": "e2b7a09c51f9c39e31da0382ccdfd72dafe14a35098819b989724f125d9f8d89",
+    "bytes": 837
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java": {
+    "sha256": "8546f80945ea05d39ffcec6f97a3500b3cbd65c48c04770f65bbce33078c0c8b",
+    "bytes": 619
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java": {
+    "sha256": "1868843d13eafb46b0f69b601cd334ee15c656081e555996e899e3503f6c5b82",
+    "bytes": 652
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java": {
+    "sha256": "ff9f50b132feb1b5277e8815bbedfb0e38850c6bbbedd3116ef3ec1fbf12a736",
+    "bytes": 3524
+  },
+  "src/main/java/es/mecd/demo/miproyecto/common/util/FechasUtil.java": {
+    "sha256": "9bc75a556c0b9d2eb41acbff669cab7f180330d2e0d090fd870cc2138b2a8bd6",
+    "bytes": 576
+  },
+  "src/main/java/es/mecd/demo/miproyecto/config/AppProperties.java": {
+    "sha256": "5f1cbe50ebe5a2752c6e5747036d2a8fc1ca20929f34e1708a8a8d396ca2882c",
+    "bytes": 1179
+  },
+  "src/main/java/es/mecd/demo/miproyecto/config/CorsConfig.java": {
+    "sha256": "631c2c37559073f1098c81a8e1757fd83d4e3713114899ea21893ee6c0c7b161",
+    "bytes": 965
+  },
+  "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesConfig.java": {
+    "sha256": "d1d18f06c68472917367d292cc6374b108a09574e1ad0d02dd0065f76439263c",
+    "bytes": 1296
+  },
+  "src/main/java/es/mecd/demo/miproyecto/config/JacksonConfig.java": {
+    "sha256": "f13d79402558cc4861777ea14165d796b93967044ddb961ef355ebf3d0cc24dc",
+    "bytes": 630
+  },
+  "src/main/java/es/mecd/demo/miproyecto/config/PerfilConfig.java": {
+    "sha256": "bd4fc8f6424f5d639980115762b373b95e07faba38daaaf14dc021e410d377fa",
+    "bytes": 553
+  },
+  "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java": {
+    "sha256": "4c510a34a9e0703c4832c92d8a429087fcfbda3bba02a74add6936e5cea84252",
+    "bytes": 1615
+  },
+  "src/main/java/es/mecd/demo/miproyecto/curso/Curso.java": {
+    "sha256": "f673813c557dd19b3e3851774bb7b74eed2daad85240c44a2e2edd5e35f0ea09",
+    "bytes": 1620
+  },
+  "src/main/java/es/mecd/demo/miproyecto/curso/CursoController.java": {
+    "sha256": "1c99fc7f61b1e5e45207722f2bb2b581124e238ed90106cd76315d4625839b9c",
+    "bytes": 2595
+  },
+  "src/main/java/es/mecd/demo/miproyecto/curso/CursoDTO.java": {
+    "sha256": "09dfd334f9fe51ae52d973872e9bf911cdd2e896a0b02a49065b11f887740b9e",
+    "bytes": 1191
+  },
+  "src/main/java/es/mecd/demo/miproyecto/curso/CursoRepository.java": {
+    "sha256": "f5ad65a7aa5b27b24041b93722e73fbe019de01cde08d604ba16b58fcce14d0e",
+    "bytes": 1273
+  },
+  "src/main/java/es/mecd/demo/miproyecto/curso/CursoService.java": {
+    "sha256": "a5ebfc3a95f75af763fd35566afb5daf7fa055bd95395f125e18186c3f8fc439",
+    "bytes": 2483
+  },
+  "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteController.java": {
+    "sha256": "0fc71d617f5eae3e0c2b901d917c66ac1259d016be8bb8b29e3932e2f3b1e399",
+    "bytes": 2298
+  },
+  "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteDTO.java": {
+    "sha256": "d0f9ef9d47b49d52609f50ea9945d3bf50501a14d474ce3d49ff4f9b46e7a0cb",
+    "bytes": 3310
+  },
+  "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRepository.java": {
+    "sha256": "96490fc62e25d6ba0bf73d30abfa762bb9adc27b20566837ee42ef7b4dbfd0d7",
+    "bytes": 1437
+  },
+  "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteRequestDTO.java": {
+    "sha256": "ac1828d073e7ad4c3eb0c22cb2dd90cf21f52239ea7ce7d1dbe2c59488fa8973",
+    "bytes": 953
+  },
+  "src/main/java/es/mecd/demo/miproyecto/expediente/ExpedienteService.java": {
+    "sha256": "834ca3a9c454b9a247f08c89debf34768b37cfa8d29a624802cf90c4c81effd3",
+    "bytes": 1948
+  },
+  "src/main/java/es/mecd/demo/miproyecto/expediente/SolicitanteDTO.java": {
+    "sha256": "39f8f9b2efd1d193c36027d74c62444ff9efd16dd803d98fcce396fe96981040",
+    "bytes": 1386
+  },
+  "src/main/java/es/mecd/demo/miproyecto/fichero/FicheroController.java": {
+    "sha256": "12158e94ff7cd2b4a172e0ef06989da21cbbc1c66e4997d584986ccf87b2ff73",
+    "bytes": 605
+  },
+  "src/main/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandler.java": {
+    "sha256": "9d6a7ae7e2e6ec719421de61ee5f201e0c1d440d0b7c4c84b78f662362a5db9a",
+    "bytes": 1224
+  },
+  "src/main/java/es/mecd/demo/miproyecto/fichero/FicheroNoEncontradoException.java": {
+    "sha256": "d8630b60bc5f07953015dc13e4c7158252b3a9a68a077cf6aec6a31d1cd234f3",
+    "bytes": 292
+  },
+  "src/main/java/es/mecd/demo/miproyecto/info/InfoAplicacionController.java": {
+    "sha256": "49e4162e5cb826713bc6d4f1b4616e4a0095abea1d4be8c1fc37302a14ede9d4",
+    "bytes": 521
+  },
+  "src/main/java/es/mecd/demo/miproyecto/info/PublicInfoController.java": {
+    "sha256": "9807689d841fe162087d47b9ef74de96ce57af6eb9b22bf1e988753ce4c5bf52",
+    "bytes": 498
+  },
+  "src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java": {
+    "sha256": "42eab58641d4b2f2188950730dd87134f1c4fcf8157946aad7662ceb9d5d589a",
+    "bytes": 341
+  },
+  "src/main/java/es/mecd/demo/miproyecto/saludo/SaludoController.java": {
+    "sha256": "7f41d9047e8d019a7ac9a985af5c2e216c0f9e7c75b78aa803b8aa2c2af20f16",
+    "bytes": 360
+  },
+  "src/main/resources/application-dev.properties": {
+    "sha256": "64556a057307f6c514cca47852c36b37a25d01467b20ec5e89cb78bbe8ec28d4",
+    "bytes": 480
+  },
+  "src/main/resources/application-prod.properties": {
+    "sha256": "d84de758b688bfc65ff933f152d51d6c30ecb36dbe729b07a5a8d1265b8709a3",
+    "bytes": 532
+  },
+  "src/main/resources/application-test.properties": {
+    "sha256": "b0ab14ec6bcf9b6a1723df7041cd4a64323e4f6eca4278ad34e168c6f0d306cf",
+    "bytes": 458
+  },
+  "src/main/resources/application.properties": {
+    "sha256": "e8d1e01dc2944c47ff2921bdbfd9075dc870cb08f6f42e33eb359f904de0f2f1",
+    "bytes": 158
+  },
+  "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java": {
+    "sha256": "721568c4ae0a41953066d56455b38516fa19b7b36dbd9d78d81e332a792912dc",
+    "bytes": 2855
+  },
+  "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoRepositoryTest.java": {
+    "sha256": "5bf41d9ff58aee2d119c74050751d1acf8788e3b731872fc834c13a30b6f8717",
+    "bytes": 4682
+  },
+  "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java": {
+    "sha256": "afdb5180c82999824f0d74f9ce8d31a98d5a9669d2b7ebf47ef39124a145d9bf",
+    "bytes": 3757
+  },
+  "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioControllerTest.java": {
+    "sha256": "73331aa800150fee4158a68df3b16a19f77d80ea8a6227d96a47330ed4b84f70",
+    "bytes": 1287
+  },
+  "src/test/java/es/mecd/demo/miproyecto/common/exception/AplicacionExceptionTest.java": {
+    "sha256": "2cf67ed990bf7578a1244d928772e8764a7c8a5fee047e74083fcb06dc314386",
+    "bytes": 953
+  },
+  "src/test/java/es/mecd/demo/miproyecto/common/exception/ErrorHandlingTest.java": {
+    "sha256": "d691b52676652b5f604d742b4c5a739461abf93deb9681b8b85ede0cd2e6bd8c",
+    "bytes": 3109
+  },
+  "src/test/java/es/mecd/demo/miproyecto/common/util/FechasUtilTest.java": {
+    "sha256": "93972808e5d0dcf40fe893411be522e620a966ead813960982dde0a3829ed9d6",
+    "bytes": 434
+  },
+  "src/test/java/es/mecd/demo/miproyecto/config/AppPropertiesTest.java": {
+    "sha256": "1591b21ff3869c216b09e17c3ca3a57b963c9eca0479c264488412334aba3a9f",
+    "bytes": 696
+  },
+  "src/test/java/es/mecd/demo/miproyecto/config/CorsConfigTest.java": {
+    "sha256": "a8dd4cdfc2fec3e5ec3ec7b980cac85b759a089565fc2dddb7e30420ff687e42",
+    "bytes": 2506
+  },
+  "src/test/java/es/mecd/demo/miproyecto/curso/CursoRepositoryTest.java": {
+    "sha256": "051aad6e2e623e647a67e0c967192eaccc5a816b34badcd344596af9ee95dd81",
+    "bytes": 1341
+  },
+  "src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteControllerTest.java": {
+    "sha256": "ece6a070670e485e8bdc28ec4b884b6bd6e1c585a169956e365b0ef995e5cd29",
+    "bytes": 1277
+  },
+  "src/test/java/es/mecd/demo/miproyecto/expediente/ExpedienteServiceTest.java": {
+    "sha256": "9816a4c97dc7f7eedf8bf1e864fc68062bf280549d8fc3de4062504f034ef3bf",
+    "bytes": 842
+  },
+  "src/test/java/es/mecd/demo/miproyecto/fichero/FicheroExceptionHandlerTest.java": {
+    "sha256": "e59bf8601bb351a2181ae2faba087dc6d5cc188a8805281439f819a3ec188552",
+    "bytes": 1173
+  },
+  "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManual.java": {
+    "sha256": "a941af0b2745b915772201c3be0d75b24c0eec981a2aadd5685f0aeada696f44",
+    "bytes": 1679
+  },
+  "src/test/java/es/mecd/demo/miproyecto/jwt/JwtManualTest.java": {
+    "sha256": "9c8caf229e9b7b88cc2c1c25d983f8a6a02bcdcba31e54400aa30bc143560dc9",
+    "bytes": 599
+  },
+  "src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java": {
+    "sha256": "ea35d816c28e86cb5871487ac1e2b55786b1a12d538a0ebbee1dcea1f5b422b0",
+    "bytes": 236
+  },
+  "src/test/java/es/mecd/demo/miproyecto/saludo/SaludoControllerTest.java": {
+    "sha256": "e7e56625191fd6bdfccf1f88f258dd6f0860796d4ec2c652eb3c918155a9c0e2",
+    "bytes": 383
+  }
+}
