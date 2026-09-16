@@ -17,6 +17,7 @@ Repositorio del curso completo Spring Boot 2026.
 
 Cada módulo contiene, según corresponda:
 
+- `README.md`: resumen del objetivo del módulo, qué se aprende, qué se construye y cómo encaja en el curso;
 - `TEORIA.md`: guía teórica del módulo;
 - `PRACTICA.md`: guía práctica paso a paso;
 - PDFs de teoría y práctica;
