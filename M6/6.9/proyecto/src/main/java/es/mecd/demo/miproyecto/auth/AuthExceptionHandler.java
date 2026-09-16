@@ -18,24 +18,27 @@ public class AuthExceptionHandler {
     ResponseEntity<ErrorResponse> credenciales(
             CredencialesInvalidasException ex,
             HttpServletRequest request) {
-        return respuesta("CREDENCIALES_INVALIDAS", ex.getMessage(), request.getRequestURI());
+        return respuesta(HttpStatus.UNAUTHORIZED,
+                "CREDENCIALES_INVALIDAS", ex.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(TokenInvalidoException.class)
     ResponseEntity<ErrorResponse> token(
             TokenInvalidoException ex,
             HttpServletRequest request) {
-        return respuesta("TOKEN_INVALIDO", ex.getMessage(), request.getRequestURI());
+        return respuesta(HttpStatus.BAD_REQUEST,
+                "TOKEN_INVALIDO", ex.getMessage(), request.getRequestURI());
     }
 
-    private ResponseEntity<ErrorResponse> respuesta(String codigo, String mensaje, String path) {
+    private ResponseEntity<ErrorResponse> respuesta(
+            HttpStatus status, String codigo, String mensaje, String path) {
         ErrorResponse error = new ErrorResponse();
         error.setTimestamp(Instant.now().toString());
-        error.setStatus(HttpStatus.UNAUTHORIZED.value());
+        error.setStatus(status.value());
         error.setCodigo(codigo);
         error.setMensaje(mensaje);
         error.setPath(path);
         error.setTraceId(UUID.randomUUID().toString());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        return ResponseEntity.status(status).body(error);
     }
 }

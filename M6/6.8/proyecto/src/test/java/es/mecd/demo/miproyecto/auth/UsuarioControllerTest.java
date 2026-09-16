@@ -31,4 +31,7 @@ class UsuarioControllerTest {
      mockMvc.perform(get("/api/v1/admin/usuarios").with(user("ana").roles("USER"))).andExpect(status().isForbidden());}
  @Test void listar_debeDevolver200_cuandoEsAdmin()throws Exception{
      mockMvc.perform(get("/api/v1/admin/usuarios").with(user("admin").roles("ADMIN"))).andExpect(status().isOk());}
+
+ @Test void listar_debeDevolver401_cuandoNoAutenticado()throws Exception{
+     mockMvc.perform(get("/api/v1/admin/usuarios")).andExpect(status().isUnauthorized());}
 }

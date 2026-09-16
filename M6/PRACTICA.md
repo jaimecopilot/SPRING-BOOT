@@ -1564,6 +1564,7 @@ Ejecuta la suite después de combinar seguridad por URL y por método:
 > **Pregunta de reflexión:** ¿Qué pasa si un usuario con rol USER intenta acceder a `/api/v1/admin/usuarios`? ¿Se evalúa la anotación?
 
 **Respuesta razonada:** La regla de URL lo rechaza antes de que llegue al método, por lo que en esa petición concreta `@PreAuthorize` no necesita decidir nada. La anotación sigue siendo útil como segunda barrera y protege la operación si la ruta cambia o si el método se invoca por otra vía gestionada por Spring.
+
 ## Paso 6 - Probar la autorización con distintos usuarios
 
 ```bash
@@ -1600,6 +1601,7 @@ curl -i -u admin:admin123 http://localhost:8080/api/v1/admin/usuarios
 > **Pregunta de reflexión:** ¿Qué diferencia hay entre el 403 de Ana y un 401?
 
 **Respuesta razonada:** Ana ya se ha autenticado correctamente, pero no tiene el rol ADMIN, por eso recibe 403. Un 401 indicaría que falta una identidad válida o que las credenciales no han sido aceptadas.
+
 ## Paso 7 - Crear un endpoint para consultar el propio perfil
 
 El perfil ya existe desde 6.2/6.3. Ajústalo para trabajar con el principal autenticado:
@@ -1630,6 +1632,7 @@ curl -i -u ana:ana123 http://localhost:8080/api/v1/perfil
 > **Pregunta de reflexión:** ¿Qué diferencia hay entre `@AuthenticationPrincipal` y `Authentication`?
 
 **Respuesta razonada:** `Authentication` representa el objeto completo de autenticación, incluidas las authorities y el principal. `@AuthenticationPrincipal` inyecta directamente ese principal ya tipado, lo que resulta más cómodo cuando sólo necesitamos los datos del usuario autenticado.
+
 ## Paso 8 - Crear el UsuarioPrincipal (para el punto 6.7)
 
 Creamos ahora, sin integrarlo todavía:
@@ -1662,6 +1665,7 @@ Comprueba que el estado intermedio compila antes de continuar:
 > **Pregunta de reflexión:** ¿Por qué no podemos usar esta clase en el `UsuarioDetailsService` todavía?
 
 **Respuesta razonada:** Porque en 6.4 estamos preparando `UsuarioPrincipal` para el flujo JWT posterior, pero la autenticación activa sigue siendo usuario/contraseña y el `UsuarioDetailsService` continúa devolviendo el `User` estándar. La sustitución se realiza cuando el filtro JWT construya el principal a partir de claims verificados en 6.7.
+
 ## Paso 9 - Probar la expresión de autorización
 
 El ejercicio propone la expresión futura:
@@ -1689,6 +1693,7 @@ El caso funcional se resolverá en 6.7, donde el principal será `UsuarioPrincip
 > **Pregunta de reflexión:** ¿Qué error daría la expresión `#id == authentication.principal.id` si el principal fuera un `String`?
 
 **Respuesta razonada:** La expresión no podría resolver la propiedad `id` y Spring Expression Language lanzaría un error de evaluación. Por eso la expresión sólo debe quedar activa cuando el principal real sea un objeto que exponga `getId()`.
+
 ## Paso 10 - Escribir tests de autorización
 
 Este es el **primer punto del recorrido** en el que usamos utilidades de `spring-security-test`, concretamente `SecurityMockMvcRequestPostProcessors.user(...)`. Por tanto la dependencia debe incorporarse **ahora**, en 6.4, aunque la fuente la presente formalmente de nuevo en 6.9. Si se esperara hasta 6.9, este snapshot no podría compilar sus propios tests.
@@ -1749,7 +1754,6 @@ class UsuarioControllerTest {
 
 Con estos tests cubrimos Cubrir las tres ramas semánticamente distintas: 401, 403 y 200.
 
-
 Ejecuta únicamente los tests de autorización mientras trabajas en este punto:
 
 ```bash
@@ -1759,6 +1763,7 @@ Ejecuta únicamente los tests de autorización mientras trabajas en este punto:
 > **Pregunta de reflexión:** ¿Por qué es importante testear los tres escenarios?
 
 **Respuesta razonada:** Porque 401, 403 y 200 demuestran contratos distintos: ausencia de autenticación, autenticación sin permiso y acceso autorizado. Probar sólo el caso de éxito no detectaría rutas abiertas accidentalmente ni reglas demasiado permisivas.
+
 ## Paso 11 - Errores comunes del ejercicio
 
 | Error | Causa | Solución |
@@ -1867,6 +1872,7 @@ La petición debe devolver 403.
 > **Pregunta de reflexión:** ¿Por qué el endpoint requiere rol ADMIN? ¿Qué pasaría si un usuario normal pudiera cambiar sus propios roles?
 
 **Respuesta razonada:** Cambiar roles modifica privilegios. Si un usuario ordinario pudiera asignárselos a sí mismo, podría elevar sus permisos hasta ADMIN o GESTOR y romper completamente el modelo de autorización. Por eso la operación debe quedar restringida a una autoridad administrativa.
+
 ## Resultado esperado global
 
 - `@EnableMethodSecurity` activo.
@@ -1985,15 +1991,24 @@ public static String decodificarPayload(String jwt) {
 }
 ```
 
-Ejecuta la clase:
+Ejecuta **primero `JwtManual.main()`** desde el IDE. Esta ejecución es parte obligatoria del ejercicio: el test unitario no sustituye el observable manual. Debes ver una salida equivalente a:
+
+```text
+JWT generado:
+eyJ...
+Token válido: true
+Token modificado válido: false
+Con clave incorrecta: false
+Payload decodificado: {"sub":"ana",...}
+```
+
+Después ejecuta también el test automatizado:
 
 ```bash
 ./mvnw -Dtest=JwtManualTest test
 ```
 
-o su `main` desde el IDE.
-
-El JSON del payload aparece en texto plano.
+El test comprueba la firma, la manipulación real del payload, la clave incorrecta y que `main()` produce los observables anteriores.
 
 > **Pregunta de reflexión:** ¿Ha sido necesaria la clave para leerlo?
 
@@ -2001,7 +2016,7 @@ El JSON del payload aparece en texto plano.
 
 ## Paso 4 - Modificar el payload sin actualizar la firma
 
-Toma un token válido y sustituye sólo su segunda parte por otro payload Base64Url, conservando la firma antigua.
+Toma un token válido y sustituye sólo su segunda parte por otro payload Base64Url, conservando la firma antigua. En el proyecto se hace con `JwtManual.adulterarPayload(...)`. No uses `jwt.replace("ana", "pedro")`: el texto `ana` no aparece literalmente en el JWT porque el payload está codificado en Base64Url.
 
 Ejemplo conceptual:
 
@@ -2212,7 +2227,7 @@ Requisitos previos: Tener el proyecto con usuarios en base de datos y autorizaci
 
 **Archivo:** `pom.xml`.
 
-Usa JJWT **0.13.0**: `jjwt-api` en compile y `jjwt-impl`/`jjwt-jackson` en runtime.
+Usa JJWT **0.12.3**: `jjwt-api` en compile y `jjwt-impl`/`jjwt-jackson` en runtime.
 
 ```bash
 ./mvnw -B -DskipTests compile
@@ -2222,24 +2237,24 @@ Maven debe resolver los tres módulos y el código debe poder importar `Jwts`, `
 
 Si falta uno de los módulos necesarios en runtime, la compilación puede llegar a pasar, pero el parseo o la serialización fallarán al ejecutar. Por eso conservamos los tres módulos indicados.
 
-Añade los tres módulos de JJWT. El PDF original usa 0.12.3; este proyecto utiliza 0.13.0, manteniendo la misma separación entre API y módulos de runtime:
+Añade los tres módulos de JJWT. Usamos exactamente la versión **0.12.3** indicada en el PDF original, manteniendo la separación entre API y módulos de runtime:
 
 ```xml
 <dependency>
   <groupId>io.jsonwebtoken</groupId>
   <artifactId>jjwt-api</artifactId>
-  <version>0.13.0</version>
+  <version>0.12.3</version>
 </dependency>
 <dependency>
   <groupId>io.jsonwebtoken</groupId>
   <artifactId>jjwt-impl</artifactId>
-  <version>0.13.0</version>
+  <version>0.12.3</version>
   <scope>runtime</scope>
 </dependency>
 <dependency>
   <groupId>io.jsonwebtoken</groupId>
   <artifactId>jjwt-jackson</artifactId>
-  <version>0.13.0</version>
+  <version>0.12.3</version>
   <scope>runtime</scope>
 </dependency>
 ```
@@ -2247,13 +2262,14 @@ Añade los tres módulos de JJWT. El PDF original usa 0.12.3; este proyecto util
 > **Pregunta de reflexión:** ¿Por qué `jjwt-impl` y `jjwt-jackson` tienen `scope=runtime`?
 
 **Respuesta razonada:** Porque nuestra aplicación compila contra la API pública de `jjwt-api`. La implementación concreta y la integración con Jackson se necesitan al ejecutar, pero no deben convertirse en APIs que nuestro código importe directamente.
+
 ## Paso 2 - Configurar las propiedades de JWT
 
 M6 añade `jwt.secret`, `jwt.expiration` y `jwt.refresh-expiration` a dev/test/prod. Dev y test usan secretos Base64 no productivos; producción exige `${JWT_SECRET}`.
 
 ```properties
 jwt.secret=${JWT_SECRET}
-jwt.expiration=${JWT_EXPIRATION:900000}
+jwt.expiration=${JWT_EXPIRATION:3600000}
 jwt.refresh-expiration=${JWT_REFRESH_EXPIRATION:604800000}
 ```
 
@@ -2266,21 +2282,21 @@ Mantén propiedades coherentes en los perfiles. Por ejemplo, desarrollo y test p
 ```properties
 # application-dev.properties
 jwt.secret=${JWT_SECRET_DEV:<BASE64_DE_DESARROLLO>}
-jwt.expiration=900000
+jwt.expiration=3600000
 jwt.refresh-expiration=604800000
 ```
 
 ```properties
 # application-test.properties
 jwt.secret=<BASE64_EXCLUSIVO_DE_TEST>
-jwt.expiration=900000
+jwt.expiration=3600000
 jwt.refresh-expiration=604800000
 ```
 
 ```properties
 # application-prod.properties
 jwt.secret=${JWT_SECRET}
-jwt.expiration=${JWT_EXPIRATION:900000}
+jwt.expiration=${JWT_EXPIRATION:3600000}
 jwt.refresh-expiration=${JWT_REFRESH_EXPIRATION:604800000}
 ```
 
@@ -2293,6 +2309,7 @@ grep -R "^jwt\." src/main/resources/application-*.properties
 > **Pregunta de reflexión:** ¿Por qué hay un valor por defecto para `jwt.secret`?
 
 **Respuesta razonada:** Sólo para facilitar el arranque en desarrollo y ejercicios locales. En producción el secreto debe proporcionarse desde una variable de entorno o un gestor de secretos; dejar un valor conocido en el código o en el repositorio haría predecible la clave de firma.
+
 ## Paso 3 - Crear la configuración de la clave
 
 **Archivo:** `auth/JwtConfig.java`.
@@ -2330,6 +2347,7 @@ Después de crearla:
 > **Pregunta de reflexión:** ¿Qué pasa si `jwt.secret` no está bien formado en Base64?
 
 **Respuesta razonada:** La decodificación falla al construir la `SecretKey` y la aplicación no debería arrancar con una clave inválida. Es preferible fallar al inicio que descubrir el problema cuando se intenta firmar o verificar un token.
+
 ## Paso 4 - Crear el JwtService
 
 **Archivo:** `auth/JwtService.java`.
@@ -2419,6 +2437,7 @@ Comprueba que el servicio y sus dependencias compilan antes de continuar. En 6.6
 > **Pregunta de reflexión:** ¿Qué diferencia hay entre `parseSignedClaims` y `parseClaimsJwt`?
 
 **Respuesta razonada:** `parseSignedClaims` procesa un JWT firmado y verifica su firma antes de devolver los claims. Un método destinado a JWT no firmados no ofrece esa garantía y no debe usarse para tomar decisiones de autenticación o autorización.
+
 ## Paso 5 - Crear los DTOs de login
 
 Archivos:
@@ -2660,6 +2679,7 @@ Tras ajustar los matchers, verifica que no has cerrado accidentalmente el login:
 > **Pregunta de reflexión:** ¿Qué pasa si olvidas permitir `/api/v1/auth/login`?
 
 **Respuesta razonada:** La cadena de seguridad rechaza la propia petición de login antes de que el controlador pueda validar las credenciales, de modo que ningún cliente puede obtener su primer token.
+
 ## Paso 9 - Arrancar y probar el login
 
 ```bash
@@ -2679,13 +2699,14 @@ Una respuesta correcta tiene esta forma:
   "access_token": "eyJ...",
   "refresh_token": "eyJ...",
   "token_type": "Bearer",
-  "expires_in": 900
+  "expires_in": 3600
 }
 ```
 
 > **Pregunta de reflexión:** ¿Qué contiene el `access_token`? ¿Qué contiene el `refresh_token`?
 
 **Respuesta razonada:** El access token contiene la identidad y los datos mínimos necesarios para autenticar y autorizar peticiones durante un periodo corto. El refresh token contiene la información mínima para solicitar una renovación y dura más; no debe utilizarse para acceder directamente a recursos.
+
 ## Paso 10 - Decodificar el token
 
 Usa el decoder local de 6.5 o jwt.io **sólo con tokens didácticos/locales**. El access debe mostrar `sub`, `jti`, `tipo=access`, id, email, roles, iat y exp. Un payload representativo es:
@@ -2714,6 +2735,7 @@ java -cp target/test-classes es.mecd.demo.miproyecto.jwt.JwtManual "$TOKEN"
 > **Pregunta de reflexión:** ¿Qué campos del payload son claims registrados y cuáles son personalizados?
 
 **Respuesta razonada:** `sub`, `jti`, `iat` y `exp` son claims registrados por JWT. Campos como `tipo`, `id`, `email` y `roles` son claims privados definidos por nuestra aplicación.
+
 ## Paso 11 - Probar el refresh
 
 ```bash
@@ -2722,9 +2744,9 @@ curl -i -X POST http://localhost:8080/api/v1/auth/refresh \
   -d '{"refresh_token":"<REFRESH>"}'
 ```
 
-Primer uso: 200 + nuevo par. Segundo uso del mismo refresh: **401 `TOKEN_INVALIDO`**.
+Primer uso: 200 + nuevo par. Un refresh inválido o ya consumido devuelve **400 `TOKEN_INVALIDO`**, de acuerdo con el comportamiento esperado del ejercicio original.
 
-Prueba también un access token en `/refresh`: debe ser 401 por tipo incorrecto.
+Prueba también un access token en `/refresh`: debe ser 400 por tipo incorrecto.
 
 La segunda reutilización del mismo refresh debe fallar; así la rotación queda demostrada y no sólo documentada.
 
@@ -2739,6 +2761,7 @@ curl -i -X POST http://localhost:8080/api/v1/auth/refresh \
 > **Pregunta de reflexión:** ¿Qué pasa si el refresh token ha expirado?
 
 **Respuesta razonada:** Debe rechazarse y el cliente tiene que iniciar de nuevo el flujo de autenticación. En nuestra implementación también se rechaza un refresh ya consumido, para impedir su reutilización.
+
 ## Paso 12 - Errores comunes del ejercicio
 
 | Error | Síntoma | Corrección |
@@ -2756,7 +2779,7 @@ El tratamiento de errores se materializa en tres piezas concretas:
 
 - `CredencialesInvalidasException.java`: representa el rechazo de usuario/contraseña con código estable `CREDENCIALES_INVALIDAS`;
 - `TokenInvalidoException.java`: representa JWT expirado, revocado, mal firmado o de tipo incorrecto con código `TOKEN_INVALIDO`;
-- `AuthExceptionHandler.java`: traduce ambas excepciones a HTTP 401 usando el mismo `ErrorResponse` heredado de M5, incluido `traceId`.
+- `AuthExceptionHandler.java`: traduce credenciales inválidas a HTTP 401 y errores de refresh/token a HTTP 400, conservando el `ErrorResponse` heredado de M5, incluido `traceId`.
 
 Después de revisar los errores habituales, ejecuta de nuevo la suite:
 
@@ -2816,6 +2839,7 @@ Esperado en **6.6**: `204 No Content` y el `jti` queda registrado como revocado.
 > **Pregunta de reflexión:** ¿Por qué registrar la revocación en 6.6 no basta todavía para impedir que el mismo token autentique otra petición?
 
 **Respuesta razonada:** Porque falta la pieza que consulta esa revocación en cada petición. El servicio puede guardar el `jti`, pero hasta 6.7 ningún filtro Bearer usa ese dato antes de construir la identidad. La revocación completa aparece cuando `JwtAuthenticationFilter` valida el token y comprueba además que su `jti` no esté revocado.
+
 ## Resultado esperado global
 
 - Dependencias JJWT y clave de firma configuradas de forma externalizable.
@@ -2836,96 +2860,70 @@ El servidor ya puede emitir y renovar tokens firmados. En 6.7 construiremos la p
 
 # Práctica 6.7 - Filtro JWT
 
-Contexto del ejercicio: Vamos a implementar un filtro JWT que intercepte las peticiones, extraiga el token de la cabecera `Authorization`, lo verifique con `JwtService` y coloque un `UsuarioPrincipal` en el `SecurityContext`. Después registraremos el filtro y probaremos los endpoints protegidos.
+Contexto del ejercicio: vamos a implementar un filtro JWT que intercepte las peticiones, extraiga el token de la cabecera `Authorization`, lo verifique con `JwtService` y coloque un `UsuarioPrincipal` en el `SecurityContext`. Después registraremos el filtro en la cadena de seguridad y comprobaremos que los endpoints protegidos funcionan con el token.
 
-Requisitos previos: Tener `JwtService` del punto 6.6 y `UsuarioPrincipal` preparado en 6.4.
+Requisitos previos: tener el proyecto `mi-proyecto` con `JwtService` y `UsuarioPrincipal` preparados en 6.6 y 6.4.
 
 ## Paso 1 - Verificar el JwtService y el UsuarioPrincipal
 
-Comprueba que `JwtService` expone `extraerClaims`, `extraerAuthorities` y validación de access; `UsuarioPrincipal` debe aceptar `(Long id, String username, String email, Collection<GrantedAuthority>)`.
+Abre `JwtService` y comprueba que existe `extraerClaims(...)`. Abre también `UsuarioPrincipal` y verifica que dispone del constructor con:
 
-```bash
-grep -R "class JwtService\|class UsuarioPrincipal" src/main/java/es/mecd/demo/miproyecto/auth
+```java
+(Long id, String username, String email,
+ Collection<? extends GrantedAuthority> authorities)
 ```
 
-**Por qué:** el filtro no consulta DB; construye principal desde claims ya verificados.
+El filtro necesita leer los claims porque construirá el principal a partir de la información ya firmada dentro del token.
+
+> **Pregunta de reflexión:** ¿Por qué el filtro necesita `extraerClaims(...)`?
 
 ## Paso 2 - Crear el JwtAuthenticationFilter
 
-**Archivo:** `auth/JwtAuthenticationFilter.java`.
-
-El filtro:
-
-1. lee `Authorization`;
-2. si no empieza por `Bearer `, continúa;
-3. exige access token válido;
-4. comprueba `jti` no revocado;
-5. lee id/username/email/roles;
-6. construye `UsuarioPrincipal`;
-7. crea `UsernamePasswordAuthenticationToken` con authorities;
-8. lo coloca en `SecurityContextHolder`;
-9. siempre continúa la cadena.
-
-No imprime el token completo en logs.
-
-Si aparece este error, olvidar `filterChain.doFilter` deja la petición bloqueada.
+Crea `JwtAuthenticationFilter` en el paquete `auth`. La implementación final del snapshot 6.7 es:
 
 ```java
-package es.mecd.demo.miproyecto.auth;
-
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-/** Autentica una petición a partir de Authorization: Bearer. */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
+    private static final Logger LOG =
+            LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private final JwtService jwtService;
-    private final TokenRevocationService tokenRevocationService;
+    private final TokenRevocationService revocation;
 
     public JwtAuthenticationFilter(
             JwtService jwtService,
-            TokenRevocationService tokenRevocationService) {
+            TokenRevocationService revocation) {
         this.jwtService = jwtService;
-        this.tokenRevocationService = tokenRevocationService;
+        this.revocation = revocation;
     }
 
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+            FilterChain filterChain)
+            throws ServletException, IOException {
+
         String authHeader = request.getHeader("Authorization");
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String token = authHeader.substring(7);
+
         if (!jwtService.esAccessTokenValido(token)) {
-            LOG.debug("JWT inválido o no-access en {}", request.getRequestURI());
             filterChain.doFilter(request, response);
             return;
         }
 
         try {
             Claims claims = jwtService.extraerClaims(token);
+
             if (claims.getId() == null
-                    || tokenRevocationService.isAccessRevoked(claims.getId())) {
+                    || revocation.isAccessRevoked(claims.getId())) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -2934,22 +2932,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Long id = rawId == null ? null : rawId.longValue();
             String username = claims.getSubject();
             String email = claims.get("email", String.class);
-            List<GrantedAuthority> authorities = jwtService.extraerAuthorities(token);
+            List<GrantedAuthority> authorities =
+                    jwtService.extraerAuthorities(token);
 
             UsuarioPrincipal principal = new UsuarioPrincipal(
                     id, username, email, authorities);
+
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
                             principal, null, authorities);
+
             authentication.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            LOG.debug("Usuario {} autenticado en {}", username, request.getRequestURI());
+                    new WebAuthenticationDetailsSource()
+                            .buildDetails(request));
+
+            SecurityContextHolder.getContext()
+                    .setAuthentication(authentication);
+
+            LOG.debug(
+                    "Usuario {} autenticado en {}",
+                    username,
+                    request.getRequestURI());
         } catch (RuntimeException ex) {
             SecurityContextHolder.clearContext();
             LOG.debug(
-                    "No se pudo construir el principal en {}: {}",
-                    request.getRequestURI(), ex.getMessage());
+                    "JWT no autenticó {}",
+                    request.getRequestURI());
         }
 
         filterChain.doFilter(request, response);
@@ -2957,152 +2965,172 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 }
 ```
 
-Comprueba que el filtro recién creado compila dentro del proyecto. La prueba de integración con un JWT real se introduce formalmente en 6.9; aquí todavía no adelantamos ese test:
+La lógica corresponde a la del PDF original: leer `Authorization`, exigir `Bearer `, validar el JWT, extraer claims y authorities, construir `UsuarioPrincipal`, crear un `Authentication` autenticado y guardarlo en `SecurityContextHolder`.
 
-```bash
-./mvnw -B -DskipTests compile
-```
+Hay tres ajustes de compatibilidad y continuidad con nuestro baseline acumulativo:
 
-> **Pregunta de reflexión:** ¿Por qué el filtro debe llamar a `filterChain.doFilter(...)` tanto cuando encuentra token como cuando no lo encuentra?
+- usamos `esAccessTokenValido(...)` en lugar de aceptar cualquier JWT válido, para que un refresh token no pueda autenticar recursos;
+- leemos `id` como `Number` y después usamos `longValue()`, porque según el parser un número JSON puede materializarse como `Integer` o `Long`;
+- si se implementó el reto opcional de logout de 6.6, el filtro comprueba también si el `jti` está revocado.
 
-**Respuesta razonada:** Porque su responsabilidad es intentar autenticar, no convertirse en el destino final de la petición. Si no continúa la cadena, el resto de filtros y el controlador nunca podrán ejecutarse.
+> **Pregunta de reflexión:** ¿Qué pasa si el token es válido pero el usuario ya no existe en la base de datos?
 
 ## Paso 3 - Registrar el filtro en la cadena
 
-```java
-.sessionManagement(session -> session
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-```
-
-No debe crearse una sesión HTTP y el filtro JWT debe ejecutarse antes de la autorización.
-
-En este mismo momento se cierra el estado temporal de 6.6: `POST /api/v1/auth/logout` deja de estar en `permitAll()`. Las únicas operaciones de autenticación públicas son registro, login y refresh; logout vuelve a requerir una identidad Bearer construida por el filtro:
+Modifica `SecurityConfig` para dejar los endpoints de autenticación y públicos abiertos, exigir `ADMIN` en la zona administrativa, usar sesiones stateless y registrar el filtro antes de `UsernamePasswordAuthenticationFilter`:
 
 ```java
-.requestMatchers(HttpMethod.POST,
-        "/api/v1/auth/registro",
-        "/api/v1/auth/login",
-        "/api/v1/auth/refresh").permitAll()
-.anyRequest().authenticated()
+@Bean
+SecurityFilterChain securityFilterChain(
+        HttpSecurity http,
+        JwtAuthenticationFilter jwtFilter) throws Exception {
+
+    http
+        .csrf(AbstractHttpConfigurer::disable)
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.POST,
+                    "/api/v1/auth/registro",
+                    "/api/v1/auth/login",
+                    "/api/v1/auth/refresh").permitAll()
+            .requestMatchers(
+                    "/api/v1/public/**",
+                    "/h2-console/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**").permitAll()
+            .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+            .requestMatchers("/api/v1/gestor/**")
+                    .hasAnyRole("GESTOR", "ADMIN")
+            .anyRequest().authenticated())
+        .exceptionHandling(ex -> ex
+            .authenticationEntryPoint(
+                    new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            .accessDeniedHandler((request, response, denied) ->
+                    response.setStatus(HttpStatus.FORBIDDEN.value())))
+        .addFilterBefore(
+                jwtFilter,
+                UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+}
 ```
 
-Ahora la revocación ya es efectiva de extremo a extremo: antes de construir `UsuarioPrincipal`, `JwtAuthenticationFilter` consulta `TokenRevocationService` y no autentica un `jti` revocado.
+El PDF introduce en 6.7 `STATELESS`, `addFilterBefore(...)` y la regla de `ADMIN`. En el baseline actual añadimos dos handlers **mínimos de estado** sólo para conservar los códigos que el propio ejercicio exige en un servidor real: 401 cuando no hay identidad válida y 403 cuando sí existe identidad pero falta el rol. Los handlers JSON con contrato completo se introducen, como en el original, en 6.8.
 
-Comprueba que el filtro está colocado antes del filtro de usuario/contraseña:
-
-```bash
-grep -n "addFilterBefore" \
-  src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java
-```
-
-> **Pregunta de reflexión:** ¿Por qué el orden del filtro JWT importa?
-
-**Respuesta razonada:** Porque la identidad debe estar disponible antes de que las etapas posteriores evalúen autorización. Registrar el filtro en un punto incorrecto puede hacer que la petición llegue a las reglas como anónima.
+> **Pregunta de reflexión:** ¿Qué pasaría si no se configurara `STATELESS`?
 
 ## Paso 4 - Desactivar HTTP Basic
 
-Se elimina definitivamente:
+A partir de 6.7 ya no se usa HTTP Basic. No debe existir:
 
 ```java
 .httpBasic(Customizer.withDefaults())
 ```
 
-A partir de aquí, Desde aquí, usuario/contraseña sólo se envía al login; el resto usa Bearer.
+Usuario y contraseña sólo se envían a `/api/v1/auth/login`; las peticiones posteriores usan `Authorization: Bearer <token>`.
 
-**Comprobación negativa:** `SecurityConfig` final no puede contener `.httpBasic(`.
-
-Verifica que ya no existe HTTP Basic en la configuración final del punto:
-
-```bash
-grep -R "httpBasic" src/main/java || true
-```
-
-> **Pregunta de reflexión:** ¿Por qué retiramos HTTP Basic en vez de mantenerlo como segundo mecanismo?
-
-**Respuesta razonada:** Porque el objetivo del módulo es una API Bearer stateless con un único flujo coherente. Dejar Basic activo crearía una vía alternativa que enviaría usuario y contraseña en cada petición y complicaría la política final.
+> **Pregunta de reflexión:** ¿Qué pasa si mantienes HTTP Basic activo junto con JWT?
 
 ## Paso 5 - Arrancar y probar
+
+Reinicia la aplicación y obtén un access token para Ana:
 
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"ana","password":"ana123"}' | jq -r '.access_token')
 
-curl -i http://localhost:8080/api/v1/perfil
-curl -i -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/v1/perfil
-curl -i http://localhost:8080/api/v1/public/info
+echo "Token: $TOKEN"
 ```
 
-Esperado: **401 / 200 / 200**.
-
-Cierra además la comprobación que 6.6 todavía no podía realizar: revoca el access token y vuelve a usar **exactamente el mismo** token.
+Prueba las tres situaciones del ejercicio original:
 
 ```bash
-curl -i -X POST \
-  -H "Authorization: Bearer $TOKEN" \
-  http://localhost:8080/api/v1/auth/logout
+# Sin token a endpoint protegido -> 401
+curl -i http://localhost:8080/api/v1/perfil
 
+# Con token -> 200
 curl -i -H "Authorization: Bearer $TOKEN" \
   http://localhost:8080/api/v1/perfil
-```
 
-El logout debe responder `204 No Content` y la reutilización posterior debe responder `401 Unauthorized`. Esta segunda petición es la evidencia de que la blacklist ya está conectada a la cadena y no sólo almacenada en memoria.
-
-Haz también las comprobaciones por separado para que resulte evidente qué cambia al añadir el token:
-
-```bash
-curl -i http://localhost:8080/api/v1/perfil
-curl -i -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/v1/perfil
+# Endpoint público sin token -> 200
 curl -i http://localhost:8080/api/v1/public/info
 ```
+
+Resultado esperado: **401 / 200 / 200**.
+
+> **Pregunta de reflexión:** ¿Qué diferencia hay entre las tres respuestas?
 
 ## Paso 6 - Verificar el UsuarioPrincipal
 
-`PerfilController` pasa a recibir:
+`PerfilController` recibe ahora directamente el principal construido por el filtro:
 
 ```java
-@AuthenticationPrincipal UsuarioPrincipal user
+@GetMapping
+public Map<String, Object> perfil(
+        @AuthenticationPrincipal UsuarioPrincipal user) {
+    return Map.of(
+        "id", user.getId(),
+        "username", user.getUsername(),
+        "email", user.getEmail(),
+        "authorities", user.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .toList()
+    );
+}
 ```
 
-y devuelve id, username, email y authorities.
-
-Desde este paso, El principal preparado en 6.4 ya está activo para peticiones JWT.
-
-Comprueba el endpoint que expone el principal ya reconstruido:
+Prueba:
 
 ```bash
-curl -i -H "Authorization: Bearer $TOKEN" \
-  http://localhost:8080/api/v1/perfil/usuario
+curl -H "Authorization: Bearer $TOKEN" \
+  http://localhost:8080/api/v1/perfil
 ```
 
-> **Pregunta de reflexión:** ¿Por qué `@AuthenticationPrincipal UsuarioPrincipal` resulta más útil aquí que recibir sólo un `String` con el username?
+Con el estado determinista del inicializador, Ana es el usuario `id=2`, de modo que verás un resultado equivalente a:
 
-**Respuesta razonada:** Porque las reglas posteriores necesitan también id, email y authorities. Un principal tipado conserva esos datos verificados y permite expresiones como `authentication.principal.id`.
+```json
+{
+  "id": 2,
+  "username": "ana",
+  "email": "ana@educacion.gob.es",
+  "authorities": ["ROLE_USER"]
+}
+```
+
+> **Pregunta de reflexión:** ¿Por qué ahora sí funciona `@AuthenticationPrincipal UsuarioPrincipal`?
 
 ## Paso 7 - Probar con rol ADMIN
 
-Login como admin + `/api/v1/admin/usuarios` → 200. Login como ana → 403.
+Primero inicia sesión como admin:
 
 ```bash
+TOKEN_ADMIN=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}' | jq -r '.access_token')
+
 curl -i -H "Authorization: Bearer $TOKEN_ADMIN" \
   http://localhost:8080/api/v1/admin/usuarios
 ```
 
-**Diferencia:** 403 significa que el filtro autenticó correctamente, pero authorities no satisfacen ADMIN.
+El resultado debe ser **200**.
 
-Contrasta ADMIN y USER con dos tokens distintos:
+Ahora usa un token de Ana:
 
 ```bash
-curl -i -H "Authorization: Bearer $ADMIN_TOKEN" \
-  http://localhost:8080/api/v1/admin/usuarios
-curl -i -H "Authorization: Bearer $USER_TOKEN" \
+TOKEN_ANA=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"ana","password":"ana123"}' | jq -r '.access_token')
+
+curl -i -H "Authorization: Bearer $TOKEN_ANA" \
   http://localhost:8080/api/v1/admin/usuarios
 ```
 
-> **Pregunta de reflexión:** ¿Por qué un 403 con el token de USER demuestra que el filtro sí funcionó?
+El resultado debe ser **403 Forbidden**: Ana está autenticada correctamente, pero no tiene `ROLE_ADMIN`.
 
-**Respuesta razonada:** Porque 403 implica que existe una identidad autenticada pero sus authorities no satisfacen la regla ADMIN. Si el filtro no hubiera autenticado, el resultado sería 401.
+> **Pregunta de reflexión:** ¿Qué diferencia hay entre el 403 de Ana y un 401?
 
 ## Paso 8 - Probar con un token inválido
 
@@ -3111,136 +3139,109 @@ curl -i -H "Authorization: Bearer tokenInvalido" \
   http://localhost:8080/api/v1/perfil
 ```
 
-La petición debe devolver 401. Un token inválido no debe convertirse en un 500; la petición queda sin identidad válida y la cadena rechaza el recurso protegido.
+Resultado esperado: **401**. El filtro no crea una identidad válida y la regla `authenticated()` rechaza la petición.
 
-Repite el caso inválido de forma aislada:
-
-```bash
-curl -i -H "Authorization: Bearer tokenInvalido" \
-  http://localhost:8080/api/v1/perfil
-```
-
-> **Pregunta de reflexión:** ¿Por qué un JWT inválido no debe terminar en un 500?
-
-**Respuesta razonada:** Porque una firma incorrecta o un token mal formado es una entrada no autenticable, no un fallo interno del servidor. El filtro debe dejar la petición sin identidad y la cadena responder 401 si la ruta está protegida.
+> **Pregunta de reflexión:** ¿Qué diferencia hay entre un token inválido y uno expirado?
 
 ## Paso 9 - Probar con la cabecera mal formada
 
-```bash
-curl -i -H "Authorization: $TOKEN" http://localhost:8080/api/v1/perfil
-```
-
-La petición debe devolver 401. El prefijo `Bearer ` forma parte del contrato y evita interpretar otros esquemas como JWT.
-
-Prueba un esquema que no sea Bearer:
+El PDF pide probar el token sin el prefijo `Bearer`:
 
 ```bash
-curl -i -H "Authorization: Token $TOKEN" \
+curl -i -H "Authorization: $TOKEN_ANA" \
   http://localhost:8080/api/v1/perfil
 ```
 
-> **Pregunta de reflexión:** ¿Por qué no basta con tomar todo lo que venga después de `Authorization:` como si fuera JWT?
+Resultado esperado: **401**. El filtro ignora la cabecera porque no empieza por `Bearer `.
 
-**Respuesta razonada:** Porque HTTP permite distintos esquemas de autenticación. Exigir el prefijo `Bearer ` evita interpretar Basic u otros formatos como tokens JWT por accidente.
+> **Pregunta de reflexión:** ¿Por qué el filtro es estricto con el prefijo `Bearer`?
 
 ## Paso 10 - Depurar el filtro
 
-Dev ya registra el paquete de la aplicación en DEBUG. Añade temporalmente si lo necesitas:
+Activa temporalmente:
 
 ```properties
 logging.level.org.springframework.security=DEBUG
+logging.level.es.mecd.demo.miproyecto.auth=DEBUG
 ```
 
-Observa ruta, usuario y decisiones; **no** copies tokens completos al log. Restaura el nivel global tras depurar.
+Con una petición válida podrás observar que la cadena protege la ruta y que el filtro coloca al usuario en el `SecurityContext`.
 
-Con DEBUG activo, una petición válida debe permitir seguir la secuencia de seguridad sin imprimir el token completo:
+No registres access tokens, refresh tokens ni secretos completos.
 
-```text
-Securing GET /api/v1/perfil
-Usuario ana autenticado en /api/v1/perfil
-Secured GET /api/v1/perfil
-```
-
-> **Pregunta de reflexión:** ¿Qué información conviene registrar al depurar y qué información no debemos registrar?
-
-**Respuesta razonada:** Conviene registrar ruta, resultado y, con cautela, el username. No deben registrarse access/refresh tokens completos ni secretos, porque los logs podrían convertirse en una fuente de credenciales reutilizables.
+> **Pregunta de reflexión:** ¿Qué información aportan los logs que no tenías antes?
 
 ## Paso 11 - Errores comunes del ejercicio
 
-| Error | Causa | Corrección |
+| Error | Causa | Solución |
 |---|---|---|
-| 401 siempre | filtro no registrado | `addFilterBefore` |
-| 403 con token correcto | authorities vacías/incorrectas | construir Authentication con roles |
-| petición colgada | falta `doFilter` | continuar cadena |
-| 500 token inválido | parseo no controlado | `esAccessTokenValido` + catch |
-| públicos devuelven 401 | filtro rechaza ausencia | continuar sin autenticar |
-| sesión aparece | falta STATELESS | fijar policy |
-| refresh autentica recursos | no se distingue tipo | sólo `tipo=access` |
-| token de logout sigue activo | blacklist ignorada | consultar `jti` revocado |
+| 401 siempre | el filtro no se ejecuta o no autentica | revisar `addFilterBefore` |
+| 403 con token válido | authorities vacías o incorrectas | construir `Authentication` con authorities |
+| la petición queda bloqueada | falta `filterChain.doFilter(...)` | continuar siempre la cadena |
+| `NullPointerException` | se usa `authHeader` sin comprobarlo | comprobar `null` antes |
+| 500 al parsear token | excepción JWT no controlada | validar/capturar la excepción |
+| token no leído | cabecera sin `Bearer ` | verificar formato |
+| aparece sesión | falta `STATELESS` | fijar `SessionCreationPolicy.STATELESS` |
+| endpoint público devuelve 401 | filtro no tolera ausencia de token | dejar pasar sin autenticar |
 
-Después de corregir cualquiera de estos errores, vuelve a ejecutar:
+## Paso 12 - Reto resuelto: expresión SpEL con el ID del usuario
 
-```bash
-./mvnw -B test
-```
-
-## Paso 12 - Reto resuelto — Expresión SpEL con el ID del usuario
-
-Endpoint:
+Añade al `PerfilController`:
 
 ```java
 @GetMapping("/{id}")
 @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
-public UsuarioResponseDTO perfilPorId(@PathVariable Long id) {
-    return usuarioService.consultar(id);
+public Map<String, Object> perfilPorId(
+        @PathVariable Long id,
+        @AuthenticationPrincipal UsuarioPrincipal user) {
+    return Map.of(
+        "id", user.getId(),
+        "username", user.getUsername(),
+        "email", user.getEmail()
+    );
 }
 ```
 
-Prueba:
+La expresión compara el parámetro `id` con `authentication.principal.id`. Un administrador puede acceder a cualquier ID gracias a `or hasRole('ADMIN')`.
 
-- Ana consulta su ID → 200.
-- Ana consulta ID ajeno → 403.
-- Admin consulta cualquier ID → 200 **con el usuario solicitado**.
-
-En este proyecto, devolver los claims del principal cuando un administrador consulta otro id produciría un resultado incorrecto; el controlador autoriza primero y devuelve el usuario realmente solicitado.
-
-Prueba explícitamente los tres casos del reto:
+Con el inicializador del curso, admin se crea primero (`id=1`) y Ana después (`id=2`). Prueba exactamente los tres casos del PDF:
 
 ```bash
-# Propietario -> 200
+# Ana consulta su propio perfil (id=2) -> 200
 curl -i -H "Authorization: Bearer $TOKEN_ANA" \
   http://localhost:8080/api/v1/perfil/2
 
-# Otro usuario -> 403
+# Ana consulta el perfil de admin (id=1) -> 403
 curl -i -H "Authorization: Bearer $TOKEN_ANA" \
   http://localhost:8080/api/v1/perfil/1
 
-# ADMIN -> 200
+# Admin consulta cualquier perfil -> 200
 curl -i -H "Authorization: Bearer $TOKEN_ADMIN" \
   http://localhost:8080/api/v1/perfil/2
 ```
 
-> **Pregunta de reflexión:** ¿Qué ocurriría con la expresión `authentication.principal.id` si el principal fuera sólo un `String`?
-
-**Respuesta razonada:** La expresión no tendría una propiedad `id` que consultar y fallaría. Por eso 6.4 preparó `UsuarioPrincipal` y 6.7 lo convierte en el principal real del `Authentication`.
+> **Pregunta de reflexión:** ¿Qué ocurriría si el principal fuera un `String` en lugar de un `UsuarioPrincipal`?
 
 ## Resultado esperado global
 
-- Un `JwtAuthenticationFilter` registrado en la cadena.
-- Autenticación Bearer stateless y HTTP Basic retirado.
-- `UsuarioPrincipal` reconstruido desde claims verificados.
-- Rutas protegidas operativas con token y públicas operativas sin token.
+Al finalizar 6.7 debes tener:
+
+- un `JwtAuthenticationFilter` que extrae y verifica el token;
+- el filtro registrado en la cadena;
+- política `STATELESS`;
+- HTTP Basic desactivado;
+- `PerfilController` usando `@AuthenticationPrincipal UsuarioPrincipal`;
+- endpoint con expresión SpEL sobre `authentication.principal.id`;
+- endpoints protegidos funcionando con JWT;
+- endpoints públicos funcionando sin token.
 
 ## Resumen técnico del ejercicio
 
-- `OncePerRequestFilter` y extracción de `Authorization: Bearer`.
-- Construcción de `UsuarioPrincipal` y `Authentication`.
-- `SecurityContextHolder` y `addFilterBefore`.
-- `STATELESS`, ausencia/malformación de token y depuración.
+El punto 6.7 conecta JWT con Spring Security mediante `OncePerRequestFilter`, `SecurityContextHolder`, `UsernamePasswordAuthenticationToken`, `addFilterBefore(...)` y una política stateless.
 
 ## Conclusión y enlace al siguiente punto
 
-El filtro JWT conecta los tokens con Spring Security y hace posible la autenticación stateless. En 6.8 integraremos handlers, reglas y flujo completo alrededor de esa identidad.
+El filtro JWT es la pieza que convierte un token firmado en una identidad que Spring Security puede autorizar. En 6.8 añadiremos los manejadores JSON específicos para 401/403, el rol GESTOR y el flujo completo de protección de endpoints.
 
 # Práctica 6.8 - Protección de endpoints con JWT
 
@@ -3469,6 +3470,7 @@ usuarioRepository.save(gestor);
 > **Pregunta de reflexión:** ¿Qué roles tiene ahora el usuario gestor?
 
 **Respuesta razonada:** Tiene `GESTOR` y `USER`: `GESTOR` le permite acceder a la zona de gestión y `USER` conserva las capacidades ordinarias definidas para un usuario del sistema.
+
 ## Paso 6 - Probar el flujo completo
 
 Gestor:
@@ -3497,6 +3499,7 @@ Los resultados deben ser 200, 200 y 403.
 > **Pregunta de reflexión:** ¿Qué diferencia hay entre el 403 de gestor y un 401?
 
 **Respuesta razonada:** El 403 demuestra que el token se ha validado y que la identidad está autenticada, pero no posee el rol ADMIN. Un 401 indicaría que no hay una autenticación válida, por ejemplo porque falta el token o no puede verificarse.
+
 ## Paso 7 - Probar sin token
 
 ```bash
@@ -3509,6 +3512,7 @@ Esperado: 401 JSON con `traceId` / 200.
 > **Pregunta de reflexión:** ¿Qué formato tiene la respuesta 401? ¿Es consistente con el resto de la API?
 
 **Respuesta razonada:** Debe ser JSON y respetar el contrato de errores del proyecto: status 401, código estable, mensaje, path, timestamp y `traceId`. Así la seguridad no introduce un formato distinto al utilizado por el resto de la API.
+
 ## Paso 8 - Probar el refresh token
 
 Obtén refresh, úsalo una vez y comprueba que devuelve un par nuevo. Reutiliza el antiguo: 401.
@@ -3528,6 +3532,7 @@ La primera llamada es válida; la reutilización del mismo refresh debe ser rech
 > **Pregunta de reflexión:** ¿Qué pasa si intentas usar el mismo refresh token dos veces?
 
 **Respuesta razonada:** El primer uso consume el refresh y devuelve un nuevo par. El segundo intento debe rechazarse porque ese `jti` ya fue consumido; así se limita el replay de una credencial robada.
+
 ## Paso 9 - Probar el logout
 
 Login → perfil 200 → logout 204 → mismo access token en perfil → 401.
@@ -3547,6 +3552,7 @@ La secuencia debe ser 200 → 204 → 401.
 > **Pregunta de reflexión:** ¿Qué limitación tiene la lista negra en memoria?
 
 **Respuesta razonada:** Sólo protege la instancia que guarda esa lista y se pierde al reiniciar. En producción distribuida se necesita una fuente compartida de revocación o una estrategia equivalente.
+
 ## Paso 10 - Escribir tests de integración
 
 La fuente introduce aquí un **test de la capa web del `AuthController`**. Se conserva ese aprendizaje en `AuthControllerTest` y se moderniza `@MockBean` a `@MockitoBean` para Spring Boot 3.5.
@@ -3681,6 +3687,7 @@ public Map<String, Object> usuario(
 > **Pregunta de reflexión:** ¿Por qué es mejor usar los claims del token que consultar la base de datos?
 
 **Respuesta razonada:** Porque esos claims ya han sido verificados criptográficamente por el filtro y contienen los datos de identidad que este endpoint necesita. Evitar una consulta extra mantiene el flujo stateless y reduce latencia; la base de datos sigue siendo necesaria cuando la operación requiere estado actual que no viaja en el token.
+
 ## Resultado esperado global
 
 - Handlers JSON específicos para 401 y 403.
@@ -3705,9 +3712,9 @@ Contexto del ejercicio: Vamos a escribir tests de seguridad para `UsuarioControl
 
 Requisitos previos: Tener el proyecto con la configuración de seguridad completa del punto 6.8.
 
-## Paso 1 - Verificar la dependencia spring-security-test
+## Paso 1 - Añadir la dependencia spring-security-test
 
-La fuente presenta aquí la incorporación formal de `spring-security-test`, pero en nuestro recorrido ejecutable la dependencia **ya se incorporó en 6.4**, cuando apareció por primera vez `SecurityMockMvcRequestPostProcessors.user(...)`. En 6.9 no fingimos una segunda “primera incorporación”: comprobamos que sigue presente con `scope=test` y utilizamos de forma sistemática el resto de sus herramientas.
+El PDF original introduce formalmente aquí `spring-security-test`. Añade la dependencia con `scope=test`. En el snapshot de referencia puede aparecer ya heredada de 6.4 porque allí se ejecutan tests de autorización que necesitan `SecurityMockMvcRequestPostProcessors.user(...)`; en 6.9 se conserva y se amplía su uso con el resto de herramientas de Spring Security Test.
 
 ```xml
 <dependency>
@@ -3894,141 +3901,93 @@ class PublicControllerSecurityTest {
 
 ## Paso 6 - Testear el login
 
-La fuente manda crear expresamente `AuthControllerSecurityTest`. **No lo sustituimos** por un test distinto. Modernizamos `@MockBean` a `@MockitoBean` y alineamos el error de credenciales con el contrato final de M6: el ejemplo histórico esperaba 409 mediante `NegocioException`; la versión final usa `CredencialesInvalidasException` y responde 401 `CREDENCIALES_INVALIDAS`.
-
-Como este test comprueba el contrato HTTP del controlador con `AuthService` simulado, desactivamos los filtros del slice. El mecanismo JWT real se comprueba en el paso 11 y el ciclo completo en una prueba de integración adicional.
+El PDF pide crear `AuthControllerSecurityTest`. En la versión corregida lo convertimos en un **test de integración real**, porque un test con `@WebMvcTest` y `addFilters=false` sólo demostraría el contrato del controlador y podría pasar aunque la seguridad estuviera rota.
 
 ```java
-package es.mecd.demo.miproyecto.auth;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
-
-@WebMvcTest(AuthController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 class AuthControllerSecurityTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
-    private AuthService authService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void login_debeDevolver200ConTokens_cuandoCredencialesValidas()
             throws Exception {
-        LoginResponseDTO response =
-                new LoginResponseDTO("token", "refresh", 3600);
-        when(authService.login(any())).thenReturn(response);
-
         mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {"username":"ana","password":"ana123"}
-                                """))
+                        .content("{\"username\":\"ana\",\"password\":\"ana123\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.access_token").value("token"))
-                .andExpect(jsonPath("$.token_type").value("Bearer"));
+                .andExpect(jsonPath("$.access_token").isNotEmpty())
+                .andExpect(jsonPath("$.refresh_token").isNotEmpty())
+                .andExpect(jsonPath("$.token_type").value("Bearer"))
+                .andExpect(jsonPath("$.expires_in").value(3600));
     }
 
     @Test
     void login_debeDevolver401_cuandoCredencialesInvalidas()
             throws Exception {
-        when(authService.login(any()))
-                .thenThrow(new CredencialesInvalidasException());
-
         mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {"username":"ana","password":"incorrecta"}
-                                """))
+                        .content("{\"username\":\"ana\",\"password\":\"incorrecta\"}"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.codigo")
-                        .value("CREDENCIALES_INVALIDAS"));
+                .andExpect(jsonPath("$.codigo").value("CREDENCIALES_INVALIDAS"));
     }
 }
 ```
 
-> **Pregunta de reflexión:** ¿Por qué el login no necesita `@WithMockUser`?
-
-**Respuesta razonada:** Porque login es la operación que crea la autenticación a partir de credenciales. Exigir una identidad previa haría circular el flujo.
+Aquí no hay `AuthService` simulado y los filtros están activos. Por tanto el test verifica el `AuthenticationManager`, el usuario de base de datos, el encoder, la generación JWT y el contrato HTTP de login.
 
 ## Paso 7 - Testear el refresh
 
-Añade al mismo `AuthControllerSecurityTest` los dos casos de la fuente. Se conserva su estructura y se moderniza únicamente el contrato de error: el refresh inválido produce 401 `TOKEN_INVALIDO`, no el 409 heredado del antiguo `NegocioException`.
+El refresh se prueba con un **refresh token real obtenido del login**, no con la cadena ficticia `refreshValido`:
 
 ```java
 @Test
-void refresh_debeDevolver200ConNuevosTokens_cuandoRefreshTokenValido()
-        throws Exception {
-    LoginResponseDTO response =
-            new LoginResponseDTO("nuevoToken", "nuevoRefresh", 3600);
-    when(authService.refresh("refreshValido")).thenReturn(response);
+void refresh_debeEmitirUnNuevoParDeTokens() throws Exception {
+    JsonNode login = loginAna();
+    String refresh = login.get("refresh_token").asText();
 
     mockMvc.perform(post("/api/v1/auth/refresh")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("""
-                            {"refresh_token":"refreshValido"}
-                            """))
+                    .content("{\"refresh_token\":\"" + refresh + "\"}"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.access_token").value("nuevoToken"))
-            .andExpect(jsonPath("$.refresh_token").value("nuevoRefresh"));
-}
-
-@Test
-void refresh_debeDevolver401_cuandoRefreshTokenInvalido()
-        throws Exception {
-    when(authService.refresh("refreshInvalido"))
-            .thenThrow(new TokenInvalidoException(
-                    "Refresh token inválido o expirado"));
-
-    mockMvc.perform(post("/api/v1/auth/refresh")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("""
-                            {"refresh_token":"refreshInvalido"}
-                            """))
-            .andExpect(status().isUnauthorized())
-            .andExpect(jsonPath("$.codigo").value("TOKEN_INVALIDO"));
+            .andExpect(jsonPath("$.access_token").isNotEmpty())
+            .andExpect(jsonPath("$.refresh_token").isNotEmpty());
 }
 ```
 
-
-> **Pregunta de reflexión:** ¿Qué cubren los dos tests?
-
-**Respuesta razonada:** Uno comprueba la renovación correcta; el otro comprueba que una credencial de refresh inválida se traduce al contrato estable de errores de M6.
+Con esto comprobamos de extremo a extremo firma, expiración, `tipo=refresh`, usuario persistido y rotación/consumo del refresh token.
 
 ## Paso 8 - Testear el logout
 
-La fuente añade también el caso de logout al mismo test de controlador:
+El logout debe demostrar **revocación efectiva**, no limitarse a comprobar que el controlador devuelve 204:
 
 ```java
 @Test
-void logout_debeDevolver204_cuandoTokenValido() throws Exception {
+void logout_debeRevocarElAccessToken() throws Exception {
+    JsonNode login = loginAna();
+    String access = login.get("access_token").asText();
+
+    mockMvc.perform(get("/api/v1/perfil")
+                    .header("Authorization", "Bearer " + access))
+            .andExpect(status().isOk());
+
     mockMvc.perform(post("/api/v1/auth/logout")
-                    .header("Authorization", "Bearer tokenValido"))
+                    .header("Authorization", "Bearer " + access))
             .andExpect(status().isNoContent());
+
+    mockMvc.perform(get("/api/v1/perfil")
+                    .header("Authorization", "Bearer " + access))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.codigo").value("NO_AUTENTICADO"));
 }
 ```
 
-En este slice `AuthService` está simulado y los filtros están desactivados: el caso comprueba que el controlador procesa la cabecera Bearer, delega y devuelve 204. La revocación real y el rechazo posterior del access token se prueban adicionalmente con la cadena JWT completa.
-
-```bash
-./mvnw -B -Dtest=AuthControllerSecurityTest test
-```
-
-> **Pregunta de reflexión:** ¿Por qué el logout espera 204 y no 200?
-
-**Respuesta razonada:** Porque la revocación se completa sin necesidad de devolver una representación; `204 No Content` expresa éxito con cuerpo vacío.
+La secuencia obligatoria es **200 → 204 → 401**. Ésta es la evidencia de que `TokenRevocationService` está conectado al filtro JWT y no es simplemente una clase que almacena datos sin afectar a la autenticación.
 
 ## Paso 9 - Testear con post-processors
 

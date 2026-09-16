@@ -12,8 +12,8 @@ public class UsuariosInicialesConfig {
         return args -> {
             Rol user = roles.findByNombre("USER").orElseGet(() -> roles.save(new Rol("USER", "Usuario")));
             Rol admin = roles.findByNombre("ADMIN").orElseGet(() -> roles.save(new Rol("ADMIN", "Administrador")));
-            crearSiFalta(usuarios, encoder, "ana", "ana123", "ana@educacion.gob.es", user);
             crearSiFalta(usuarios, encoder, "admin", "admin123", "admin@educacion.gob.es", user, admin);
+            crearSiFalta(usuarios, encoder, "ana", "ana123", "ana@educacion.gob.es", user);
         };
     }
     private void crearSiFalta(UsuarioRepository repo, PasswordEncoder encoder, String username,
