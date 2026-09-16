@@ -1,0 +1,1606 @@
+{
+  "module": "M7",
+  "edition": "R6_FINAL_CLOSURE_CANDIDATE",
+  "source": "SPRING BOOT PDF.pdf",
+  "source_pages": {
+    "start": 1551,
+    "end": 1808,
+    "count": 258
+  },
+  "source_text_sha256": "fd7abe237ad871eb80da2b2984b5117a713ab4327b8c57c03067f874a9a61896",
+  "delivery_model": "single_global_standalone_project",
+  "depends_on_previous_module_code": false,
+  "counts": {
+    "design_blocks": 32,
+    "source_practice_steps": 77,
+    "standalone_prep_steps": 8,
+    "project_files": 98,
+    "test_classes": 13
+  },
+  "preparation_steps": [
+    {
+      "id": "PREP-01",
+      "title": "Crear un proyecto Spring Boot nuevo",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        ".gitignore",
+        ".mvn/wrapper/maven-wrapper.properties",
+        "mvnw",
+        "mvnw.cmd",
+        "pom.xml",
+        "src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java",
+        "src/main/resources/application.properties",
+        "src/main/resources/application-dev.properties",
+        "src/main/resources/application-test.properties"
+      ],
+      "practice_anchor": "Crear un proyecto Spring Boot nuevo"
+    },
+    {
+      "id": "PREP-02",
+      "title": "Crear el soporte mínimo de Alumno",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/Curso.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/CursoRepository.java",
+        "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java"
+      ],
+      "practice_anchor": "Crear el soporte mínimo de Alumno"
+    },
+    {
+      "id": "PREP-03",
+      "title": "Crear el contrato común de errores",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java",
+        "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java"
+      ],
+      "practice_anchor": "Crear el contrato común de errores"
+    },
+    {
+      "id": "PREP-04",
+      "title": "Crear Usuario y Rol",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RegistroResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java"
+      ],
+      "practice_anchor": "Crear Usuario y Rol"
+    },
+    {
+      "id": "PREP-05",
+      "title": "Crear autenticación JWT dentro de M7",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/CredencialesInvalidasException.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/TokenInvalidoException.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/AuthServiceTest.java"
+      ],
+      "practice_anchor": "Crear autenticación JWT dentro de M7"
+    },
+    {
+      "id": "PREP-06",
+      "title": "Crear seguridad base y CORS",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ],
+      "practice_anchor": "Crear seguridad base y CORS"
+    },
+    {
+      "id": "PREP-07",
+      "title": "Crear datos mínimos de desarrollo",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesBecasConfig.java"
+      ],
+      "practice_anchor": "Crear datos mínimos de desarrollo"
+    },
+    {
+      "id": "PREP-08",
+      "title": "Verificar el punto de partida autónomo",
+      "origin": "EDITORIAL_STANDALONE_ADAPTATION",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java"
+      ],
+      "practice_anchor": "Verificar el punto de partida autónomo"
+    }
+  ],
+  "source_steps": [
+    {
+      "id": "7.1.1",
+      "point": "7.1",
+      "number": 1,
+      "source_page": 1570,
+      "source_title": "Crear el documento de diseño",
+      "practice_anchor": "Paso 1: Crear el documento de diseño",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "docs/diseno-api.md"
+      ]
+    },
+    {
+      "id": "7.1.2",
+      "point": "7.1",
+      "number": 2,
+      "source_page": 1573,
+      "source_title": "Revisar el diseño con una checklist",
+      "practice_anchor": "Paso 2: Revisar el diseño con una checklist",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "docs/diseno-api.md"
+      ]
+    },
+    {
+      "id": "7.1.3",
+      "point": "7.1",
+      "number": 3,
+      "source_page": 1574,
+      "source_title": "Identificar dependencias entre puntos",
+      "practice_anchor": "Paso 3: Identificar dependencias entre puntos",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "docs/diseno-api.md"
+      ]
+    },
+    {
+      "id": "7.1.4",
+      "point": "7.1",
+      "number": 4,
+      "source_page": 1575,
+      "source_title": "Crear el paquete base del proyecto",
+      "practice_anchor": "Paso 4: Crear el paquete base del proyecto",
+      "command_or_observable": null,
+      "mapping_status": "STRUCTURE_CREATED_BY_STEPS",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.2.1",
+      "point": "7.2",
+      "number": 1,
+      "source_page": 1583,
+      "source_title": "Crear el enum EstadoSolicitud",
+      "practice_anchor": "Paso 1: Crear el enum EstadoSolicitud",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/EstadoSolicitud.java"
+      ]
+    },
+    {
+      "id": "7.2.2",
+      "point": "7.2",
+      "number": 2,
+      "source_page": 1584,
+      "source_title": "Crear la entidad Beca",
+      "practice_anchor": "Paso 2: Crear la entidad Beca",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/beca/Beca.java"
+      ]
+    },
+    {
+      "id": "7.2.3",
+      "point": "7.2",
+      "number": 3,
+      "source_page": 1589,
+      "source_title": "Crear la entidad SolicitudBeca",
+      "practice_anchor": "Paso 3: Crear la entidad SolicitudBeca",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBeca.java"
+      ]
+    },
+    {
+      "id": "7.2.4",
+      "point": "7.2",
+      "number": 4,
+      "source_page": 1595,
+      "source_title": "Crear la entidad Documento",
+      "practice_anchor": "Paso 4: Crear la entidad Documento",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/documento/Documento.java"
+      ]
+    },
+    {
+      "id": "7.2.5",
+      "point": "7.2",
+      "number": 5,
+      "source_page": 1599,
+      "source_title": "Ampliar el Alumno con la relación inversa (opcional)",
+      "practice_anchor": "Paso 5: Ampliar el Alumno con la relación inversa (opcional)",
+      "command_or_observable": "NO_CHANGE_BY_DESIGN: relación inversa opcional no añadida",
+      "mapping_status": "NO_CHANGE_BY_DESIGN",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.2.6",
+      "point": "7.2",
+      "number": 6,
+      "source_page": 1600,
+      "source_title": "Arrancar y ver el esquema generado",
+      "practice_anchor": "Paso 6: Arrancar y ver el esquema generado",
+      "command_or_observable": "mvnw.cmd spring-boot:run",
+      "mapping_status": "EXECUTION_OR_CONFIGURATION",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/resources/application-dev.properties"
+      ]
+    },
+    {
+      "id": "7.2.7",
+      "point": "7.2",
+      "number": 7,
+      "source_page": 1602,
+      "source_title": "Verificar en la consola de H2",
+      "practice_anchor": "Paso 7: Verificar en la consola de H2",
+      "command_or_observable": "H2 console: comprobar tablas/relaciones",
+      "mapping_status": "EXECUTION_OR_CONFIGURATION",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/resources/application-dev.properties"
+      ]
+    },
+    {
+      "id": "7.2.8",
+      "point": "7.2",
+      "number": 8,
+      "source_page": 1603,
+      "source_title": "Añadir datos iniciales",
+      "practice_anchor": "Paso 8: Añadir datos iniciales",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesBecasConfig.java"
+      ]
+    },
+    {
+      "id": "7.2.9",
+      "point": "7.2",
+      "number": 9,
+      "source_page": 1605,
+      "source_title": "Verificar los datos iniciales",
+      "practice_anchor": "Paso 9: Verificar los datos iniciales",
+      "command_or_observable": "H2: comprobar datos iniciales",
+      "mapping_status": "EXECUTION_OR_CONFIGURATION",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesBecasConfig.java"
+      ]
+    },
+    {
+      "id": "7.2.10",
+      "point": "7.2",
+      "number": 10,
+      "source_page": 1606,
+      "source_title": "Errores comunes del ejercicio",
+      "practice_anchor": "Paso 10: Errores comunes del ejercicio",
+      "command_or_observable": "Checklist de errores comunes en PRACTICA.md",
+      "mapping_status": "DOCUMENTATION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.2.11",
+      "point": "7.2",
+      "number": 11,
+      "source_page": 1608,
+      "source_title": "Verificar las relaciones con un test rápido",
+      "practice_anchor": "Paso 11: Verificar las relaciones con un test rápido",
+      "command_or_observable": "@DataJpaTest con TestEntityManager; relación SolicitudBeca → Documento/Alumno/Beca persistida",
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRelacionesTest.java"
+      ]
+    },
+    {
+      "id": "7.2.12",
+      "point": "7.2",
+      "number": 12,
+      "source_page": 1610,
+      "source_title": "Reto resuelto — Añadir un campo codigo a Beca",
+      "practice_anchor": "Paso 12: Reto resuelto — Añadir un campo codigo a Beca",
+      "command_or_observable": "Beca.codigo + datos EntityManager + test de relaciones actualizado; DTO/servicio se crean después en 7.4",
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/beca/Beca.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesBecasConfig.java",
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRelacionesTest.java"
+      ]
+    },
+    {
+      "id": "7.3.1",
+      "point": "7.3",
+      "number": 1,
+      "source_page": 1618,
+      "source_title": "Crear el BecaRepository",
+      "practice_anchor": "Paso 1: Crear el BecaRepository",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/beca/BecaRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesBecasConfig.java"
+      ]
+    },
+    {
+      "id": "7.3.2",
+      "point": "7.3",
+      "number": 2,
+      "source_page": 1622,
+      "source_title": "Crear el DocumentoRepository",
+      "practice_anchor": "Paso 2: Crear el DocumentoRepository",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoRepository.java"
+      ]
+    },
+    {
+      "id": "7.3.3",
+      "point": "7.3",
+      "number": 3,
+      "source_page": 1624,
+      "source_title": "Crear el SolicitudBecaRepository (parte 1)",
+      "practice_anchor": "Paso 3: Crear el SolicitudBecaRepository (parte 1)",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java"
+      ]
+    },
+    {
+      "id": "7.3.4",
+      "point": "7.3",
+      "number": 4,
+      "source_page": 1627,
+      "source_title": "Añadir consultas con @Query y JOIN FETCH al SolicitudBecaRepository (parte 2)",
+      "practice_anchor": "Paso 4: Añadir consultas con @Query y JOIN FETCH al SolicitudBecaRepository (parte 2)",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java"
+      ]
+    },
+    {
+      "id": "7.3.5",
+      "point": "7.3",
+      "number": 5,
+      "source_page": 1630,
+      "source_title": "Añadir @EntityGraph para listados simples (parte 3)",
+      "practice_anchor": "Paso 5: Añadir @EntityGraph para listados simples (parte 3)",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java"
+      ]
+    },
+    {
+      "id": "7.3.6",
+      "point": "7.3",
+      "number": 6,
+      "source_page": 1631,
+      "source_title": "Añadir consultas de agregación",
+      "practice_anchor": "Paso 6: Añadir consultas de agregación",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java"
+      ]
+    },
+    {
+      "id": "7.3.7",
+      "point": "7.3",
+      "number": 7,
+      "source_page": 1633,
+      "source_title": "Arrancar y verificar",
+      "practice_anchor": "Paso 7: Arrancar y verificar",
+      "command_or_observable": "mvnw.cmd spring-boot:run",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.3.8",
+      "point": "7.3",
+      "number": 8,
+      "source_page": 1633,
+      "source_title": "Verificar las consultas con un test",
+      "practice_anchor": "Paso 8: Verificar las consultas con un test",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepositoryTest.java"
+      ]
+    },
+    {
+      "id": "7.3.9",
+      "point": "7.3",
+      "number": 9,
+      "source_page": 1640,
+      "source_title": "Verificar las consultas en los logs",
+      "practice_anchor": "Paso 9: Verificar las consultas en los logs",
+      "command_or_observable": "Revisar SQL Hibernate",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.3.10",
+      "point": "7.3",
+      "number": 10,
+      "source_page": 1640,
+      "source_title": "Errores comunes del ejercicio",
+      "practice_anchor": "Paso 10: Errores comunes del ejercicio",
+      "command_or_observable": "Checklist de errores comunes en PRACTICA.md",
+      "mapping_status": "DOCUMENTATION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.3.11",
+      "point": "7.3",
+      "number": 11,
+      "source_page": 1642,
+      "source_title": "Reto resuelto — Consulta con filtro de texto libre",
+      "practice_anchor": "Paso 11: Reto resuelto — Consulta con filtro de texto libre",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java",
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepositoryTest.java"
+      ]
+    },
+    {
+      "id": "7.3.12",
+      "point": "7.3",
+      "number": 12,
+      "source_page": 1644,
+      "source_title": "Verificar la estructura completa",
+      "practice_anchor": "Paso 12: Verificar la estructura completa",
+      "command_or_observable": null,
+      "mapping_status": "VERIFICATION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.4.1",
+      "point": "7.4",
+      "number": 1,
+      "source_page": 1654,
+      "source_title": "Crear los DTOs de Beca",
+      "practice_anchor": "Paso 1: Crear los DTOs de Beca",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/beca/BecaRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/beca/BecaResponseDTO.java"
+      ]
+    },
+    {
+      "id": "7.4.2",
+      "point": "7.4",
+      "number": 2,
+      "source_page": 1657,
+      "source_title": "Crear el BecaService",
+      "practice_anchor": "Paso 2: Crear el BecaService",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/beca/BecaService.java"
+      ]
+    },
+    {
+      "id": "7.4.3",
+      "point": "7.4",
+      "number": 3,
+      "source_page": 1663,
+      "source_title": "Crear los DTOs de Solicitud",
+      "practice_anchor": "Paso 3: Crear los DTOs de Solicitud",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/CambioEstadoRequestDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/AlumnoResumenDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/BecaResumenDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudResponseDTO.java"
+      ]
+    },
+    {
+      "id": "7.4.4",
+      "point": "7.4",
+      "number": 4,
+      "source_page": 1670,
+      "source_title": "Crear el SolicitudService (parte 1: consultar y listar)",
+      "practice_anchor": "Paso 4: Crear el SolicitudService (parte 1: consultar y listar)",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java"
+      ]
+    },
+    {
+      "id": "7.4.5",
+      "point": "7.4",
+      "number": 5,
+      "source_page": 1673,
+      "source_title": "Crear el SolicitudService (parte 2: crear solicitud)",
+      "practice_anchor": "Paso 5: Crear el SolicitudService (parte 2: crear solicitud)",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java"
+      ]
+    },
+    {
+      "id": "7.4.6",
+      "point": "7.4",
+      "number": 6,
+      "source_page": 1676,
+      "source_title": "Crear el SolicitudService (parte 3: cambiar estado con validación de transiciones)",
+      "practice_anchor": "Paso 6: Crear el SolicitudService (parte 3: cambiar estado con validación de transiciones)",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java"
+      ]
+    },
+    {
+      "id": "7.4.7",
+      "point": "7.4",
+      "number": 7,
+      "source_page": 1680,
+      "source_title": "Crear el SolicitudService (parte 4: cancelar)",
+      "practice_anchor": "Paso 7: Crear el SolicitudService (parte 4: cancelar)",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java"
+      ]
+    },
+    {
+      "id": "7.4.8",
+      "point": "7.4",
+      "number": 8,
+      "source_page": 1682,
+      "source_title": "Añadir el método toDTO al SolicitudService",
+      "practice_anchor": "Paso 8: Añadir el método toDTO al SolicitudService",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java"
+      ]
+    },
+    {
+      "id": "7.4.9",
+      "point": "7.4",
+      "number": 9,
+      "source_page": 1684,
+      "source_title": "Crear el DocumentoResponseDTO y el DocumentoService",
+      "practice_anchor": "Paso 9: Crear el DocumentoResponseDTO y el DocumentoService",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoResponseDTO.java",
+        "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoService.java"
+      ]
+    },
+    {
+      "id": "7.4.10",
+      "point": "7.4",
+      "number": 10,
+      "source_page": 1692,
+      "source_title": "Escribir tests del SolicitudService",
+      "practice_anchor": "Paso 10: Escribir tests del SolicitudService",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudServiceTest.java"
+      ]
+    },
+    {
+      "id": "7.4.11",
+      "point": "7.4",
+      "number": 11,
+      "source_page": 1696,
+      "source_title": "Errores comunes del ejercicio",
+      "practice_anchor": "Paso 11: Errores comunes del ejercicio",
+      "command_or_observable": "Checklist de errores comunes en PRACTICA.md",
+      "mapping_status": "DOCUMENTATION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.4.12",
+      "point": "7.4",
+      "number": 12,
+      "source_page": 1697,
+      "source_title": "Reto resuelto — Método para obtener la solicitud más reciente de un alumno",
+      "practice_anchor": "Paso 12: Reto resuelto — Método para obtener la solicitud más reciente de un alumno",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java",
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudServiceTest.java"
+      ]
+    },
+    {
+      "id": "7.5.1",
+      "point": "7.5",
+      "number": 1,
+      "source_page": 1706,
+      "source_title": "Crear el BecaController",
+      "practice_anchor": "Paso 1: Crear el BecaController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/beca/BecaController.java"
+      ]
+    },
+    {
+      "id": "7.5.2",
+      "point": "7.5",
+      "number": 2,
+      "source_page": 1713,
+      "source_title": "Crear el SolicitudController",
+      "practice_anchor": "Paso 2: Crear el SolicitudController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudController.java"
+      ]
+    },
+    {
+      "id": "7.5.3",
+      "point": "7.5",
+      "number": 3,
+      "source_page": 1719,
+      "source_title": "Crear el DocumentoController",
+      "practice_anchor": "Paso 3: Crear el DocumentoController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoController.java"
+      ]
+    },
+    {
+      "id": "7.5.4",
+      "point": "7.5",
+      "number": 4,
+      "source_page": 1723,
+      "source_title": "Crear el DTO de cambio de roles",
+      "practice_anchor": "Paso 4: Crear el DTO de cambio de roles",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java"
+      ]
+    },
+    {
+      "id": "7.5.5",
+      "point": "7.5",
+      "number": 5,
+      "source_page": 1724,
+      "source_title": "Crear el UsuarioService",
+      "practice_anchor": "Paso 5: Crear el UsuarioService",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java",
+        "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioServiceTest.java"
+      ]
+    },
+    {
+      "id": "7.5.6",
+      "point": "7.5",
+      "number": 6,
+      "source_page": 1728,
+      "source_title": "Crear el UsuarioController",
+      "practice_anchor": "Paso 6: Crear el UsuarioController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java"
+      ]
+    },
+    {
+      "id": "7.5.7",
+      "point": "7.5",
+      "number": 7,
+      "source_page": 1732,
+      "source_title": "Arrancar y probar los endpoints",
+      "practice_anchor": "Paso 7: Arrancar y probar los endpoints",
+      "command_or_observable": "curl: matriz de endpoints",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.5.8",
+      "point": "7.5",
+      "number": 8,
+      "source_page": 1733,
+      "source_title": "Verificar OpenAPI",
+      "practice_anchor": "Paso 8: Verificar OpenAPI",
+      "command_or_observable": "GET /swagger-ui.html",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.5.9",
+      "point": "7.5",
+      "number": 9,
+      "source_page": 1734,
+      "source_title": "Escribir tests del BecaController",
+      "practice_anchor": "Paso 9: Escribir tests del BecaController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/beca/BecaControllerTest.java"
+      ]
+    },
+    {
+      "id": "7.5.10",
+      "point": "7.5",
+      "number": 10,
+      "source_page": 1738,
+      "source_title": "Escribir tests del SolicitudController",
+      "practice_anchor": "Paso 10: Escribir tests del SolicitudController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudControllerTest.java"
+      ]
+    },
+    {
+      "id": "7.5.11",
+      "point": "7.5",
+      "number": 11,
+      "source_page": 1742,
+      "source_title": "Errores comunes del ejercicio",
+      "practice_anchor": "Paso 11: Errores comunes del ejercicio",
+      "command_or_observable": "Checklist de errores comunes en PRACTICA.md",
+      "mapping_status": "DOCUMENTATION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.5.12",
+      "point": "7.5",
+      "number": 12,
+      "source_page": 1743,
+      "source_title": "Reto resuelto — Endpoint para consultar las solicitudes de un alumno",
+      "practice_anchor": "Paso 12: Reto resuelto — Endpoint para consultar las solicitudes de un alumno",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java",
+        "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java"
+      ]
+    },
+    {
+      "id": "7.6.1",
+      "point": "7.6",
+      "number": 1,
+      "source_page": 1753,
+      "source_title": "Añadir los roles CIUDADANO y GESTOR al inicializador",
+      "practice_anchor": "Paso 1: Añadir los roles CIUDADANO y GESTOR al inicializador",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java"
+      ]
+    },
+    {
+      "id": "7.6.2",
+      "point": "7.6",
+      "number": 2,
+      "source_page": 1755,
+      "source_title": "Actualizar el SecurityConfig",
+      "practice_anchor": "Paso 2: Actualizar el SecurityConfig",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ]
+    },
+    {
+      "id": "7.6.3",
+      "point": "7.6",
+      "number": 3,
+      "source_page": 1761,
+      "source_title": "Añadir @PreAuthorize en las operaciones contextuales",
+      "practice_anchor": "Paso 3: Añadir @PreAuthorize en las operaciones contextuales",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudController.java",
+        "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java"
+      ]
+    },
+    {
+      "id": "7.6.4",
+      "point": "7.6",
+      "number": 4,
+      "source_page": 1763,
+      "source_title": "Añadir @PreAuthorize en el BecaController",
+      "practice_anchor": "Paso 4: Añadir @PreAuthorize en el BecaController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/beca/BecaController.java"
+      ]
+    },
+    {
+      "id": "7.6.5",
+      "point": "7.6",
+      "number": 5,
+      "source_page": 1764,
+      "source_title": "Añadir @PreAuthorize en el DocumentoController",
+      "practice_anchor": "Paso 5: Añadir @PreAuthorize en el DocumentoController",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoController.java"
+      ]
+    },
+    {
+      "id": "7.6.6",
+      "point": "7.6",
+      "number": 6,
+      "source_page": 1765,
+      "source_title": "Arrancar y probar con curl",
+      "practice_anchor": "Paso 6: Arrancar y probar con curl",
+      "command_or_observable": "curl con JWT por rol",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.6.7",
+      "point": "7.6",
+      "number": 7,
+      "source_page": 1767,
+      "source_title": "Probar con un token inválido",
+      "practice_anchor": "Paso 7: Probar con un token inválido",
+      "command_or_observable": "curl con JWT inválido -> 401",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.6.8",
+      "point": "7.6",
+      "number": 8,
+      "source_page": 1768,
+      "source_title": "Verificar CORS",
+      "practice_anchor": "Paso 8: Verificar CORS",
+      "command_or_observable": null,
+      "mapping_status": "EXECUTION_OR_CONFIGURATION",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ]
+    },
+    {
+      "id": "7.6.9",
+      "point": "7.6",
+      "number": 9,
+      "source_page": 1769,
+      "source_title": "Escribir tests de seguridad",
+      "practice_anchor": "Paso 9: Escribir tests de seguridad",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudSecurityTest.java"
+      ]
+    },
+    {
+      "id": "7.6.10",
+      "point": "7.6",
+      "number": 10,
+      "source_page": 1771,
+      "source_title": "Escribir tests del BecaController con roles",
+      "practice_anchor": "Paso 10: Escribir tests del BecaController con roles",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/beca/BecaControllerSecurityTest.java"
+      ]
+    },
+    {
+      "id": "7.6.11",
+      "point": "7.6",
+      "number": 11,
+      "source_page": 1773,
+      "source_title": "Errores comunes del ejercicio",
+      "practice_anchor": "Paso 11: Errores comunes del ejercicio",
+      "command_or_observable": "Checklist de errores comunes en PRACTICA.md",
+      "mapping_status": "DOCUMENTATION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.6.12",
+      "point": "7.6",
+      "number": 12,
+      "source_page": 1775,
+      "source_title": "Reto resuelto — Añadir un rol CONSULTOR",
+      "practice_anchor": "Paso 12: Reto resuelto — Añadir un rol CONSULTOR",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java",
+        "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudSecurityTest.java"
+      ]
+    },
+    {
+      "id": "7.7.1",
+      "point": "7.7",
+      "number": 1,
+      "source_page": 1785,
+      "source_title": "Ejecutar todos los tests",
+      "practice_anchor": "Paso 1: Ejecutar todos los tests",
+      "command_or_observable": "Crear test de aceptación integral y ejecutar mvnw.cmd -B clean test",
+      "mapping_status": "MAPPED_WITH_ACCEPTANCE_SUPPORT",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/test/java/es/mecd/demo/miproyecto/ApiBecasAcceptanceIntegrationTest.java"
+      ]
+    },
+    {
+      "id": "7.7.2",
+      "point": "7.7",
+      "number": 2,
+      "source_page": 1786,
+      "source_title": "Ejecutar los tests con cobertura",
+      "practice_anchor": "Paso 2: Ejecutar los tests con cobertura",
+      "command_or_observable": "mvnw.cmd -B clean verify + JaCoCo",
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "pom.xml"
+      ]
+    },
+    {
+      "id": "7.7.3",
+      "point": "7.7",
+      "number": 3,
+      "source_page": 1788,
+      "source_title": "Arrancar la aplicación",
+      "practice_anchor": "Paso 3: Arrancar la aplicación",
+      "command_or_observable": "mvnw.cmd spring-boot:run",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.7.4",
+      "point": "7.7",
+      "number": 4,
+      "source_page": 1788,
+      "source_title": "Probar el escenario del ciudadano",
+      "practice_anchor": "Paso 4: Probar el escenario del ciudadano",
+      "command_or_observable": "Smoke CIUDADANO",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.7.5",
+      "point": "7.7",
+      "number": 5,
+      "source_page": 1790,
+      "source_title": "Probar el escenario del gestor",
+      "practice_anchor": "Paso 5: Probar el escenario del gestor",
+      "command_or_observable": "Smoke GESTOR con fixture ENVIADA",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.7.6",
+      "point": "7.7",
+      "number": 6,
+      "source_page": 1792,
+      "source_title": "Probar el escenario del administrador",
+      "practice_anchor": "Paso 6: Probar el escenario del administrador",
+      "command_or_observable": "Smoke ADMIN",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.7.7",
+      "point": "7.7",
+      "number": 7,
+      "source_page": 1793,
+      "source_title": "Probar errores y seguridad",
+      "practice_anchor": "Paso 7: Probar errores y seguridad",
+      "command_or_observable": "Matriz 401/403/409/400",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.7.8",
+      "point": "7.7",
+      "number": 8,
+      "source_page": 1794,
+      "source_title": "Revisar la documentación de OpenAPI",
+      "practice_anchor": "Paso 8: Revisar la documentación de OpenAPI",
+      "command_or_observable": "Swagger UI expone bearerAuth/Authorize; /v3/api-docs documenta JWT y sólo los endpoints públicos quedan sin requisito de seguridad",
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/config/OpenApiConfig.java"
+      ]
+    },
+    {
+      "id": "7.7.9",
+      "point": "7.7",
+      "number": 9,
+      "source_page": 1795,
+      "source_title": "Preparar la colección de Postman",
+      "practice_anchor": "Paso 9: Preparar la colección de Postman",
+      "command_or_observable": "Importar colección/entorno Postman",
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "postman/API_Becas_Ministerio.postman_collection.json",
+        "postman/API_Becas_Local.postman_environment.json"
+      ]
+    },
+    {
+      "id": "7.7.10",
+      "point": "7.7",
+      "number": 10,
+      "source_page": 1796,
+      "source_title": "Prueba de carga ligera con ab",
+      "practice_anchor": "Paso 10: Prueba de carga ligera con ab",
+      "command_or_observable": "ab -n 100 -c 10 http://localhost:8080/api/v1/becas",
+      "mapping_status": "EXECUTION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.7.11",
+      "point": "7.7",
+      "number": 11,
+      "source_page": 1798,
+      "source_title": "Actualizar el README",
+      "practice_anchor": "Paso 11: Actualizar el README",
+      "command_or_observable": null,
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "7.7.12",
+      "point": "7.7",
+      "number": 12,
+      "source_page": 1803,
+      "source_title": "Errores comunes antes de la entrega",
+      "practice_anchor": "Paso 12: Errores comunes antes de la entrega",
+      "command_or_observable": "Checklist de errores antes de entrega",
+      "mapping_status": "DOCUMENTATION_ONLY",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": []
+    },
+    {
+      "id": "7.7.13",
+      "point": "7.7",
+      "number": 13,
+      "source_page": 1804,
+      "source_title": "Reto resuelto — Añadir un endpoint de estadísticas",
+      "practice_anchor": "Paso 13: Reto resuelto — Añadir un endpoint de estadísticas",
+      "command_or_observable": "GET /api/v1/estadisticas/solicitudes-por-estado",
+      "mapping_status": "MAPPED",
+      "origin": "SOURCE_PDF",
+      "project_artifacts": [
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/EstadisticasController.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java",
+        "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java",
+        "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java"
+      ]
+    }
+  ],
+  "inverse_project_file_to_steps": {
+    ".gitignore": [
+      "PREP-01"
+    ],
+    ".mvn/wrapper/maven-wrapper.properties": [
+      "PREP-01"
+    ],
+    "README.md": [
+      "7.7.11"
+    ],
+    "docs/diseno-api.md": [
+      "7.1.1",
+      "7.1.2",
+      "7.1.3"
+    ],
+    "mvnw": [
+      "PREP-01"
+    ],
+    "mvnw.cmd": [
+      "PREP-01"
+    ],
+    "pom.xml": [
+      "PREP-01",
+      "7.7.2"
+    ],
+    "postman/API_Becas_Local.postman_environment.json": [
+      "7.7.9"
+    ],
+    "postman/API_Becas_Ministerio.postman_collection.json": [
+      "7.7.9"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/MiProyectoApplication.java": [
+      "PREP-01"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/Alumno.java": [
+      "PREP-02"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoController.java": [
+      "PREP-02",
+      "7.5.12",
+      "7.6.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRepository.java": [
+      "PREP-02"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoRequestDTO.java": [
+      "PREP-02"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoResponseDTO.java": [
+      "PREP-02"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/AlumnoService.java": [
+      "PREP-02"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/Curso.java": [
+      "PREP-02"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/alumno/CursoRepository.java": [
+      "PREP-02"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/AuthController.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/AuthService.java": [
+      "PREP-05",
+      "7.6.1"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/CambioRolesRequestDTO.java": [
+      "7.5.4"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/CredencialesInvalidasException.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/JwtAccessDeniedHandler.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationEntryPoint.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/JwtAuthenticationFilter.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/JwtConfig.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/JwtService.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/LoginRequestDTO.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/LoginResponseDTO.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/RefreshRequestDTO.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/RegistroRequestDTO.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/RegistroResponseDTO.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/Rol.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/RolRepository.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/SecurityErrorWriter.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/TokenInvalidoException.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/Usuario.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioController.java": [
+      "7.5.6"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioDetailsService.java": [
+      "PREP-05"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioRepository.java": [
+      "PREP-04"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioResponseDTO.java": [
+      "7.5.5"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/UsuarioService.java": [
+      "7.5.5"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java": [
+      "PREP-07",
+      "7.6.1",
+      "7.6.12"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/beca/Beca.java": [
+      "7.2.2",
+      "7.2.12"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/beca/BecaController.java": [
+      "7.5.1",
+      "7.6.4"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/beca/BecaRepository.java": [
+      "7.3.1"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/beca/BecaRequestDTO.java": [
+      "7.4.1"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/beca/BecaResponseDTO.java": [
+      "7.4.1"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/beca/BecaService.java": [
+      "7.4.2"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ErrorResponse.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/dto/error/ValidationError.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/AplicacionException.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/BusinessExceptionHandler.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorResponseFactory.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/ErrorTecnicoException.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/GenericExceptionHandler.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/NegocioException.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/OperacionNoPermitidaException.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoDuplicadoException.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/RecursoNoEncontradoException.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidacionNegocioException.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/common/exception/ValidationExceptionHandler.java": [
+      "PREP-03"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/config/DatosInicialesBecasConfig.java": [
+      "PREP-07",
+      "7.2.8",
+      "7.2.9",
+      "7.2.12",
+      "7.3.1"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/config/OpenApiConfig.java": [
+      "7.7.8"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/config/SecurityConfig.java": [
+      "PREP-06",
+      "7.6.2",
+      "7.6.8",
+      "7.6.12",
+      "7.7.13"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/documento/Documento.java": [
+      "7.2.4"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoController.java": [
+      "7.5.3",
+      "7.6.5"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoRepository.java": [
+      "7.3.2"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoResponseDTO.java": [
+      "7.4.9"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/documento/DocumentoService.java": [
+      "7.4.9"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/AlumnoResumenDTO.java": [
+      "7.4.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/BecaResumenDTO.java": [
+      "7.4.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/CambioEstadoRequestDTO.java": [
+      "7.4.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/EstadisticasController.java": [
+      "7.7.13"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/EstadoSolicitud.java": [
+      "7.2.1"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBeca.java": [
+      "7.2.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepository.java": [
+      "7.3.3",
+      "7.3.4",
+      "7.3.5",
+      "7.3.6",
+      "7.3.11",
+      "7.4.12",
+      "7.5.12",
+      "7.7.13"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudController.java": [
+      "7.5.2",
+      "7.6.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudRequestDTO.java": [
+      "7.4.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudResponseDTO.java": [
+      "7.4.3"
+    ],
+    "src/main/java/es/mecd/demo/miproyecto/solicitud/SolicitudService.java": [
+      "7.4.4",
+      "7.4.5",
+      "7.4.6",
+      "7.4.7",
+      "7.4.8",
+      "7.4.12",
+      "7.5.12",
+      "7.7.13"
+    ],
+    "src/main/resources/application-dev.properties": [
+      "PREP-01",
+      "7.2.6",
+      "7.2.7"
+    ],
+    "src/main/resources/application-test.properties": [
+      "PREP-01"
+    ],
+    "src/main/resources/application.properties": [
+      "PREP-01"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/ApiBecasAcceptanceIntegrationTest.java": [
+      "7.7.1"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/MiProyectoApplicationTest.java": [
+      "PREP-08"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoControllerTest.java": [
+      "7.5.12"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/alumno/AlumnoServiceTest.java": [
+      "PREP-02"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/auth/AuthServiceTest.java": [
+      "PREP-05"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/auth/UsuarioServiceTest.java": [
+      "7.5.5"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/beca/BecaControllerSecurityTest.java": [
+      "7.6.10"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/beca/BecaControllerTest.java": [
+      "7.5.9"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRelacionesTest.java": [
+      "7.2.11",
+      "7.2.12"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudBecaRepositoryTest.java": [
+      "7.3.8",
+      "7.3.11"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudControllerTest.java": [
+      "7.5.10"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudSecurityTest.java": [
+      "7.6.9",
+      "7.6.12"
+    ],
+    "src/test/java/es/mecd/demo/miproyecto/solicitud/SolicitudServiceTest.java": [
+      "7.4.10",
+      "7.4.12"
+    ]
+  },
+  "no_magic_files": {
+    "status": "PASS",
+    "unmapped": []
+  },
+  "source_reconciliations": [
+    {
+      "id": "STANDALONE-01",
+      "type": "user_requirement",
+      "detail": "M7 es un proyecto nuevo desde cero; no hereda código M6."
+    },
+    {
+      "id": "STANDALONE-02",
+      "type": "editorial_addition",
+      "detail": "Se añaden PREP-01..08 para crear lo que el PDF daba por existente de M3-M6."
+    },
+    {
+      "id": "SOURCE-77",
+      "type": "source_correction",
+      "detail": "El PDF contiene 77 pasos principales; 7.7 tiene 13."
+    },
+    {
+      "id": "BECA-CODIGO",
+      "type": "integration_note",
+      "detail": "7.2.12 introduce codigo; la edición autónoma lo propaga a DTOs/servicio para que el recurso final sea coherente."
+    },
+    {
+      "id": "BORRADOR-ENVIADA",
+      "type": "source_gap",
+      "detail": "La fuente no define operación BORRADOR→ENVIADA; no se inventa endpoint."
+    },
+    {
+      "id": "GESTOR-FIXTURE",
+      "type": "source_gap_resolution",
+      "detail": "7.7.5 presupone /solicitudes/2 en ENVIADA sin crearla. La edición autónoma añade una fixture SQL H2 sólo de aceptación; no añade endpoint."
+    },
+    {
+      "id": "ADMIN-2026-CODIGO",
+      "type": "acceptance_payload_modernization",
+      "detail": "7.7.6 se adapta a codigo obligatorio de 7.2.12 y anio 2026, porque la fuente usa 2025 y omite codigo."
+    },
+    {
+      "id": "R3-COMPILE-01",
+      "type": "validation_fix",
+      "detail": "R3 alcanzó javac y falló porque PREP-03 incluía GenericExceptionHandler pero omitía ErrorTecnicoException. R4 añade esa dependencia al contrato de errores autónomo."
+    },
+    {
+      "id": "R6-REPLAY-01",
+      "type": "PRACTICA_REPLAY",
+      "detail": "PREP dispone de código exacto en Anexo A; 7.2 no usa Beca.codigo ni BecaRepository antes de existir; 7.3.1 sustituye EntityManager por BecaRepository; OpenApiConfig se crea explícitamente en 7.7.8."
+    }
+  ],
+  "build_evidence": {
+    "status": "PENDING_R4_WINDOWS_MAVEN",
+    "r3": {
+      "status": "FAIL_COMPILE",
+      "cause": "GenericExceptionHandler referenced missing ErrorTecnicoException",
+      "evidence": [
+        ".course/evidence/R3/M7_R3_MAVEN.log",
+        ".course/evidence/R3/M7_R3_RESULT.json"
+      ]
+    },
+    "R5_WINDOWS": "26 tests, 0 failures, 0 errors, JaCoCo LINE 71.32 % (evidencia conservada)",
+    "R6": "PENDING final Windows gate; PRACTICA_REPLAY_GATE PASS; local real-app E2E prevalidation 98/98 PASS; 35 static @Test markers before Windows Maven execution"
+  }
+}

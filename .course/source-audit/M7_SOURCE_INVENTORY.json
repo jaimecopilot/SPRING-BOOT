@@ -1,0 +1,949 @@
+{
+  "source": "SPRING BOOT PDF(4).pdf",
+  "pages": {
+    "start": 1551,
+    "end": 1808,
+    "count": 258
+  },
+  "metrics": {
+    "characters": 245703,
+    "words": 27023,
+    "lines": 7182
+  },
+  "counts": {
+    "blocks": 32,
+    "subpoints": 15,
+    "steps": 77,
+    "language_markers": {
+      "java": 63,
+      "bash": 18,
+      "json": 1,
+      "text": 10,
+      "markdown": 2,
+      "sql": 8,
+      "properties": 1,
+      "xml": 1
+    }
+  },
+  "points": {
+    "7.1": {
+      "blocks": [
+        {
+          "kind": "block",
+          "point": "7.1",
+          "number": 1,
+          "title": "Alcance del proyecto",
+          "page": 1552
+        },
+        {
+          "kind": "block",
+          "point": "7.1",
+          "number": 2,
+          "title": "Modelo de dominio",
+          "page": 1555
+        },
+        {
+          "kind": "block",
+          "point": "7.1",
+          "number": 3,
+          "title": "Endpoints de la API",
+          "page": 1558
+        },
+        {
+          "kind": "block",
+          "point": "7.1",
+          "number": 4,
+          "title": "DTOs y validaciones",
+          "page": 1563
+        },
+        {
+          "kind": "block",
+          "point": "7.1",
+          "number": 5,
+          "title": "Seguridad y estrategia",
+          "page": 1566
+        }
+      ],
+      "subpoints": [
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T1.1",
+          "title": "Qué vamos a construir",
+          "page": 1552
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T1.2",
+          "title": "Actores del sistema",
+          "page": 1553
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T1.3",
+          "title": "Casos de uso principales",
+          "page": 1553
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T2.1",
+          "title": "Las entidades",
+          "page": 1555
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T2.2",
+          "title": "Las relaciones",
+          "page": 1556
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T2.3",
+          "title": "Los campos y constraints",
+          "page": 1557
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T3.1",
+          "title": "Convenciones de URLs",
+          "page": 1559
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T3.2",
+          "title": "Tabla de endpoints",
+          "page": 1559
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T3.3",
+          "title": "Filtros y paginación",
+          "page": 1562
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T4.1",
+          "title": "DTOs de entrada",
+          "page": 1563
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T4.2",
+          "title": "DTOs de salida",
+          "page": 1565
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T4.3",
+          "title": "Reglas de negocio",
+          "page": 1565
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T5.1",
+          "title": "Roles y permisos",
+          "page": 1567
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T5.2",
+          "title": "Estrategia de seguridad",
+          "page": 1567
+        },
+        {
+          "kind": "subpoint",
+          "point": "7.1",
+          "number": "T5.3",
+          "title": "Manejo de errores",
+          "page": 1568
+        }
+      ],
+      "steps": [
+        {
+          "kind": "step",
+          "point": "7.1",
+          "number": 1,
+          "title": "Crear el documento de diseño",
+          "page": 1570
+        },
+        {
+          "kind": "step",
+          "point": "7.1",
+          "number": 2,
+          "title": "Revisar el diseño con una checklist",
+          "page": 1573
+        },
+        {
+          "kind": "step",
+          "point": "7.1",
+          "number": 3,
+          "title": "Identificar dependencias entre puntos",
+          "page": 1574
+        },
+        {
+          "kind": "step",
+          "point": "7.1",
+          "number": 4,
+          "title": "Crear el paquete base del proyecto",
+          "page": 1575
+        }
+      ]
+    },
+    "7.2": {
+      "blocks": [
+        {
+          "kind": "block",
+          "point": "7.2",
+          "number": 1,
+          "title": "Qué entidades vamos a crear",
+          "page": 1580
+        },
+        {
+          "kind": "block",
+          "point": "7.2",
+          "number": 2,
+          "title": "Relaciones con las entidades existentes",
+          "page": 1581
+        },
+        {
+          "kind": "block",
+          "point": "7.2",
+          "number": 3,
+          "title": "Constraints y decisiones de campos",
+          "page": 1582
+        }
+      ],
+      "subpoints": [],
+      "steps": [
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 1,
+          "title": "Crear el enum EstadoSolicitud",
+          "page": 1583
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 2,
+          "title": "Crear la entidad Beca",
+          "page": 1584
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 3,
+          "title": "Crear la entidad SolicitudBeca",
+          "page": 1589
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 4,
+          "title": "Crear la entidad Documento",
+          "page": 1595
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 5,
+          "title": "Ampliar el Alumno con la relación inversa (opcional)",
+          "page": 1599
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 6,
+          "title": "Arrancar y ver el esquema generado",
+          "page": 1600
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 7,
+          "title": "Verificar en la consola de H2",
+          "page": 1602
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 8,
+          "title": "Añadir datos iniciales",
+          "page": 1603
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 9,
+          "title": "Verificar los datos iniciales",
+          "page": 1605
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 10,
+          "title": "Errores comunes del ejercicio",
+          "page": 1606
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 11,
+          "title": "Verificar las relaciones con un test rápido",
+          "page": 1608
+        },
+        {
+          "kind": "step",
+          "point": "7.2",
+          "number": 12,
+          "title": "Reto resuelto — Añadir un campo codigo a Beca",
+          "page": 1610
+        }
+      ]
+    },
+    "7.3": {
+      "blocks": [
+        {
+          "kind": "block",
+          "point": "7.3",
+          "number": 1,
+          "title": "Qué repositorios necesitamos",
+          "page": 1615
+        },
+        {
+          "kind": "block",
+          "point": "7.3",
+          "number": 2,
+          "title": "Estrategia de consultas",
+          "page": 1616
+        },
+        {
+          "kind": "block",
+          "point": "7.3",
+          "number": 3,
+          "title": "Paginación y ordenación",
+          "page": 1617
+        },
+        {
+          "kind": "block",
+          "point": "7.3",
+          "number": 4,
+          "title": "Carga de relaciones",
+          "page": 1617
+        }
+      ],
+      "subpoints": [],
+      "steps": [
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 1,
+          "title": "Crear el BecaRepository",
+          "page": 1618
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 2,
+          "title": "Crear el DocumentoRepository",
+          "page": 1622
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 3,
+          "title": "Crear el SolicitudBecaRepository (parte 1)",
+          "page": 1624
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 4,
+          "title": "Añadir consultas con @Query y JOIN FETCH al SolicitudBecaRepository (parte 2)",
+          "page": 1627
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 5,
+          "title": "Añadir @EntityGraph para listados simples (parte 3)",
+          "page": 1630
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 6,
+          "title": "Añadir consultas de agregación",
+          "page": 1631
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 7,
+          "title": "Arrancar y verificar",
+          "page": 1633
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 8,
+          "title": "Verificar las consultas con un test",
+          "page": 1633
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 9,
+          "title": "Verificar las consultas en los logs",
+          "page": 1640
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 10,
+          "title": "Errores comunes del ejercicio",
+          "page": 1640
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 11,
+          "title": "Reto resuelto — Consulta con filtro de texto libre",
+          "page": 1642
+        },
+        {
+          "kind": "step",
+          "point": "7.3",
+          "number": 12,
+          "title": "Verificar la estructura completa",
+          "page": 1644
+        }
+      ]
+    },
+    "7.4": {
+      "blocks": [
+        {
+          "kind": "block",
+          "point": "7.4",
+          "number": 1,
+          "title": "Qué servicios necesitamos",
+          "page": 1648
+        },
+        {
+          "kind": "block",
+          "point": "7.4",
+          "number": 2,
+          "title": "DTOs que necesitamos",
+          "page": 1649
+        },
+        {
+          "kind": "block",
+          "point": "7.4",
+          "number": 3,
+          "title": "Reglas de negocio",
+          "page": 1650
+        },
+        {
+          "kind": "block",
+          "point": "7.4",
+          "number": 4,
+          "title": "Transformación DTO ↔ Entidad",
+          "page": 1652
+        },
+        {
+          "kind": "block",
+          "point": "7.4",
+          "number": 5,
+          "title": "Transacciones",
+          "page": 1653
+        }
+      ],
+      "subpoints": [],
+      "steps": [
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 1,
+          "title": "Crear los DTOs de Beca",
+          "page": 1654
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 2,
+          "title": "Crear el BecaService",
+          "page": 1657
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 3,
+          "title": "Crear los DTOs de Solicitud",
+          "page": 1663
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 4,
+          "title": "Crear el SolicitudService (parte 1: consultar y listar)",
+          "page": 1670
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 5,
+          "title": "Crear el SolicitudService (parte 2: crear solicitud)",
+          "page": 1673
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 6,
+          "title": "Crear el SolicitudService (parte 3: cambiar estado con validación de transiciones)",
+          "page": 1676
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 7,
+          "title": "Crear el SolicitudService (parte 4: cancelar)",
+          "page": 1680
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 8,
+          "title": "Añadir el método toDTO al SolicitudService",
+          "page": 1682
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 9,
+          "title": "Crear el DocumentoResponseDTO y el DocumentoService",
+          "page": 1684
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 10,
+          "title": "Escribir tests del SolicitudService",
+          "page": 1692
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 11,
+          "title": "Errores comunes del ejercicio",
+          "page": 1696
+        },
+        {
+          "kind": "step",
+          "point": "7.4",
+          "number": 12,
+          "title": "Reto resuelto — Método para obtener la solicitud más reciente de un alumno",
+          "page": 1697
+        }
+      ]
+    },
+    "7.5": {
+      "blocks": [
+        {
+          "kind": "block",
+          "point": "7.5",
+          "number": 1,
+          "title": "Qué controladores necesitamos",
+          "page": 1702
+        },
+        {
+          "kind": "block",
+          "point": "7.5",
+          "number": 2,
+          "title": "Estructura de un controlador",
+          "page": 1702
+        },
+        {
+          "kind": "block",
+          "point": "7.5",
+          "number": 3,
+          "title": "Endpoints de cada controlador",
+          "page": 1703
+        },
+        {
+          "kind": "block",
+          "point": "7.5",
+          "number": 4,
+          "title": "Seguridad de los endpoints",
+          "page": 1705
+        },
+        {
+          "kind": "block",
+          "point": "7.5",
+          "number": 5,
+          "title": "Documentación con OpenAPI",
+          "page": 1705
+        }
+      ],
+      "subpoints": [],
+      "steps": [
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 1,
+          "title": "Crear el BecaController",
+          "page": 1706
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 2,
+          "title": "Crear el SolicitudController",
+          "page": 1713
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 3,
+          "title": "Crear el DocumentoController",
+          "page": 1719
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 4,
+          "title": "Crear el DTO de cambio de roles",
+          "page": 1723
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 5,
+          "title": "Crear el UsuarioService",
+          "page": 1724
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 6,
+          "title": "Crear el UsuarioController",
+          "page": 1728
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 7,
+          "title": "Arrancar y probar los endpoints",
+          "page": 1732
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 8,
+          "title": "Verificar OpenAPI",
+          "page": 1733
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 9,
+          "title": "Escribir tests del BecaController",
+          "page": 1734
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 10,
+          "title": "Escribir tests del SolicitudController",
+          "page": 1738
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 11,
+          "title": "Errores comunes del ejercicio",
+          "page": 1742
+        },
+        {
+          "kind": "step",
+          "point": "7.5",
+          "number": 12,
+          "title": "Reto resuelto — Endpoint para consultar las solicitudes de un alumno",
+          "page": 1743
+        }
+      ]
+    },
+    "7.6": {
+      "blocks": [
+        {
+          "kind": "block",
+          "point": "7.6",
+          "number": 1,
+          "title": "Qué necesitamos",
+          "page": 1748
+        },
+        {
+          "kind": "block",
+          "point": "7.6",
+          "number": 2,
+          "title": "Los roles del dominio",
+          "page": 1749
+        },
+        {
+          "kind": "block",
+          "point": "7.6",
+          "number": 3,
+          "title": "Reglas de seguridad por endpoint",
+          "page": 1750
+        },
+        {
+          "kind": "block",
+          "point": "7.6",
+          "number": 4,
+          "title": "CORS en la cadena de filtros",
+          "page": 1752
+        },
+        {
+          "kind": "block",
+          "point": "7.6",
+          "number": 5,
+          "title": "Datos iniciales de seguridad",
+          "page": 1753
+        }
+      ],
+      "subpoints": [],
+      "steps": [
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 1,
+          "title": "Añadir los roles CIUDADANO y GESTOR al inicializador",
+          "page": 1753
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 2,
+          "title": "Actualizar el SecurityConfig",
+          "page": 1755
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 3,
+          "title": "Añadir @PreAuthorize en las operaciones contextuales",
+          "page": 1761
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 4,
+          "title": "Añadir @PreAuthorize en el BecaController",
+          "page": 1763
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 5,
+          "title": "Añadir @PreAuthorize en el DocumentoController",
+          "page": 1764
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 6,
+          "title": "Arrancar y probar con curl",
+          "page": 1765
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 7,
+          "title": "Probar con un token inválido",
+          "page": 1767
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 8,
+          "title": "Verificar CORS",
+          "page": 1768
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 9,
+          "title": "Escribir tests de seguridad",
+          "page": 1769
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 10,
+          "title": "Escribir tests del BecaController con roles",
+          "page": 1771
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 11,
+          "title": "Errores comunes del ejercicio",
+          "page": 1773
+        },
+        {
+          "kind": "step",
+          "point": "7.6",
+          "number": 12,
+          "title": "Reto resuelto — Añadir un rol CONSULTOR",
+          "page": 1775
+        }
+      ]
+    },
+    "7.7": {
+      "blocks": [
+        {
+          "kind": "block",
+          "point": "7.7",
+          "number": 1,
+          "title": "Qué vamos a verificar",
+          "page": 1781
+        },
+        {
+          "kind": "block",
+          "point": "7.7",
+          "number": 2,
+          "title": "Escenarios de prueba",
+          "page": 1781
+        },
+        {
+          "kind": "block",
+          "point": "7.7",
+          "number": 3,
+          "title": "Herramientas de verificación",
+          "page": 1783
+        },
+        {
+          "kind": "block",
+          "point": "7.7",
+          "number": 4,
+          "title": "Qué se entrega",
+          "page": 1784
+        },
+        {
+          "kind": "block",
+          "point": "7.7",
+          "number": 5,
+          "title": "Criterios de aceptación",
+          "page": 1785
+        }
+      ],
+      "subpoints": [],
+      "steps": [
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 1,
+          "title": "Ejecutar todos los tests",
+          "page": 1785
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 2,
+          "title": "Ejecutar los tests con cobertura",
+          "page": 1786
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 3,
+          "title": "Arrancar la aplicación",
+          "page": 1788
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 4,
+          "title": "Probar el escenario del ciudadano",
+          "page": 1788
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 5,
+          "title": "Probar el escenario del gestor",
+          "page": 1790
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 6,
+          "title": "Probar el escenario del administrador",
+          "page": 1792
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 7,
+          "title": "Probar errores y seguridad",
+          "page": 1793
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 8,
+          "title": "Revisar la documentación de OpenAPI",
+          "page": 1794
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 9,
+          "title": "Preparar la colección de Postman",
+          "page": 1795
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 10,
+          "title": "Prueba de carga ligera con ab",
+          "page": 1796
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 11,
+          "title": "Actualizar el README",
+          "page": 1798
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 12,
+          "title": "Errores comunes antes de la entrega",
+          "page": 1803
+        },
+        {
+          "kind": "step",
+          "point": "7.7",
+          "number": 13,
+          "title": "Reto resuelto — Añadir un endpoint de estadísticas",
+          "page": 1804
+        }
+      ]
+    }
+  },
+  "sha256_text": "fd7abe237ad871eb80da2b2984b5117a713ab4327b8c57c03067f874a9a61896"
+}

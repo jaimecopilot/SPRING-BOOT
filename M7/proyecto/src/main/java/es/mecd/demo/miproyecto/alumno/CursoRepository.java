@@ -1,0 +1,8 @@
+package es.mecd.demo.miproyecto.alumno;
+
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CursoRepository extends JpaRepository<Curso, Long> {
+    Optional<Curso> findByNombre(String nombre);
+}
