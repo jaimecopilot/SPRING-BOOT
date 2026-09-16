@@ -14,7 +14,7 @@ M6 incorpora seguridad a la aplicación acumulativa de M5. El objetivo es proteg
 - Login y emisión de tokens JWT.
 - Validación de tokens mediante filtros personalizados.
 - Autorización por rutas, roles y reglas de seguridad.
-- Pruebas de seguridad y verificación HTTP real.
+- Pruebas de seguridad.
 
 ## Qué construyes
 
@@ -26,10 +26,9 @@ M6 conserva snapshots acumulativos por punto:
 
 - `6.1/` a `6.9/` — estados sucesivos del proyecto durante la construcción.
 - [`TEORIA.md`](TEORIA.md) — explicación completa del diseño de seguridad.
-- [`PRACTICA.md`](PRACTICA.md) — 112 pasos prácticos reproducibles.
+- [`PRACTICA.md`](PRACTICA.md) — práctica guiada del módulo.
 - [`M6_TEORIA.pdf`](M6_TEORIA.pdf) y [`M6_PRACTICA.pdf`](M6_PRACTICA.pdf) — versiones maquetadas.
 - [`TRAZABILIDAD.md`](TRAZABILIDAD.md) — correspondencia teoría/práctica/código.
-- [`EVIDENCIA_CIERRE_M6.md`](EVIDENCIA_CIERRE_M6.md) — evidencia del cierre validado del módulo.
 
 ## Continuidad
 
