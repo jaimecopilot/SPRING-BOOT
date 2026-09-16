@@ -1,13 +1,33 @@
-# Módulo 0 - Preparación del entorno y primer proyecto Spring Boot
+# Módulo 0 — Preparación del entorno y primer proyecto Spring Boot
 
-Este módulo se publica en dos documentos didácticos separados:
+## Qué hace este módulo
 
-- [`TEORIA.md`](TEORIA.md): fundamentos de JDK/JVM/JRE, Maven, IDE, Spring Initializr, estructura de Spring Boot y ciclo de trabajo.
-- [`PRACTICA.md`](PRACTICA.md): recorrido reproducible desde un entorno vacío hasta una aplicación Spring Boot ejecutable y depurable.
+M0 prepara desde cero el entorno de trabajo del curso y termina con una primera aplicación Spring Boot ejecutable. Es el punto de partida técnico para todos los módulos posteriores.
 
-Material ejecutable:
+## Qué aprenderás
 
-- [`ejemplos/HolaMinisterio.java`](ejemplos/HolaMinisterio.java): programa Java previo a Spring Boot.
-- [`proyecto/`](proyecto/): proyecto Spring Boot final del módulo, con Maven Wrapper, tests y endpoints `/hola` y `/adios`.
+- Diferencias entre JDK, JRE y JVM y cómo verificar la instalación de Java.
+- Uso básico de Maven y del Maven Wrapper.
+- Creación de un proyecto con Spring Initializr.
+- Estructura de carpetas y archivos de una aplicación Spring Boot.
+- Arranque, logs, tests y diagnóstico básico de errores.
+- Creación de los primeros endpoints HTTP.
 
-La práctica incluye recorridos específicos para consola, IntelliJ IDEA, Eclipse y VS Code.
+## Qué construyes
+
+Primero se trabaja con un ejemplo Java sencillo y después se construye `proyecto/`, una aplicación Spring Boot funcional con tests y los endpoints `/hola` y `/adios`.
+
+## Material del módulo
+
+- [`TEORIA.md`](TEORIA.md) — explicación conceptual.
+- [`PRACTICA.md`](PRACTICA.md) — construcción paso a paso.
+- [`M0_TEORIA.pdf`](M0_TEORIA.pdf) y [`M0_PRACTICA.pdf`](M0_PRACTICA.pdf) — versiones maquetadas.
+- [`ejemplos/`](ejemplos/) — ejemplos previos y de apoyo.
+- [`proyecto/`](proyecto/) — resultado ejecutable del módulo.
+- [`CODESPACES.md`](CODESPACES.md) — ejecución en GitHub Codespaces.
+
+## Continuidad
+
+M0 no presupone módulos anteriores. Su proyecto final sirve de base para M1.
+
+[Volver al índice general](../README.md)

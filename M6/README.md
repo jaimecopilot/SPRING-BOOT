@@ -1,25 +1,38 @@
-# M6 - Spring Security y JWT - paquete final cerrado
+# Módulo 6 — Seguridad con Spring Security y JWT
 
-Este directorio contiene la edición final local de M6.
+## Qué hace este módulo
 
-Contenido principal:
+M6 incorpora seguridad a la aplicación acumulativa de M5. El objetivo es proteger la API, autenticar usuarios, autorizar operaciones según roles y utilizar JWT para trabajar de forma stateless.
 
-- `TEORIA.md` / `M6_TEORIA.pdf`
-- `PRACTICA.md` / `M6_PRACTICA.pdf`
-- `6.1/proyecto` ... `6.9/proyecto` (snapshots acumulativos)
-- `TRAZABILIDAD.md`
-- `AUDITORIA_FINAL_M6.md`
-- `VALIDAR_M6.bat` + PowerShell/gate estático
-- `VALIDAR_M6_HTTP.bat` + PowerShell E2E
-- `VALIDACION_HTTP_M6.md`
-- `EVIDENCIA_CIERRE_M6.md`
-- `MANIFEST_SHA256.txt`
+## Qué aprenderás
 
-Estado de aceptación local al cierre (2026-09-16):
+- Diferencia entre autenticación y autorización y entre respuestas `401` y `403`.
+- Funcionamiento de la cadena de filtros de Spring Security.
+- Configuración moderna mediante `SecurityFilterChain`.
+- Uso de `AuthenticationManager`, `UserDetailsService` y `PasswordEncoder`.
+- Modelado de usuarios y roles.
+- Login y emisión de tokens JWT.
+- Validación de tokens mediante filtros personalizados.
+- Autorización por rutas, roles y reglas de seguridad.
+- Pruebas de seguridad y verificación HTTP real.
 
-- validación acumulativa: PASS;
-- E2E HTTP real: PASS, 85 checks;
-- estructura: 9 puntos, 45 bloques, 135 subpuntos teóricos, 112 pasos prácticos, 9 snapshots;
-- PDF final: revisión visual integral completada.
+## Qué construyes
 
-No se realiza publicación remota desde este paquete.
+Evolucionas la API de M5 hasta disponer de una aplicación protegida con Spring Security y JWT, con autenticación, roles, filtros, endpoints protegidos y una batería de pruebas de seguridad.
+
+## Organización del módulo
+
+M6 conserva snapshots acumulativos por punto:
+
+- `6.1/` a `6.9/` — estados sucesivos del proyecto durante la construcción.
+- [`TEORIA.md`](TEORIA.md) — explicación completa del diseño de seguridad.
+- [`PRACTICA.md`](PRACTICA.md) — 112 pasos prácticos reproducibles.
+- [`M6_TEORIA.pdf`](M6_TEORIA.pdf) y [`M6_PRACTICA.pdf`](M6_PRACTICA.pdf) — versiones maquetadas.
+- [`TRAZABILIDAD.md`](TRAZABILIDAD.md) — correspondencia teoría/práctica/código.
+- [`EVIDENCIA_CIERRE_M6.md`](EVIDENCIA_CIERRE_M6.md) — evidencia del cierre validado del módulo.
+
+## Continuidad
+
+M6 continúa desde M5 y cierra la evolución acumulativa M0→M6. M7 cambia deliberadamente de modelo: es un proyecto global nuevo y standalone que reutiliza los conocimientos adquiridos, no el código de M6.
+
+[Volver al índice general](../README.md)

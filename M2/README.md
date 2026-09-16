@@ -1,18 +1,33 @@
 # Módulo 2 — Creación y estructura de proyectos Spring Boot
 
-M2 parte del proyecto final de M1 y construye una arquitectura en capas completa sobre Java 17, Maven Wrapper 3.9.16 y Spring Boot 3.5.16.
+## Qué hace este módulo
 
-## Contenido
+M2 reorganiza la API construida en M1 para que pueda crecer de forma mantenible. Introduce una arquitectura en capas y separa claramente la entrada HTTP, la lógica de aplicación y el acceso a datos.
 
-- **2.1 — Controlador**: frontera HTTP, mappings, datos de petición y `ResponseEntity`.
-- **2.2 — Servicio**: lógica de aplicación, `@Service`, constructor injection y errores de negocio.
-- **2.3 — Repositorio**: `@Repository`, memoria concurrente, `Optional`, aislamiento y concurrencia.
-- **2.4 — Inyección y configuración**: IoC/DI, `@Configuration`, `@Bean`, `CommandLineRunner`, propiedades y perfiles.
-- **2.5 — Testing**: JUnit 5, Mockito, tests de servicio y `@WebMvcTest`/`MockMvc`.
-- **2.6 — Organización y calidad**: paquetes por funcionalidad, Javadoc, Checkstyle, OpenAPI, README y `FechasUtil`.
+## Qué aprenderás
 
-La práctica contiene **69 pasos** y el proyecto de `M2/proyecto/` representa el snapshot final acumulativo después de ejecutar los seis puntos.
+- Responsabilidades de controlador, servicio y repositorio.
+- Inyección de dependencias e inversión de control.
+- Configuración con `@Configuration`, `@Bean`, propiedades y perfiles.
+- Gestión básica de errores de negocio.
+- Testing con JUnit 5, Mockito, `@WebMvcTest` y `MockMvc`.
+- Organización por funcionalidad, documentación y calidad del proyecto.
+- Introducción de OpenAPI dentro del proyecto.
 
-- [Teoría](TEORIA.md)
-- [Práctica](PRACTICA.md)
-- [Proyecto ejecutable](proyecto/)
+## Qué construyes
+
+Transformas el CRUD de M1 en una aplicación organizada por capas, testeable y configurable, con una estructura preparada para incorporar una API REST más completa en M3.
+
+## Material del módulo
+
+- [`TEORIA.md`](TEORIA.md) — fundamentos de arquitectura y testing.
+- [`PRACTICA.md`](PRACTICA.md) — 69 pasos de construcción acumulativa.
+- [`M2_TEORIA.pdf`](M2_TEORIA.pdf) y [`M2_PRACTICA.pdf`](M2_PRACTICA.pdf) — versiones maquetadas.
+- [`proyecto/`](proyecto/) — snapshot ejecutable final de M2.
+- [`CODESPACES.md`](CODESPACES.md) — ejecución en GitHub Codespaces.
+
+## Continuidad
+
+M2 parte del cierre de M1. Su proyecto final es la base sobre la que M3 amplía el contrato REST.
+
+[Volver al índice general](../README.md)

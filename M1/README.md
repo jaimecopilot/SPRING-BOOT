@@ -1,13 +1,32 @@
-# Módulo 1 - Introducción a Spring Boot y arquitectura back-end
+# Módulo 1 — Introducción a Spring Boot y arquitectura back-end
 
-Este módulo continúa directamente desde el proyecto aprobado de M0 y construye los fundamentos necesarios para diseñar una API REST: papel de Spring Boot, arquitectura cliente-servidor y HTTP, JSON/Jackson, diseño REST y un primer CRUD en memoria con DTOs.
+## Qué hace este módulo
 
-Material del alumno:
+M1 toma la aplicación creada en M0 y la convierte en la base de una API REST. El objetivo es entender cómo se comunican cliente y servidor y cómo Spring Boot transforma peticiones HTTP en objetos Java y respuestas JSON.
 
-- [Teoría](TEORIA.md)
-- [Práctica](PRACTICA.md)
-- `proyecto/`: snapshot ejecutable acumulativo del módulo.
+## Qué aprenderás
 
-> Baseline del curso: Java 17, Maven 3.9.x mediante Wrapper 3.9.16 y Spring Boot 3.5.16.
+- Papel de Spring Boot dentro de una aplicación back-end.
+- Arquitectura cliente-servidor y fundamentos de HTTP.
+- Recursos, rutas, métodos HTTP y códigos de estado.
+- JSON y serialización/deserialización con Jackson.
+- Principios básicos de diseño REST.
+- Uso inicial de DTOs y construcción de un CRUD en memoria.
 
-El módulo se desarrolla de forma acumulativa. Los experimentos explícitamente temporales de la práctica se restauran antes de considerarse cerrado el snapshot final.
+## Qué construyes
+
+Evolucionas el proyecto de M0 hasta disponer de una primera API REST funcional con operaciones CRUD en memoria, preparada para ser organizada en capas en el siguiente módulo.
+
+## Material del módulo
+
+- [`TEORIA.md`](TEORIA.md) — conceptos y diseño.
+- [`PRACTICA.md`](PRACTICA.md) — implementación reproducible.
+- [`M1_TEORIA.pdf`](M1_TEORIA.pdf) y [`M1_PRACTICA.pdf`](M1_PRACTICA.pdf) — versiones maquetadas.
+- [`proyecto/`](proyecto/) — snapshot ejecutable final de M1.
+- [`CODESPACES.md`](CODESPACES.md) — ejecución en GitHub Codespaces.
+
+## Continuidad
+
+M1 continúa desde M0. El proyecto final de este módulo es la entrada de M2.
+
+[Volver al índice general](../README.md)
