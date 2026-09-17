@@ -23,6 +23,7 @@ Evolucionas el proyecto de M4 para que tenga una política de errores clara, con
 - [`TEORIA.md`](TEORIA.md) — conceptos de errores y configuración avanzada.
 - [`PRACTICA.md`](PRACTICA.md) — construcción paso a paso.
 - [`M5_TEORIA.pdf`](M5_TEORIA.pdf) y [`M5_PRACTICA.pdf`](M5_PRACTICA.pdf) — versiones maquetadas.
+- [`CORS_FRONT_END.pdf`](CORS_FRONT_END.pdf) — instrucciones para arrancar el front-end de prueba como servidor HTTP local y validar CORS desde el navegador.
 - [`proyecto/`](proyecto/) — snapshot ejecutable final de M5.
 - [`frontend-cors/`](frontend-cors/) — apoyo para las pruebas de CORS.
 - [`CODESPACES.md`](CODESPACES.md) — ejecución en GitHub Codespaces.
