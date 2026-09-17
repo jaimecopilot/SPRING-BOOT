@@ -1847,18 +1847,9 @@ public UsuarioResponseDTO cambiarRoles(
 }
 ```
 
-**Prueba.**
+En el estado acumulativo de 6.4 sólo están persistidos los roles `USER` y `ADMIN`. El usuario y el rol `GESTOR` que existieron temporalmente en memoria en 6.2 no se materializan en base de datos hasta 6.8. Por tanto, las pruebas de este snapshot deben usar únicamente roles que realmente existen en 6.4.
 
-```bash
-curl -i -X PUT -u admin:admin123 \
-  http://localhost:8080/api/v1/admin/usuarios/2/roles \
-  -H "Content-Type: application/json" \
-  -d '{"roles":["USER","GESTOR"]}'
-```
-
-El usuario debe quedar con el conjunto exacto de roles solicitado.
-
-Prueba negativa:
+**Prueba negativa primero.** Ana (`id=2`) todavía tiene sólo `USER`, así que comprobamos el 403 antes de modificar sus roles:
 
 ```bash
 curl -i -X PUT -u ana:ana123 \
@@ -1867,7 +1858,18 @@ curl -i -X PUT -u ana:ana123 \
   -d '{"roles":["ADMIN"]}'
 ```
 
-La petición debe devolver 403.
+La petición debe devolver `403 Forbidden` y no debe modificar los roles del usuario.
+
+**Prueba positiva.** Ahora el administrador asigna al usuario 2 los dos roles que existen en este snapshot:
+
+```bash
+curl -i -X PUT -u admin:admin123 \
+  http://localhost:8080/api/v1/admin/usuarios/2/roles \
+  -H "Content-Type: application/json" \
+  -d '{"roles":["USER","ADMIN"]}'
+```
+
+La respuesta debe ser `200 OK` y el usuario debe quedar con `ADMIN` y `USER` (la respuesta puede mostrarlos ordenados). `GESTOR` se probará de forma persistente a partir de 6.8.
 
 > **Pregunta de reflexión:** ¿Por qué el endpoint requiere rol ADMIN? ¿Qué pasaría si un usuario normal pudiera cambiar sus propios roles?
 
@@ -3393,7 +3395,7 @@ SecurityFilterChain securityFilterChain(
             .permitAll()
             .requestMatchers("/api/v1/public/**").permitAll()
             .requestMatchers("/h2-console/**").permitAll()
-            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+            .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
             .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
             .requestMatchers("/api/v1/gestor/**")
                 .hasAnyRole("GESTOR", "ADMIN")
@@ -3459,11 +3461,12 @@ gestor / gestor123 → USER + GESTOR
 El inicializador debe materializar el rol y asignarlo al usuario de prueba:
 
 ```java
-Rol rolGestor = obtenerOCrearRol("GESTOR", "Gestor");
+Rol rolGestor = obtenerOCrearRol(
+        rolRepository, "GESTOR", "Gestor");
 Usuario gestor = obtenerOCrearUsuario(
-        "gestor", "gestor123", "gestor@educacion.gob.es");
-gestor.getRoles().add(rolUser);
-gestor.getRoles().add(rolGestor);
+        usuarioRepository, "gestor", "gestor@educacion.gob.es");
+prepararUsuario(
+        gestor, "gestor123", passwordEncoder, rolUser, rolGestor);
 usuarioRepository.save(gestor);
 ```
 
@@ -3515,7 +3518,7 @@ Esperado: 401 JSON con `traceId` / 200.
 
 ## Paso 8 - Probar el refresh token
 
-Obtén refresh, úsalo una vez y comprueba que devuelve un par nuevo. Reutiliza el antiguo: 401.
+Obtén refresh, úsalo una vez y comprueba que devuelve un par nuevo. Reutiliza el antiguo: **400 `TOKEN_INVALIDO`**, que es el contrato aplicado por `AuthExceptionHandler` a los errores de refresh.
 
 En este proyecto, la rotación está implementada, no se limita a emitir otro token mientras el anterior sigue válido.
 

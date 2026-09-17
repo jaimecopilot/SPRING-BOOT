@@ -253,3 +253,12 @@ Los demás ficheros del dominio (`alumno`, `curso`, `expediente`, errores, confi
 - `VALIDAR_M6.bat`: `clean test` 6.1-6.9, observable manual JWT 6.5 y gate final 6.9. Ejecución local final: PASS.
 - `VALIDAR_M6_HTTP.bat`: arranca 6.1-6.9 y realiza 85 checks HTTP reales. Ejecución V10 final: PASS.
 - PDF: 72 páginas teoría + 72 páginas práctica, Letter, cabecera/pie canónicos, sin caracteres U+FFFD/área privada/cuadrados detectados en extracción y sin anomalías visibles en render completo.
+
+
+## 9. Correcciones de coherencia runtime - 2026-09-17
+
+- `6.4.12`: el ejemplo ejecutable usaba `GESTOR`, aunque el estado acumulativo 6.4 sólo persiste `USER` y `ADMIN` y la propia práctica retrasa la materialización de `GESTOR` hasta 6.8. Se corrige la prueba positiva para usar `USER` + `ADMIN` y se ejecuta primero la prueba negativa con Ana para evitar elevarla a ADMIN antes de comprobar el 403. El endpoint, DTO, servicio y snapshot 6.4 no cambian.
+- `6.8.3`: el snippet documental del `SecurityFilterChain` omitía `/swagger-ui.html`; se alinea con el código ejecutable 6.8/6.9, que ya lo permite junto con `/swagger-ui/**` y `/v3/api-docs/**`.
+- `6.8.5`: el snippet de inicialización de `GESTOR` se alinea con las firmas reales idempotentes de `UsuariosInicialesConfig` (`obtenerOCrearRol`, `obtenerOCrearUsuario` y `prepararUsuario`). No se adelanta `GESTOR`: sigue apareciendo persistentemente por primera vez en 6.8.
+- `6.8.8`: la reutilización de un refresh consumido se documentaba como 401; el contrato real definido desde 6.6 y aplicado por `AuthExceptionHandler` es HTTP 400 con `codigo=TOKEN_INVALIDO`. Se corrige la expectativa documental.
+- Estas reconciliaciones no crean pasos nuevos ni cambian la cobertura estructural: M6 conserva 9/9 puntos y 112/112 pasos.
