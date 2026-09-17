@@ -1,0 +1,217 @@
+name: M6 coherence hotfix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.course/internal/M6_COHERENCE_HOTFIX.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  fix-m6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Apply targeted M6 practice corrections
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('M6/PRACTICA.md')
+          s = p.read_text(encoding='utf-8')
+
+          old_64 = r'''**Prueba.**
+
+```bash
+curl -i -X PUT -u admin:admin123 \
+  http://localhost:8080/api/v1/admin/usuarios/2/roles \
+  -H "Content-Type: application/json" \
+  -d '{"roles":["USER","GESTOR"]}'
+```
+
+El usuario debe quedar con el conjunto exacto de roles solicitado.
+
+Prueba negativa:
+
+```bash
+curl -i -X PUT -u ana:ana123 \
+  http://localhost:8080/api/v1/admin/usuarios/2/roles \
+  -H "Content-Type: application/json" \
+  -d '{"roles":["ADMIN"]}'
+```
+
+La petición debe devolver 403.'''
+
+          new_64 = r'''En el estado acumulativo de 6.4 sólo están persistidos los roles `USER` y `ADMIN`. El usuario y el rol `GESTOR` que existieron temporalmente en memoria en 6.2 no se materializan en base de datos hasta 6.8. Por tanto, las pruebas de este snapshot deben usar únicamente roles que realmente existen en 6.4.
+
+**Prueba negativa primero.** Ana (`id=2`) todavía tiene sólo `USER`, así que comprobamos el 403 antes de modificar sus roles:
+
+```bash
+curl -i -X PUT -u ana:ana123 \
+  http://localhost:8080/api/v1/admin/usuarios/2/roles \
+  -H "Content-Type: application/json" \
+  -d '{"roles":["ADMIN"]}'
+```
+
+La petición debe devolver `403 Forbidden` y no debe modificar los roles del usuario.
+
+**Prueba positiva.** Ahora el administrador asigna al usuario 2 los dos roles que existen en este snapshot:
+
+```bash
+curl -i -X PUT -u admin:admin123 \
+  http://localhost:8080/api/v1/admin/usuarios/2/roles \
+  -H "Content-Type: application/json" \
+  -d '{"roles":["USER","ADMIN"]}'
+```
+
+La respuesta debe ser `200 OK` y el usuario debe quedar con `ADMIN` y `USER` (la respuesta puede mostrarlos ordenados). `GESTOR` se probará de forma persistente a partir de 6.8.'''
+
+          if s.count(old_64) != 1:
+              raise SystemExit(f'ERROR: bloque 6.4 esperado {s.count(old_64)} veces, debe aparecer exactamente 1')
+          s = s.replace(old_64, new_64, 1)
+
+          old_refresh = 'Obtén refresh, úsalo una vez y comprueba que devuelve un par nuevo. Reutiliza el antiguo: 401.'
+          new_refresh = 'Obtén refresh, úsalo una vez y comprueba que devuelve un par nuevo. Reutiliza el antiguo: **400 `TOKEN_INVALIDO`**, que es el contrato aplicado por `AuthExceptionHandler` a los errores de refresh.'
+          if s.count(old_refresh) != 1:
+              raise SystemExit(f'ERROR: frase refresh esperada {s.count(old_refresh)} veces, debe aparecer exactamente 1')
+          s = s.replace(old_refresh, new_refresh, 1)
+
+          old_swagger = '.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()'
+          new_swagger = '.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()'
+          if s.count(old_swagger) != 1:
+              raise SystemExit(f'ERROR: matcher 6.8 esperado {s.count(old_swagger)} veces, debe aparecer exactamente 1')
+          s = s.replace(old_swagger, new_swagger, 1)
+
+          old_init = r'''Rol rolGestor = obtenerOCrearRol("GESTOR", "Gestor");
+Usuario gestor = obtenerOCrearUsuario(
+        "gestor", "gestor123", "gestor@educacion.gob.es");
+gestor.getRoles().add(rolUser);
+gestor.getRoles().add(rolGestor);
+usuarioRepository.save(gestor);'''
+          new_init = r'''Rol rolGestor = obtenerOCrearRol(
+        rolRepository, "GESTOR", "Gestor");
+Usuario gestor = obtenerOCrearUsuario(
+        usuarioRepository, "gestor", "gestor@educacion.gob.es");
+prepararUsuario(
+        gestor, "gestor123", passwordEncoder, rolUser, rolGestor);
+usuarioRepository.save(gestor);'''
+          if s.count(old_init) != 1:
+              raise SystemExit(f'ERROR: snippet inicializador 6.8 esperado {s.count(old_init)} veces, debe aparecer exactamente 1')
+          s = s.replace(old_init, new_init, 1)
+
+          p.write_text(s, encoding='utf-8')
+
+          t = Path('M6/TRAZABILIDAD.md')
+          ts = t.read_text(encoding='utf-8')
+          marker = '## 9. Correcciones de coherencia runtime - 2026-09-17'
+          if marker not in ts:
+              ts += '''\n\n## 9. Correcciones de coherencia runtime - 2026-09-17\n\n- `6.4.12`: el ejemplo ejecutable usaba `GESTOR`, aunque el estado acumulativo 6.4 sólo persiste `USER` y `ADMIN` y la propia práctica retrasa la materialización de `GESTOR` hasta 6.8. Se corrige la prueba positiva para usar `USER` + `ADMIN` y se ejecuta primero la prueba negativa con Ana para evitar elevarla a ADMIN antes de comprobar el 403. El endpoint, DTO, servicio y snapshot 6.4 no cambian.\n- `6.8.3`: el snippet documental del `SecurityFilterChain` omitía `/swagger-ui.html`; se alinea con el código ejecutable 6.8/6.9, que ya lo permite junto con `/swagger-ui/**` y `/v3/api-docs/**`.\n- `6.8.5`: el snippet de inicialización de `GESTOR` se alinea con las firmas reales idempotentes de `UsuariosInicialesConfig` (`obtenerOCrearRol`, `obtenerOCrearUsuario` y `prepararUsuario`). No se adelanta `GESTOR`: sigue apareciendo persistentemente por primera vez en 6.8.\n- `6.8.8`: la reutilización de un refresh consumido se documentaba como 401; el contrato real definido desde 6.6 y aplicado por `AuthExceptionHandler` es HTTP 400 con `codigo=TOKEN_INVALIDO`. Se corrige la expectativa documental.\n- Estas reconciliaciones no crean pasos nuevos ni cambian la cobertura estructural: M6 conserva 9/9 puntos y 112/112 pasos.\n'''
+              t.write_text(ts, encoding='utf-8')
+          PY
+
+      - name: Static consistency gates
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('M6/PRACTICA.md').read_text(encoding='utf-8')
+          assert '-d \'{"roles":["USER","GESTOR"]}\'' not in p
+          assert '-d \'{"roles":["USER","ADMIN"]}\'' in p
+          assert 'Reutiliza el antiguo: **400 `TOKEN_INVALIDO`**' in p
+          assert 'Reutiliza el antiguo: 401.' not in p
+          assert '.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()' in p
+
+          for n in ('6.4','6.5','6.6','6.7'):
+              x = Path(f'M6/{n}/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java').read_text(encoding='utf-8')
+              assert 'new Rol("GESTOR"' not in x and '"gestor", "gestor123"' not in x, n
+          x = Path('M6/6.8/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/UsuariosInicialesConfig.java').read_text(encoding='utf-8')
+          assert '"GESTOR"' in x and '"gestor", "gestor@educacion.gob.es"' in x
+          h = Path('M6/6.8/proyecto/src/main/java/es/mecd/demo/miproyecto/auth/AuthExceptionHandler.java').read_text(encoding='utf-8')
+          assert 'HttpStatus.BAD_REQUEST' in h and '"TOKEN_INVALIDO"' in h
+          print('STATIC COHERENCE: PASS')
+          PY
+
+      - name: Verify snapshot 6.4 tests
+        shell: bash
+        run: |
+          cd M6/6.4/proyecto
+          chmod +x mvnw
+          ./mvnw -B test
+
+      - name: Verify final snapshot 6.9 tests
+        shell: bash
+        run: |
+          cd M6/6.9/proyecto
+          chmod +x mvnw
+          ./mvnw -B test
+
+      - name: Install canonical PDF toolchain
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex texlive-latex-extra fonts-dejavu-core poppler-utils
+
+      - name: Regenerate canonical M6 practice PDF
+        shell: bash
+        run: |
+          pandoc M6/PRACTICA.md \
+            -o M6/M6_PRACTICA.pdf \
+            --pdf-engine=xelatex \
+            --toc \
+            -V geometry:margin=0.7in \
+            -V fontsize=10pt \
+            -V mainfont="DejaVu Serif" \
+            -V monofont="DejaVu Sans Mono" \
+            -H .course/pdf/course_header.tex
+          pdfinfo M6/M6_PRACTICA.pdf | grep '^Pages:'
+          pdftotext M6/M6_PRACTICA.pdf /tmp/m6_practica.txt
+          grep -F 'TOKEN_INVALIDO' /tmp/m6_practica.txt >/dev/null
+          grep -F 'GESTOR se probará de forma persistente a partir de 6.8' /tmp/m6_practica.txt >/dev/null
+
+      - name: Update PDF page-count trace
+        shell: bash
+        run: |
+          PAGES=$(pdfinfo M6/M6_PRACTICA.pdf | awk '/^Pages:/ {print $2}')
+          python3 - "$PAGES" <<'PY'
+          from pathlib import Path
+          import re, sys
+          pages = sys.argv[1]
+          p = Path('M6/TRAZABILIDAD.md')
+          s = p.read_text(encoding='utf-8')
+          s, n = re.subn(r'PDF: 72 páginas teoría \+ \d+ páginas práctica,', f'PDF: 72 páginas teoría + {pages} páginas práctica,', s, count=1)
+          if n != 1:
+              raise SystemExit('ERROR: no se pudo actualizar el contador de páginas de práctica')
+          p.write_text(s, encoding='utf-8')
+          print('PRACTICA PDF pages:', pages)
+          PY
+
+      - name: Commit corrected canonical artifacts
+        shell: bash
+        run: |
+          git config user.name "jaimecopilot"
+          git config user.email "jaimegithub@outlook.com"
+          git add M6/PRACTICA.md M6/M6_PRACTICA.pdf M6/TRAZABILIDAD.md
+          git diff --cached --check
+          git commit -m "M6: corrige coherencia ejecutable en 6.4 y 6.8"
+          git push origin main
+
+      - name: Upload corrected PDF for visual verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: M6-PRACTICA-coherence-hotfix
+          path: M6/M6_PRACTICA.pdf
+          if-no-files-found: error
