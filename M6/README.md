@@ -35,3 +35,4 @@ M6 conserva snapshots acumulativos por punto:
 M6 continúa desde M5 y cierra la evolución acumulativa M0→M6. M7 cambia deliberadamente de modelo: es un proyecto global nuevo y standalone que reutiliza los conocimientos adquiridos, no el código de M6.
 
 [Volver al índice general](../README.md)
+
